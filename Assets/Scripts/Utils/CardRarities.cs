@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-class CardRarity
+abstract class CardRarity
 {
     public Dictionary<string, Dictionary<string, string>> cardRarities = new Dictionary<string, Dictionary<string, string>>
     {

@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 class Fighter
 {
     private string fighterName { get; set; }

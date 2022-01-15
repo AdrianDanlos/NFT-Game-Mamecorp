@@ -4,11 +4,15 @@ using UnityEngine.UI;
 
 public class Energy : MonoBehaviour
 {
-    float targetTime = 5f;
+    const float DEFAULT_REFILL_TIME = 5f;
+    float secondsUntilEnergyRefill = DEFAULT_REFILL_TIME;
     int maxEnergy = 3;
+    Text energyValueText;
 
     void Start()
     {
+        energyValueText = this.transform.Find("EnergyValue").GetComponent<Text>();
+
         // get all objects that belong to energy
         List<Transform> energyObjects = new List<Transform>();
 
@@ -22,10 +26,10 @@ public class Energy : MonoBehaviour
 
     void Update()
     {
-        targetTime -= Time.deltaTime;
-        this.transform.Find("RefillTimerValue").GetComponent<Text>().text = ((int) targetTime).ToString();
+        secondsUntilEnergyRefill -= Time.deltaTime;
+        this.transform.Find("RefillTimerValue").GetComponent<Text>().text = ((int)secondsUntilEnergyRefill).ToString();
 
-        if (targetTime <= 0f)
+        if (secondsUntilEnergyRefill <= 0f)
         {
             timerEnded();
         }
@@ -34,13 +38,13 @@ public class Energy : MonoBehaviour
 
     void timerEnded()
     {
-        int energyValue = int.Parse(this.transform.Find("EnergyValue").GetComponent<Text>().text);
+        int energyValue = int.Parse(energyValueText.text);
 
         if (energyValue != maxEnergy) energyValue++;
 
-        this.transform.Find("EnergyValue").GetComponent<Text>().text = energyValue.ToString();
+        energyValueText.text = energyValue.ToString();
 
-        targetTime = 5f;
+        secondsUntilEnergyRefill = DEFAULT_REFILL_TIME;
     }
 }
 

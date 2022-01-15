@@ -7,6 +7,15 @@ public class Movement : MonoBehaviour
 
     public IEnumerator MoveForward(GameObject fighter, Vector3 target)
     {
+        yield return StartCoroutine(Move(fighter, target)); 
+    }
+
+    public IEnumerator MoveBack(GameObject fighter, Vector3 target)
+    {
+        yield return StartCoroutine(Move(fighter, target)); 
+    }
+
+    public IEnumerator Move(GameObject fighter, Vector3 target){
         Vector3 startingPos = fighter.transform.position;
 
         float elapsedTime = 0;

@@ -1,5 +1,9 @@
 using System.Collections;
 using UnityEngine;
+using System.Collections.Generic;
+using System.Linq;
+using System.Collections.Specialized;
+
 
 
 public class Combat : MonoBehaviour
@@ -11,15 +15,15 @@ public class Combat : MonoBehaviour
     // GameObjects related data
     public GameObject fighterOneGameObject;
     public GameObject fighterTwoGameObject;
-    Vector3 FIGHTER_ONE_STARTING_POSITION = new Vector3(-8, 2, 0);
-    Vector3 FIGHTER_TWO_STARTING_POSITION = new Vector3(8, 2, 0);
+    static Vector3 FIGHTER_ONE_STARTING_POSITION = new Vector3(-8, 2, 0);
+    static Vector3 FIGHTER_TWO_STARTING_POSITION = new Vector3(8, 2, 0);
     float DISTANCE_AWAY_FROM_EACHOTHER_ON_ATTACK = 1;
-    Vector3 fighterOneDestinationPosition;
-    Vector3 fighterTwoDestinationPosition;
+    Vector3 fighterOneDestinationPosition = FIGHTER_TWO_STARTING_POSITION;
+    Vector3 fighterTwoDestinationPosition = FIGHTER_ONE_STARTING_POSITION;
 
     // Game status data
     private bool isGameOver = false;
-    int[] fightersOrderOfAttack;
+    List<int> fightersOrderOfAttack = new List<int> { };
 
 
     void Start()
@@ -41,9 +45,7 @@ public class Combat : MonoBehaviour
 
     private void SetDestinationPositions()
     {
-        fighterOneDestinationPosition = FIGHTER_TWO_STARTING_POSITION;
         fighterOneDestinationPosition.x -= DISTANCE_AWAY_FROM_EACHOTHER_ON_ATTACK;
-        fighterTwoDestinationPosition = FIGHTER_ONE_STARTING_POSITION;
         fighterTwoDestinationPosition.x += DISTANCE_AWAY_FROM_EACHOTHER_ON_ATTACK;
     }
 
@@ -63,8 +65,8 @@ public class Combat : MonoBehaviour
     private void GenerateTestDataForFighters()
     {
         // Why create dictionaries when we can simply do this?
-        fighterOne = new Fighter("Eren", 10, 1, 1, "Fire", 10, 10);
-        fighterTwo = new Fighter("Reiner", 10, 1, 2, "Leaf", 10, 10);
+        fighterOne = new Fighter("Eren", 10, 1, 3, "Fire", 10, 10);
+        fighterTwo = new Fighter("Reiner", 10, 1, 6, "Leaf", 10, 10);
     }
 
     IEnumerator MoveFighter(int id)
@@ -85,8 +87,22 @@ public class Combat : MonoBehaviour
         }
     }
 
+    // This method creates a dictionary with an ID for each fighter and sorts it afterwards by the speed of each fighter
     private void SetOrderOfAttacks()
     {
-        fightersOrderOfAttack = fighterOne.speed > fighterTwo.speed ? new int[] { 1, 2 } : new int[] { 2, 1 };
+        OrderedDictionary fighterSpeedsDict = new OrderedDictionary
+        {
+            {1, fighterOne.speed},
+            {2, fighterTwo.speed},
+        };
+
+        var fighterSpeedsSortedDict = fighterSpeedsDict.Cast<DictionaryEntry>()
+                       .OrderByDescending(r => r.Value)
+                       .ToDictionary(c => c.Key, d => d.Value);
+
+        foreach (var id in fighterSpeedsSortedDict)
+        {
+            fightersOrderOfAttack.Add((int)id.Key);
+        }
     }
 }

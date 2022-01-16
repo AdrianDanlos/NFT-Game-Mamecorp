@@ -21,7 +21,7 @@ public class Combat : MonoBehaviour
 
     // Game status data
     private bool isGameOver = false;
-    List<int> fightersOrderOfAttack = new List<int> { };
+    List<Fighter> fightersOrderOfAttack = new List<Fighter> { };
 
 
     void Start()
@@ -29,9 +29,7 @@ public class Combat : MonoBehaviour
         InstantiateFightersGameObjects();
         AddScriptComponentToFighters();
         GenerateTestDataForFighters();
-        SetDestinationPositions();
         SetOrderOfAttacks();
-        Debug.Log(player.fighterName);
         StartCoroutine(InitiateCombat());
     }
 
@@ -53,56 +51,50 @@ public class Combat : MonoBehaviour
     {
         while (!isGameOver)
         {
-            //This foreach should contain every action of a player for that turn. E.G. Move, Attack, Throw skill....
-            //FIXME: We need to separate the move forward and move back calls so we can insert the attacks in the middle
-            foreach (int attackerId in fightersOrderOfAttack)
+            foreach (Fighter fighter in fightersOrderOfAttack)
             {
-                yield return StartCoroutine(CombatLogicHandler(attackerId));
+                // The CombatLogicHandler method should handle all the actions of a player for that turn. E.G. Move, Attack, Throw skill....
+                yield return StartCoroutine(CombatLogicHandler(fighter));
             }
         }
     }
 
     private void GenerateTestDataForFighters()
     {
+        SetDestinationPositions();
+
         // Why create dictionaries when we can simply store data on a class object?
-        player.FighterConstructor("Eren", 10, 1, 3, "Fire", 10, 10);
-        bot.FighterConstructor("Reiner", 10, 1, 6, "Leaf", 10, 10);
+        player.FighterConstructor("Eren", 10, 1, 3, "Fire", 10, 10, PLAYER_STARTING_POSITION, playerDestinationPosition);
+        bot.FighterConstructor("Reiner", 10, 1, 2, "Leaf", 10, 10, BOT_STARTING_POSITION, botDestinationPosition);
     }
 
-    IEnumerator CombatLogicHandler(int id)
+    IEnumerator CombatLogicHandler(Fighter attacker)
     {
         // From the current gameobject (this) access the movement component which is a script.
         Movement movementScript = this.GetComponent<Movement>();
 
-        switch (id)
-        {
-            case 1:
-                yield return StartCoroutine(movementScript.MoveForward(player, playerDestinationPosition));
-                yield return StartCoroutine(movementScript.MoveBack(player, PLAYER_STARTING_POSITION));
-                break;
-            case 2:
-                yield return StartCoroutine(movementScript.MoveForward(bot, botDestinationPosition));
-                yield return StartCoroutine(movementScript.MoveBack(bot, BOT_STARTING_POSITION));
-                break;
-        }
+        yield return StartCoroutine(movementScript.MoveForward(attacker, attacker.destinationPosition));
+        // Create Attack Logic here
+        yield return StartCoroutine(movementScript.MoveBack(attacker, attacker.initialPosition));
     }
 
-    // This method creates a dictionary with an ID for each fighter and sorts it afterwards by the speed of each fighter
+    // This method creates a dictionary with the Fighter class objects sorted by their speeds to get the order of attack.
+    // Higher speeds will get sorted first
     private void SetOrderOfAttacks()
     {
-        OrderedDictionary fighterSpeedsDict = new OrderedDictionary
+        OrderedDictionary fighterDictWithSpeed = new OrderedDictionary
         {
-            {1, player.speed},
-            {2, bot.speed},
+            {player, player.speed},
+            {bot, bot.speed},
         };
 
-        var fighterSpeedsSortedDict = fighterSpeedsDict.Cast<DictionaryEntry>()
+        var fighterDictSortedBySpeed = fighterDictWithSpeed.Cast<DictionaryEntry>()
                        .OrderByDescending(r => r.Value)
                        .ToDictionary(c => c.Key, d => d.Value);
 
-        foreach (var id in fighterSpeedsSortedDict)
+        foreach (var fighter in fighterDictSortedBySpeed)
         {
-            fightersOrderOfAttack.Add((int)id.Key);
+            fightersOrderOfAttack.Add((Fighter)fighter.Key);
         }
     }
 

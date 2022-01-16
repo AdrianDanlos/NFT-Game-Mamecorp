@@ -14,6 +14,10 @@ public class Fighter : MonoBehaviour
 
     //FIXME: This needs to be discussed as a part of the design. Does each fighter have a specific amount of variable manaSlots.
     public int manaSlots { get; set; }
+    
+    // Fighter position
+    public Vector2 initialPosition { get; set; }
+    public Vector2 destinationPosition { get; set; }
 
     //Passive skills
     public int repeatAttackChance { get; } = 5;
@@ -21,7 +25,9 @@ public class Fighter : MonoBehaviour
     public int criticalChance { get; } = 5;
     public List<string> cards { get; set; }
 
-    public void FighterConstructor(string fighterName, float hp, float damage, float speed, string species, int level, int manaSlots)
+    // When adding a script through the AddComponent method it is not possible to use the default constructor for the class.
+    // That's why we create the following FighterConstructor method and use it as a constructor.
+    public void FighterConstructor(string fighterName, float hp, float damage, float speed, string species, int level, int manaSlots, Vector2 initialPosition, Vector2 destinationPosition)
     {
         this.fighterName = fighterName;
         this.hp = hp;
@@ -30,5 +36,7 @@ public class Fighter : MonoBehaviour
         this.species = species;
         this.level = level;
         this.manaSlots = manaSlots;
+        this.initialPosition = initialPosition;
+        this.destinationPosition = destinationPosition;
     }
 }

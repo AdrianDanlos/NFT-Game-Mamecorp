@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Collections.Specialized;
 
-
-
 public class Combat : MonoBehaviour
 {
     // Data Objects
@@ -28,14 +26,16 @@ public class Combat : MonoBehaviour
 
     void Start()
     {
-        InstantiateFighters();
-        SetDestinationPositions();
+        InstantiateFightersGameObjects();
+        AddScriptComponentToFighters();
         GenerateTestDataForFighters();
+        SetDestinationPositions();
         SetOrderOfAttacks();
+        Debug.Log(player.fighterName);
         StartCoroutine(InitiateCombat());
     }
 
-    private void InstantiateFighters()
+    private void InstantiateFightersGameObjects()
     {
         //Load fighter prefab. Resources.Load reads from /Resources path
         UnityEngine.Object fighterPrefab = Resources.Load("Fighter");
@@ -64,9 +64,9 @@ public class Combat : MonoBehaviour
 
     private void GenerateTestDataForFighters()
     {
-        // Why create dictionaries when we can simply do this?
-        player = new Fighter("Eren", 10, 1, 3, "Fire", 10, 10);
-        bot = new Fighter("Reiner", 10, 1, 6, "Leaf", 10, 10);
+        // Why create dictionaries when we can simply store data on a class object?
+        player.FighterConstructor("Eren", 10, 1, 3, "Fire", 10, 10);
+        bot.FighterConstructor("Reiner", 10, 1, 6, "Leaf", 10, 10);
     }
 
     IEnumerator CombatLogicHandler(int id)
@@ -77,12 +77,12 @@ public class Combat : MonoBehaviour
         switch (id)
         {
             case 1:
-                yield return StartCoroutine(movementScript.MoveForward(playerGameObject, playerDestinationPosition));
-                yield return StartCoroutine(movementScript.MoveBack(playerGameObject, PLAYER_STARTING_POSITION));
+                yield return StartCoroutine(movementScript.MoveForward(player, playerDestinationPosition));
+                yield return StartCoroutine(movementScript.MoveBack(player, PLAYER_STARTING_POSITION));
                 break;
             case 2:
-                yield return StartCoroutine(movementScript.MoveForward(botGameObject, botDestinationPosition));
-                yield return StartCoroutine(movementScript.MoveBack(botGameObject, BOT_STARTING_POSITION));
+                yield return StartCoroutine(movementScript.MoveForward(bot, botDestinationPosition));
+                yield return StartCoroutine(movementScript.MoveBack(bot, BOT_STARTING_POSITION));
                 break;
         }
     }
@@ -104,5 +104,11 @@ public class Combat : MonoBehaviour
         {
             fightersOrderOfAttack.Add((int)id.Key);
         }
+    }
+
+    private void AddScriptComponentToFighters()
+    {
+        player = playerGameObject.AddComponent<Fighter>();
+        bot = botGameObject.AddComponent<Fighter>();
     }
 }

@@ -1,8 +1,10 @@
 using System.Collections.Generic;
+using UnityEngine;
 
-public class Fighter
+// MonoBehaviours are scripts that are attached to an object in the scene, and run in the scene as long as the object they are attached to is active.
+public class Fighter : MonoBehaviour
 {
-    public string name { get; set; }
+    public string fighterName { get; set; }
     public float hp { get; set; }
     public float damage { get; set; }
     public float speed { get; set; }
@@ -19,10 +21,9 @@ public class Fighter
     public int criticalChance { get; } = 5;
     public List<string> cards { get; set; }
 
-    // Constructor
-    public Fighter(string name, float hp, float damage, float speed, string species, int level, int manaSlots)
+    public void FighterConstructor(string fighterName, float hp, float damage, float speed, string species, int level, int manaSlots)
     {
-        this.name = name;
+        this.fighterName = fighterName;
         this.hp = hp;
         this.damage = damage;
         this.speed = speed;

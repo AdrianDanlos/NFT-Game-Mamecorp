@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 public class Movement : MonoBehaviour
 {
-    private float movementDurationInSeconds = 2f;
+    private float movementDurationInSeconds = 1f;
 
     public IEnumerator MoveForward(GameObject fighter, Vector3 target)
     {

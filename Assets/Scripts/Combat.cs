@@ -9,17 +9,17 @@ using System.Collections.Specialized;
 public class Combat : MonoBehaviour
 {
     // Data Objects
-    public Fighter fighterOne;
-    public Fighter fighterTwo;
+    public Fighter player;
+    public Fighter bot;
 
     // GameObjects related data
-    public GameObject fighterOneGameObject;
-    public GameObject fighterTwoGameObject;
-    static Vector3 FIGHTER_ONE_STARTING_POSITION = new Vector3(-8, 2, 0);
-    static Vector3 FIGHTER_TWO_STARTING_POSITION = new Vector3(8, 2, 0);
+    public GameObject playerGameObject;
+    public GameObject botGameObject;
+    static Vector3 PLAYER_STARTING_POSITION = new Vector3(-8, 2, 0);
+    static Vector3 BOT_STARTING_POSITION = new Vector3(8, 2, 0);
     float DISTANCE_AWAY_FROM_EACHOTHER_ON_ATTACK = 1;
-    Vector3 fighterOneDestinationPosition = FIGHTER_TWO_STARTING_POSITION;
-    Vector3 fighterTwoDestinationPosition = FIGHTER_ONE_STARTING_POSITION;
+    Vector3 playerDestinationPosition = BOT_STARTING_POSITION;
+    Vector3 botDestinationPosition = PLAYER_STARTING_POSITION;
 
     // Game status data
     private bool isGameOver = false;
@@ -39,14 +39,14 @@ public class Combat : MonoBehaviour
     {
         //Load fighter prefab. Resources.Load reads from /Resources path
         UnityEngine.Object fighterPrefab = Resources.Load("Fighter");
-        fighterOneGameObject = (GameObject)Instantiate(fighterPrefab, FIGHTER_ONE_STARTING_POSITION, Quaternion.Euler(0, 0, 0));
-        fighterTwoGameObject = (GameObject)Instantiate(fighterPrefab, FIGHTER_TWO_STARTING_POSITION, Quaternion.Euler(0, 0, 0));
+        playerGameObject = (GameObject)Instantiate(fighterPrefab, PLAYER_STARTING_POSITION, Quaternion.Euler(0, 0, 0));
+        botGameObject = (GameObject)Instantiate(fighterPrefab, BOT_STARTING_POSITION, Quaternion.Euler(0, 0, 0));
     }
 
     private void SetDestinationPositions()
     {
-        fighterOneDestinationPosition.x -= DISTANCE_AWAY_FROM_EACHOTHER_ON_ATTACK;
-        fighterTwoDestinationPosition.x += DISTANCE_AWAY_FROM_EACHOTHER_ON_ATTACK;
+        playerDestinationPosition.x -= DISTANCE_AWAY_FROM_EACHOTHER_ON_ATTACK;
+        botDestinationPosition.x += DISTANCE_AWAY_FROM_EACHOTHER_ON_ATTACK;
     }
 
     IEnumerator InitiateCombat()
@@ -57,7 +57,7 @@ public class Combat : MonoBehaviour
             //FIXME: We need to separate the move forward and move back calls so we can insert the attacks in the middle
             foreach (int attackerId in fightersOrderOfAttack)
             {
-                yield return StartCoroutine(MoveFighter(attackerId));
+                yield return StartCoroutine(CombatLogicHandler(attackerId));
             }
         }
     }
@@ -65,11 +65,11 @@ public class Combat : MonoBehaviour
     private void GenerateTestDataForFighters()
     {
         // Why create dictionaries when we can simply do this?
-        fighterOne = new Fighter("Eren", 10, 1, 3, "Fire", 10, 10);
-        fighterTwo = new Fighter("Reiner", 10, 1, 6, "Leaf", 10, 10);
+        player = new Fighter("Eren", 10, 1, 3, "Fire", 10, 10);
+        bot = new Fighter("Reiner", 10, 1, 6, "Leaf", 10, 10);
     }
 
-    IEnumerator MoveFighter(int id)
+    IEnumerator CombatLogicHandler(int id)
     {
         // From the current gameobject (this) access the movement component which is a script.
         Movement movementScript = this.GetComponent<Movement>();
@@ -77,12 +77,12 @@ public class Combat : MonoBehaviour
         switch (id)
         {
             case 1:
-                yield return StartCoroutine(movementScript.MoveForward(fighterOneGameObject, fighterOneDestinationPosition));
-                yield return StartCoroutine(movementScript.MoveBack(fighterOneGameObject, FIGHTER_ONE_STARTING_POSITION));
+                yield return StartCoroutine(movementScript.MoveForward(playerGameObject, playerDestinationPosition));
+                yield return StartCoroutine(movementScript.MoveBack(playerGameObject, PLAYER_STARTING_POSITION));
                 break;
             case 2:
-                yield return StartCoroutine(movementScript.MoveForward(fighterTwoGameObject, fighterTwoDestinationPosition));
-                yield return StartCoroutine(movementScript.MoveBack(fighterTwoGameObject, FIGHTER_TWO_STARTING_POSITION));
+                yield return StartCoroutine(movementScript.MoveForward(botGameObject, botDestinationPosition));
+                yield return StartCoroutine(movementScript.MoveBack(botGameObject, BOT_STARTING_POSITION));
                 break;
         }
     }
@@ -92,8 +92,8 @@ public class Combat : MonoBehaviour
     {
         OrderedDictionary fighterSpeedsDict = new OrderedDictionary
         {
-            {1, fighterOne.speed},
-            {2, fighterTwo.speed},
+            {1, player.speed},
+            {2, bot.speed},
         };
 
         var fighterSpeedsSortedDict = fighterSpeedsDict.Cast<DictionaryEntry>()

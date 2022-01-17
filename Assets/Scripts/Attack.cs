@@ -7,5 +7,14 @@ public class Attack : MonoBehaviour
     {
         defender.hp -= attacker.damage;
         Debug.Log(defender.hp);
+        StartCoroutine(ReceiveDamageAnimation(defender));
+    }
+
+    IEnumerator ReceiveDamageAnimation(Fighter defender)
+    {
+        Renderer defenderRenderer = defender.GetComponent<Renderer>();
+        defenderRenderer.material.color = new Color(255, 1, 1);
+        yield return new WaitForSeconds(.1f);
+        defenderRenderer.material.color = new Color(1, 1, 1);
     }
 }

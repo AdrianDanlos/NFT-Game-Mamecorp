@@ -1,55 +1,106 @@
 using System.Collections;
 using UnityEngine;
+using System.Collections.Generic;
+using System.Linq;
+using System.Collections.Specialized;
 
 public class Combat : MonoBehaviour
 {
-    public GameObject fighterOne;
-    public GameObject fighterTwo;
-    Vector3 FIGHTER_ONE_STARTING_POSITION = new Vector3(-8, 2, 0);
-    Vector3 FIGHTER_TWO_STARTING_POSITION = new Vector3(8, 2, 0);
-    float DISTANCE_AWAY_FROM_EACHOTHER_ON_ATTACK = 1;
+    // Data Objects
+    public Fighter player;
+    public Fighter bot;
 
-    Vector3 fighterOneDestinationPosition;
-    Vector3 fighterTwoDestinationPosition;
+    // GameObjects related data
+    public GameObject playerGameObject;
+    public GameObject botGameObject;
+    static Vector3 PLAYER_STARTING_POSITION = new Vector3(-8, 2, 0);
+    static Vector3 BOT_STARTING_POSITION = new Vector3(8, 2, 0);
+    float DISTANCE_AWAY_FROM_EACHOTHER_ON_ATTACK = 1;
+    Vector3 playerDestinationPosition = BOT_STARTING_POSITION;
+    Vector3 botDestinationPosition = PLAYER_STARTING_POSITION;
+
+    // Game status data
     private bool isGameOver = false;
+    List<Fighter> fightersOrderOfAttack = new List<Fighter> { };
 
 
     void Start()
     {
-        InstantiateFighters();
-        SetDestinationPositions();
+        InstantiateFightersGameObjects();
+        AddScriptComponentToFighters();
+        GenerateTestDataForFighters();
+        SetOrderOfAttacks();
         StartCoroutine(InitiateCombat());
     }
 
-    private void InstantiateFighters()
+    private void InstantiateFightersGameObjects()
     {
         //Load fighter prefab. Resources.Load reads from /Resources path
         UnityEngine.Object fighterPrefab = Resources.Load("Fighter");
-        fighterOne = (GameObject)Instantiate(fighterPrefab, FIGHTER_ONE_STARTING_POSITION, Quaternion.Euler(0, 0, 0));
-        fighterTwo = (GameObject)Instantiate(fighterPrefab, FIGHTER_TWO_STARTING_POSITION, Quaternion.Euler(0, 0, 0));
+        playerGameObject = (GameObject)Instantiate(fighterPrefab, PLAYER_STARTING_POSITION, Quaternion.Euler(0, 0, 0));
+        botGameObject = (GameObject)Instantiate(fighterPrefab, BOT_STARTING_POSITION, Quaternion.Euler(0, 0, 0));
     }
 
-    private void SetDestinationPositions(){
-        fighterOneDestinationPosition = FIGHTER_TWO_STARTING_POSITION;
-        fighterOneDestinationPosition.x -= DISTANCE_AWAY_FROM_EACHOTHER_ON_ATTACK;
-        fighterTwoDestinationPosition = FIGHTER_ONE_STARTING_POSITION;
-        fighterTwoDestinationPosition.x += DISTANCE_AWAY_FROM_EACHOTHER_ON_ATTACK;
+    private void SetDestinationPositions()
+    {
+        playerDestinationPosition.x -= DISTANCE_AWAY_FROM_EACHOTHER_ON_ATTACK;
+        botDestinationPosition.x += DISTANCE_AWAY_FROM_EACHOTHER_ON_ATTACK;
     }
 
     IEnumerator InitiateCombat()
     {
+        while (!isGameOver)
+        {
+            foreach (Fighter fighter in fightersOrderOfAttack)
+            {
+                // The CombatLogicHandler method should handle all the actions of a player for that turn. E.G. Move, Attack, Throw skill....
+                yield return StartCoroutine(CombatLogicHandler(fighter));
+            }
+        }
+    }
+
+    private void GenerateTestDataForFighters()
+    {
+        SetDestinationPositions();
+
+        // Why create dictionaries when we can simply store data on a class object?
+        player.FighterConstructor("Eren", 10, 1, 3, "Fire", 10, 10, PLAYER_STARTING_POSITION, playerDestinationPosition);
+        bot.FighterConstructor("Reiner", 10, 1, 2, "Leaf", 10, 10, BOT_STARTING_POSITION, botDestinationPosition);
+    }
+
+    IEnumerator CombatLogicHandler(Fighter attacker)
+    {
         // From the current gameobject (this) access the movement component which is a script.
         Movement movementScript = this.GetComponent<Movement>();
 
-        while (!isGameOver)
-        {
-            // Player A moving forward and backward
-            yield return StartCoroutine(movementScript.MoveForward(fighterOne, fighterOneDestinationPosition));
-            yield return StartCoroutine(movementScript.MoveBack(fighterOne, FIGHTER_ONE_STARTING_POSITION));
+        yield return StartCoroutine(movementScript.MoveForward(attacker, attacker.destinationPosition));
+        // Create Attack Logic here
+        yield return StartCoroutine(movementScript.MoveBack(attacker, attacker.initialPosition));
+    }
 
-            // Player B moving forward and backward
-            yield return StartCoroutine(movementScript.MoveForward(fighterTwo, fighterTwoDestinationPosition));
-            yield return StartCoroutine(movementScript.MoveBack(fighterTwo, FIGHTER_TWO_STARTING_POSITION));
+    // This method creates a dictionary with the Fighter class objects sorted by their speeds to get the order of attack.
+    // Higher speeds will get sorted first
+    private void SetOrderOfAttacks()
+    {
+        OrderedDictionary fighterDictWithSpeed = new OrderedDictionary
+        {
+            {player, player.speed},
+            {bot, bot.speed},
+        };
+
+        var fighterDictSortedBySpeed = fighterDictWithSpeed.Cast<DictionaryEntry>()
+                       .OrderByDescending(r => r.Value)
+                       .ToDictionary(c => c.Key, d => d.Value);
+
+        foreach (var fighter in fighterDictSortedBySpeed)
+        {
+            fightersOrderOfAttack.Add((Fighter)fighter.Key);
         }
+    }
+
+    private void AddScriptComponentToFighters()
+    {
+        player = playerGameObject.AddComponent<Fighter>();
+        bot = botGameObject.AddComponent<Fighter>();
     }
 }

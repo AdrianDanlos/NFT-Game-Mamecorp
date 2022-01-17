@@ -37,8 +37,10 @@ public class Combat : MonoBehaviour
     {
         //Load fighter prefab. Resources.Load reads from /Resources path
         UnityEngine.Object fighterPrefab = Resources.Load("Fighter");
-        playerGameObject = (GameObject)Instantiate(fighterPrefab, PLAYER_STARTING_POSITION, Quaternion.Euler(0, 0, 0));
-        botGameObject = (GameObject)Instantiate(fighterPrefab, BOT_STARTING_POSITION, Quaternion.Euler(0, 0, 0));
+        playerGameObject = (GameObject)Instantiate(fighterPrefab, PLAYER_STARTING_POSITION, Quaternion.identity,
+            GameObject.FindGameObjectWithTag("Canvas").transform);
+        botGameObject = (GameObject)Instantiate(fighterPrefab, BOT_STARTING_POSITION, Quaternion.identity,
+            GameObject.FindGameObjectWithTag("Canvas").transform);
     }
 
     private void SetDestinationPositions()
@@ -49,13 +51,15 @@ public class Combat : MonoBehaviour
 
     IEnumerator InitiateCombat()
     {
+        Fighter firstAttacker = fightersOrderOfAttack[0];
+        Fighter secondAttacker = fightersOrderOfAttack[1];
+
         while (!isGameOver)
         {
-            foreach (Fighter fighter in fightersOrderOfAttack)
-            {
-                // The CombatLogicHandler method should handle all the actions of a player for that turn. E.G. Move, Attack, Throw skill....
-                yield return StartCoroutine(CombatLogicHandler(fighter));
-            }
+            // The CombatLogicHandler method should handle all the actions of a player for that turn. E.G. Move, Attack, Throw skill....
+            yield return StartCoroutine(CombatLogicHandler(firstAttacker, secondAttacker));
+            if (isGameOver) break;
+            yield return StartCoroutine(CombatLogicHandler(secondAttacker, firstAttacker));
         }
     }
 
@@ -65,16 +69,29 @@ public class Combat : MonoBehaviour
 
         // Why create dictionaries when we can simply store data on a class object?
         player.FighterConstructor("Eren", 10, 1, 3, "Fire", 10, 10, PLAYER_STARTING_POSITION, playerDestinationPosition);
-        bot.FighterConstructor("Reiner", 10, 1, 2, "Leaf", 10, 10, BOT_STARTING_POSITION, botDestinationPosition);
+        bot.FighterConstructor("Reiner", 10, 1, 6, "Leaf", 10, 10, BOT_STARTING_POSITION, botDestinationPosition);
     }
 
-    IEnumerator CombatLogicHandler(Fighter attacker)
+    IEnumerator CombatLogicHandler(Fighter attacker, Fighter defender)
     {
         // From the current gameobject (this) access the movement component which is a script.
         Movement movementScript = this.GetComponent<Movement>();
+        Attack attacktScript = this.GetComponent<Attack>();
 
+        // Move forward
         yield return StartCoroutine(movementScript.MoveForward(attacker, attacker.destinationPosition));
-        // Create Attack Logic here
+        
+        // Attack
+        int attackCounter = 0;
+
+        while (!isGameOver && (attackCounter == 0 || attacktScript.IsAttackRepeated(attacker)))
+        {
+            attacktScript.DealDamage(attacker, defender);
+            isGameOver = defender.hp <= 0 ? true : false;
+            attackCounter++;
+        };
+
+        // Move back
         yield return StartCoroutine(movementScript.MoveBack(attacker, attacker.initialPosition));
     }
 

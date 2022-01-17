@@ -37,8 +37,10 @@ public class Combat : MonoBehaviour
     {
         //Load fighter prefab. Resources.Load reads from /Resources path
         UnityEngine.Object fighterPrefab = Resources.Load("Fighter");
-        playerGameObject = (GameObject)Instantiate(fighterPrefab, PLAYER_STARTING_POSITION, Quaternion.Euler(0, 0, 0));
-        botGameObject = (GameObject)Instantiate(fighterPrefab, BOT_STARTING_POSITION, Quaternion.Euler(0, 0, 0));
+        playerGameObject = (GameObject)Instantiate(fighterPrefab, PLAYER_STARTING_POSITION, Quaternion.identity,
+            GameObject.FindGameObjectWithTag("Canvas").transform);
+        botGameObject = (GameObject)Instantiate(fighterPrefab, BOT_STARTING_POSITION, Quaternion.identity,
+            GameObject.FindGameObjectWithTag("Canvas").transform);
     }
 
     private void SetDestinationPositions()

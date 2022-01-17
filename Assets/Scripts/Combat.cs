@@ -68,8 +68,8 @@ public class Combat : MonoBehaviour
         SetDestinationPositions();
 
         // Why create dictionaries when we can simply store data on a class object?
-        player.FighterConstructor("Eren", 2, 1, 3, "Fire", 10, 10, PLAYER_STARTING_POSITION, playerDestinationPosition);
-        bot.FighterConstructor("Reiner", 2, 1, 6, "Leaf", 10, 10, BOT_STARTING_POSITION, botDestinationPosition);
+        player.FighterConstructor("Eren", 10, 1, 3, "Fire", 10, 10, PLAYER_STARTING_POSITION, playerDestinationPosition);
+        bot.FighterConstructor("Reiner", 10, 1, 6, "Leaf", 10, 10, BOT_STARTING_POSITION, botDestinationPosition);
     }
 
     IEnumerator CombatLogicHandler(Fighter attacker, Fighter defender)
@@ -80,10 +80,16 @@ public class Combat : MonoBehaviour
 
         // Move forward
         yield return StartCoroutine(movementScript.MoveForward(attacker, attacker.destinationPosition));
-
+        
         // Attack
-        attacktScript.DealDamage(attacker, defender);
-        isGameOver = defender.hp <= 0 ? true : false;
+        int attackCounter = 0;
+
+        while (!isGameOver && (attackCounter == 0 || attacktScript.IsAttackRepeated(attacker)))
+        {
+            attacktScript.DealDamage(attacker, defender);
+            isGameOver = defender.hp <= 0 ? true : false;
+            attackCounter++;
+        };
 
         // Move back
         yield return StartCoroutine(movementScript.MoveBack(attacker, attacker.initialPosition));

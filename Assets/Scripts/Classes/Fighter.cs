@@ -20,7 +20,7 @@ public class Fighter : MonoBehaviour
     public Vector2 destinationPosition { get; set; }
 
     //Passive skills
-    public int repeatAttackChance { get; } = 5;
+    public int repeatAttackChance { get; } = 55;
     public int dodgeChance { get; } = 5;
     public int criticalChance { get; } = 5;
     public List<string> cards { get; set; }

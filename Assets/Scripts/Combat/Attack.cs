@@ -3,9 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 public class Attack : MonoBehaviour
 {
+    Probabilities probabilitiesScript;
+
+    void Start()
+    {
+        probabilitiesScript = this.GetComponent<Probabilities>();
+    }
     public void DealDamage(Fighter attacker, Fighter defender)
     {
-        defender.hp -= attacker.damage;
+        var attackerDamageForNextHit = IsAttackCritical(attacker) ? attacker.damage * 2 : attacker.damage;
+        defender.hp -= attackerDamageForNextHit;
         Debug.Log(defender.fighterName);
         Debug.Log(defender.hp);
         StartCoroutine(ReceiveDamageAnimation(defender));
@@ -21,8 +28,16 @@ public class Attack : MonoBehaviour
 
     public bool IsAttackRepeated(Fighter attacker)
     {
-        Probabilities probabilitiesScript = this.GetComponent<Probabilities>();
-
         return probabilitiesScript.IsHappening(attacker.repeatAttackChance);
+    }
+
+    public bool IsAttackDodged(Fighter defender)
+    {
+        return probabilitiesScript.IsHappening(defender.dodgeChance);
+    }
+
+    private bool IsAttackCritical(Fighter attacker)
+    {
+        return probabilitiesScript.IsHappening(attacker.criticalChance);
     }
 }

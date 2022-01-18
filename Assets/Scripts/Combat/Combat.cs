@@ -80,11 +80,11 @@ public class Combat : MonoBehaviour
 
         // Move forward
         yield return StartCoroutine(movementScript.MoveForward(attacker, attacker.destinationPosition));
-        
+
         // Attack
         int attackCounter = 0;
 
-        while (!isGameOver && (attackCounter == 0 || attacktScript.IsAttackRepeated(attacker)))
+        while (!isGameOver && (attackCounter == 0 || attacktScript.IsAttackRepeated(attacker)) && !attacktScript.IsAttackDodged(defender))
         {
             attacktScript.DealDamage(attacker, defender);
             isGameOver = defender.hp <= 0 ? true : false;

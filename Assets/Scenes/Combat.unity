@@ -375,10 +375,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1570540183}
   - component: {fileID: 1570540182}
-  - component: {fileID: 1570540184}
   - component: {fileID: 1570540185}
   - component: {fileID: 1570540186}
-  - component: {fileID: 1570540187}
+  - component: {fileID: 1570540184}
   m_Layer: 0
   m_Name: CombatManager
   m_TagString: Untagged
@@ -452,18 +451,6 @@ MonoBehaviour:
   bot: {fileID: 0}
   playerGameObject: {fileID: 0}
   botGameObject: {fileID: 0}
---- !u!114 &1570540187
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1570540181}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 89b90bf95be9ba24ba6409e5ed9c156c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1812796363
 GameObject:
   m_ObjectHideFlags: 0

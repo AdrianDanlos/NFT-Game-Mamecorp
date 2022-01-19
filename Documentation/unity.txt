@@ -1,0 +1,13 @@
+Useful information regarding unity and C#:
+
+- When to attach a script to a gameObject?
+    1. When the script interacts with a gameObject in the scene or when the script uses Unity methods
+    that interacts with a gameObject in the scene e.g "StartCoroutine".
+
+- When to make a class static?
+    1. When we are not going to make objects with that class. Only call methods, retrieve data...
+
+- How to call a script from another script?
+    1. If the script is attached to a gameobject -> this.GetComponent<ClassWeWantToCall>();
+    2. If the script is not attached to a gameobject -> Make the class we want to call public. Now we can access its fields. 
+        If the class is static we can access them directly through the class, otherwise we need to call them on an instance.

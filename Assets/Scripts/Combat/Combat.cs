@@ -28,6 +28,7 @@ public class Combat : MonoBehaviour
     {
         InstantiateFightersGameObjects();
         AddScriptComponentToFighters();
+        SetDestinationPositions();
         GenerateTestDataForFighters();
         SetOrderOfAttacks();
         StartCoroutine(InitiateCombat());
@@ -65,11 +66,20 @@ public class Combat : MonoBehaviour
 
     private void GenerateTestDataForFighters()
     {
-        SetDestinationPositions();
+        // Get all the existing cards and add them to the list of cards of the fighter
+        List<OrderedDictionary> cardCollection = CardCollection.cards;
+        List<Card> playerCards = new List<Card>();
+        List<Card> botCards = new List<Card>();
 
-        // Why create dictionaries when we can simply store data on a class object?
-        player.FighterConstructor("Eren", 10, 1, 3, "Fire", 10, 10, PLAYER_STARTING_POSITION, playerDestinationPosition);
-        bot.FighterConstructor("Reiner", 10, 1, 6, "Leaf", 10, 10, BOT_STARTING_POSITION, botDestinationPosition);
+        foreach (OrderedDictionary card in cardCollection)
+        {
+            Card cardInstance = new Card((string)card["cardName"], (int)card["mana"], (string)card["text"], (string)card["rarity"], (string)card["type"]);
+            playerCards.Add(cardInstance);
+            botCards.Add(cardInstance);
+        }
+
+        player.FighterConstructor("Eren", 10, 1, 3, "Fire", 10, 10, playerCards, PLAYER_STARTING_POSITION, playerDestinationPosition);
+        bot.FighterConstructor("Reiner", 10, 1, 6, "Leaf", 10, 10, botCards, BOT_STARTING_POSITION, botDestinationPosition);
     }
 
     IEnumerator CombatLogicHandler(Fighter attacker, Fighter defender)

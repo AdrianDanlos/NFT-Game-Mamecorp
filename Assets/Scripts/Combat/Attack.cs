@@ -5,7 +5,8 @@ public class Attack : MonoBehaviour
 {
     public void DealDamage(Fighter attacker, Fighter defender)
     {
-        defender.hp -= attacker.damage;
+        var attackerDamageForNextHit = IsAttackCritical(attacker) ? attacker.damage * 2 : attacker.damage;
+        defender.hp -= attackerDamageForNextHit;
         Debug.Log(defender.fighterName);
         Debug.Log(defender.hp);
         StartCoroutine(ReceiveDamageAnimation(defender));
@@ -21,8 +22,16 @@ public class Attack : MonoBehaviour
 
     public bool IsAttackRepeated(Fighter attacker)
     {
-        Probabilities probabilitiesScript = this.GetComponent<Probabilities>();
+        return Probabilities.IsHappening(attacker.repeatAttackChance);
+    }
 
-        return probabilitiesScript.IsHappening(attacker.repeatAttackChance);
+    public bool IsAttackDodged(Fighter defender)
+    {
+        return Probabilities.IsHappening(defender.dodgeChance);
+    }
+
+    private bool IsAttackCritical(Fighter attacker)
+    {
+        return Probabilities.IsHappening(attacker.criticalChance);
     }
 }

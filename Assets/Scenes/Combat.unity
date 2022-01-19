@@ -375,10 +375,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1570540183}
   - component: {fileID: 1570540182}
-  - component: {fileID: 1570540184}
   - component: {fileID: 1570540185}
   - component: {fileID: 1570540186}
-  - component: {fileID: 1570540187}
+  - component: {fileID: 1570540184}
   m_Layer: 0
   m_Name: CombatManager
   m_TagString: Untagged
@@ -395,13 +394,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1570540181}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bc2fc21b0c808be4f8dd268764a720ab, type: 3}
+  m_Script: {fileID: 11500000, guid: 7a3023590dec3d64e9b074df838c9314, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  bot: {fileID: 0}
-  playerGameObject: {fileID: 0}
-  botGameObject: {fileID: 0}
 --- !u!4 &1570540183
 Transform:
   m_ObjectHideFlags: 0
@@ -425,7 +420,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1570540181}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a7d7557f40f0a04086298795578e4ff, type: 3}
+  m_Script: {fileID: 11500000, guid: ddb904f0d08b7264999509ee1f7ffd5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &1570540185
@@ -449,21 +444,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1570540181}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: af2e4225d632ce044a10a1f2b6170e1b, type: 3}
+  m_Script: {fileID: 11500000, guid: ef9e647891befa34488d69dd28447053, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1570540187
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1570540181}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 89b90bf95be9ba24ba6409e5ed9c156c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  player: {fileID: 0}
+  bot: {fileID: 0}
+  playerGameObject: {fileID: 0}
+  botGameObject: {fileID: 0}
 --- !u!1 &1812796363
 GameObject:
   m_ObjectHideFlags: 0

@@ -8,16 +8,22 @@ enum CardTypes
 
 public class Card
 {
-    public string cardName { get; set; }
-    public int mana { get; set; }
-    public string text { get; set; }
-    public string rarity { get; set; }
-    public string type { get; set; }
+    private string _cardName;
+    private int _mana;
+    private string _description;
+    private string _rarity;
+    private string _type;
+    public string cardName { get => _cardName; set => _cardName = value; }
+    public int mana { get => _mana; set => _mana = value; }
+    public string description { get => _description; set => _description = value; }
+    public string rarity { get => _rarity; set => _rarity = value; }
+    public string type { get => _type; set => _type = value; }
 
-    public Card(string cardName, int mana, string text, string rarity, string type){
+    public Card(string cardName, int mana, string description, string rarity, string type)
+    {
         this.cardName = cardName;
         this.mana = mana;
-        this.text = text;
+        this.description = description;
         this.rarity = rarity;
         this.type = type;
     }

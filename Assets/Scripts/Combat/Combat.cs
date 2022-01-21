@@ -23,7 +23,12 @@ public class Combat : MonoBehaviour
     private bool isGameOver = false;
     List<Fighter> fightersOrderOfAttack = new List<Fighter> { };
 
-
+    private void Awake()
+    {
+        //This is only for TEST purposes
+        SaveDataTest.SaveData();
+        SaveDataTest.ReadData();
+    }
     void Start()
     {
         InstantiateFightersGameObjects();

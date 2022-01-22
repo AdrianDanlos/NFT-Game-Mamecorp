@@ -59,5 +59,4 @@ public class Gift : MonoBehaviour
         return (Random.Range(minRange, maxRange) + 1) * increment;
     }
 
-
 }

@@ -21,7 +21,6 @@ public class Energy : MonoBehaviour
             energyObjects.Add(this.transform.GetChild(i));
         }
 
-        Debug.Log(energyObjects.Count);
     }
 
     void Update()

@@ -35,7 +35,7 @@ public class Gift : MonoBehaviour
         button.interactable = false;
         giftTimer.SetActive(false);
 
-        // this would depend on server time on future
+        // this would depend on server time on future - timer too
         GenerateCoinReward();
     }
 
@@ -49,6 +49,10 @@ public class Gift : MonoBehaviour
     {
         secondsUntilGiftReady -= Time.deltaTime;
         giftTimerValue.GetComponent<Text>().text = ((int)secondsUntilGiftReady).ToString();
+    } 
+    else
+    {
+        giftTimer.SetActive(false);
     }
 
     if (secondsUntilGiftReady <= 0f)

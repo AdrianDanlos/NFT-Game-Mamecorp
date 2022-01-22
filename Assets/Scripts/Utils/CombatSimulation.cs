@@ -7,6 +7,8 @@ public class CombatSimulation : MonoBehaviour
 {
     Button button;
     bool simulationResult;
+    int WIN_XP = 2;
+    int LOSE_XP = 1;
 
     void Start()
     {
@@ -36,13 +38,17 @@ public class CombatSimulation : MonoBehaviour
             Energy.energyValue -= 1;
 
             simulationResult = GenerateFightResult();
-            if (simulationResult)
-                LevelLogic.xp += 2;
-            else
-                LevelLogic.xp += 1;
 
-            Debug.Log(simulationResult);
+            if (simulationResult)
+                LevelLogic.xp += WIN_XP;
+            else
+                LevelLogic.xp += LOSE_XP;
         }
+
+        if (simulationResult)
+            Debug.Log("Win! +" + WIN_XP + " exp."); 
+        else
+            Debug.Log("Lose! +" + LOSE_XP + " exp.");
     }
 
     // is this function needed as we use same static value twice?

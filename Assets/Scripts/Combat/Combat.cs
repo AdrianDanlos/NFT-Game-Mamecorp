@@ -89,6 +89,7 @@ public class Combat : MonoBehaviour
             botCards.Add(cardInstance);
         }
 
+        //TODO: In the future when reading this from a json file or a database we could send the fighter object instead of this many arguments.
         player.FighterConstructor("Eren", 10, 1, 3, "Fire", 10, 10, playerCards, PLAYER_STARTING_POSITION, playerDestinationPosition);
         bot.FighterConstructor("Reiner", 10, 1, 6, "Leaf", 10, 10, botCards, BOT_STARTING_POSITION, botDestinationPosition);
     }

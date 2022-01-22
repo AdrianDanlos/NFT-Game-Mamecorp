@@ -7,20 +7,25 @@ public class Gift : MonoBehaviour
 {
     GameObject rewardType;
     GameObject rewardQuantity;
-    string rewardTypeValue;
-    int rewardQuantityValue;
-    bool isTimerActive = false;
+    GameObject giftTimer;
+    GameObject giftTimerValue;
     Button button;
     Image image;
     public Sprite[] imageList;
 
+    string rewardTypeValue;
+    int rewardQuantityValue;
+
     float DEFAULT_GIFT_READY_TIMER = 3f;
     float secondsUntilGiftReady;
+    bool isTimerActive = false;
 
     void Awake()
     {
-        rewardType = this.transform.GetChild(0).gameObject;
-        rewardQuantity = this.transform.GetChild(1).gameObject;
+        rewardType = this.transform.Find("GiftRewardType").gameObject;
+        rewardQuantity = this.transform.Find("GiftRewardQuantity").gameObject;
+        giftTimer = this.transform.Find("GiftTimer").gameObject;
+        giftTimerValue = giftTimer.transform.GetChild(1).gameObject;
         button = this.GetComponent<Button>();
         image = this.GetComponent<Image>();
         image.sprite = imageList[0];
@@ -28,26 +33,27 @@ public class Gift : MonoBehaviour
 
         button.onClick.AddListener(TaskOnClick);
         button.interactable = false;
+        giftTimer.SetActive(false);
 
         // this would depend on server time on future
         GenerateCoinReward();
     }
 
-        void Update()
-        {
-            //need to add code here similar to energy system
-            //- create clock class?
-            //- runtime based timer atm -> server based timer in the future
+    void Update()
+    {
+    //need to add code here similar to energy system
+    //- create clock class?
+    //- runtime based timer atm -> server based timer in the future
 
-            // test 
-            Debug.Log(secondsUntilGiftReady);
+    if (isTimerActive)
+    {
+        secondsUntilGiftReady -= Time.deltaTime;
+        giftTimerValue.GetComponent<Text>().text = ((int)secondsUntilGiftReady).ToString();
+    }
 
-            if(isTimerActive)
-                secondsUntilGiftReady -= Time.deltaTime;
-
-            if (secondsUntilGiftReady <= 0f)
-                timerEnded();
-        }
+    if (secondsUntilGiftReady <= 0f)
+            timerEnded();
+    }
 
     void timerEnded()
     {
@@ -64,10 +70,12 @@ public class Gift : MonoBehaviour
         Debug.Log(rewardQuantityValue + " " + rewardTypeValue + " collected");
         DisableGiftButton();
         isTimerActive = true;
+        giftTimer.SetActive(true);
     }
 
     void DisableGiftButton()
     {
+        giftTimer.SetActive(false);
         button.interactable = false;
         rewardType.GetComponent<Text>().text = null;
         rewardQuantity.GetComponent<Text>().text = null;

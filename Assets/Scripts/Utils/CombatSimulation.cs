@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class CombatSimulation : MonoBehaviour
 {
     Button button;
-    int simulationResult;
+    static bool simulationResult;
 
     void Start()
     {
@@ -23,7 +23,16 @@ public class CombatSimulation : MonoBehaviour
 
     void SimulateFight()
     {
-        Debug.Log(GenerateFightResult());
+        simulationResult = GenerateFightResult();
+        if (simulationResult)
+        {
+            LevelLogic.xp += 2;
+        } else
+        {
+            LevelLogic.xp += 1;
+        }
+
+        Debug.Log(simulationResult);
     }
 
 }

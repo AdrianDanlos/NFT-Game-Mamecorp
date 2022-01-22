@@ -4,7 +4,8 @@ using UnityEngine.UI;
 
 public class Energy : MonoBehaviour
 {
-    const float DEFAULT_REFILL_TIME = 5f;
+    const int BASE_ENERGY = 1;
+    const float DEFAULT_REFILL_TIME = 2f;
     float secondsUntilEnergyRefill = DEFAULT_REFILL_TIME;
     int maxEnergy = 3;
     Text energyValueText;
@@ -12,6 +13,7 @@ public class Energy : MonoBehaviour
     void Start()
     {
         energyValueText = this.transform.Find("EnergyValue").GetComponent<Text>();
+        energyValueText.text = BASE_ENERGY.ToString();
 
         // get all objects that belong to energy
         List<Transform> energyObjects = new List<Transform>();
@@ -20,7 +22,6 @@ public class Energy : MonoBehaviour
         {
             energyObjects.Add(this.transform.GetChild(i));
         }
-
     }
 
     void Update()

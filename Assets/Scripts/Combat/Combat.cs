@@ -26,8 +26,8 @@ public class Combat : MonoBehaviour
     private void Awake()
     {
         //This is only for TEST purposes
-        SaveDataTest.SaveData();
-        SaveDataTest.ReadData();
+        SaveAndReadDataTest.SaveData();
+        SaveAndReadDataTest.ReadData();
     }
     void Start()
     {

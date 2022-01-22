@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using System.IO;
 
-public static class SaveDataTest
+public static class SaveAndReadDataTest
 {
     public static void SaveData()
     {

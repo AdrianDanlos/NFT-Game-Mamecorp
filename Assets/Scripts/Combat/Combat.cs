@@ -30,9 +30,7 @@ public class Combat : MonoBehaviour
         //This is only for TEST purposes
         EntryPoint.TestEntryPoint();
         string botName = MatchMaking.FetchBotRandomName();
-        //TODO: Send real values here
         int botElo = MatchMaking.GenerateBotElo(400);
-        MatchMaking.UpdateEloAfterCombat(user, 400, 430, true);
     }
     void Start()
     {
@@ -72,6 +70,9 @@ public class Combat : MonoBehaviour
             if (isGameOver) break;
             yield return StartCoroutine(CombatLogicHandler(secondAttacker, firstAttacker));
         }
+
+        //TODO: Send the correct values here
+        PostGameActions.UpdateElo(user, 400, 430, true);
     }
 
     private void GenerateTestDataForFighters()

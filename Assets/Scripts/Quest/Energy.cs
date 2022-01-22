@@ -4,12 +4,12 @@ using UnityEngine.UI;
 
 public class Energy : MonoBehaviour
 {
-    const int BASE_ENERGY = 1;
-    const float DEFAULT_REFILL_TIME = 2f;
+    const int BASE_ENERGY = 2;
+    const float DEFAULT_REFILL_TIME = 5f;
     float secondsUntilEnergyRefill = DEFAULT_REFILL_TIME;
-    int maxEnergy = 3;
+    int maxEnergy = 5;
     Text energyValueText;
-    static int energyValue;
+    public static int energyValue;
 
     void Start()
     {
@@ -36,6 +36,7 @@ public class Energy : MonoBehaviour
             timerEnded();
         }
 
+        energyValueText.text = energyValue.ToString();
     }
 
     void timerEnded()

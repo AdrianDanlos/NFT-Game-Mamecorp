@@ -14,6 +14,14 @@ public class CombatSimulation : MonoBehaviour
         button.onClick.AddListener(SimulateFight);
     }
 
+    void Update()
+    {
+        if (!HasEnergyAvailable(Energy.energyValue))
+            button.interactable = false;
+        else
+            button.interactable = true;
+    }
+
     bool GenerateFightResult()
     {
         // true win
@@ -23,16 +31,23 @@ public class CombatSimulation : MonoBehaviour
 
     void SimulateFight()
     {
-        simulationResult = GenerateFightResult();
-        if (simulationResult)
+        if (HasEnergyAvailable(Energy.energyValue))
         {
-            LevelLogic.xp += 2;
-        } else
-        {
-            LevelLogic.xp += 1;
-        }
+            Energy.energyValue -= 1;
 
-        Debug.Log(simulationResult);
+            simulationResult = GenerateFightResult();
+            if (simulationResult)
+                LevelLogic.xp += 2;
+            else
+                LevelLogic.xp += 1;
+
+            Debug.Log(simulationResult);
+        }
     }
 
+    // is this function needed as we use same static value twice?
+    bool HasEnergyAvailable(int energyAvailable)
+    {
+        return Energy.energyValue >= 1;
+    }
 }

@@ -18,12 +18,12 @@ public class CombatSimulation : MonoBehaviour
     {
         // true win
         // false lost
-        return Random.Range(0, 1) + 1 == 1;
+        return Random.Range(0, 2) == 1;
     }
 
     void SimulateFight()
     {
-        Debug.Log("Click");
+        Debug.Log(GenerateFightResult());
     }
 
 }

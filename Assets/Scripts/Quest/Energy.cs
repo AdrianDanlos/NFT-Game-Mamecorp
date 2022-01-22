@@ -9,11 +9,13 @@ public class Energy : MonoBehaviour
     float secondsUntilEnergyRefill = DEFAULT_REFILL_TIME;
     int maxEnergy = 3;
     Text energyValueText;
+    static int energyValue;
 
     void Start()
     {
         energyValueText = this.transform.Find("EnergyValue").GetComponent<Text>();
-        energyValueText.text = BASE_ENERGY.ToString();
+        energyValue = BASE_ENERGY;
+        energyValueText.text = energyValue.ToString();
 
         // get all objects that belong to energy
         List<Transform> energyObjects = new List<Transform>();
@@ -38,8 +40,6 @@ public class Energy : MonoBehaviour
 
     void timerEnded()
     {
-        int energyValue = int.Parse(energyValueText.text);
-
         if (energyValue != maxEnergy) energyValue++;
 
         energyValueText.text = energyValue.ToString();

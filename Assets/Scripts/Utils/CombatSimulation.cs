@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class CombatSimulation : MonoBehaviour
 {
     Button button;
-    static bool simulationResult;
+    bool simulationResult;
 
     void Start()
     {

@@ -6,25 +6,25 @@ using System.IO;
 
 public static class SaveAndReadDataTest
 {
-    public static void SaveData()
+    public static string path = @"D:\save.txt";
+    public static void SaveData(object data)
     {
-        List<Card> _data = new List<Card>();
-        _data.Add(new Card("cartita", 5, "te destruye", "epic", "neutral"));
+        List<object> _data = new List<object>();
+        _data.Add(data);
 
         string json = JsonConvert.SerializeObject(_data.ToArray(), Formatting.Indented);
 
         //write string to file
-        System.IO.File.WriteAllText(@"D:\path.txt", json);
+        System.IO.File.WriteAllText(path, json);
         Debug.Log(json);
     }
 
-    public static void ReadData()
+    public static List<object> ReadData()
     {
-        using (StreamReader r = new StreamReader(@"D:\path.txt"))
+        using (StreamReader r = new StreamReader(path))
         {
             string json = r.ReadToEnd();
-            List<Card> card = JsonConvert.DeserializeObject<List<Card>>(json);
-            Debug.Log(card[0].cardName);
+            return JsonConvert.DeserializeObject<List<object>>(json);
         }
     }
 }

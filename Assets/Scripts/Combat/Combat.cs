@@ -28,8 +28,7 @@ public class Combat : MonoBehaviour
     {
         //TODO: Refactor all the code inside the Awake method once we have a working version for this.
         //This is only for TEST purposes
-        SaveAndReadDataTest.SaveData();
-        SaveAndReadDataTest.ReadData();
+        EntryPoint.TestEntryPoint();
         string botName = MatchMaking.FetchBotRandomName();
         //TODO: Send real values here
         int botElo = MatchMaking.GenerateBotElo(400);

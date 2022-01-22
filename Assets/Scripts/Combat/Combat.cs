@@ -7,6 +7,7 @@ using System.Collections.Specialized;
 public class Combat : MonoBehaviour
 {
     // Data Objects
+    public User user;
     public Fighter player;
     public Fighter bot;
 
@@ -25,9 +26,14 @@ public class Combat : MonoBehaviour
 
     private void Awake()
     {
+        //TODO: Refactor all the code inside the Awake method once we have a working version for this.
         //This is only for TEST purposes
         SaveAndReadDataTest.SaveData();
         SaveAndReadDataTest.ReadData();
+        string botName = MatchMaking.FetchBotRandomName();
+        //TODO: Send real values here
+        int botElo = MatchMaking.GenerateBotElo(400);
+        MatchMaking.UpdateEloAfterCombat(user, 400, 430, true);
     }
     void Start()
     {

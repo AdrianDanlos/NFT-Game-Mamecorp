@@ -7,12 +7,9 @@ using System.IO;
 public static class SaveAndReadDataTest
 {
     public static string path = @"D:\save.txt";
-    public static void SaveData(object data)
+    public static void SaveData(List<object> data)
     {
-        List<object> _data = new List<object>();
-        _data.Add(data);
-
-        string json = JsonConvert.SerializeObject(_data.ToArray(), Formatting.Indented);
+        string json = JsonConvert.SerializeObject(data.ToArray(), Formatting.Indented);
 
         //write string to file
         System.IO.File.WriteAllText(path, json);

@@ -7,6 +7,7 @@ using System.Collections.Specialized;
 public class Combat : MonoBehaviour
 {
     // Data Objects
+    public User user;
     public Fighter player;
     public Fighter bot;
 
@@ -23,7 +24,14 @@ public class Combat : MonoBehaviour
     private bool isGameOver = false;
     List<Fighter> fightersOrderOfAttack = new List<Fighter> { };
 
-
+    private void Awake()
+    {
+        //TODO: Refactor all the code inside the Awake method once we have a working version for this.
+        //This is only for TEST purposes
+        EntryPoint.TestEntryPoint();
+        string botName = MatchMaking.FetchBotRandomName();
+        int botElo = MatchMaking.GenerateBotElo(400);
+    }
     void Start()
     {
         InstantiateFightersGameObjects();
@@ -62,6 +70,9 @@ public class Combat : MonoBehaviour
             if (isGameOver) break;
             yield return StartCoroutine(CombatLogicHandler(secondAttacker, firstAttacker));
         }
+
+        //TODO: Send the correct values here
+        PostGameActions.UpdateElo(user, 400, 430, true);
     }
 
     private void GenerateTestDataForFighters()
@@ -78,6 +89,7 @@ public class Combat : MonoBehaviour
             botCards.Add(cardInstance);
         }
 
+        //TODO: In the future when reading this from a json file or a database we could send the fighter object instead of this many arguments.
         player.FighterConstructor("Eren", 10, 1, 3, "Fire", 10, 10, playerCards, PLAYER_STARTING_POSITION, playerDestinationPosition);
         bot.FighterConstructor("Reiner", 10, 1, 6, "Leaf", 10, 10, botCards, BOT_STARTING_POSITION, botDestinationPosition);
     }

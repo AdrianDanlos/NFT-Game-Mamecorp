@@ -5,7 +5,7 @@ using System.Collections.Specialized;
 
 public static class CardCollection
 {
-    public static List<OrderedDictionary> cards = new List<OrderedDictionary>()
+    public static readonly List<OrderedDictionary> cards = new List<OrderedDictionary>()
     {
         new OrderedDictionary
         {

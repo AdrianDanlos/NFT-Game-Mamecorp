@@ -7,6 +7,7 @@ using System.Collections.Specialized;
 public class Combat : MonoBehaviour
 {
     // Data Objects
+    public User user;
     public Fighter player;
     public Fighter bot;
 
@@ -23,13 +24,20 @@ public class Combat : MonoBehaviour
     private bool isGameOver = false;
     List<Fighter> fightersOrderOfAttack = new List<Fighter> { };
 
-
+    private void Awake()
+    {
+        //TODO: Refactor all the code inside the Awake method once we have a working version for this.
+        //This is only for TEST purposes
+        EntryPoint.TestEntryPoint();
+        string botName = MatchMaking.FetchBotRandomName();
+        int botElo = MatchMaking.GenerateBotElo(400);
+    }
     void Start()
     {
         InstantiateFightersGameObjects();
         AddScriptComponentToFighters();
-        SetDestinationPositions();
         GenerateTestDataForFighters();
+        SetFighterPositions();
         SetOrderOfAttacks();
         StartCoroutine(InitiateCombat());
     }
@@ -44,10 +52,15 @@ public class Combat : MonoBehaviour
             GameObject.FindGameObjectWithTag("Canvas").transform);
     }
 
-    private void SetDestinationPositions()
+    private void SetFighterPositions()
     {
+        player.initialPosition = PLAYER_STARTING_POSITION;
+        player.destinationPosition = playerDestinationPosition;
         playerDestinationPosition.x -= DISTANCE_AWAY_FROM_EACHOTHER_ON_ATTACK;
-        botDestinationPosition.x += DISTANCE_AWAY_FROM_EACHOTHER_ON_ATTACK;
+
+        bot.initialPosition = BOT_STARTING_POSITION;
+        bot.destinationPosition = botDestinationPosition;
+        botDestinationPosition.x -= DISTANCE_AWAY_FROM_EACHOTHER_ON_ATTACK;
     }
 
     IEnumerator InitiateCombat()
@@ -62,6 +75,9 @@ public class Combat : MonoBehaviour
             if (isGameOver) break;
             yield return StartCoroutine(CombatLogicHandler(secondAttacker, firstAttacker));
         }
+
+        //TODO: Send the correct values here
+        PostGameActions.UpdateElo(user, 400, 430, true);
     }
 
     private void GenerateTestDataForFighters()
@@ -77,9 +93,8 @@ public class Combat : MonoBehaviour
             playerCards.Add(cardInstance);
             botCards.Add(cardInstance);
         }
-
-        player.FighterConstructor("Eren", 10, 1, 3, "Fire", 10, 10, playerCards, PLAYER_STARTING_POSITION, playerDestinationPosition);
-        bot.FighterConstructor("Reiner", 10, 1, 6, "Leaf", 10, 10, botCards, BOT_STARTING_POSITION, botDestinationPosition);
+        player.cards = playerCards;
+        bot.FighterConstructor("Reiner", 10, 1, 6, "Leaf", 1, 10, botCards);
     }
 
     IEnumerator CombatLogicHandler(Fighter attacker, Fighter defender)

@@ -11,3 +11,6 @@ Useful information regarding unity and C#:
     1. If the script is attached to a gameobject -> this.GetComponent<ClassWeWantToCall>();
     2. If the script is not attached to a gameobject -> Make the class we want to call public. Now we can access its fields. 
         If the class is static we can access them directly through the class, otherwise we need to call them on an instance.
+
+- Static vs abstract
+    An abstract class is intended to be used as a base of a class inheritance hierarchy. A static class cannot be the base of a class inheritance hierarchy. A static class is intended for singleton state or stateless functionality.

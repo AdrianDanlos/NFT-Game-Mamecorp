@@ -7,8 +7,6 @@ public class Attack : MonoBehaviour
     {
         var attackerDamageForNextHit = IsAttackCritical(attacker) ? attacker.damage * 2 : attacker.damage;
         defender.hp -= attackerDamageForNextHit;
-        Debug.Log(defender.fighterName);
-        Debug.Log(defender.hp);
         StartCoroutine(ReceiveDamageAnimation(defender));
     }
 

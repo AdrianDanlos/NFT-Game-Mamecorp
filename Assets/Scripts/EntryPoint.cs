@@ -32,6 +32,7 @@ public static class EntryPoint
     public static Fighter CreateFighter()
     {
         //TODO: Pedir nombre del fighter al usuario en escena
-        return new Fighter("Eren", 10, 1, 3, "Fire", 1, 10, new List<Card>());
+        //return new Fighter("Eren", 10, 1, 3, "Fire", 1, 10, new List<Card>());
+        return null;
     }
 }

@@ -36,8 +36,8 @@ public class Combat : MonoBehaviour
     {
         InstantiateFightersGameObjects();
         AddScriptComponentToFighters();
-        SetDestinationPositions();
         GenerateTestDataForFighters();
+        SetFighterPositions();
         SetOrderOfAttacks();
         StartCoroutine(InitiateCombat());
     }
@@ -52,10 +52,15 @@ public class Combat : MonoBehaviour
             GameObject.FindGameObjectWithTag("Canvas").transform);
     }
 
-    private void SetDestinationPositions()
+    private void SetFighterPositions()
     {
+        player.initialPosition = PLAYER_STARTING_POSITION;
+        player.destinationPosition = playerDestinationPosition;
         playerDestinationPosition.x -= DISTANCE_AWAY_FROM_EACHOTHER_ON_ATTACK;
-        botDestinationPosition.x += DISTANCE_AWAY_FROM_EACHOTHER_ON_ATTACK;
+
+        bot.initialPosition = BOT_STARTING_POSITION;
+        bot.destinationPosition = botDestinationPosition;
+        botDestinationPosition.x -= DISTANCE_AWAY_FROM_EACHOTHER_ON_ATTACK;
     }
 
     IEnumerator InitiateCombat()
@@ -88,10 +93,8 @@ public class Combat : MonoBehaviour
             playerCards.Add(cardInstance);
             botCards.Add(cardInstance);
         }
-
-        //TODO: In the future when reading this from a json file or a database we could send the fighter object instead of this many arguments.
-        player.FighterConstructor("Eren", 10, 1, 3, "Fire", 10, 10, playerCards, PLAYER_STARTING_POSITION, playerDestinationPosition);
-        bot.FighterConstructor("Reiner", 10, 1, 6, "Leaf", 10, 10, botCards, BOT_STARTING_POSITION, botDestinationPosition);
+        player.cards = playerCards;
+        bot.FighterConstructor("Reiner", 10, 1, 6, "Leaf", 1, 10, botCards);
     }
 
     IEnumerator CombatLogicHandler(Fighter attacker, Fighter defender)

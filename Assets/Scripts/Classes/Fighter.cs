@@ -24,7 +24,7 @@ public class Fighter : MonoBehaviour
     //FIXME: This needs to be discussed as a part of the design. Does each fighter have a specific amount of variable manaSlots.
     public int manaSlots { get => _manaSlots; set => _manaSlots = value; }
     public List<Card> cards { get => _cards; set => _cards = value; }
-    
+
     // Fighter position
     public Vector2 initialPosition { get => _initialPosition; set => _initialPosition = value; }
     public Vector2 destinationPosition { get => _destinationPosition; set => _destinationPosition = value; }
@@ -33,11 +33,10 @@ public class Fighter : MonoBehaviour
     public int repeatAttackChance = 5;
     public int dodgeChance = 5;
     public int criticalChance = 5;
-    
 
-    // When adding a script through the AddComponent method it is not possible to use the default constructor for the class.
+    // When a class is attached to a gameobject (Monobehaviour) it is not possible to use the default constructor for the class.
     // That's why we create the following FighterConstructor method and use it as a constructor.
-    public void FighterConstructor(string fighterName, float hp, float damage, float speed, string species, int level, int manaSlots, List<Card> cards, Vector2 initialPosition, Vector2 destinationPosition)
+    public void FighterConstructor(string fighterName, float hp, float damage, float speed, string species, int level, int manaSlots, List<Card> cards)
     {
         this.fighterName = fighterName;
         this.hp = hp;
@@ -47,7 +46,5 @@ public class Fighter : MonoBehaviour
         this.level = level;
         this.manaSlots = manaSlots;
         this.cards = cards;
-        this.initialPosition = initialPosition;
-        this.destinationPosition = destinationPosition;
     }
 }

@@ -1,11 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class CombatSimulation : MonoBehaviour
 {
+    // components
     Button button;
+
+    // simlutation variables
     bool simulationResult;
     int WIN_XP = 2;
     int LOSE_XP = 1;
@@ -51,7 +52,6 @@ public class CombatSimulation : MonoBehaviour
             Debug.Log("Lose! +" + LOSE_XP + " exp.");
     }
 
-    // is this function needed as we use same static value twice?
     bool HasEnergyAvailable(int energyAvailable)
     {
         return Energy.energyValue >= 1;

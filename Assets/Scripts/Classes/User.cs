@@ -1,4 +1,7 @@
-//Singleton class
+//This is a singleton class -> https://en.wikipedia.org/wiki/Singleton_pattern
+//By making it a singleton we achieve 2 things:
+//1. We ensure there is only one instance of the user
+//2. We can make the instance static and therefore access it from anywhere in our game
 public class User
 {
     private static User instance = null;

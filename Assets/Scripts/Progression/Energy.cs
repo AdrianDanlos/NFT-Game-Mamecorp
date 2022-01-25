@@ -1,19 +1,21 @@
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Energy : MonoBehaviour
 {
-    const int BASE_ENERGY = 3;
-    int maxEnergy = 3;
+    // components
     Text energyValueText;
     Text refillTimerLabel;
     Text refillTimerValue;
+
+    // energy variables
+    const int BASE_ENERGY = 3;
+    int maxEnergy = 3;
     public static int energyValue;
 
+    // timer
     const float DEFAULT_REFILL_TIME = 3f;
     float secondsUntilEnergyRefill = DEFAULT_REFILL_TIME;
-    bool isTimerActive;
 
     void Start()
     {
@@ -28,7 +30,6 @@ public class Energy : MonoBehaviour
     {
         if(energyValue == maxEnergy)
         {
-            isTimerActive = false;
             DisableEnergyTimer();
         } 
         else
@@ -52,9 +53,6 @@ public class Energy : MonoBehaviour
     {
         if (energyValue != maxEnergy) 
             energyValue++;
-
-        else
-            isTimerActive = false;
 
         energyValueText.text = energyValue.ToString();
 

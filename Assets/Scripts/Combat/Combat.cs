@@ -7,7 +7,6 @@ using System.Collections.Specialized;
 public class Combat : MonoBehaviour
 {
     // Data Objects
-    public User user;
     public Fighter player;
     public Fighter bot;
 
@@ -26,28 +25,43 @@ public class Combat : MonoBehaviour
 
     private void Awake()
     {
-        //TODO: Refactor all the code inside the Awake method once we have a working version for this.
-        //This is only for TEST purposes
-        EntryPoint.TestEntryPoint();
+        //Move this calls to another scene
         string botName = MatchMaking.FetchBotRandomName();
         int botElo = MatchMaking.GenerateBotElo(400);
     }
     void Start()
     {
-        InstantiateFightersGameObjects();
-        AddScriptComponentToFighters();
-        GenerateTestDataForFighters();
+        EnablePlayerGameObject();
+        InstantiateBotGameObject();
+        AttachScriptToFighterGameObjects();
+        GenerateBotData();
         SetFighterPositions();
         SetOrderOfAttacks();
+
+        //FIXME: This is for test purposes. Assign the cards properly in the future
+        player.cards = bot.cards;
+
         StartCoroutine(InitiateCombat());
     }
 
-    private void InstantiateFightersGameObjects()
+    private void AttachScriptToFighterGameObjects()
+    {
+        //For the player it is already added since the moment we start the application. We only need to get the component.
+        player = playerGameObject.GetComponent<Fighter>();
+        bot = botGameObject.AddComponent<Fighter>();
+    }
+
+    private void EnablePlayerGameObject()
+    {
+        //The fighter gameobject for the player is created on application start but kept inactive. Its simply a data container outside of the combat scene.
+        playerGameObject = GameObject.Find("FighterWrapper").transform.Find("Fighter").gameObject;
+        playerGameObject.SetActive(true);
+    }
+
+    private void InstantiateBotGameObject()
     {
         //Load fighter prefab. Resources.Load reads from /Resources path
         UnityEngine.Object fighterPrefab = Resources.Load("Fighter");
-        playerGameObject = (GameObject)Instantiate(fighterPrefab, PLAYER_STARTING_POSITION, Quaternion.identity,
-            GameObject.FindGameObjectWithTag("Canvas").transform);
         botGameObject = (GameObject)Instantiate(fighterPrefab, BOT_STARTING_POSITION, Quaternion.identity,
             GameObject.FindGameObjectWithTag("Canvas").transform);
     }
@@ -77,23 +91,20 @@ public class Combat : MonoBehaviour
         }
 
         //TODO: Send the correct values here
-        PostGameActions.UpdateElo(user, 400, 430, true);
+        PostGameActions.UpdateElo(400, 430, true);
     }
 
-    private void GenerateTestDataForFighters()
+    private void GenerateBotData()
     {
         // Get all the existing cards and add them to the list of cards of the fighter
         List<OrderedDictionary> cardCollection = CardCollection.cards;
-        List<Card> playerCards = new List<Card>();
         List<Card> botCards = new List<Card>();
 
         foreach (OrderedDictionary card in cardCollection)
         {
             Card cardInstance = new Card((string)card["cardName"], (int)card["mana"], (string)card["text"], (string)card["rarity"], (string)card["type"]);
-            playerCards.Add(cardInstance);
             botCards.Add(cardInstance);
         }
-        player.cards = playerCards;
         bot.FighterConstructor("Reiner", 10, 1, 6, "Leaf", 1, 10, botCards);
     }
 
@@ -138,11 +149,5 @@ public class Combat : MonoBehaviour
         {
             fightersOrderOfAttack.Add((Fighter)fighter.Key);
         }
-    }
-
-    private void AddScriptComponentToFighters()
-    {
-        player = playerGameObject.AddComponent<Fighter>();
-        bot = botGameObject.AddComponent<Fighter>();
     }
 }

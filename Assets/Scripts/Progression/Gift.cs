@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class Gift : MonoBehaviour
 {
+    // objects & components
     GameObject rewardType;
     GameObject rewardQuantity;
     GameObject giftTimer;
@@ -13,9 +14,13 @@ public class Gift : MonoBehaviour
     Image image;
     public Sprite[] imageList;
 
+    // economy
     string rewardTypeValue;
+    Text rewardTypeText;
+    Text rewardQuantityText;
     int rewardQuantityValue;
 
+    // timer variables
     float DEFAULT_GIFT_READY_TIMER = 3f;
     float secondsUntilGiftReady;
     bool isTimerActive = false;
@@ -25,11 +30,14 @@ public class Gift : MonoBehaviour
         rewardType = this.transform.Find("GiftRewardType").gameObject;
         rewardQuantity = this.transform.Find("GiftRewardQuantity").gameObject;
         giftTimer = this.transform.Find("GiftTimer").gameObject;
-        giftTimerValue = giftTimer.transform.GetChild(1).gameObject;
+        giftTimerValue = giftTimer.transform.GetChild(1).gameObject; 
         button = this.GetComponent<Button>();
         image = this.GetComponent<Image>();
         image.sprite = imageList[0];
         secondsUntilGiftReady = DEFAULT_GIFT_READY_TIMER;
+
+        rewardTypeText = rewardType.GetComponent<Text>();
+        rewardQuantityText = rewardQuantity.GetComponent<Text>();
 
         button.onClick.AddListener(TaskOnClick);
         button.interactable = false;
@@ -41,22 +49,18 @@ public class Gift : MonoBehaviour
 
     void Update()
     {
-    //need to add code here similar to energy system
-    //- create clock class?
-    //- runtime based timer atm -> server based timer in the future
+        if (isTimerActive)
+        {
+            secondsUntilGiftReady -= Time.deltaTime;
+            giftTimerValue.GetComponent<Text>().text = ((int)secondsUntilGiftReady).ToString();
+        } 
+        else
+        {
+            giftTimer.SetActive(false);
+        }
 
-    if (isTimerActive)
-    {
-        secondsUntilGiftReady -= Time.deltaTime;
-        giftTimerValue.GetComponent<Text>().text = ((int)secondsUntilGiftReady).ToString();
-    } 
-    else
-    {
-        giftTimer.SetActive(false);
-    }
-
-    if (secondsUntilGiftReady <= 0f)
-            timerEnded();
+        if (secondsUntilGiftReady <= 0f)
+                timerEnded();
     }
 
     void timerEnded()
@@ -81,8 +85,8 @@ public class Gift : MonoBehaviour
     {
         giftTimer.SetActive(false);
         button.interactable = false;
-        rewardType.GetComponent<Text>().text = null;
-        rewardQuantity.GetComponent<Text>().text = null;
+        rewardTypeText.text = null;
+        rewardQuantityText.text = null;
         rewardTypeValue = null;
         rewardQuantityValue = 0;
 
@@ -99,10 +103,10 @@ public class Gift : MonoBehaviour
         button.interactable = true;
 
         rewardTypeValue = "coin";
-        rewardType.GetComponent<Text>().text = rewardTypeValue;
+        rewardTypeText.text = rewardTypeValue;
 
         rewardQuantityValue = GenerateRandomReward("coin");
-        rewardQuantity.GetComponent<Text>().text = rewardQuantityValue.ToString();
+        rewardQuantityText.text = rewardQuantityValue.ToString();
     }
 
     int GenerateRandomReward(string currencyType)
@@ -115,6 +119,7 @@ public class Gift : MonoBehaviour
                 quantity = GenerateCoinRewardQuantity();
                 break;
             default:
+                Debug.LogWarning("Currency not found!");
                 quantity = 0; // error?
                 break;
         }

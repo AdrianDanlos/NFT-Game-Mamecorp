@@ -6,9 +6,11 @@ using System.Collections.Generic;
 
 public class EntryPoint : MonoBehaviour
 {
+    public static GameObject fighterGameObject;
     private void Awake()
     {
-        //FIXME: In the future recheck if its possible to group them under a single function e.g. ReadOrCreateSaveFiles that contains a loop.
+        fighterGameObject = GameObject.Find("Fighter");
+        fighterGameObject.SetActive(false);
         ReadOrCreateUserFile();
         ReadOrCreateFighterFile();
     }
@@ -19,12 +21,13 @@ public class EntryPoint : MonoBehaviour
         {
             var userData = JsonDataManager.ReadData("user");
             CreateUserInstance((string)userData["userName"], (int)userData["wins"], (int)userData["loses"], (int)userData["elo"]);
-            Debug.Log(User.Instance.userName);
         }
         else
         {
             //TODO: Pedir nombre al usuario en escena
-            JObject user = JObject.FromObject(CreateUserInstance());
+            string userName = "userNameTypedByUser";
+            CreateUserInstance(userName);
+            JObject user = JObject.FromObject(User.Instance);
             JsonDataManager.SaveData(user, "user");
         };
     }
@@ -34,35 +37,38 @@ public class EntryPoint : MonoBehaviour
         if (File.Exists(JsonDataManager.getFilePath("fighter")))
         {
             var fighterData = JsonDataManager.ReadData("fighter");
-            Fighter fighter = CreateFighterInstance();
-            Debug.Log(fighter.fighterName);
+            CreateFighterInstance((string)fighterData["fighterName"], (float)fighterData["hp"], (float)fighterData["damage"], (float)fighterData["speed"],
+                (string)fighterData["species"], (int)fighterData["level"], (int)fighterData["manaSlots"], fighterData["cards"].ToObject<List<Card>>());
         }
         else
         {
-            JObject fighter = JObject.FromObject(CreateSerializableFighterInstance());
-            JsonDataManager.SaveData(fighter, "fighter");
+            //TODO: Pedir nombre al usuario en escena
+            string fighterName = "fighterNameTypedByUser";
+            CreateFighterInstance(fighterName);
+            JObject serializableFighter = JObject.FromObject(CreateSerializableFighterInstance(fighterName));
+            JsonDataManager.SaveData(serializableFighter, "fighter");
         }
+
     }
 
-    public static User CreateUserInstance(string userName = "UserNameX", int wins = 0, int loses = 0, int elo = 0)
+    public static void CreateUserInstance(string userName, int wins = 0, int loses = 0, int elo = 0)
     {
         User user = User.Instance;
         user.SetUserValues(userName, wins, loses, elo);
-        return user;
     }
 
-    //Explain why we need this
-    public static SerializableFighter CreateSerializableFighterInstance()
+    //We need to create a fighter class that is not monobehaviour to be able to serialize and save the data into the JSON file.
+    public static SerializableFighter CreateSerializableFighterInstance(string fighterName)
     {
-        //TODO: Pedir nombre al usuario en escena
-        return new SerializableFighter("FighterNameX", 10, 1, 3, "Fire", 1, 10, new List<Card>());
+        return new SerializableFighter(fighterName, 10, 1, 3, "Fire", 1, 10, new List<Card>());
     }
 
-    public static Fighter CreateFighterInstance()
+
+    //TODO: Do we need to return this fighter or can we get it from the scene at any time?
+    public static void CreateFighterInstance(string fighterName, float hp = 10, float damage = 1, float speed = 3, string species = "fire", int level = 1, int manaSlots = 10, List<Card> cards = null)
     {
         //Can also be linked through the inspector instead of doing this
-        Fighter fighter = GameObject.Find("Fighter").AddComponent<Fighter>();
-        fighter.FighterConstructor("FighterNameX", 10, 1, 3, "Fire", 1, 10, new List<Card>());
-        return fighter;
+        Fighter fighter = fighterGameObject.AddComponent<Fighter>();
+        fighter.FighterConstructor(fighterName, hp, damage, speed, species, level, manaSlots, cards);
     }
 }

@@ -1,7 +1,5 @@
 using System.Collections.Generic;
-using System;
 
-[Serializable()]
 public class SerializableFighter {
     private string _fighterName;
     private float _hp;

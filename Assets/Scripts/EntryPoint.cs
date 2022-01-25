@@ -5,13 +5,13 @@ using System.Collections.Generic;
 
 public static class EntryPoint
 {
-    public static void TestEntryPoint()
+    public static void ApplicationStart()
     {
         //FIXME: Move this to start/awake + change name + attach this to entrypoint gameobject
         if (File.Exists(SaveAndReadDataTest.path))
         {
-            //TODO: We should save the gameData globally in the application (store, global file...) so it can be accesed anytime
             var gameData = SaveAndReadDataTest.ReadData();
+            //TODO: Save user in static or singleton // Save fighter on gameobject
             Debug.Log(gameData);
         }
         else
@@ -26,12 +26,16 @@ public static class EntryPoint
     public static User CreateUser()
     {
         //TODO: Pedir nombre al usuario en escena
-        return new User("Berthold", 10, 10, 0);
+        User user = User.Instance;
+        user.UserConstructor("Berthold", 10, 10, 0);
+        Debug.Log(user.userName);
+        return user;
     }
 
     public static Fighter CreateFighter()
     {
         //TODO: Pedir nombre del fighter al usuario en escena
-        return new Fighter("Eren", 10, 1, 3, "Fire", 1, 10, new List<Card>());
+        //return new Fighter("Eren", 10, 1, 3, "Fire", 1, 10, new List<Card>());
+        return null;
     }
 }

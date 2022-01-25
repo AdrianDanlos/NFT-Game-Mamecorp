@@ -7,7 +7,6 @@ using System.Collections.Specialized;
 public class Combat : MonoBehaviour
 {
     // Data Objects
-    public User user;
     public Fighter player;
     public Fighter bot;
 
@@ -28,7 +27,7 @@ public class Combat : MonoBehaviour
     {
         //TODO: Refactor all the code inside the Awake method once we have a working version for this.
         //This is only for TEST purposes
-        EntryPoint.TestEntryPoint();
+        EntryPoint.ApplicationStart();
         string botName = MatchMaking.FetchBotRandomName();
         int botElo = MatchMaking.GenerateBotElo(400);
     }
@@ -77,7 +76,7 @@ public class Combat : MonoBehaviour
         }
 
         //TODO: Send the correct values here
-        PostGameActions.UpdateElo(user, 400, 430, true);
+        PostGameActions.UpdateElo(400, 430, true);
     }
 
     private void GenerateTestDataForFighters()

@@ -25,9 +25,7 @@ public class Combat : MonoBehaviour
 
     private void Awake()
     {
-        //TODO: Refactor all the code inside the Awake method once we have a working version for this.
-        //This is only for TEST purposes
-        EntryPoint.ApplicationStart();
+        //Move this calls to another scene
         string botName = MatchMaking.FetchBotRandomName();
         int botElo = MatchMaking.GenerateBotElo(400);
     }
@@ -92,7 +90,7 @@ public class Combat : MonoBehaviour
             playerCards.Add(cardInstance);
             botCards.Add(cardInstance);
         }
-        player.cards = playerCards;
+        player.FighterConstructor("Eren", 10, 1, 3, "Fire", 1, 10, playerCards);
         bot.FighterConstructor("Reiner", 10, 1, 6, "Leaf", 1, 10, botCards);
     }
 

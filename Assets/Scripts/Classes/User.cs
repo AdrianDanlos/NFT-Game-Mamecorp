@@ -22,7 +22,7 @@ public class User
     public int loses { get => _loses; set => _loses = value; }
     public int elo { get => _elo; set => _elo = value; }
 
-    public void UserConstructor(string userNameParam, int winsParam, int losesParam, int eloParam)
+    public void SetUserValues(string userNameParam, int winsParam, int losesParam, int eloParam)
     {
         userName = userNameParam;
         wins = winsParam;

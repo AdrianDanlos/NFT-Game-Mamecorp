@@ -1,41 +1,43 @@
 using System.IO;
 using UnityEngine;
-using System.Collections.Generic;
+using Newtonsoft.Json.Linq;
 
 
-public static class EntryPoint
+public class EntryPoint : MonoBehaviour
 {
+    private void Awake()
+    {
+        ApplicationStart();
+    }
+
     public static void ApplicationStart()
     {
-        //FIXME: Move this to start/awake + change name + attach this to entrypoint gameobject
-        if (File.Exists(SaveAndReadDataTest.path))
+        if (File.Exists(JsonDataManager.getFilePath("user")))
         {
-            var gameData = SaveAndReadDataTest.ReadData();
-            //TODO: Save user in static or singleton // Save fighter on gameobject
-            Debug.Log(gameData);
+            var userData = JsonDataManager.ReadData("user");
+            CreateUserInstance((string)userData["userName"], (int)userData["wins"], (int)userData["loses"], (int)userData["elo"]);
+            Debug.Log(User.Instance.userName);
         }
         else
         {
-            User newUser = CreateUser();
-            Fighter newFighter = CreateFighter();
-            List<object> data = new List<object>(){ newUser, newFighter };
-            SaveAndReadDataTest.SaveData(data);
-        }        
+            //TODO: Pedir nombre al usuario en escena
+            JObject user = JObject.FromObject(CreateUserInstance());
+            JsonDataManager.SaveData(user, "user");
+        }
+        
+        //TODO: Do the same for fighter
     }
 
-    public static User CreateUser()
+    public static User CreateUserInstance(string userName = "Berthold", int wins = 0, int loses = 0, int elo = 0)
     {
-        //TODO: Pedir nombre al usuario en escena
         User user = User.Instance;
-        user.UserConstructor("Berthold", 10, 10, 0);
-        Debug.Log(user.userName);
+        user.SetUserValues(userName, wins, loses, elo);
         return user;
     }
 
     public static Fighter CreateFighter()
     {
         //TODO: Pedir nombre del fighter al usuario en escena
-        //return new Fighter("Eren", 10, 1, 3, "Fire", 1, 10, new List<Card>());
         return null;
     }
 }

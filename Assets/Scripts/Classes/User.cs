@@ -1,3 +1,4 @@
+//Singleton class
 public class User
 {
     private static User instance = null;

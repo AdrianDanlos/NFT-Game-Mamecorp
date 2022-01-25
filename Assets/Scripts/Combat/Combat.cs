@@ -12,7 +12,10 @@ public class Combat : MonoBehaviour
 
     // GameObjects related data
     public GameObject playerGameObject;
+    public GameObject playerWrapperGameObject;
     public GameObject botGameObject;
+
+    // Positions data
     static Vector3 PLAYER_STARTING_POSITION = new Vector3(-8, 2, 0);
     static Vector3 BOT_STARTING_POSITION = new Vector3(8, 2, 0);
     float DISTANCE_AWAY_FROM_EACHOTHER_ON_ATTACK = 1;
@@ -25,15 +28,16 @@ public class Combat : MonoBehaviour
 
     private void Awake()
     {
-        //Move this calls to another scene
+        //FIXME: Move this calls to another scene
         string botName = MatchMaking.FetchBotRandomName();
         int botElo = MatchMaking.GenerateBotElo(400);
     }
     void Start()
     {
+        FindFighterGameObjects();
         EnablePlayerGameObject();
-        InstantiateBotGameObject();
-        AttachScriptToFighterGameObjects();
+        SetPlayerGameObjectInsideCanvas();
+        GetFighterScriptComponent();
         GenerateBotData();
         SetFighterPositions();
         SetOrderOfAttacks();
@@ -44,37 +48,39 @@ public class Combat : MonoBehaviour
         StartCoroutine(InitiateCombat());
     }
 
-    private void AttachScriptToFighterGameObjects()
+    private void GetFighterScriptComponent()
     {
-        //For the player it is already added since the moment we start the application. We only need to get the component.
         player = playerGameObject.GetComponent<Fighter>();
-        bot = botGameObject.AddComponent<Fighter>();
+        bot = botGameObject.GetComponent<Fighter>();
+    }
+
+    private void SetPlayerGameObjectInsideCanvas()
+    {
+        playerWrapperGameObject.transform.SetParent(GameObject.FindGameObjectWithTag("Canvas").transform);
     }
 
     private void EnablePlayerGameObject()
     {
-        //The fighter gameobject for the player is created on application start but kept inactive. Its simply a data container outside of the combat scene.
-        playerGameObject = GameObject.Find("FighterWrapper").transform.Find("Fighter").gameObject;
         playerGameObject.SetActive(true);
     }
 
-    private void InstantiateBotGameObject()
+    //TODO: Reuse this in the future whenever we get the player game object in other scenes
+    private void FindFighterGameObjects()
     {
-        //Load fighter prefab. Resources.Load reads from /Resources path
-        UnityEngine.Object fighterPrefab = Resources.Load("Fighter");
-        botGameObject = (GameObject)Instantiate(fighterPrefab, BOT_STARTING_POSITION, Quaternion.identity,
-            GameObject.FindGameObjectWithTag("Canvas").transform);
+        playerWrapperGameObject = GameObject.Find("FighterWrapper");
+        playerGameObject = playerWrapperGameObject.transform.Find("Fighter").gameObject;
+        botGameObject = GameObject.Find("Bot");
     }
 
     private void SetFighterPositions()
     {
         player.initialPosition = PLAYER_STARTING_POSITION;
-        player.destinationPosition = playerDestinationPosition;
         playerDestinationPosition.x -= DISTANCE_AWAY_FROM_EACHOTHER_ON_ATTACK;
+        player.destinationPosition = playerDestinationPosition;
 
         bot.initialPosition = BOT_STARTING_POSITION;
-        bot.destinationPosition = botDestinationPosition;
         botDestinationPosition.x -= DISTANCE_AWAY_FROM_EACHOTHER_ON_ATTACK;
+        bot.destinationPosition = botDestinationPosition;
     }
 
     IEnumerator InitiateCombat()

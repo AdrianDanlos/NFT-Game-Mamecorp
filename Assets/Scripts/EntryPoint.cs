@@ -13,13 +13,14 @@ public class EntryPoint : MonoBehaviour
         fighterGameObject.SetActive(false);
         ReadOrCreateUserFile();
         ReadOrCreateFighterFile();
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Combat");
     }
 
     public static void ReadOrCreateUserFile()
     {
         if (File.Exists(JsonDataManager.getFilePath("user")))
         {
-            var userData = JsonDataManager.ReadData("user");
+            JObject userData = JsonDataManager.ReadData("user");
             CreateUserInstance((string)userData["userName"], (int)userData["wins"], (int)userData["loses"], (int)userData["elo"]);
         }
         else
@@ -36,7 +37,7 @@ public class EntryPoint : MonoBehaviour
     {
         if (File.Exists(JsonDataManager.getFilePath("fighter")))
         {
-            var fighterData = JsonDataManager.ReadData("fighter");
+            JObject fighterData = JsonDataManager.ReadData("fighter");
             CreateFighterInstance((string)fighterData["fighterName"], (float)fighterData["hp"], (float)fighterData["damage"], (float)fighterData["speed"],
                 (string)fighterData["species"], (int)fighterData["level"], (int)fighterData["manaSlots"], fighterData["cards"].ToObject<List<Card>>());
         }

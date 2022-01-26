@@ -1,4 +1,4 @@
-Useful information regarding unity and C#:
+UNITY and C# info:
 
 - When to attach a script to a gameObject?
     1. When the script interacts with a gameObject in the scene or when the script uses Unity methods
@@ -14,3 +14,18 @@ Useful information regarding unity and C#:
 
 - Static vs abstract
     An abstract class is intended to be used as a base of a class inheritance hierarchy. A static class cannot be the base of a class inheritance hierarchy. A static class is intended for singleton state or stateless functionality.
+
+
+DATA STRUCTURES WE NEED TO ACCESS GLOBALLY IN THE GAME
+
+1. JSON
+    What do we save in the json file? -> Mutable data that is directly related to the player's progress (User class, Fighter class...). 
+    How often do we save in the json? Every time these objects change (User, Fighter...)
+    How often do we read from the json? Only once, on application start.
+
+2. Static variables 
+    Will store immutable/permanent data of our game. e.g. ranks, levels, quests, cards... (Folder for them)
+
+3. Data that belongs to MonoBehaviour Classes e.g. fighter 
+    For these we will create the gameobject on application start and use the "DontDestroyOnLoad" unity method to prevent it from being
+    destroyed when changing to another scene.

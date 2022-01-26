@@ -57,6 +57,8 @@ public class Combat : MonoBehaviour
     private void SetPlayerGameObjectInsideCanvas()
     {
         playerWrapperGameObject.transform.SetParent(GameObject.FindGameObjectWithTag("Canvas").transform);
+        //FIXME: Take the other objects scale? Instead of hardcoding the vector
+        playerWrapperGameObject.transform.localScale = new Vector3(1, 1, 1);
     }
 
     private void EnablePlayerGameObject()
@@ -74,11 +76,15 @@ public class Combat : MonoBehaviour
 
     private void SetFighterPositions()
     {
+        //player.initialPosition = PLAYER_STARTING_POSITION;
+        Debug.Log(playerGameObject.transform.position);
         player.initialPosition = PLAYER_STARTING_POSITION;
+        Debug.Log(playerGameObject.transform.position);
         playerDestinationPosition.x -= DISTANCE_AWAY_FROM_EACHOTHER_ON_ATTACK;
         player.destinationPosition = playerDestinationPosition;
 
         bot.initialPosition = BOT_STARTING_POSITION;
+        Debug.Log(bot.initialPosition);
         botDestinationPosition.x -= DISTANCE_AWAY_FROM_EACHOTHER_ON_ATTACK;
         bot.destinationPosition = botDestinationPosition;
     }

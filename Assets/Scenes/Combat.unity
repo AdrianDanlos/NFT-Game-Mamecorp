@@ -453,6 +453,7 @@ MonoBehaviour:
   player: {fileID: 0}
   bot: {fileID: 0}
   playerGameObject: {fileID: 0}
+  playerWrapperGameObject: {fileID: 0}
   botGameObject: {fileID: 0}
 --- !u!1 &1812796363
 GameObject:
@@ -596,6 +597,10 @@ PrefabInstance:
     - target: {fileID: 2524278760906487566, guid: c9c14c4f438a6a247bf1999654cf4a14, type: 3}
       propertyPath: m_SizeDelta.y
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2524278760906487566, guid: c9c14c4f438a6a247bf1999654cf4a14, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2524278760906487566, guid: c9c14c4f438a6a247bf1999654cf4a14, type: 3}
       propertyPath: m_LocalPosition.x

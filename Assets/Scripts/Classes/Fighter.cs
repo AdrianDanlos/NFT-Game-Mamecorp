@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using Newtonsoft.Json.Linq;
 
 // MonoBehaviours are scripts that are attached to an object in the scene, and run in the scene as long as the object they are attached to is active.
 public class Fighter : MonoBehaviour
@@ -15,15 +16,71 @@ public class Fighter : MonoBehaviour
     private Vector2 _initialPosition;
     private Vector2 _destinationPosition;
 
-    public string fighterName { get => _fighterName; set => _fighterName = value; }
-    public float hp { get => _hp; set => _hp = value; }
-    public float damage { get => _damage; set => _damage = value; }
-    public float speed { get => _speed; set => _speed = value; }
-    public string species { get => _species; set => _species = value; }
-    public int level { get => _level; set => _level = value; }
-    //FIXME: This needs to be discussed as a part of the design. Does each fighter have a specific amount of variable manaSlots.
-    public int manaSlots { get => _manaSlots; set => _manaSlots = value; }
-    public List<Card> cards { get => _cards; set => _cards = value; }
+    public string fighterName
+    {
+        get => _fighterName; set
+        {
+            _fighterName = value;
+            SaveFighter();
+        }
+    }
+    public float hp
+    {
+        get => _hp; set
+        {
+            _hp = value;
+            SaveFighter();
+        }
+    }
+    public float damage
+    {
+        get => _damage; set
+        {
+            _damage = value;
+            SaveFighter();
+        }
+    }
+    public float speed
+    {
+        get => _speed; set
+        {
+            _speed = value;
+            SaveFighter();
+        }
+    }
+    public string species
+    {
+        get => _species; set
+        {
+            _species = value;
+            SaveFighter();
+        }
+    }
+    public int level
+    {
+        get => _level; set
+        {
+            _level = value;
+            SaveFighter();
+        }
+    }
+
+    public int manaSlots
+    {
+        get => _manaSlots; set
+        {
+            _manaSlots = value;
+            SaveFighter();
+        }
+    }
+    public List<Card> cards
+    {
+        get => _cards; set
+        {
+            _cards = value;
+            SaveFighter();
+        }
+    }
 
     // Fighter position
     public Vector2 initialPosition { get => _initialPosition; set => _initialPosition = value; }
@@ -46,5 +103,11 @@ public class Fighter : MonoBehaviour
         this.level = level;
         this.manaSlots = manaSlots;
         this.cards = cards;
+    }
+
+    private void SaveFighter()
+    {
+        JObject serializableFighter = JObject.FromObject(JsonDataManager.CreateSerializableFighterInstance(this));
+        JsonDataManager.SaveData(serializableFighter, JsonDataManager.FIGHTER_FILE_NAME);
     }
 }

@@ -41,9 +41,10 @@ public class Combat : MonoBehaviour
         GenerateBotData();
         SetFighterPositions();
         SetOrderOfAttacks();
-
-        //FIXME: This is for test purposes. Assign the cards properly in the future
-        player.cards = bot.cards;
+        //TEST
+        User.Instance.elo = 100;
+        player.fighterName = "ChangedName";
+        player.cards = bot.cards;        
 
         StartCoroutine(InitiateCombat());
     }
@@ -57,6 +58,8 @@ public class Combat : MonoBehaviour
     private void SetPlayerGameObjectInsideCanvas()
     {
         playerWrapperGameObject.transform.SetParent(GameObject.FindGameObjectWithTag("Canvas").transform);
+        //FIXME: Take the other objects scale? Instead of hardcoding the vector
+        playerWrapperGameObject.transform.localScale = new Vector3(1, 1, 1);
     }
 
     private void EnablePlayerGameObject()
@@ -79,7 +82,7 @@ public class Combat : MonoBehaviour
         player.destinationPosition = playerDestinationPosition;
 
         bot.initialPosition = BOT_STARTING_POSITION;
-        botDestinationPosition.x -= DISTANCE_AWAY_FROM_EACHOTHER_ON_ATTACK;
+        botDestinationPosition.x += DISTANCE_AWAY_FROM_EACHOTHER_ON_ATTACK;
         bot.destinationPosition = botDestinationPosition;
     }
 

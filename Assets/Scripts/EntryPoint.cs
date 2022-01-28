@@ -18,9 +18,9 @@ public class EntryPoint : MonoBehaviour
 
     public static void ReadOrCreateUserFile()
     {
-        if (File.Exists(JsonDataManager.getFilePath("user")))
+        if (File.Exists(JsonDataManager.getFilePath(JsonDataManager.USER_FILE_NAME)))
         {
-            JObject userData = JsonDataManager.ReadData("user");
+            JObject userData = JsonDataManager.ReadData(JsonDataManager.USER_FILE_NAME);
             CreateUserInstance((string)userData["userName"], (int)userData["wins"], (int)userData["loses"], (int)userData["elo"]);
         }
         else
@@ -29,15 +29,15 @@ public class EntryPoint : MonoBehaviour
             string userName = "userNameTypedByUser";
             CreateUserInstance(userName);
             JObject user = JObject.FromObject(User.Instance);
-            JsonDataManager.SaveData(user, "user");
+            JsonDataManager.SaveData(user, JsonDataManager.USER_FILE_NAME);
         };
     }
 
     public static void ReadOrCreateFighterFile()
     {
-        if (File.Exists(JsonDataManager.getFilePath("fighter")))
+        if (File.Exists(JsonDataManager.getFilePath(JsonDataManager.FIGHTER_FILE_NAME)))
         {
-            JObject fighterData = JsonDataManager.ReadData("fighter");
+            JObject fighterData = JsonDataManager.ReadData(JsonDataManager.FIGHTER_FILE_NAME);
             CreateFighterInstance((string)fighterData["fighterName"], (float)fighterData["hp"], (float)fighterData["damage"], (float)fighterData["speed"],
                 (string)fighterData["species"], (int)fighterData["level"], (int)fighterData["manaSlots"], fighterData["cards"].ToObject<List<Card>>());
         }
@@ -45,11 +45,9 @@ public class EntryPoint : MonoBehaviour
         {
             //TODO: Pedir nombre al usuario en escena
             string fighterName = "fighterNameTypedByUser";
-            CreateFighterInstance(fighterName);
-            JObject serializableFighter = JObject.FromObject(CreateSerializableFighterInstance(fighterName));
-            JsonDataManager.SaveData(serializableFighter, "fighter");
+            JObject serializableFighter = JObject.FromObject(JsonDataManager.CreateSerializableFighterInstance(CreateFighterInstance(fighterName)));
+            JsonDataManager.SaveData(serializableFighter, JsonDataManager.FIGHTER_FILE_NAME);
         }
-
     }
 
     public static void CreateUserInstance(string userName, int wins = 0, int loses = 0, int elo = 0)
@@ -58,18 +56,10 @@ public class EntryPoint : MonoBehaviour
         user.SetUserValues(userName, wins, loses, elo);
     }
 
-    //We need to create a fighter class that is not monobehaviour to be able to serialize and save the data into the JSON file.
-    public static SerializableFighter CreateSerializableFighterInstance(string fighterName)
+    public static Fighter CreateFighterInstance(string fighterName, float hp = 10, float damage = 1, float speed = 3, string species = "fire", int level = 1, int manaSlots = 10, List<Card> cards = null)
     {
-        return new SerializableFighter(fighterName, 10, 1, 3, "Fire", 1, 10, new List<Card>());
-    }
-
-
-    //TODO: Do we need to return this fighter or can we get it from the scene at any time?
-    public static void CreateFighterInstance(string fighterName, float hp = 10, float damage = 1, float speed = 3, string species = "fire", int level = 1, int manaSlots = 10, List<Card> cards = null)
-    {
-        //Can also be linked through the inspector instead of doing this
-        Fighter fighter = fighterGameObject.AddComponent<Fighter>();
+        Fighter fighter = fighterGameObject.GetComponent<Fighter>();
         fighter.FighterConstructor(fighterName, hp, damage, speed, species, level, manaSlots, cards);
+        return fighter;
     }
 }

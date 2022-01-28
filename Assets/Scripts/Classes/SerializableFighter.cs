@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 
-public class SerializableFighter {
+public class SerializableFighter
+{
     private string _fighterName;
     private float _hp;
     private float _damage;
@@ -19,15 +20,15 @@ public class SerializableFighter {
     public int manaSlots { get => _manaSlots; set => _manaSlots = value; }
     public List<Card> cards { get => _cards; set => _cards = value; }
 
-    public SerializableFighter(string fighterName, float hp, float damage, float speed, string species, int level, int manaSlots, List<Card> cards)
+    public SerializableFighter(Fighter fighter)
     {
-        this.fighterName = fighterName;
-        this.hp = hp;
-        this.damage = damage;
-        this.speed = speed;
-        this.species = species;
-        this.level = level;
-        this.manaSlots = manaSlots;
-        this.cards = cards;
+        this.fighterName = fighter.fighterName;
+        this.hp = fighter.hp;
+        this.damage = fighter.damage;
+        this.speed = fighter.speed;
+        this.species = fighter.species;
+        this.level = fighter.level;
+        this.manaSlots = fighter.manaSlots;
+        this.cards = fighter.cards;
     }
 }

@@ -169,7 +169,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -658, y: -355.298}
+  m_AnchoredPosition: {x: -8, y: 2}
   m_SizeDelta: {x: 10, y: 10}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &326159259
@@ -308,6 +308,26 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!1 &578240042 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3686329620624386752, guid: c9c14c4f438a6a247bf1999654cf4a14, type: 3}
+  m_PrefabInstance: {fileID: 1530206391}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &578240043
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 578240042}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c5962a14887cf149a36b3802e21cf03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  repeatAttackChance: 5
+  dodgeChance: 5
+  criticalChance: 5
 --- !u!1 &1049512287
 GameObject:
   m_ObjectHideFlags: 0

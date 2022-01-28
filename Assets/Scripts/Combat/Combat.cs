@@ -41,6 +41,8 @@ public class Combat : MonoBehaviour
         GenerateBotData();
         SetFighterPositions();
         SetOrderOfAttacks();
+        //TEST
+        User.Instance.elo = 100;
 
         //FIXME: This is for test purposes. Assign the cards properly in the future
         player.cards = bot.cards;
@@ -76,16 +78,12 @@ public class Combat : MonoBehaviour
 
     private void SetFighterPositions()
     {
-        //player.initialPosition = PLAYER_STARTING_POSITION;
-        Debug.Log(playerGameObject.transform.position);
         player.initialPosition = PLAYER_STARTING_POSITION;
-        Debug.Log(playerGameObject.transform.position);
         playerDestinationPosition.x -= DISTANCE_AWAY_FROM_EACHOTHER_ON_ATTACK;
         player.destinationPosition = playerDestinationPosition;
 
         bot.initialPosition = BOT_STARTING_POSITION;
-        Debug.Log(bot.initialPosition);
-        botDestinationPosition.x -= DISTANCE_AWAY_FROM_EACHOTHER_ON_ATTACK;
+        botDestinationPosition.x += DISTANCE_AWAY_FROM_EACHOTHER_ON_ATTACK;
         bot.destinationPosition = botDestinationPosition;
     }
 

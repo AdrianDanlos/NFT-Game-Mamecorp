@@ -7,6 +7,8 @@ using Newtonsoft.Json.Linq;
 public static class JsonDataManager
 {
     public static string savePath = @"D:\GameData";
+    public const string USER_FILE_NAME = "user";
+    public const string FIGHTER_FILE_NAME = "fighter";
     public static void SaveData(JObject data, string fileName)
     {
         System.IO.Directory.CreateDirectory(savePath);

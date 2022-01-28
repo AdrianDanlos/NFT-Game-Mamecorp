@@ -38,7 +38,7 @@ public class User
         get => _wins;
         set
         {
-            wins = value;
+            _wins = value;
             SaveUser();
         }
     }

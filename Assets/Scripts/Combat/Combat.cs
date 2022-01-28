@@ -43,9 +43,8 @@ public class Combat : MonoBehaviour
         SetOrderOfAttacks();
         //TEST
         User.Instance.elo = 100;
-
-        //FIXME: This is for test purposes. Assign the cards properly in the future
-        player.cards = bot.cards;
+        player.fighterName = "ChangedName";
+        player.cards = bot.cards;        
 
         StartCoroutine(InitiateCombat());
     }

@@ -7,6 +7,7 @@ public class Attack : MonoBehaviour
     {
         if (IsAttackDodged(defender))
         {
+            Debug.Log("Dodged!");
             StartCoroutine(Combat.movementScript.DodgeMovement(player, defender));
             yield break;
         }

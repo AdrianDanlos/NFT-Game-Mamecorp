@@ -9,6 +9,7 @@ public class Combat : MonoBehaviour
     // Data Objects
     public Fighter player;
     public Fighter bot;
+    int botElo;
 
     // GameObjects related data
     public GameObject playerGameObject;
@@ -16,7 +17,7 @@ public class Combat : MonoBehaviour
     public GameObject botGameObject;
 
     // Script references
-    Movement movementScript;
+    public static Movement movementScript;
     Attack attacktScript;
 
     // Positions data
@@ -28,14 +29,14 @@ public class Combat : MonoBehaviour
 
 
     // Game status data
-    private bool isGameOver = false;
+    public static bool isGameOver = false;
     List<Fighter> fightersOrderOfAttack = new List<Fighter> { };
 
     private void Awake()
     {
-        //FIXME: Move this calls to another scene
-        string botName = MatchMaking.FetchBotRandomName();
-        int botElo = MatchMaking.GenerateBotElo(400);
+        // From the current gameobject (this) access the movement component which is a script.
+        movementScript = this.GetComponent<Movement>();
+        attacktScript = this.GetComponent<Attack>();
     }
     void Start()
     {
@@ -46,11 +47,6 @@ public class Combat : MonoBehaviour
         GenerateBotData();
         SetFighterPositions();
         SetOrderOfAttacks();
-        //TEST
-        User.Instance.elo = 100;
-        player.fighterName = "ChangedName";
-        player.cards = bot.cards;
-
         StartCoroutine(InitiateCombat());
     }
 
@@ -63,7 +59,6 @@ public class Combat : MonoBehaviour
     private void SetPlayerGameObjectInsideCanvas()
     {
         playerWrapperGameObject.transform.SetParent(GameObject.FindGameObjectWithTag("Canvas").transform);
-        //FIXME: Take the other objects scale? Instead of hardcoding the vector
         playerWrapperGameObject.transform.localScale = new Vector3(1, 1, 1);
     }
 
@@ -104,12 +99,15 @@ public class Combat : MonoBehaviour
             yield return StartCoroutine(CombatLogicHandler(secondAttacker, firstAttacker));
         }
 
-        //TODO: Send the correct values here
-        PostGameActions.UpdateElo(400, 430, true);
+        //TODO: Send the correct value for the boolean here
+        PostGameActions.UpdateElo(User.Instance.elo, botElo, true);
     }
 
     private void GenerateBotData()
     {
+        string botName = MatchMaking.FetchBotRandomName();
+        botElo = MatchMaking.GenerateBotElo(User.Instance.elo);
+
         // Get all the existing cards and add them to the list of cards of the fighter
         List<OrderedDictionary> cardCollection = CardCollection.cards;
         List<Card> botCards = new List<Card>();
@@ -119,41 +117,26 @@ public class Combat : MonoBehaviour
             Card cardInstance = new Card((string)card["cardName"], (int)card["mana"], (string)card["text"], (string)card["rarity"], (string)card["type"]);
             botCards.Add(cardInstance);
         }
-        bot.FighterConstructor("Reiner", 10, 1, 6, "Leaf", 1, 10, botCards);
+        bot.FighterConstructor(botName, 10, 1, 6, "Leaf", 1, 10, botCards);
     }
 
     IEnumerator CombatLogicHandler(Fighter attacker, Fighter defender)
     {
-        // From the current gameobject (this) access the movement component which is a script.
-        movementScript = this.GetComponent<Movement>();
-        attacktScript = this.GetComponent<Attack>();
-
         // Move forward
         yield return StartCoroutine(movementScript.MoveForward(attacker, attacker.destinationPosition));
 
         // Attack
+
         int attackCounter = 0;
 
         while (!isGameOver && (attackCounter == 0 || attacktScript.IsAttackRepeated(attacker)))
         {
-            yield return StartCoroutine(PerformAttack(attacker, defender));
+            yield return StartCoroutine(attacktScript.PerformAttack(attacker, defender, player));
             attackCounter++;
         };
 
         // Move back
         yield return StartCoroutine(movementScript.MoveBack(attacker, attacker.initialPosition));
-    }
-
-    //FIXME: Move this to the attack script
-    IEnumerator PerformAttack(Fighter attacker, Fighter defender)
-    {
-        if (attacktScript.IsAttackDodged(defender))
-        {
-            StartCoroutine(movementScript.DodgeMovement(player, defender));
-            yield break;
-        }
-        attacktScript.DealDamage(attacker, defender);
-        isGameOver = defender.hp <= 0 ? true : false;
     }
 
     // This method creates a dictionary with the Fighter class objects sorted by their speeds to get the order of attack.
@@ -174,5 +157,5 @@ public class Combat : MonoBehaviour
         {
             fightersOrderOfAttack.Add((Fighter)fighter.Key);
         }
-    }    
+    }
 }

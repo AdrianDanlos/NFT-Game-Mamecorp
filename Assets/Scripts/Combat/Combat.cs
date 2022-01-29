@@ -15,12 +15,17 @@ public class Combat : MonoBehaviour
     public GameObject playerWrapperGameObject;
     public GameObject botGameObject;
 
+    // Script references
+    Movement movementScript;
+    Attack attacktScript;
+
     // Positions data
-    static Vector3 PLAYER_STARTING_POSITION = new Vector3(-8, 2, 0);
-    static Vector3 BOT_STARTING_POSITION = new Vector3(8, 2, 0);
+    static Vector3 PLAYER_STARTING_POSITION = new Vector3(-7, 2, 0);
+    static Vector3 BOT_STARTING_POSITION = new Vector3(7, 2, 0);
     float DISTANCE_AWAY_FROM_EACHOTHER_ON_ATTACK = 1;
     Vector3 playerDestinationPosition = BOT_STARTING_POSITION;
     Vector3 botDestinationPosition = PLAYER_STARTING_POSITION;
+
 
     // Game status data
     private bool isGameOver = false;
@@ -44,7 +49,7 @@ public class Combat : MonoBehaviour
         //TEST
         User.Instance.elo = 100;
         player.fighterName = "ChangedName";
-        player.cards = bot.cards;        
+        player.cards = bot.cards;
 
         StartCoroutine(InitiateCombat());
     }
@@ -120,8 +125,8 @@ public class Combat : MonoBehaviour
     IEnumerator CombatLogicHandler(Fighter attacker, Fighter defender)
     {
         // From the current gameobject (this) access the movement component which is a script.
-        Movement movementScript = this.GetComponent<Movement>();
-        Attack attacktScript = this.GetComponent<Attack>();
+        movementScript = this.GetComponent<Movement>();
+        attacktScript = this.GetComponent<Attack>();
 
         // Move forward
         yield return StartCoroutine(movementScript.MoveForward(attacker, attacker.destinationPosition));
@@ -129,15 +134,26 @@ public class Combat : MonoBehaviour
         // Attack
         int attackCounter = 0;
 
-        while (!isGameOver && (attackCounter == 0 || attacktScript.IsAttackRepeated(attacker)) && !attacktScript.IsAttackDodged(defender))
+        while (!isGameOver && (attackCounter == 0 || attacktScript.IsAttackRepeated(attacker)))
         {
-            attacktScript.DealDamage(attacker, defender);
-            isGameOver = defender.hp <= 0 ? true : false;
+            yield return StartCoroutine(PerformAttack(attacker, defender));
             attackCounter++;
         };
 
         // Move back
         yield return StartCoroutine(movementScript.MoveBack(attacker, attacker.initialPosition));
+    }
+
+    //FIXME: Move this to the attack script
+    IEnumerator PerformAttack(Fighter attacker, Fighter defender)
+    {
+        if (attacktScript.IsAttackDodged(defender))
+        {
+            StartCoroutine(movementScript.DodgeMovement(player, defender));
+            yield break;
+        }
+        attacktScript.DealDamage(attacker, defender);
+        isGameOver = defender.hp <= 0 ? true : false;
     }
 
     // This method creates a dictionary with the Fighter class objects sorted by their speeds to get the order of attack.
@@ -158,5 +174,5 @@ public class Combat : MonoBehaviour
         {
             fightersOrderOfAttack.Add((Fighter)fighter.Key);
         }
-    }
+    }    
 }

@@ -376,8 +376,8 @@ GameObject:
   - component: {fileID: 1570540183}
   - component: {fileID: 1570540182}
   - component: {fileID: 1570540186}
-  - component: {fileID: 1570540184}
   - component: {fileID: 1570540185}
+  - component: {fileID: 1570540184}
   m_Layer: 0
   m_Name: CombatManager
   m_TagString: Untagged
@@ -423,6 +423,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ddb904f0d08b7264999509ee1f7ffd5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dodgeDurationInSeconds: 0.15
 --- !u!114 &1570540185
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -435,9 +436,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c5962a14887cf149a36b3802e21cf03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  repeatAttackChance: 0
-  dodgeChance: 0
-  criticalChance: 0
 --- !u!114 &1570540186
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -600,7 +598,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2524278760906487566, guid: c9c14c4f438a6a247bf1999654cf4a14, type: 3}
       propertyPath: m_LocalScale.x
-      value: 1
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2524278760906487566, guid: c9c14c4f438a6a247bf1999654cf4a14, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2524278760906487566, guid: c9c14c4f438a6a247bf1999654cf4a14, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.2
       objectReference: {fileID: 0}
     - target: {fileID: 2524278760906487566, guid: c9c14c4f438a6a247bf1999654cf4a14, type: 3}
       propertyPath: m_LocalPosition.x
@@ -678,6 +684,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c5962a14887cf149a36b3802e21cf03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  repeatAttackChance: 5
-  dodgeChance: 5
-  criticalChance: 5

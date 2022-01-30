@@ -71,6 +71,6 @@ public class User
 
     private void SaveUser()
     {
-        JsonDataManager.SaveData(JObject.FromObject(this), JsonDataManager.USER_FILE_NAME);
+        JsonDataManager.SaveData(JObject.FromObject(this), JsonDataManager.UserFileName);
     }
 }

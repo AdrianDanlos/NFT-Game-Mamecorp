@@ -95,7 +95,7 @@ public class Fighter : MonoBehaviour
     }
     
 
-    // When a class is attached to a gameobject (Monobehaviour) it is not possible to use the default constructor for the class.
+    // When a class is attached to a gameobject (Monobehaviour) it is not possible to use the default constructor for the class because the "new" keyword can't be used.
     // That's why we create the following FighterConstructor method and use it as a constructor.
     public void FighterConstructor(string fighterName, float hp, float damage, float speed, string species, int level, int manaSlots, List<Card> cards)
     {
@@ -112,6 +112,6 @@ public class Fighter : MonoBehaviour
     private void SaveFighter()
     {
         JObject serializableFighter = JObject.FromObject(JsonDataManager.CreateSerializableFighterInstance(this));
-        JsonDataManager.SaveData(serializableFighter, JsonDataManager.FIGHTER_FILE_NAME);
+        JsonDataManager.SaveData(serializableFighter, JsonDataManager.FighterFileName);
     }
 }

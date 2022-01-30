@@ -1,10 +1,13 @@
 using UnityEngine;
 using Newtonsoft.Json.Linq;
+using UnityEngine.UI;
 
-public class UserFirstStart : MonoBehaviour
+public class OnClickContinue : MonoBehaviour
 {
-    void Start()
+    public Text nickName;
+    public void onClickHandler()
     {
+        Debug.Log("clicked");
         CreateUserFile();
         CreateFighterFile();
     }
@@ -26,5 +29,4 @@ public class UserFirstStart : MonoBehaviour
         JObject serializableFighter = JObject.FromObject(JsonDataManager.CreateSerializableFighterInstance(FighterFactory.CreateFighterInstance(fighterName)));
         JsonDataManager.SaveData(serializableFighter, JsonDataManager.FighterFileName);
     }
-
 }

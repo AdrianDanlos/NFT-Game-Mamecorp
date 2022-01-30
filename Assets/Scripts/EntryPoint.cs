@@ -11,51 +11,52 @@ public class EntryPoint : MonoBehaviour
     {
         fighterGameObject = GameObject.Find("Fighter");
         fighterGameObject.SetActive(false);
-        ReadOrCreateUserFile();
-        ReadOrCreateFighterFile();
+        
+        if (File.Exists(JsonDataManager.getFilePath(JsonDataManager.UserFileName)) && File.Exists(JsonDataManager.getFilePath(JsonDataManager.FighterFileName)))
+        {
+            ReadUserFile();
+            ReadFighterFile();
+        }
+        else
+        {
+            CreateUserFile();
+            CreateFighterFile();
+        }
+        
         UnityEngine.SceneManagement.SceneManager.LoadScene("Combat");
     }
 
-    public static void ReadOrCreateUserFile()
+    private static void ReadUserFile()
     {
-        if (File.Exists(JsonDataManager.getFilePath(JsonDataManager.UserFileName)))
-        {
-            JObject userData = JsonDataManager.ReadData(JsonDataManager.UserFileName);
-            CreateUserInstance((string)userData["userName"], (int)userData["wins"], (int)userData["loses"], (int)userData["elo"]);
-        }
-        else
-        {
-            //TODO: Pedir nombre al usuario en escena
-            string userName = "userNameTypedByUser";
-            CreateUserInstance(userName);
-            JObject user = JObject.FromObject(User.Instance);
-            JsonDataManager.SaveData(user, JsonDataManager.UserFileName);
-        };
+        JObject userData = JsonDataManager.ReadData(JsonDataManager.UserFileName);
+        CreateUserInstance((string)userData["userName"], (int)userData["wins"], (int)userData["loses"], (int)userData["elo"]);
     }
-
-    public static void ReadOrCreateFighterFile()
+    private static void ReadFighterFile()
     {
-        if (File.Exists(JsonDataManager.getFilePath(JsonDataManager.FighterFileName)))
-        {
-            JObject fighterData = JsonDataManager.ReadData(JsonDataManager.FighterFileName);
-            CreateFighterInstance((string)fighterData["fighterName"], (float)fighterData["hp"], (float)fighterData["damage"], (float)fighterData["speed"],
-                (string)fighterData["species"], (int)fighterData["level"], (int)fighterData["manaSlots"], fighterData["cards"].ToObject<List<Card>>());
-        }
-        else
-        {
-            //TODO: Pedir nombre al usuario en escena
-            string fighterName = "fighterNameTypedByUser";
-            JObject serializableFighter = JObject.FromObject(JsonDataManager.CreateSerializableFighterInstance(CreateFighterInstance(fighterName)));
-            JsonDataManager.SaveData(serializableFighter, JsonDataManager.FighterFileName);
-        }
+        JObject fighterData = JsonDataManager.ReadData(JsonDataManager.FighterFileName);
+        CreateFighterInstance((string)fighterData["fighterName"], (float)fighterData["hp"], (float)fighterData["damage"], (float)fighterData["speed"],
+            (string)fighterData["species"], (int)fighterData["level"], (int)fighterData["manaSlots"], fighterData["cards"].ToObject<List<Card>>());
     }
-
+    private static void CreateUserFile()
+    {
+        //TODO: Pedir nombre al usuario en escena
+        string userName = "userNameTypedByUser";
+        CreateUserInstance(userName);
+        JObject user = JObject.FromObject(User.Instance);
+        JsonDataManager.SaveData(user, JsonDataManager.UserFileName);
+    }
+    private static void CreateFighterFile()
+    {
+        //TODO: Pedir nombre al usuario en escena
+        string fighterName = "fighterNameTypedByUser";
+        JObject serializableFighter = JObject.FromObject(JsonDataManager.CreateSerializableFighterInstance(CreateFighterInstance(fighterName)));
+        JsonDataManager.SaveData(serializableFighter, JsonDataManager.FighterFileName);
+    }
     public static void CreateUserInstance(string userName, int wins = 0, int loses = 0, int elo = 0)
     {
         User user = User.Instance;
         user.SetUserValues(userName, wins, loses, elo);
     }
-
     public static Fighter CreateFighterInstance(string fighterName, float hp = 10, float damage = 1, float speed = 3, string species = "fire", int level = 1, int manaSlots = 10, List<Card> cards = null)
     {
         Fighter fighter = fighterGameObject.GetComponent<Fighter>();

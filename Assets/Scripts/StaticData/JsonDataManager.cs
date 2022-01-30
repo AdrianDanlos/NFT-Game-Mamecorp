@@ -5,12 +5,12 @@ using System.IO;
 
 public static class JsonDataManager
 {
-    public const string SAVE_PATH = @"D:\GameData";
-    public const string USER_FILE_NAME = "user";
-    public const string FIGHTER_FILE_NAME = "fighter";
+    private const string SavePath = @"D:\GameData";
+    public const string UserFileName = "user";
+    public const string FighterFileName = "fighter";
     public static void SaveData(JObject data, string fileName)
     {
-        System.IO.Directory.CreateDirectory(SAVE_PATH);
+        System.IO.Directory.CreateDirectory(SavePath);
         string json = JsonConvert.SerializeObject(data, Formatting.Indented);
         System.IO.File.WriteAllText(getFilePath(fileName), json);
     }
@@ -26,7 +26,7 @@ public static class JsonDataManager
 
     public static string getFilePath(string fileName)
     {
-        return $"{SAVE_PATH}\\{fileName}.txt";
+        return $"{SavePath}\\{fileName}.txt";
     }
 
     //We need to create a fighter class that is not monobehaviour to be able to serialize and save the data into the JSON file.

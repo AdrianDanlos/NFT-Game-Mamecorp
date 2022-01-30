@@ -18,9 +18,9 @@ public class EntryPoint : MonoBehaviour
 
     public static void ReadOrCreateUserFile()
     {
-        if (File.Exists(JsonDataManager.getFilePath(JsonDataManager.USER_FILE_NAME)))
+        if (File.Exists(JsonDataManager.getFilePath(JsonDataManager.UserFileName)))
         {
-            JObject userData = JsonDataManager.ReadData(JsonDataManager.USER_FILE_NAME);
+            JObject userData = JsonDataManager.ReadData(JsonDataManager.UserFileName);
             CreateUserInstance((string)userData["userName"], (int)userData["wins"], (int)userData["loses"], (int)userData["elo"]);
         }
         else
@@ -29,15 +29,15 @@ public class EntryPoint : MonoBehaviour
             string userName = "userNameTypedByUser";
             CreateUserInstance(userName);
             JObject user = JObject.FromObject(User.Instance);
-            JsonDataManager.SaveData(user, JsonDataManager.USER_FILE_NAME);
+            JsonDataManager.SaveData(user, JsonDataManager.UserFileName);
         };
     }
 
     public static void ReadOrCreateFighterFile()
     {
-        if (File.Exists(JsonDataManager.getFilePath(JsonDataManager.FIGHTER_FILE_NAME)))
+        if (File.Exists(JsonDataManager.getFilePath(JsonDataManager.FighterFileName)))
         {
-            JObject fighterData = JsonDataManager.ReadData(JsonDataManager.FIGHTER_FILE_NAME);
+            JObject fighterData = JsonDataManager.ReadData(JsonDataManager.FighterFileName);
             CreateFighterInstance((string)fighterData["fighterName"], (float)fighterData["hp"], (float)fighterData["damage"], (float)fighterData["speed"],
                 (string)fighterData["species"], (int)fighterData["level"], (int)fighterData["manaSlots"], fighterData["cards"].ToObject<List<Card>>());
         }
@@ -46,7 +46,7 @@ public class EntryPoint : MonoBehaviour
             //TODO: Pedir nombre al usuario en escena
             string fighterName = "fighterNameTypedByUser";
             JObject serializableFighter = JObject.FromObject(JsonDataManager.CreateSerializableFighterInstance(CreateFighterInstance(fighterName)));
-            JsonDataManager.SaveData(serializableFighter, JsonDataManager.FIGHTER_FILE_NAME);
+            JsonDataManager.SaveData(serializableFighter, JsonDataManager.FighterFileName);
         }
     }
 

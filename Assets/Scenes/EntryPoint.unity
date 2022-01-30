@@ -169,7 +169,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -8, y: 2}
+  m_AnchoredPosition: {x: -7, y: 2}
   m_SizeDelta: {x: 10, y: 10}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &326159259
@@ -325,9 +325,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c5962a14887cf149a36b3802e21cf03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  repeatAttackChance: 5
-  dodgeChance: 5
-  criticalChance: 5
 --- !u!1 &1049512287
 GameObject:
   m_ObjectHideFlags: 0
@@ -455,6 +452,18 @@ PrefabInstance:
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 2524278760906487566, guid: c9c14c4f438a6a247bf1999654cf4a14, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2524278760906487566, guid: c9c14c4f438a6a247bf1999654cf4a14, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2524278760906487566, guid: c9c14c4f438a6a247bf1999654cf4a14, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2524278760906487566, guid: c9c14c4f438a6a247bf1999654cf4a14, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -505,6 +514,10 @@ PrefabInstance:
     - target: {fileID: 3686329620624386752, guid: c9c14c4f438a6a247bf1999654cf4a14, type: 3}
       propertyPath: m_Name
       value: Fighter
+      objectReference: {fileID: 0}
+    - target: {fileID: 3686329620624386752, guid: c9c14c4f438a6a247bf1999654cf4a14, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3686329620624386752, guid: c9c14c4f438a6a247bf1999654cf4a14, type: 3}
       propertyPath: m_TagString

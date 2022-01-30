@@ -3,7 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 public class Attack : MonoBehaviour
 {
-    public void DealDamage(Fighter attacker, Fighter defender)
+    public IEnumerator PerformAttack(Fighter attacker, Fighter defender, Fighter player)
+    {
+        if (IsAttackDodged(defender))
+        {
+            Debug.Log("Dodged!");
+            StartCoroutine(Combat.movementScript.DodgeMovement(player, defender));
+            yield break;
+        }
+        DealDamage(attacker, defender);
+        Combat.isGameOver = defender.hp <= 0 ? true : false;
+    }
+
+    private void DealDamage(Fighter attacker, Fighter defender)
     {
         var attackerDamageForNextHit = IsAttackCritical(attacker) ? attacker.damage * 2 : attacker.damage;
         defender.hp -= attackerDamageForNextHit;
@@ -23,7 +35,7 @@ public class Attack : MonoBehaviour
         return Probabilities.IsHappening(attacker.repeatAttackChance);
     }
 
-    public bool IsAttackDodged(Fighter defender)
+    private bool IsAttackDodged(Fighter defender)
     {
         return Probabilities.IsHappening(defender.dodgeChance);
     }

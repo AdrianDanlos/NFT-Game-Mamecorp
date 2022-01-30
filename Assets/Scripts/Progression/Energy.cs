@@ -9,20 +9,20 @@ public class Energy : MonoBehaviour
     Text refillTimerValue;
 
     // energy variables
-    const int BASE_ENERGY = 3;
+    const int BaseEnergy = 3;
     int maxEnergy = 3;
     public static int energyValue;
 
     // timer
-    const float DEFAULT_REFILL_TIME = 3f;
-    float secondsUntilEnergyRefill = DEFAULT_REFILL_TIME;
+    const float DefaultRefillTime = 3f;
+    float secondsUntilEnergyRefill = DefaultRefillTime;
 
     void Start()
     {
         energyValueText = this.transform.Find("EnergyValue").GetComponent<Text>();
         refillTimerLabel = this.transform.Find("RefillTimerLabel").GetComponent<Text>();
         refillTimerValue = this.transform.Find("RefillTimerValue").GetComponent<Text>();
-        energyValue = BASE_ENERGY;
+        energyValue = BaseEnergy;
         energyValueText.text = energyValue.ToString();
     }
 
@@ -56,7 +56,7 @@ public class Energy : MonoBehaviour
 
         energyValueText.text = energyValue.ToString();
 
-        secondsUntilEnergyRefill = DEFAULT_REFILL_TIME;
+        secondsUntilEnergyRefill = DefaultRefillTime;
     }
 
     void DisableEnergyTimer()

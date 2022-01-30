@@ -15,6 +15,9 @@ public class Fighter : MonoBehaviour
     private List<Card> _cards;
     private Vector2 _initialPosition;
     private Vector2 _destinationPosition;
+    private int _repeatAttackChance = 10;
+    private int _dodgeChance = 10;
+    private int _criticalChance = 10;
 
     public string fighterName
     {
@@ -29,7 +32,6 @@ public class Fighter : MonoBehaviour
         get => _hp; set
         {
             _hp = value;
-            SaveFighter();
         }
     }
     public float damage
@@ -37,7 +39,6 @@ public class Fighter : MonoBehaviour
         get => _damage; set
         {
             _damage = value;
-            SaveFighter();
         }
     }
     public float speed
@@ -45,7 +46,6 @@ public class Fighter : MonoBehaviour
         get => _speed; set
         {
             _speed = value;
-            SaveFighter();
         }
     }
     public string species
@@ -53,7 +53,6 @@ public class Fighter : MonoBehaviour
         get => _species; set
         {
             _species = value;
-            SaveFighter();
         }
     }
     public int level
@@ -64,7 +63,6 @@ public class Fighter : MonoBehaviour
             SaveFighter();
         }
     }
-
     public int manaSlots
     {
         get => _manaSlots; set
@@ -81,17 +79,23 @@ public class Fighter : MonoBehaviour
             SaveFighter();
         }
     }
-
-    // Fighter position
     public Vector2 initialPosition { get => _initialPosition; set => _initialPosition = value; }
     public Vector2 destinationPosition { get => _destinationPosition; set => _destinationPosition = value; }
+    public int repeatAttackChance
+    {
+        get => _repeatAttackChance;
+    }
+    public int dodgeChance
+    {
+        get => _dodgeChance;
+    }
+    public int criticalChance
+    {
+        get => _criticalChance;
+    }
+    
 
-    //Passive skills
-    public int repeatAttackChance = 5;
-    public int dodgeChance = 5;
-    public int criticalChance = 5;
-
-    // When a class is attached to a gameobject (Monobehaviour) it is not possible to use the default constructor for the class.
+    // When a class is attached to a gameobject (Monobehaviour) it is not possible to use the default constructor for the class because the "new" keyword can't be used.
     // That's why we create the following FighterConstructor method and use it as a constructor.
     public void FighterConstructor(string fighterName, float hp, float damage, float speed, string species, int level, int manaSlots, List<Card> cards)
     {
@@ -108,6 +112,6 @@ public class Fighter : MonoBehaviour
     private void SaveFighter()
     {
         JObject serializableFighter = JObject.FromObject(JsonDataManager.CreateSerializableFighterInstance(this));
-        JsonDataManager.SaveData(serializableFighter, JsonDataManager.FIGHTER_FILE_NAME);
+        JsonDataManager.SaveData(serializableFighter, JsonDataManager.FighterFileName);
     }
 }

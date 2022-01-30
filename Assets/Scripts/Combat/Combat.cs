@@ -9,43 +9,44 @@ public class Combat : MonoBehaviour
     // Data Objects
     public Fighter player;
     public Fighter bot;
+    int botElo;
 
     // GameObjects related data
     public GameObject playerGameObject;
     public GameObject playerWrapperGameObject;
     public GameObject botGameObject;
 
+    // Script references
+    public static Movement movementScript;
+    Attack attacktScript;
+
     // Positions data
-    static Vector3 PLAYER_STARTING_POSITION = new Vector3(-8, 2, 0);
-    static Vector3 BOT_STARTING_POSITION = new Vector3(8, 2, 0);
-    float DISTANCE_AWAY_FROM_EACHOTHER_ON_ATTACK = 1;
-    Vector3 playerDestinationPosition = BOT_STARTING_POSITION;
-    Vector3 botDestinationPosition = PLAYER_STARTING_POSITION;
+    static Vector3 PlayerStartingPosition = new Vector3(-7, 2, 0);
+    static Vector3 BotStartingPosition = new Vector3(7, 2, 0);
+    float DistanceAwayFromEachotherOnAttack = 1;
+    Vector3 playerDestinationPosition = BotStartingPosition;
+    Vector3 botDestinationPosition = PlayerStartingPosition;
+
 
     // Game status data
-    private bool isGameOver = false;
+    public static bool isGameOver = false;
     List<Fighter> fightersOrderOfAttack = new List<Fighter> { };
 
     private void Awake()
     {
-        //FIXME: Move this calls to another scene
-        string botName = MatchMaking.FetchBotRandomName();
-        int botElo = MatchMaking.GenerateBotElo(400);
+        // From the current gameobject (this) access the movement component which is a script.
+        movementScript = this.GetComponent<Movement>();
+        attacktScript = this.GetComponent<Attack>();
     }
     void Start()
     {
         FindFighterGameObjects();
         EnablePlayerGameObject();
-        SetPlayerGameObjectInsideCanvas();
+        SetPlayerGameObjectInsideContainer();
         GetFighterScriptComponent();
         GenerateBotData();
         SetFighterPositions();
         SetOrderOfAttacks();
-        //TEST
-        User.Instance.elo = 100;
-        player.fighterName = "ChangedName";
-        player.cards = bot.cards;        
-
         StartCoroutine(InitiateCombat());
     }
 
@@ -55,10 +56,9 @@ public class Combat : MonoBehaviour
         bot = botGameObject.GetComponent<Fighter>();
     }
 
-    private void SetPlayerGameObjectInsideCanvas()
+    private void SetPlayerGameObjectInsideContainer()
     {
-        playerWrapperGameObject.transform.SetParent(GameObject.FindGameObjectWithTag("Canvas").transform);
-        //FIXME: Take the other objects scale? Instead of hardcoding the vector
+        playerWrapperGameObject.transform.SetParent(GameObject.FindGameObjectWithTag("CombatGameObjectsContainer").transform);
         playerWrapperGameObject.transform.localScale = new Vector3(1, 1, 1);
     }
 
@@ -77,12 +77,12 @@ public class Combat : MonoBehaviour
 
     private void SetFighterPositions()
     {
-        player.initialPosition = PLAYER_STARTING_POSITION;
-        playerDestinationPosition.x -= DISTANCE_AWAY_FROM_EACHOTHER_ON_ATTACK;
+        player.initialPosition = PlayerStartingPosition;
+        playerDestinationPosition.x -= DistanceAwayFromEachotherOnAttack;
         player.destinationPosition = playerDestinationPosition;
 
-        bot.initialPosition = BOT_STARTING_POSITION;
-        botDestinationPosition.x += DISTANCE_AWAY_FROM_EACHOTHER_ON_ATTACK;
+        bot.initialPosition = BotStartingPosition;
+        botDestinationPosition.x += DistanceAwayFromEachotherOnAttack;
         bot.destinationPosition = botDestinationPosition;
     }
 
@@ -99,12 +99,15 @@ public class Combat : MonoBehaviour
             yield return StartCoroutine(CombatLogicHandler(secondAttacker, firstAttacker));
         }
 
-        //TODO: Send the correct values here
-        PostGameActions.UpdateElo(400, 430, true);
+        //TODO: Send the correct value for the boolean here
+        PostGameActions.UpdateElo(User.Instance.elo, botElo, true);
     }
 
     private void GenerateBotData()
     {
+        string botName = MatchMaking.FetchBotRandomName();
+        botElo = MatchMaking.GenerateBotElo(User.Instance.elo);
+
         // Get all the existing cards and add them to the list of cards of the fighter
         List<OrderedDictionary> cardCollection = CardCollection.cards;
         List<Card> botCards = new List<Card>();
@@ -114,25 +117,21 @@ public class Combat : MonoBehaviour
             Card cardInstance = new Card((string)card["cardName"], (int)card["mana"], (string)card["text"], (string)card["rarity"], (string)card["type"]);
             botCards.Add(cardInstance);
         }
-        bot.FighterConstructor("Reiner", 10, 1, 6, "Leaf", 1, 10, botCards);
+        bot.FighterConstructor(botName, 10, 1, 6, "Leaf", 1, 10, botCards);
     }
 
     IEnumerator CombatLogicHandler(Fighter attacker, Fighter defender)
     {
-        // From the current gameobject (this) access the movement component which is a script.
-        Movement movementScript = this.GetComponent<Movement>();
-        Attack attacktScript = this.GetComponent<Attack>();
-
         // Move forward
         yield return StartCoroutine(movementScript.MoveForward(attacker, attacker.destinationPosition));
 
         // Attack
+
         int attackCounter = 0;
 
-        while (!isGameOver && (attackCounter == 0 || attacktScript.IsAttackRepeated(attacker)) && !attacktScript.IsAttackDodged(defender))
+        while (!isGameOver && (attackCounter == 0 || attacktScript.IsAttackRepeated(attacker)))
         {
-            attacktScript.DealDamage(attacker, defender);
-            isGameOver = defender.hp <= 0 ? true : false;
+            yield return StartCoroutine(attacktScript.PerformAttack(attacker, defender, player));
             attackCounter++;
         };
 

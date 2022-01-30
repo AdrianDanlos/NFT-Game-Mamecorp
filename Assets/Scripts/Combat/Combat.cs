@@ -47,7 +47,6 @@ public class Combat : MonoBehaviour
         GenerateBotData();
         SetFighterPositions();
         SetOrderOfAttacks();
-        Debug.Log(player.fighterName);
         StartCoroutine(InitiateCombat());
     }
 

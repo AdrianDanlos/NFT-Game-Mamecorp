@@ -21,11 +21,11 @@ public class Combat : MonoBehaviour
     Attack attacktScript;
 
     // Positions data
-    static Vector3 PLAYER_STARTING_POSITION = new Vector3(-7, 2, 0);
-    static Vector3 BOT_STARTING_POSITION = new Vector3(7, 2, 0);
-    float DISTANCE_AWAY_FROM_EACHOTHER_ON_ATTACK = 1;
-    Vector3 playerDestinationPosition = BOT_STARTING_POSITION;
-    Vector3 botDestinationPosition = PLAYER_STARTING_POSITION;
+    static Vector3 PlayerStartingPosition = new Vector3(-7, 2, 0);
+    static Vector3 BotStartingPosition = new Vector3(7, 2, 0);
+    float DistanceAwayFromEachotherOnAttack = 1;
+    Vector3 playerDestinationPosition = BotStartingPosition;
+    Vector3 botDestinationPosition = PlayerStartingPosition;
 
 
     // Game status data
@@ -42,7 +42,7 @@ public class Combat : MonoBehaviour
     {
         FindFighterGameObjects();
         EnablePlayerGameObject();
-        SetPlayerGameObjectInsideCanvas();
+        SetPlayerGameObjectInsideContainer();
         GetFighterScriptComponent();
         GenerateBotData();
         SetFighterPositions();
@@ -56,9 +56,9 @@ public class Combat : MonoBehaviour
         bot = botGameObject.GetComponent<Fighter>();
     }
 
-    private void SetPlayerGameObjectInsideCanvas()
+    private void SetPlayerGameObjectInsideContainer()
     {
-        playerWrapperGameObject.transform.SetParent(GameObject.FindGameObjectWithTag("Canvas").transform);
+        playerWrapperGameObject.transform.SetParent(GameObject.FindGameObjectWithTag("CombatGameObjectsContainer").transform);
         playerWrapperGameObject.transform.localScale = new Vector3(1, 1, 1);
     }
 
@@ -77,12 +77,12 @@ public class Combat : MonoBehaviour
 
     private void SetFighterPositions()
     {
-        player.initialPosition = PLAYER_STARTING_POSITION;
-        playerDestinationPosition.x -= DISTANCE_AWAY_FROM_EACHOTHER_ON_ATTACK;
+        player.initialPosition = PlayerStartingPosition;
+        playerDestinationPosition.x -= DistanceAwayFromEachotherOnAttack;
         player.destinationPosition = playerDestinationPosition;
 
-        bot.initialPosition = BOT_STARTING_POSITION;
-        botDestinationPosition.x += DISTANCE_AWAY_FROM_EACHOTHER_ON_ATTACK;
+        bot.initialPosition = BotStartingPosition;
+        botDestinationPosition.x += DistanceAwayFromEachotherOnAttack;
         bot.destinationPosition = botDestinationPosition;
     }
 

@@ -1,28 +1,26 @@
 using UnityEngine;
 using Newtonsoft.Json.Linq;
 using UnityEngine.UI;
+using TMPro;
 
 public class OnClickContinue : MonoBehaviour
 {
-    public Text nickName;
+    public GameObject nickNameInput;
     public void onClickHandler()
     {
-        Debug.Log("clicked");
         CreateUserFile();
         CreateFighterFile();
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Combat");
     }
 
-    private static void CreateUserFile()
+    private void CreateUserFile()
     {
-        //On Login click
-        //Get username from text field
-        //replace it in the line below
-        string userName = "userNameTypedByUser";
+        string userName = nickNameInput.GetComponent<TextMeshProUGUI>().text;
         UserFactory.CreateUserInstance(userName);
         JObject user = JObject.FromObject(User.Instance);
         JsonDataManager.SaveData(user, JsonDataManager.UserFileName);
     }
-    private static void CreateFighterFile()
+    private void CreateFighterFile()
     {
         //TODO: Pedir nombre al usuario en escena
         string fighterName = "fighterNameTypedByUser";

@@ -21,8 +21,8 @@ public class Combat : MonoBehaviour
     Attack attacktScript;
 
     // Positions data
-    static Vector3 PlayerStartingPosition = new Vector3(-7, 2, 0);
-    static Vector3 BotStartingPosition = new Vector3(7, 2, 0);
+    static Vector3 PlayerStartingPosition = new Vector3(-7, 0, 0);
+    static Vector3 BotStartingPosition = new Vector3(7, 0, 0);
     float DistanceAwayFromEachotherOnAttack = 1;
     Vector3 playerDestinationPosition = BotStartingPosition;
     Vector3 botDestinationPosition = PlayerStartingPosition;
@@ -66,8 +66,6 @@ public class Combat : MonoBehaviour
     {
         playerGameObject.SetActive(true);
     }
-
-    //TODO: Reuse this in the future whenever we get the player game object in other scenes
     private void FindFighterGameObjects()
     {
         playerWrapperGameObject = GameObject.Find("FighterWrapper");
@@ -77,6 +75,11 @@ public class Combat : MonoBehaviour
 
     private void SetFighterPositions()
     {
+        //Set GameObjects
+        playerGameObject.transform.position = PlayerStartingPosition;
+        botGameObject.transform.position = BotStartingPosition;
+
+        //Set Objects
         player.initialPosition = PlayerStartingPosition;
         playerDestinationPosition.x -= DistanceAwayFromEachotherOnAttack;
         player.destinationPosition = playerDestinationPosition;

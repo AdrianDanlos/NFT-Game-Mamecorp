@@ -16,7 +16,7 @@ public class Fighter : MonoBehaviour
     private Vector2 _initialPosition;
     private Vector2 _destinationPosition;
     private int _repeatAttackChance = 10;
-    private int _dodgeChance = 10;
+    private int _dodgeChance = 100;
     private int _criticalChance = 10;
 
     public string fighterName

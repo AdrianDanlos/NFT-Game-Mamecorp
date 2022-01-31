@@ -61,6 +61,7 @@ public class User
         }
     }
 
+    //FIXME: When calling this constructor we are gonna save so many times... Same with fighter
     public void SetUserValues(string userName, int wins, int loses, int elo)
     {
         this.userName = userName;

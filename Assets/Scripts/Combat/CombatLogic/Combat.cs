@@ -21,9 +21,9 @@ public class Combat : MonoBehaviour
     Attack attacktScript;
 
     // Positions data
-    static Vector3 PlayerStartingPosition = new Vector3(-7, 0, 0);
-    static Vector3 BotStartingPosition = new Vector3(7, 0, 0);
-    float DistanceAwayFromEachotherOnAttack = 1;
+    static Vector3 PlayerStartingPosition = new Vector3(-6, -0.7f, 0);
+    static Vector3 BotStartingPosition = new Vector3(6, -0.7f, 0);
+    float DistanceAwayFromEachotherOnAttack = 1.25f;
     Vector3 playerDestinationPosition = BotStartingPosition;
     Vector3 botDestinationPosition = PlayerStartingPosition;
 

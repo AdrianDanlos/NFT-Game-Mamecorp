@@ -40,7 +40,7 @@ public class Movement : MonoBehaviour
         Vector2 defenderLandingPosition = initialPosition;
 
         const int JumpHeight = 1;
-        //FIXME: instead of declaring isPlayerDodging use the utility function isPlayer 
+
         bool isPlayerDodging = Combat.player == defender;
         int xDistanceOnJump = isPlayerDodging ? -1 : 1;
         int xDistanceOnLand = isPlayerDodging ? -2 : 2;

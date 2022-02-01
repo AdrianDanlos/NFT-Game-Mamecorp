@@ -20,8 +20,7 @@ public class Attack : MonoBehaviour
         var attackerDamageForNextHit = IsAttackCritical(attacker) ? attacker.damage * 2 : attacker.damage;
         defender.hp -= attackerDamageForNextHit;
         StartCoroutine(ReceiveDamageAnimation(defender));
-        //FIXME: instead of passing defender == player iuse the utility function isPlayer 
-        Combat.fightersUIDataScript.ModifyHealthBar(defender, defender == Combat.player);
+        Combat.fightersUIDataScript.ModifyHealthBar(defender, Combat.player == defender);
     }
 
     IEnumerator ReceiveDamageAnimation(Fighter defender)

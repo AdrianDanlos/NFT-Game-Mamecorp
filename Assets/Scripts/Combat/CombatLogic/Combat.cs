@@ -9,16 +9,17 @@ public class Combat : MonoBehaviour
     // Data Objects
     public Fighter player;
     public Fighter bot;
-    int botElo;
+    public int botElo;
 
     // GameObjects related data
     public GameObject playerGameObject;
-    public GameObject playerWrapperGameObject;
-    public GameObject botGameObject;
+    public GameObject playerWrapper;
+    public GameObject botGameObject;    
 
     // Script references
     public static Movement movementScript;
     Attack attacktScript;
+    FightersInfo playersInfo;
 
     // Positions data
     static Vector3 PlayerStartingPosition = new Vector3(-6, -0.7f, 0);
@@ -26,7 +27,6 @@ public class Combat : MonoBehaviour
     float DistanceAwayFromEachotherOnAttack = 1.25f;
     Vector3 playerDestinationPosition = BotStartingPosition;
     Vector3 botDestinationPosition = PlayerStartingPosition;
-
 
     // Game status data
     public static bool isGameOver = false;
@@ -37,6 +37,7 @@ public class Combat : MonoBehaviour
         // From the current gameobject (this) access the movement component which is a script.
         movementScript = this.GetComponent<Movement>();
         attacktScript = this.GetComponent<Attack>();
+        playersInfo = this.GetComponent<FightersInfo>();
     }
     void Start()
     {
@@ -47,6 +48,7 @@ public class Combat : MonoBehaviour
         GenerateBotData();
         SetFighterPositions();
         SetOrderOfAttacks();
+        playersInfo.SetFightersInfo(bot, botElo);
         StartCoroutine(InitiateCombat());
     }
 
@@ -58,8 +60,8 @@ public class Combat : MonoBehaviour
 
     private void SetPlayerGameObjectInsideContainer()
     {
-        playerWrapperGameObject.transform.SetParent(GameObject.FindGameObjectWithTag("CombatGameObjectsContainer").transform);
-        playerWrapperGameObject.transform.localScale = new Vector3(1, 1, 1);
+        playerWrapper.transform.SetParent(GameObject.FindGameObjectWithTag("CombatGameObjectsContainer").transform);
+        playerWrapper.transform.localScale = new Vector3(1, 1, 1);
     }
 
     private void EnablePlayerGameObject()
@@ -68,8 +70,8 @@ public class Combat : MonoBehaviour
     }
     private void FindFighterGameObjects()
     {
-        playerWrapperGameObject = GameObject.Find("FighterWrapper");
-        playerGameObject = playerWrapperGameObject.transform.Find("Fighter").gameObject;
+        playerWrapper = GameObject.Find("FighterWrapper");
+        playerGameObject = playerWrapper.transform.Find("Fighter").gameObject;
         botGameObject = GameObject.Find("Bot");
     }
 

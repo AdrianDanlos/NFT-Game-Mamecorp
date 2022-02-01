@@ -47,3 +47,6 @@ TagManager:
   - name: Shadow
     uniqueID: 2868194173
     locked: 0
+  - name: Fighter
+    uniqueID: 3308405281
+    locked: 0

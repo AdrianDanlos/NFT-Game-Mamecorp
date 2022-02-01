@@ -12,7 +12,8 @@ public class EntryPoint : MonoBehaviour
         fighterGameObject = GameObject.Find("Fighter");
         fighterGameObject.SetActive(false);
 
-        if (File.Exists(JsonDataManager.getFilePath(JsonDataManager.UserFileName)) && File.Exists(JsonDataManager.getFilePath(JsonDataManager.FighterFileName)))
+        if (File.Exists(JsonDataManager.getFilePath(JsonDataManager.UserFileName)) &&
+         File.Exists(JsonDataManager.getFilePath(JsonDataManager.FighterFileName)))
         {
             ReadUserFile();
             ReadFighterFile();

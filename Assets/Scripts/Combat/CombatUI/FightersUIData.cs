@@ -15,11 +15,11 @@ public class FightersUIData : MonoBehaviour
     private float playerMaxHealth;
     private float botMaxHealth;
 
-    public void SetFightersUIInfo(Fighter player, Fighter bot, int botElo)
+    public void SetFightersUIInfo(Fighter bot, int botElo)
     {
         SetFightersElo(botElo);
         SetFightersName(bot);
-        SetFightersMaxHealth(player.hp, bot.hp);
+        SetFightersMaxHealth(Combat.player.hp, bot.hp);
     }
 
     private void SetFightersElo(int botElo)

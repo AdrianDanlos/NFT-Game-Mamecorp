@@ -7,7 +7,7 @@ using System.Collections.Specialized;
 public class Combat : MonoBehaviour
 {
     // Data Objects
-    public Fighter player;
+    public static Fighter player;
     public Fighter bot;
     public int botElo;
 
@@ -48,7 +48,7 @@ public class Combat : MonoBehaviour
         GenerateBotData();
         SetFighterPositions();
         SetOrderOfAttacks();
-        fightersUIDataScript.SetFightersUIInfo(player, bot, botElo);
+        fightersUIDataScript.SetFightersUIInfo(bot, botElo);
         StartCoroutine(InitiateCombat());
     }
 
@@ -136,7 +136,7 @@ public class Combat : MonoBehaviour
 
         while (!isGameOver && (attackCounter == 0 || attacktScript.IsAttackRepeated(attacker)))
         {
-            yield return StartCoroutine(attacktScript.PerformAttack(attacker, defender, player));
+            yield return StartCoroutine(attacktScript.PerformAttack(attacker, defender));
             attackCounter++;
         };
 

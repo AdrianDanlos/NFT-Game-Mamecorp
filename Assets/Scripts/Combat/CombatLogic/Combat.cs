@@ -19,7 +19,7 @@ public class Combat : MonoBehaviour
     // Script references
     public static Movement movementScript;
     Attack attacktScript;
-    FightersInfo playersInfo;
+    public static FightersUIData fightersUIDataScript;
 
     // Positions data
     static Vector3 PlayerStartingPosition = new Vector3(-6, -0.7f, 0);
@@ -37,7 +37,7 @@ public class Combat : MonoBehaviour
         // From the current gameobject (this) access the movement component which is a script.
         movementScript = this.GetComponent<Movement>();
         attacktScript = this.GetComponent<Attack>();
-        playersInfo = this.GetComponent<FightersInfo>();
+        fightersUIDataScript = this.GetComponent<FightersUIData>();
     }
     void Start()
     {
@@ -48,7 +48,7 @@ public class Combat : MonoBehaviour
         GenerateBotData();
         SetFighterPositions();
         SetOrderOfAttacks();
-        playersInfo.SetFightersInfo(bot, botElo);
+        fightersUIDataScript.SetFightersUIInfo(player, bot, botElo);
         StartCoroutine(InitiateCombat());
     }
 

@@ -11,15 +11,17 @@ public class Attack : MonoBehaviour
             StartCoroutine(Combat.movementScript.DodgeMovement(player, defender));
             yield break;
         }
-        DealDamage(attacker, defender);
+        DealDamage(attacker, defender, player);
         Combat.isGameOver = defender.hp <= 0 ? true : false;
     }
 
-    private void DealDamage(Fighter attacker, Fighter defender)
+    private void DealDamage(Fighter attacker, Fighter defender, Fighter player)
     {
         var attackerDamageForNextHit = IsAttackCritical(attacker) ? attacker.damage * 2 : attacker.damage;
         defender.hp -= attackerDamageForNextHit;
         StartCoroutine(ReceiveDamageAnimation(defender));
+        //FIXME: instead of passing defender == player iuse the utility function isPlayer 
+        Combat.fightersUIDataScript.ModifyHealthBar(defender, defender == player);
     }
 
     IEnumerator ReceiveDamageAnimation(Fighter defender)

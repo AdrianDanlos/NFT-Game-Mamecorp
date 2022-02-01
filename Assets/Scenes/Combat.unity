@@ -1791,10 +1791,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5a13fb716621de4d85b9ae835cc7bf7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerEloGo: {fileID: 1521829983}
-  botEloGo: {fileID: 1719676799}
-  playerName: {fileID: 1835551532}
-  botName: {fileID: 1278991268}
+  playerNameGO: {fileID: 1835551532}
+  playerEloGO: {fileID: 1521829983}
+  playerHealthBarGO: {fileID: 2010314210}
+  botEloGO: {fileID: 1719676799}
+  botNameGO: {fileID: 1278991268}
+  botHealthBarGO: {fileID: 1724101183}
 --- !u!1 &1627630844
 GameObject:
   m_ObjectHideFlags: 0

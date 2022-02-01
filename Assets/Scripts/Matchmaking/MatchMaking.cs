@@ -9,7 +9,8 @@ public static class MatchMaking
 
     public static int GenerateBotElo(int playerElo)
     {
-        return Random.Range(playerElo - 50, playerElo + 50);
+        int botElo = Random.Range(playerElo - 50, playerElo + 50);
+        return botElo >= 0 ? botElo : 0;
     }
 
     public static int CalculateEloChange(int playerElo, int botElo, bool hasPlayerWon)

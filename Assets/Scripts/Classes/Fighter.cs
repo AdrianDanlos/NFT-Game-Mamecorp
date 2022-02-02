@@ -11,6 +11,7 @@ public class Fighter : MonoBehaviour
     private float _speed;
     private string _species;
     private int _level;
+    private int _experiencePoints;
     private int _manaSlots;
     private List<Card> _cards;
     private Vector2 _initialPosition;
@@ -63,6 +64,14 @@ public class Fighter : MonoBehaviour
             SaveFighter();
         }
     }
+    public int experiencePoints
+    {
+        get => _experiencePoints; set
+        {
+            _experiencePoints = value;
+            SaveFighter();
+        }
+    }
     public int manaSlots
     {
         get => _manaSlots; set
@@ -97,7 +106,7 @@ public class Fighter : MonoBehaviour
 
     // When a class is attached to a gameobject (Monobehaviour) it is not possible to use the default constructor for the class because the "new" keyword can't be used.
     // That's why we create the following FighterConstructor method and use it as a constructor.
-    public void FighterConstructor(string fighterName, float hp, float damage, float speed, string species, int level, int manaSlots, List<Card> cards)
+    public void FighterConstructor(string fighterName, float hp, float damage, float speed, string species, int level, int experiencePoints, int manaSlots, List<Card> cards)
     {
         this.fighterName = fighterName;
         this.hp = hp;
@@ -105,6 +114,7 @@ public class Fighter : MonoBehaviour
         this.speed = speed;
         this.species = species;
         this.level = level;
+        this.experiencePoints = experiencePoints;
         this.manaSlots = manaSlots;
         this.cards = cards;
     }

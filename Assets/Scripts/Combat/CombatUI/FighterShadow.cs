@@ -9,7 +9,7 @@ public class FighterShadow : MonoBehaviour
     void Start()
     {
         parentFighterName = transform.parent.parent.name;
-        player = FindInactiveFighterGameObject.Find().transform;
+        player = PlayerUtils.FindInactiveFighter().transform;
         bot = GameObject.Find("Bot").transform;
     }
 

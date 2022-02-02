@@ -4,12 +4,10 @@ using UnityEngine;
 
 public static class FighterFactory
 {
-    private static GameObject fighterGameObject;
-    public static Fighter CreateFighterInstance(string fighterName, float hp = 10, float damage = 1, float speed = 3, string species = "fire", int level = 1, int manaSlots = 10, List<Card> cards = null)
+    public static Fighter CreateFighterInstance(string fighterName, float hp = 10, float damage = 1, float speed = 3, string species = "fire", int level = 1, int experiencePoints = 0, int manaSlots = 10, List<Card> cards = null)
     {
-        fighterGameObject = FindInactiveFighterGameObject.Find();
-        Fighter fighter = fighterGameObject.GetComponent<Fighter>();
-        fighter.FighterConstructor(fighterName, hp, damage, speed, species, level, manaSlots, cards);
+        Fighter fighter = PlayerUtils.FindInactiveFighter();
+        fighter.FighterConstructor(fighterName, hp, damage, speed, species, level, experiencePoints, manaSlots, cards);
         return fighter;
     }
 }

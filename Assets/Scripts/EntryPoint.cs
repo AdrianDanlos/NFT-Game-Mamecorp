@@ -12,11 +12,12 @@ public class EntryPoint : MonoBehaviour
         fighterGameObject = GameObject.Find("Fighter");
         fighterGameObject.SetActive(false);
 
-        if (File.Exists(JsonDataManager.getFilePath(JsonDataManager.UserFileName)) && File.Exists(JsonDataManager.getFilePath(JsonDataManager.FighterFileName)))
+        if (File.Exists(JsonDataManager.getFilePath(JsonDataManager.UserFileName)) &&
+         File.Exists(JsonDataManager.getFilePath(JsonDataManager.FighterFileName)))
         {
             ReadUserFile();
             ReadFighterFile();
-            UnityEngine.SceneManagement.SceneManager.LoadScene("Combat");
+            UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
         }
         else UnityEngine.SceneManagement.SceneManager.LoadScene("UserFirstStart");
     }
@@ -30,6 +31,6 @@ public class EntryPoint : MonoBehaviour
     {
         JObject fighterData = JsonDataManager.ReadData(JsonDataManager.FighterFileName);
         FighterFactory.CreateFighterInstance((string)fighterData["fighterName"], (float)fighterData["hp"], (float)fighterData["damage"], (float)fighterData["speed"],
-            (string)fighterData["species"], (int)fighterData["level"], (int)fighterData["manaSlots"], fighterData["cards"].ToObject<List<Card>>());
+            (string)fighterData["species"], (int)fighterData["level"], (int)fighterData["experiencePoints"], (int)fighterData["manaSlots"], fighterData["cards"].ToObject<List<Card>>());
     }
 }

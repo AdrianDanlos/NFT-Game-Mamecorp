@@ -3,25 +3,24 @@ using System.Collections.Generic;
 using UnityEngine;
 public class Attack : MonoBehaviour
 {
-    public IEnumerator PerformAttack(Fighter attacker, Fighter defender, Fighter player)
+    public IEnumerator PerformAttack(Fighter attacker, Fighter defender)
     {
         if (IsAttackDodged(defender))
         {
             Debug.Log("Dodged!");
-            StartCoroutine(Combat.movementScript.DodgeMovement(player, defender));
+            StartCoroutine(Combat.movementScript.DodgeMovement(defender));
             yield break;
         }
-        DealDamage(attacker, defender, player);
+        DealDamage(attacker, defender);
         Combat.isGameOver = defender.hp <= 0 ? true : false;
     }
 
-    private void DealDamage(Fighter attacker, Fighter defender, Fighter player)
+    private void DealDamage(Fighter attacker, Fighter defender)
     {
         var attackerDamageForNextHit = IsAttackCritical(attacker) ? attacker.damage * 2 : attacker.damage;
         defender.hp -= attackerDamageForNextHit;
         StartCoroutine(ReceiveDamageAnimation(defender));
-        //FIXME: instead of passing defender == player iuse the utility function isPlayer 
-        Combat.fightersUIDataScript.ModifyHealthBar(defender, defender == player);
+        Combat.fightersUIDataScript.ModifyHealthBar(defender, Combat.player == defender);
     }
 
     IEnumerator ReceiveDamageAnimation(Fighter defender)

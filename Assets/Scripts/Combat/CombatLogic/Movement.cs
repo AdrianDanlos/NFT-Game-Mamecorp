@@ -30,7 +30,7 @@ public class Movement : MonoBehaviour
         }
     }
 
-    public IEnumerator DodgeMovement(Fighter player, Fighter defender)
+    public IEnumerator DodgeMovement(Fighter defender)
     {
         //This initial position might be at the back if we are defending or at the front if we are attacking and the fighter got hit by a counter or reversal attack
         Vector2 initialPosition = defender.transform.position;
@@ -40,8 +40,8 @@ public class Movement : MonoBehaviour
         Vector2 defenderLandingPosition = initialPosition;
 
         const int JumpHeight = 1;
-        //FIXME: instead of declaring isPlayerDodging use the utility function isPlayer 
-        bool isPlayerDodging = player == defender;
+
+        bool isPlayerDodging = Combat.player == defender;
         int xDistanceOnJump = isPlayerDodging ? -1 : 1;
         int xDistanceOnLand = isPlayerDodging ? -2 : 2;
 

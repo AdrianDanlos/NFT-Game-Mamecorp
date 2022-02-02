@@ -4,8 +4,10 @@ using UnityEngine;
 
 public static class PlayerUtils
 {
-    public static GameObject FindInactiveFighterGameObject()
+    public static Fighter FindInactiveFighter()
     {
-        return GameObject.Find("FighterWrapper").transform.Find("Fighter").gameObject;
+        GameObject fighterGameObject = GameObject.Find("FighterWrapper").transform.Find("Fighter").gameObject;
+        Fighter fighter = fighterGameObject.GetComponent<Fighter>();
+        return fighter;
     }
 }

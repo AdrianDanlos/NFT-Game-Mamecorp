@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+//FIXME: Do we need this class?
 public class LevelLogic : MonoBehaviour
 {
     Text levelValue;
@@ -17,7 +17,12 @@ public class LevelLogic : MonoBehaviour
 
     private void Update()
     {
-        levelValue.text = Levels.CalculateLevel(xp).ToString();
+        levelValue.text = CalculateLevel(xp).ToString();
         XPValue.text = xp.ToString();
+    }
+
+    public static int CalculateLevel(int totalXP)
+    {
+        return totalXP / 2;
     }
 }

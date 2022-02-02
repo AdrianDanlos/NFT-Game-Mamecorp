@@ -698,7 +698,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0.523
+  m_Value: 0.508
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1452,8 +1452,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerNameGO: {fileID: 63365446}
-  playerLevelGO: {fileID: 1868639873}
+  playerLevelGO: {fileID: 1938465673}
   playerExpGO: {fileID: 2045412056}
+  playerLevelSlider: {fileID: 385165061}
 --- !u!1 &1242014137
 GameObject:
   m_ObjectHideFlags: 0

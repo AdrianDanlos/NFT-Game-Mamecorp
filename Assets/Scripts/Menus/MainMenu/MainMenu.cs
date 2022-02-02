@@ -2,34 +2,41 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
 {
     Fighter player;
+    int maxXp;
     public GameObject playerNameGO;
     public GameObject playerLevelGO;
     public GameObject playerExpGO;
+    public GameObject playerLevelSlider;
     void Start()
     {
         player = PlayerUtils.FindInactiveFighter();
-        player.level = 10;
-        player.experiencePoints = 10;
-        SetPlayerName();
-        SetPlayerLevel();
-        SetPlayerExperiencePoints();
+        maxXp = Levels.MaxXpOfCurrentLevel(player.level);
         
+        SetName();
+        SetLevel();
+        SetExperiencePoints();
+        SetSlider();
+
     }
-    private void SetPlayerName()
+    private void SetName()
     {
         playerNameGO.GetComponent<TextMeshProUGUI>().text = player.fighterName;
     }
-    private void SetPlayerLevel()
+    private void SetLevel()
     {
         playerLevelGO.GetComponent<TextMeshProUGUI>().text = player.level.ToString();
     }
-    private void SetPlayerExperiencePoints()
+    private void SetExperiencePoints()
     {
-        int maxXp = Levels.MaxXpOfCurrentLevel(player.level);
         playerExpGO.GetComponent<TextMeshProUGUI>().text = $"{player.experiencePoints.ToString()}/{maxXp}";
+    }
+    private void SetSlider()
+    {
+        playerLevelSlider.GetComponent<Slider>().value = (float)player.experiencePoints / (float)maxXp;
     }
 }

@@ -1761,6 +1761,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c5962a14887cf149a36b3802e21cf03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 0}
+  skinAnimations: []
 --- !u!114 &1570540186
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1773,7 +1775,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef9e647891befa34488d69dd28447053, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
   bot: {fileID: 0}
   botElo: 0
   playerGameObject: {fileID: 0}
@@ -3062,6 +3063,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c5962a14887cf149a36b3802e21cf03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 2131430927}
+  skinAnimations: []
 --- !u!212 &2131430926
 SpriteRenderer:
   m_ObjectHideFlags: 0

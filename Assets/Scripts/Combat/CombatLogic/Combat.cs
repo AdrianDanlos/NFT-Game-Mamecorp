@@ -48,6 +48,10 @@ public class Combat : MonoBehaviour
         SetOrderOfAttacks();
         fightersUIDataScript.SetFightersUIInfo(player, bot, botElo);
         FighterSkin.SetFightersSkin(player, bot);
+
+        //FIXME: ANIMATION TEST
+        FighterAnimations.ChangeAnimation(player, FighterAnimations.AnimationNames.RUN);
+        
         StartCoroutine(InitiateCombat());
     }
 

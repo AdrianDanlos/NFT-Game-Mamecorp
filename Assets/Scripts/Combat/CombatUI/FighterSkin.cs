@@ -3,15 +3,24 @@ using UnityEngine;
 
 public static class FighterSkin
 {
-    public static void SetFighterSkin(Fighter fighter, string fighterSkin)
+    public static void SetFightersSkin(Fighter player, Fighter bot)
     {
-        Debug.Log(fighterSkin);
-        //Load skin
-        fighter.skinAnimations = Resources.LoadAll<AnimationClip>("Animations/" + fighterSkin);
-        Debug.Log(fighter.skinAnimations);
-        Debug.Log(fighter.animator.runtimeAnimatorController);
+        SetSkin(player);
+        SetSkin(bot);
+    }
 
-        //Set loaded animationclip to anmiator
+    private static void SetSkin(Fighter fighter){
+        LoadFighterSkin(fighter);
+        SetAnimationClipToAnimator(fighter);
+    }
+
+    private static void LoadFighterSkin(Fighter fighter)
+    {
+        fighter.skinAnimations = Resources.LoadAll<AnimationClip>("Animations/" + fighter.skin);
+    }
+
+    private static void SetAnimationClipToAnimator(Fighter fighter)
+    {
         AnimatorOverrideController aoc = new AnimatorOverrideController(fighter.animator.runtimeAnimatorController);
         var anims = new List<KeyValuePair<AnimationClip, AnimationClip>>();
         int index = 0;

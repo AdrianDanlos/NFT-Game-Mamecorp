@@ -25,8 +25,6 @@ public class Combat : MonoBehaviour
     static Vector3 PlayerStartingPosition = new Vector3(-6, -0.7f, 0);
     static Vector3 BotStartingPosition = new Vector3(6, -0.7f, 0);
     float DistanceAwayFromEachotherOnAttack = 1.25f;
-    Vector3 playerDestinationPosition = BotStartingPosition;
-    Vector3 botDestinationPosition = PlayerStartingPosition;
 
     // Game status data
     public static bool isGameOver = false;
@@ -49,8 +47,7 @@ public class Combat : MonoBehaviour
         SetFighterPositions();
         SetOrderOfAttacks();
         fightersUIDataScript.SetFightersUIInfo(bot, botElo);
-        //TODO
-        FighterSkin.SetFighterSkin(bot, bot.skin);
+        FighterSkin.SetFightersSkin(player, bot);
 
         StartCoroutine(InitiateCombat());
     }
@@ -85,6 +82,9 @@ public class Combat : MonoBehaviour
         botGameObject.transform.position = BotStartingPosition;
 
         //Set Objects
+        Vector3 playerDestinationPosition = BotStartingPosition;
+        Vector3 botDestinationPosition = PlayerStartingPosition;
+
         player.initialPosition = PlayerStartingPosition;
         playerDestinationPosition.x -= DistanceAwayFromEachotherOnAttack;
         player.destinationPosition = playerDestinationPosition;
@@ -125,7 +125,7 @@ public class Combat : MonoBehaviour
             Card cardInstance = new Card((string)card["cardName"], (int)card["mana"], (string)card["text"], (string)card["rarity"], (string)card["type"]);
             botCards.Add(cardInstance);
         }
-        bot.FighterConstructor(botName, 10, 1, 6, "Leaf", "RobotV1", 1, 0, 10, botCards);
+        bot.FighterConstructor(botName, 10, 1, 6, "Leaf", "MonsterV5", 1, 0, 10, botCards);
     }
 
     IEnumerator CombatLogicHandler(Fighter attacker, Fighter defender)

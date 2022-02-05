@@ -21,6 +21,10 @@ public class Fighter : MonoBehaviour
     private int _dodgeChance = 10;
     private int _criticalChance = 10;
 
+    //Skin
+    public Animator animator;
+    public AnimationClip[] skinAnimations;
+
     public string fighterName
     {
         get => _fighterName; set

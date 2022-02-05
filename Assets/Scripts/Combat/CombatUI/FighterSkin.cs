@@ -9,9 +9,11 @@ public static class FighterSkin
         SetSkin(bot);
     }
 
-    private static void SetSkin(Fighter fighter){
+    private static void SetSkin(Fighter fighter)
+    {
         LoadFighterSkin(fighter);
         SetAnimationClipToAnimator(fighter);
+        SetDefaultAnimation(fighter);
     }
 
     private static void LoadFighterSkin(Fighter fighter)
@@ -33,5 +35,9 @@ public static class FighterSkin
 
         aoc.ApplyOverrides(anims);
         fighter.animator.runtimeAnimatorController = aoc;
+    }
+    private static void SetDefaultAnimation(Fighter fighter)
+    {
+        FighterAnimations.ChangeAnimation(fighter, FighterAnimations.AnimationNames.IDLE);
     }
 }

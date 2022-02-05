@@ -13,7 +13,9 @@ public static class FighterAnimations
         DEATH,
     }
 
-    public static void ChangeAnimation(Fighter fighter, AnimationNames newAnimation){
+    public static void ChangeAnimation(Fighter fighter, AnimationNames newAnimation)
+    {
         fighter.GetComponent<Animator>().Play(newAnimation.ToString());
+        fighter.currentAnimation = newAnimation.ToString();
     }
 }

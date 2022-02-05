@@ -28,6 +28,8 @@ public class Fighter : MonoBehaviour
     public Animator animator;
     public AnimationClip[] skinAnimations;
 
+    public string currentAnimation;
+
 
 
     public string fighterName
@@ -151,6 +153,7 @@ public class Fighter : MonoBehaviour
 
     private void SaveFighter()
     {
+        //FIXME: Is isbot attribute useful?
         Debug.Log("fuera if");
         Debug.Log(this.fighterName);
         Debug.Log(this.isBot);

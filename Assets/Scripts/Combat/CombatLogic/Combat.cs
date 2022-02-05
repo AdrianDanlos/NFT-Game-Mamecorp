@@ -46,14 +46,11 @@ public class Combat : MonoBehaviour
         GenerateBotData();
         SetFighterPositions();
         SetOrderOfAttacks();
-        fightersUIDataScript.SetFightersUIInfo(bot, botElo);
-        //FighterSkin.SetFightersSkin(player, bot);
+        fightersUIDataScript.SetFightersUIInfo(player, bot, botElo);
+        FighterSkin.SetFightersSkin(player, bot);
         
-        //test
-        Debug.Log(player.fighterName);
-        Debug.Log(bot.fighterName);
-        
-        FighterAnimations.ChangeAnimation(player, FighterAnimations.AnimationNames.ATTACK);
+        //test        
+        //FighterAnimations.ChangeAnimation(player, FighterAnimations.AnimationNames.ATTACK);
 
         StartCoroutine(InitiateCombat());
     }
@@ -131,7 +128,7 @@ public class Combat : MonoBehaviour
             Card cardInstance = new Card((string)card["cardName"], (int)card["mana"], (string)card["text"], (string)card["rarity"], (string)card["type"]);
             botCards.Add(cardInstance);
         }
-        bot.FighterConstructor(botName, 10, 1, 6, "Leaf", "MonsterV5", 1, 0, 10, botCards);
+        bot.FighterConstructor(botName, 10, 1, 6, "Leaf", "MonsterV5", 1, 0, 10, botCards, true);
     }
 
     IEnumerator CombatLogicHandler(Fighter attacker, Fighter defender)

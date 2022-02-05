@@ -21,16 +21,21 @@ public class Fighter : MonoBehaviour
     private int _dodgeChance = 10;
     private int _criticalChance = 10;
 
+    //Instance
+    private bool _isBot;
+
     //Skin
     public Animator animator;
     public AnimationClip[] skinAnimations;
+
+
 
     public string fighterName
     {
         get => _fighterName; set
         {
             _fighterName = value;
-            SaveFighter();
+            //SaveFighter();
         }
     }
     public float hp
@@ -66,6 +71,7 @@ public class Fighter : MonoBehaviour
         get => _skin; set
         {
             _skin = value;
+            //SaveFighter();
         }
     }
     public int level
@@ -73,7 +79,7 @@ public class Fighter : MonoBehaviour
         get => _level; set
         {
             _level = value;
-            SaveFighter();
+           //SaveFighter();
         }
     }
     public int experiencePoints
@@ -81,7 +87,7 @@ public class Fighter : MonoBehaviour
         get => _experiencePoints; set
         {
             _experiencePoints = value;
-            SaveFighter();
+            //SaveFighter();
         }
     }
     public int manaSlots
@@ -89,7 +95,7 @@ public class Fighter : MonoBehaviour
         get => _manaSlots; set
         {
             _manaSlots = value;
-            SaveFighter();
+            //SaveFighter();
         }
     }
 
@@ -98,7 +104,15 @@ public class Fighter : MonoBehaviour
         get => _cards; set
         {
             _cards = value;
-            SaveFighter();
+           //SaveFighter();
+        }
+    }
+    public bool isBot
+    {
+        get => _isBot; set
+        {
+            _isBot = value;
+            //SaveFighter();
         }
     }
     public Vector2 initialPosition { get => _initialPosition; set => _initialPosition = value; }
@@ -115,12 +129,12 @@ public class Fighter : MonoBehaviour
     {
         get => _criticalChance;
     }
-    
+
 
     // When a class is attached to a gameobject (Monobehaviour) it is not possible to use the default constructor for the class because the "new" keyword can't be used.
     // That's why we create the following FighterConstructor method and use it as a constructor.
-    public void FighterConstructor(string fighterName, float hp, float damage, float speed, string species, 
-        string skin, int level, int experiencePoints, int manaSlots, List<Card> cards)
+    public void FighterConstructor(string fighterName, float hp, float damage, float speed, string species,
+        string skin, int level, int experiencePoints, int manaSlots, List<Card> cards, bool isBot)
     {
         this.fighterName = fighterName;
         this.hp = hp;
@@ -132,11 +146,20 @@ public class Fighter : MonoBehaviour
         this.experiencePoints = experiencePoints;
         this.manaSlots = manaSlots;
         this.cards = cards;
+        this.isBot = isBot;
     }
 
     private void SaveFighter()
     {
-        JObject serializableFighter = JObject.FromObject(JsonDataManager.CreateSerializableFighterInstance(this));
-        JsonDataManager.SaveData(serializableFighter, JsonDataManager.FighterFileName);
+        Debug.Log("fuera if");
+        Debug.Log(this.fighterName);
+        Debug.Log(this.isBot);
+        if (this.isBot == false)
+        {
+            Debug.Log("en if");
+            Debug.Log(this.fighterName);
+            JObject serializableFighter = JObject.FromObject(JsonDataManager.CreateSerializableFighterInstance(this));
+            JsonDataManager.SaveData(serializableFighter, JsonDataManager.FighterFileName);
+        }
     }
 }

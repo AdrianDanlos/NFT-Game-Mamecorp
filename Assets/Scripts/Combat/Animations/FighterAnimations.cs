@@ -14,7 +14,6 @@ public static class FighterAnimations
     }
 
     public static void ChangeAnimation(Fighter fighter, AnimationNames newAnimation){
-        Debug.Log(fighter.fighterName);
         fighter.GetComponent<Animator>().Play(newAnimation.ToString());
     }
 }

@@ -9,16 +9,21 @@ public static class FighterSkin
         SetSkin(bot);
     }
 
-    private static void SetSkin(Fighter fighter){
+    private static void SetSkin(Fighter fighter)
+    {
         LoadFighterSkin(fighter);
         SetAnimationClipToAnimator(fighter);
+        SetDefaultAnimation(fighter);
     }
 
     private static void LoadFighterSkin(Fighter fighter)
     {
         fighter.skinAnimations = Resources.LoadAll<AnimationClip>("Animations/" + fighter.skin);
     }
-
+    
+    //This method gets a list (aoc) with the animation nodes in the animator controller (ordered by creation date)
+    //We then loop through all the animation nodes and override them with the skinAnimations loaded from Resources.
+    //It is very important that the animation nodes and the animations loaded from resources are in the same order.
     private static void SetAnimationClipToAnimator(Fighter fighter)
     {
         AnimatorOverrideController aoc = new AnimatorOverrideController(fighter.animator.runtimeAnimatorController);
@@ -33,5 +38,13 @@ public static class FighterSkin
 
         aoc.ApplyOverrides(anims);
         fighter.animator.runtimeAnimatorController = aoc;
+    }
+    private static void SetDefaultAnimation(Fighter fighter)
+    {
+        FighterAnimations.ChangeAnimation(fighter, FighterAnimations.AnimationNames.IDLE);
+    }
+    public static void SwitchFighterOrientation(SpriteRenderer sprite)
+    {
+        sprite.flipX = !sprite.flipX;
     }
 }

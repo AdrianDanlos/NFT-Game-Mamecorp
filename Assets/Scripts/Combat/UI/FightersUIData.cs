@@ -15,11 +15,11 @@ public class FightersUIData : MonoBehaviour
     private float playerMaxHealth;
     private float botMaxHealth;
 
-    public void SetFightersUIInfo(Fighter bot, int botElo)
+    public void SetFightersUIInfo(Fighter player, Fighter bot, int botElo)
     {
         SetFightersElo(botElo);
-        SetFightersName(bot);
-        SetFightersMaxHealth(Combat.player.hp, bot.hp);
+        SetFightersName(player.fighterName, bot.fighterName);
+        SetFightersMaxHealth(player.hp, bot.hp);
     }
 
     private void SetFightersElo(int botElo)
@@ -28,10 +28,10 @@ public class FightersUIData : MonoBehaviour
         botEloGO.GetComponent<TextMeshProUGUI>().text = botElo.ToString();
     }
 
-    private void SetFightersName(Fighter bot)
+    private void SetFightersName(string playerName, string botName)
     {
-        playerNameGO.GetComponent<TextMeshProUGUI>().text = User.Instance.userName.ToString();
-        botNameGO.GetComponent<TextMeshProUGUI>().text = bot.fighterName.ToString();
+        playerNameGO.GetComponent<TextMeshProUGUI>().text = playerName;
+        botNameGO.GetComponent<TextMeshProUGUI>().text = botName;
     }
 
     public void SetFightersMaxHealth(float playerMaxHealth, float botMaxHealth)

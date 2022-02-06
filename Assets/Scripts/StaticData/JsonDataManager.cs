@@ -1,4 +1,3 @@
-//Does everyone need to install Newtonsoft.Json (Install-Package Newtonsoft.Json) for this to work or is it installed in the project?
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.IO;

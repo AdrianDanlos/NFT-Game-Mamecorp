@@ -3,6 +3,7 @@
 //1. We ensure there is only one instance of the user
 //2. We can make the instance static and therefore access it from anywhere in our game
 using Newtonsoft.Json.Linq;
+
 public class User
 {
     private static User instance = null;
@@ -24,6 +25,7 @@ public class User
     private int _wins;
     private int _loses;
     private int _elo;
+    private bool _saveEnabled = false;
     public string userName
     {
         get => _userName;
@@ -60,8 +62,13 @@ public class User
             SaveUser();
         }
     }
-
-    //FIXME: When calling this constructor we are gonna save so many times... Same with fighter
+    public bool saveEnabled
+    {
+        get => _saveEnabled; set
+        {
+            _saveEnabled = value;
+        }
+    }
     public void SetUserValues(string userName, int wins, int loses, int elo)
     {
         this.userName = userName;
@@ -70,8 +77,18 @@ public class User
         this.elo = elo;
     }
 
+    // We call it once the user has been instantiated.
+    // Otherwise we would be calling the save function for each attribute that is being assigned in the constructor.
+    public void EnableSave()
+    {
+        this.saveEnabled = true;
+    }
+
     private void SaveUser()
     {
-        JsonDataManager.SaveData(JObject.FromObject(this), JsonDataManager.UserFileName);
+        if (saveEnabled == true)
+        {
+            JsonDataManager.SaveData(JObject.FromObject(this), JsonDataManager.UserFileName);
+        }
     }
 }

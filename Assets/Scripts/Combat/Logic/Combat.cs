@@ -46,8 +46,11 @@ public class Combat : MonoBehaviour
         GenerateBotData();
         SetFighterPositions();
         SetOrderOfAttacks();
-        fightersUIDataScript.SetFightersUIInfo(bot, botElo);
+        fightersUIDataScript.SetFightersUIInfo(player, bot, botElo);
         FighterSkin.SetFightersSkin(player, bot);
+
+        //FIXME: ANIMATION TEST
+        FighterAnimations.ChangeAnimation(player, FighterAnimations.AnimationNames.IDLE);
 
         StartCoroutine(InitiateCombat());
     }
@@ -144,7 +147,9 @@ public class Combat : MonoBehaviour
         };
 
         // Move back
+        FighterSkin.SwitchFighterOrientation(attacker.GetComponent<SpriteRenderer>());
         yield return StartCoroutine(movementScript.MoveBack(attacker, attacker.initialPosition));
+        FighterSkin.SwitchFighterOrientation(attacker.GetComponent<SpriteRenderer>());
     }
 
     // This method creates a dictionary with the Fighter class objects sorted by their speeds to get the order of attack.

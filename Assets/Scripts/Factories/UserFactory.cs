@@ -8,5 +8,6 @@ public static class UserFactory
     {
         User user = User.Instance;
         user.SetUserValues(userName, wins, loses, elo);
+        user.EnableSave();
     }
 }

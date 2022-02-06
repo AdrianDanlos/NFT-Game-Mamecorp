@@ -21,16 +21,22 @@ public class Fighter : MonoBehaviour
     private int _dodgeChance = 10;
     private int _criticalChance = 10;
 
+    //Set to true if instance in a saveable state (The fighter instance has already been created and it is not a bot)
+    private bool _saveEnabled = false;
+
     //Skin
     public Animator animator;
     public AnimationClip[] skinAnimations;
+
+    public string currentAnimation;
+
+
 
     public string fighterName
     {
         get => _fighterName; set
         {
             _fighterName = value;
-            SaveFighter();
         }
     }
     public float hp
@@ -101,6 +107,13 @@ public class Fighter : MonoBehaviour
             SaveFighter();
         }
     }
+    public bool saveEnabled
+    {
+        get => _saveEnabled; set
+        {
+            _saveEnabled = value;
+        }
+    }
     public Vector2 initialPosition { get => _initialPosition; set => _initialPosition = value; }
     public Vector2 destinationPosition { get => _destinationPosition; set => _destinationPosition = value; }
     public int repeatAttackChance
@@ -115,11 +128,11 @@ public class Fighter : MonoBehaviour
     {
         get => _criticalChance;
     }
-    
+
 
     // When a class is attached to a gameobject (Monobehaviour) it is not possible to use the default constructor for the class because the "new" keyword can't be used.
     // That's why we create the following FighterConstructor method and use it as a constructor.
-    public void FighterConstructor(string fighterName, float hp, float damage, float speed, string species, 
+    public void FighterConstructor(string fighterName, float hp, float damage, float speed, string species,
         string skin, int level, int experiencePoints, int manaSlots, List<Card> cards)
     {
         this.fighterName = fighterName;
@@ -134,9 +147,19 @@ public class Fighter : MonoBehaviour
         this.cards = cards;
     }
 
+    // We call it once the fighter of the player has been instantiated.
+    // Otherwise we would be calling the save function for each attribute that is being assigned in the constructor.
+    public void EnableSave()
+    {
+        this.saveEnabled = true;
+    }
+
     private void SaveFighter()
     {
-        JObject serializableFighter = JObject.FromObject(JsonDataManager.CreateSerializableFighterInstance(this));
-        JsonDataManager.SaveData(serializableFighter, JsonDataManager.FighterFileName);
+        if (this.saveEnabled == true)
+        {
+            JObject serializableFighter = JObject.FromObject(JsonDataManager.CreateSerializableFighterInstance(this));
+            JsonDataManager.SaveData(serializableFighter, JsonDataManager.FighterFileName);
+        }
     }
 }

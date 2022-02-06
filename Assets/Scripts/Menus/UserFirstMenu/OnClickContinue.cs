@@ -10,7 +10,7 @@ public class OnClickContinue : MonoBehaviour
     {
         CreateUserFile();
         CreateFighterFile();
-        UnityEngine.SceneManagement.SceneManager.LoadScene("Combat");
+        UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
     }
 
     private void CreateUserFile()
@@ -24,7 +24,7 @@ public class OnClickContinue : MonoBehaviour
     {
         //TODO: Pedir nombre al usuario en escena
         string fighterName = "fighterNameTypedByUser";
-        JObject serializableFighter = JObject.FromObject(JsonDataManager.CreateSerializableFighterInstance(FighterFactory.CreateFighterInstance(fighterName)));
+        JObject serializableFighter = JObject.FromObject(JsonDataManager.CreateSerializableFighterInstance(FighterFactory.CreatePlayerFighterInstance(fighterName)));
         JsonDataManager.SaveData(serializableFighter, JsonDataManager.FighterFileName);
     }
 }

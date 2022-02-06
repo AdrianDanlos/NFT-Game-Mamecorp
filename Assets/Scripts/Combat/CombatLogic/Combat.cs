@@ -50,7 +50,7 @@ public class Combat : MonoBehaviour
         FighterSkin.SetFightersSkin(player, bot);
 
         //FIXME: ANIMATION TEST
-        FighterAnimations.ChangeAnimation(player, FighterAnimations.AnimationNames.RUN);
+        FighterAnimations.ChangeAnimation(player, FighterAnimations.AnimationNames.ATTACK);
         
         StartCoroutine(InitiateCombat());
     }

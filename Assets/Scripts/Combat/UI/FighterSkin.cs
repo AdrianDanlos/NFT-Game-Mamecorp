@@ -43,4 +43,8 @@ public static class FighterSkin
     {
         FighterAnimations.ChangeAnimation(fighter, FighterAnimations.AnimationNames.IDLE);
     }
+    public static void SwitchFighterOrientation(SpriteRenderer sprite)
+    {
+        sprite.flipX = !sprite.flipX;
+    }
 }

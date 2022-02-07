@@ -15,7 +15,7 @@ public class Combat : MonoBehaviour
     public GameObject playerGameObject;
     public GameObject playerWrapper;
     public GameObject botGameObject;
-    public GameObject resultsGameObject;
+    public Canvas results;
 
     // Script references
     public static Movement movementScript;
@@ -71,14 +71,13 @@ public class Combat : MonoBehaviour
     private void SetVisibilityOfGameObjects()
     {
         playerGameObject.SetActive(true);
-        resultsGameObject.SetActive(false);
     }
     private void FindGameObjects()
     {
         playerWrapper = GameObject.Find("FighterWrapper");
         playerGameObject = playerWrapper.transform.Find("Fighter").gameObject;
         botGameObject = GameObject.Find("Bot");
-        resultsGameObject = GameObject.FindGameObjectWithTag("Results");
+        results = GameObject.FindGameObjectWithTag("Results").GetComponent<Canvas>();
     }
 
     private void SetFighterPositions()
@@ -154,8 +153,9 @@ public class Combat : MonoBehaviour
         yield return StartCoroutine(movementScript.MoveBack(attacker, attacker.initialPosition));
         FighterSkin.SwitchFighterOrientation(attacker.GetComponent<SpriteRenderer>());
 
-        if(isGameOver){
-            resultsGameObject.SetActive(true);
+        if (isGameOver)
+        {
+            results.enabled = true;
         }
     }
 

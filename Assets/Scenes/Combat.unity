@@ -3219,7 +3219,7 @@ Canvas:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1368929474}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_RenderMode: 0
   m_Camera: {fileID: 0}
@@ -3418,11 +3418,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1493600183}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 6, y: 1, z: 166.9}
+  m_LocalPosition: {x: -960.34, y: -539, z: 0.6100006}
   m_LocalScale: {x: 1.9499999, y: 1.9499999, z: 0}
   m_Children: []
-  m_Father: {fileID: 1710196150}
-  m_RootOrder: 1
+  m_Father: {fileID: 1812796367}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1521829983
 GameObject:
@@ -3650,7 +3650,7 @@ MonoBehaviour:
   playerGameObject: {fileID: 0}
   playerWrapper: {fileID: 0}
   botGameObject: {fileID: 0}
-  resultsGameObject: {fileID: 0}
+  results: {fileID: 0}
 --- !u!114 &1570540187
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4137,7 +4137,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2131430923}
-  - {fileID: 1493600185}
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4534,6 +4533,7 @@ RectTransform:
   - {fileID: 1691658358}
   - {fileID: 717299975}
   - {fileID: 1780371673}
+  - {fileID: 1493600185}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

@@ -1763,6 +1763,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 0}
   skinAnimations: []
+  currentAnimation: 
 --- !u!114 &1570540186
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2333,7 +2334,7 @@ MonoBehaviour:
   m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 1280, y: 720}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -3065,6 +3066,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 2131430927}
   skinAnimations: []
+  currentAnimation: 
 --- !u!212 &2131430926
 SpriteRenderer:
   m_ObjectHideFlags: 0

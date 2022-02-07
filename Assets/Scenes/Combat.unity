@@ -132,7 +132,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7075813}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: ContainerAll
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -251,7 +251,7 @@ GameObject:
   - component: {fileID: 114442747}
   - component: {fileID: 114442749}
   - component: {fileID: 114442748}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -401,7 +401,7 @@ GameObject:
   - component: {fileID: 220523159}
   - component: {fileID: 220523161}
   - component: {fileID: 220523160}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: midCup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -476,7 +476,7 @@ GameObject:
   - component: {fileID: 262518293}
   - component: {fileID: 262518295}
   - component: {fileID: 262518294}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Label_TitleLabel02_Icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -685,7 +685,7 @@ GameObject:
   - component: {fileID: 400361539}
   - component: {fileID: 400361541}
   - component: {fileID: 400361540}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Reward_Item
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -785,7 +785,7 @@ GameObject:
   - component: {fileID: 413655433}
   - component: {fileID: 413655435}
   - component: {fileID: 413655434}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Reward_Item
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -941,7 +941,7 @@ GameObject:
   - component: {fileID: 458503315}
   - component: {fileID: 458503317}
   - component: {fileID: 458503316}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: leftCup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1016,7 +1016,7 @@ GameObject:
   - component: {fileID: 484592618}
   - component: {fileID: 484592620}
   - component: {fileID: 484592619}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Title
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1228,7 +1228,7 @@ GameObject:
   - component: {fileID: 606284106}
   - component: {fileID: 606284108}
   - component: {fileID: 606284107}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Deco
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1303,7 +1303,7 @@ GameObject:
   - component: {fileID: 696243619}
   - component: {fileID: 696243621}
   - component: {fileID: 696243620}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1584,7 +1584,7 @@ GameObject:
   - component: {fileID: 735301877}
   - component: {fileID: 735301876}
   - component: {fileID: 735301875}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Button_Acept
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1704,7 +1704,7 @@ GameObject:
   - component: {fileID: 833935453}
   - component: {fileID: 833935455}
   - component: {fileID: 833935454}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: backgroundTransparent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1854,7 +1854,7 @@ GameObject:
   - component: {fileID: 900109526}
   - component: {fileID: 900109528}
   - component: {fileID: 900109527}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Reward_Item
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2066,7 +2066,7 @@ GameObject:
   - component: {fileID: 921091810}
   - component: {fileID: 921091812}
   - component: {fileID: 921091811}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: TextRewards
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2285,7 +2285,7 @@ GameObject:
   - component: {fileID: 1012318764}
   - component: {fileID: 1012318766}
   - component: {fileID: 1012318765}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2360,7 +2360,7 @@ GameObject:
   - component: {fileID: 1051569120}
   - component: {fileID: 1051569122}
   - component: {fileID: 1051569121}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Deco
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2435,7 +2435,7 @@ GameObject:
   - component: {fileID: 1073024447}
   - component: {fileID: 1073024449}
   - component: {fileID: 1073024448}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Cups
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2513,7 +2513,7 @@ GameObject:
   - component: {fileID: 1079541777}
   - component: {fileID: 1079541779}
   - component: {fileID: 1079541778}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: RewardItems
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2827,7 +2827,7 @@ GameObject:
   - component: {fileID: 1294325194}
   - component: {fileID: 1294325196}
   - component: {fileID: 1294325195}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: rightCup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2968,7 +2968,7 @@ GameObject:
   - component: {fileID: 1351846244}
   - component: {fileID: 1351846246}
   - component: {fileID: 1351846245}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: TextValue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3100,7 +3100,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1353064893}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Rewards
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3140,7 +3140,7 @@ GameObject:
   - component: {fileID: 1368929477}
   - component: {fileID: 1368929476}
   - component: {fileID: 1368929475}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Results
   m_TagString: Results
   m_Icon: {fileID: 0}
@@ -3181,7 +3181,7 @@ MonoBehaviour:
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 1
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -3206,7 +3206,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_TargetDisplay: 0
 --- !u!224 &1368929478
 RectTransform:
@@ -3221,7 +3221,7 @@ RectTransform:
   m_Children:
   - {fileID: 7075813}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -3730,7 +3730,7 @@ GameObject:
   - component: {fileID: 1647220367}
   - component: {fileID: 1647220369}
   - component: {fileID: 1647220368}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: TextValue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3864,7 +3864,7 @@ GameObject:
   - component: {fileID: 1670377175}
   - component: {fileID: 1670377177}
   - component: {fileID: 1670377176}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Container_Title
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3942,7 +3942,7 @@ GameObject:
   - component: {fileID: 1677703039}
   - component: {fileID: 1677703041}
   - component: {fileID: 1677703040}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Glow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4510,7 +4510,7 @@ RectTransform:
   - {fileID: 717299975}
   - {fileID: 1780371673}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -4796,7 +4796,7 @@ GameObject:
   - component: {fileID: 1893319629}
   - component: {fileID: 1893319631}
   - component: {fileID: 1893319630}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Title
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4930,7 +4930,7 @@ GameObject:
   - component: {fileID: 1915212344}
   - component: {fileID: 1915212346}
   - component: {fileID: 1915212345}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Glow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5080,7 +5080,7 @@ GameObject:
   - component: {fileID: 1961158342}
   - component: {fileID: 1961158344}
   - component: {fileID: 1961158343}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Label_TitleLabel02_Icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5283,7 +5283,7 @@ GameObject:
   - component: {fileID: 2013078424}
   - component: {fileID: 2013078426}
   - component: {fileID: 2013078425}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Glow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5358,7 +5358,7 @@ GameObject:
   - component: {fileID: 2043891814}
   - component: {fileID: 2043891816}
   - component: {fileID: 2043891815}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: TextValue
   m_TagString: Untagged
   m_Icon: {fileID: 0}

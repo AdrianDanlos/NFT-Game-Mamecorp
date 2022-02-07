@@ -7,6 +7,9 @@ TagManager:
   - Canvas
   - Fighter
   - CombatGameObjectsContainer
+  - Undefined
+  - FightersContainer
+  - Results
   layers:
   - Default
   - TransparentFX

@@ -10,7 +10,6 @@ public class OnClickContinue : MonoBehaviour
     {
         CreateUserFile();
         CreateFighterFile();
-        UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
     }
 
     private void CreateUserFile()

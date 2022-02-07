@@ -15,6 +15,7 @@ public class Combat : MonoBehaviour
     public GameObject playerGameObject;
     public GameObject playerWrapper;
     public GameObject botGameObject;
+    public Canvas results;
 
     // Script references
     public static Movement movementScript;
@@ -39,8 +40,8 @@ public class Combat : MonoBehaviour
     }
     void Start()
     {
-        FindFighterGameObjects();
-        EnablePlayerGameObject();
+        FindGameObjects();
+        SetVisibilityOfGameObjects();
         SetPlayerGameObjectInsideContainer();
         GetFighterScriptComponent();
         GenerateBotData();
@@ -63,19 +64,20 @@ public class Combat : MonoBehaviour
 
     private void SetPlayerGameObjectInsideContainer()
     {
-        playerWrapper.transform.SetParent(GameObject.FindGameObjectWithTag("CombatGameObjectsContainer").transform);
+        playerWrapper.transform.SetParent(GameObject.FindGameObjectWithTag("FightersContainer").transform);
         playerWrapper.transform.localScale = new Vector3(1, 1, 1);
     }
 
-    private void EnablePlayerGameObject()
+    private void SetVisibilityOfGameObjects()
     {
         playerGameObject.SetActive(true);
     }
-    private void FindFighterGameObjects()
+    private void FindGameObjects()
     {
         playerWrapper = GameObject.Find("FighterWrapper");
         playerGameObject = playerWrapper.transform.Find("Fighter").gameObject;
         botGameObject = GameObject.Find("Bot");
+        results = GameObject.FindGameObjectWithTag("Results").GetComponent<Canvas>();
     }
 
     private void SetFighterPositions()
@@ -150,6 +152,11 @@ public class Combat : MonoBehaviour
         FighterSkin.SwitchFighterOrientation(attacker.GetComponent<SpriteRenderer>());
         yield return StartCoroutine(movementScript.MoveBack(attacker, attacker.initialPosition));
         FighterSkin.SwitchFighterOrientation(attacker.GetComponent<SpriteRenderer>());
+
+        if (isGameOver)
+        {
+            results.enabled = true;
+        }
     }
 
     // This method creates a dictionary with the Fighter class objects sorted by their speeds to get the order of attack.

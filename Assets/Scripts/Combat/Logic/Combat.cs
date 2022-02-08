@@ -42,7 +42,6 @@ public class Combat : MonoBehaviour
     {
         FindGameObjects();
         SetVisibilityOfGameObjects();
-        SetPlayerGameObjectInsideContainer();
         GetFighterScriptComponent();
         GenerateBotData();
         SetFighterPositions();
@@ -60,12 +59,6 @@ public class Combat : MonoBehaviour
     {
         player = playerGameObject.GetComponent<Fighter>();
         bot = botGameObject.GetComponent<Fighter>();
-    }
-
-    private void SetPlayerGameObjectInsideContainer()
-    {
-        playerWrapper.transform.SetParent(GameObject.FindGameObjectWithTag("FightersContainer").transform);
-        playerWrapper.transform.localScale = new Vector3(1, 1, 1);
     }
 
     private void SetVisibilityOfGameObjects()

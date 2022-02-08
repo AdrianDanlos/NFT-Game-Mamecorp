@@ -4,11 +4,8 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Canvas
   - Fighter
-  - CombatGameObjectsContainer
   - Undefined
-  - FightersContainer
   - Results
   layers:
   - Default

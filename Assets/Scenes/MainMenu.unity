@@ -2728,6 +2728,8 @@ MonoBehaviour:
   playerLevelGO: {fileID: 1868639873}
   playerExpGO: {fileID: 2045412056}
   playerLevelSlider: {fileID: 385165061}
+  gold: {fileID: 958923376}
+  energy: {fileID: 1938432369}
 --- !u!1 &1236780088
 GameObject:
   m_ObjectHideFlags: 0

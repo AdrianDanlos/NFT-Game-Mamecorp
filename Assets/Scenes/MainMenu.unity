@@ -2725,7 +2725,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerNameGO: {fileID: 63365446}
-  playerLevelGO: {fileID: 0}
+  playerLevelGO: {fileID: 1868639873}
   playerExpGO: {fileID: 2045412056}
   playerLevelSlider: {fileID: 385165061}
 --- !u!1 &1236780088

@@ -28,7 +28,7 @@ public class Combat : MonoBehaviour
     float DistanceAwayFromEachotherOnAttack = 1.25f;
 
     // Game status data
-    public static bool isGameOver = false;
+    public static bool isGameOver;
     List<Fighter> fightersOrderOfAttack = new List<Fighter> { };
 
     private void Awake()
@@ -37,6 +37,7 @@ public class Combat : MonoBehaviour
         movementScript = this.GetComponent<Movement>();
         attacktScript = this.GetComponent<Attack>();
         fightersUIDataScript = this.GetComponent<FightersUIData>();
+        isGameOver = false;
     }
     void Start()
     {

@@ -7,6 +7,11 @@ UNITY and C# info:
 - When to make a class static?
     1. When we are not going to make objects with that class. Only call methods, retrieve data...
 
+- When to make variables or methods of a class static? 
+    When they dont belong to an instance of an object and
+    we don't need to access the values through the inspector (e.g. Linking a variable to a gameobject in the scene).
+    Static variables can't be accesed through the inspector.
+
 - How to call a script from another script?
     1. If the script is attached to a gameobject -> this.GetComponent<ClassWeWantToCall>();
     2. If the script is not attached to a gameobject -> Make the class we want to call public. Now we can access its fields. 
@@ -14,6 +19,8 @@ UNITY and C# info:
 
 - Static vs abstract
     An abstract class is intended to be used as a base of a class inheritance hierarchy. A static class cannot be the base of a class inheritance hierarchy. A static class is intended for singleton state or stateless functionality.
+
+- Link through the inspector vs GameObject.Find()
 
 
 DATA STRUCTURES WE NEED TO ACCESS GLOBALLY IN THE GAME

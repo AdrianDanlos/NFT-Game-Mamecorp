@@ -12,6 +12,8 @@ public class MainMenu : MonoBehaviour
     public GameObject playerLevelGO;
     public GameObject playerExpGO;
     public GameObject playerLevelSlider;
+    public GameObject gold;
+    public GameObject energy;
     void Start()
     {
         player = PlayerUtils.FindInactiveFighter();
@@ -21,6 +23,8 @@ public class MainMenu : MonoBehaviour
         SetLevel();
         SetExperiencePoints();
         SetSlider();
+        SetGold();
+        SetEnergy();
 
     }
     private void SetName()
@@ -38,5 +42,15 @@ public class MainMenu : MonoBehaviour
     private void SetSlider()
     {
         playerLevelSlider.GetComponent<Slider>().value = (float)player.experiencePoints / (float)maxXp;
+    }
+
+    private void SetGold()
+    {
+        gold.GetComponent<TextMeshProUGUI>().text = User.Instance.gold.ToString();
+    }
+
+    private void SetEnergy()
+    {
+        energy.GetComponent<TextMeshProUGUI>().text = $"{User.Instance.energy.ToString()}/{10}";
     }
 }

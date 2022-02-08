@@ -25,6 +25,8 @@ public class User
     private int _wins;
     private int _loses;
     private int _elo;
+    private int _gold;
+    private int _energy;
     private bool _saveEnabled = false;
     public string userName
     {
@@ -62,6 +64,25 @@ public class User
             SaveUser();
         }
     }
+    public int gold
+    {
+        get => _gold;
+        set
+        {
+            _gold = value;
+            SaveUser();
+        }
+    }
+
+    public int energy
+    {
+        get => _energy;
+        set
+        {
+            _energy = value;
+            SaveUser();
+        }
+    }
     public bool saveEnabled
     {
         get => _saveEnabled; set
@@ -69,12 +90,14 @@ public class User
             _saveEnabled = value;
         }
     }
-    public void SetUserValues(string userName, int wins, int loses, int elo)
+    public void SetUserValues(string userName, int wins, int loses, int elo, int gold, int energy)
     {
         this.userName = userName;
         this.wins = wins;
         this.loses = loses;
         this.elo = elo;
+        this.gold = gold;
+        this.energy = energy;
     }
 
     // We call it once the user has been instantiated.

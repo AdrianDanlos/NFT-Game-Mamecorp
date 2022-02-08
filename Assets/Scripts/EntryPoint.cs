@@ -25,7 +25,7 @@ public class EntryPoint : MonoBehaviour
     private static void ReadUserFile()
     {
         JObject userData = JsonDataManager.ReadData(JsonDataManager.UserFileName);
-        UserFactory.CreateUserInstance((string)userData["userName"], (int)userData["wins"], (int)userData["loses"], (int)userData["elo"]);
+        UserFactory.CreateUserInstance((string)userData["userName"], (int)userData["wins"], (int)userData["loses"], (int)userData["elo"], (int)userData["gold"], (int)userData["energy"]);
     }
     private static void ReadFighterFile()
     {

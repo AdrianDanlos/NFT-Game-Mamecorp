@@ -51,6 +51,7 @@ public class MainMenu : MonoBehaviour
 
     private void SetEnergy()
     {
+        //FIXME: Set max energy here
         energy.GetComponent<TextMeshProUGUI>().text = $"{User.Instance.energy.ToString()}/{10}";
     }
 }

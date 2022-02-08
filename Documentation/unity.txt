@@ -20,7 +20,7 @@ UNITY and C# info:
 - Static vs abstract
     An abstract class is intended to be used as a base of a class inheritance hierarchy. A static class cannot be the base of a class inheritance hierarchy. A static class is intended for singleton state or stateless functionality.
 
-- Link through the inspector vs GameObject.Find()
+- Link through the inspector vs GameObject.FindGameObjectWithTag() -> Prioritise GameObject.FindGameObjectWithTag as it will reduce bugs and errors and performance wise it is very similar.
 
 
 DATA STRUCTURES WE NEED TO ACCESS GLOBALLY IN THE GAME

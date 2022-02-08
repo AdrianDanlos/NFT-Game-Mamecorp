@@ -1,6 +1,18 @@
-public class PostGameActions {
-    public static void UpdateElo(int playerElo, int botElo, bool hasPlayerWon){
-        int eloChange = MatchMaking.CalculateEloChange(playerElo, botElo, hasPlayerWon);
+using UnityEngine;
+public class PostGameActions
+{
+    public static void SetElo(int eloChange)
+    {
         User.Instance.elo += eloChange;
+    }
+
+    public static void EnableResults(Canvas results)
+    {
+        results.enabled = true;
+    }
+
+    public static bool HasPlayerWon(Fighter player)
+    {
+        return player.hp > 0 ? true : false;
     }
 }

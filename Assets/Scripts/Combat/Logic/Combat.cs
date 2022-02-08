@@ -28,7 +28,7 @@ public class Combat : MonoBehaviour
     float DistanceAwayFromEachotherOnAttack = 1.25f;
 
     // Game status data
-    public static bool isGameOver = false;
+    public static bool isGameOver;
     List<Fighter> fightersOrderOfAttack = new List<Fighter> { };
 
     private void Awake()
@@ -37,12 +37,12 @@ public class Combat : MonoBehaviour
         movementScript = this.GetComponent<Movement>();
         attacktScript = this.GetComponent<Attack>();
         fightersUIDataScript = this.GetComponent<FightersUIData>();
+        isGameOver = false;
     }
     void Start()
     {
         FindGameObjects();
         SetVisibilityOfGameObjects();
-        SetPlayerGameObjectInsideContainer();
         GetFighterScriptComponent();
         GenerateBotData();
         SetFighterPositions();
@@ -60,12 +60,6 @@ public class Combat : MonoBehaviour
     {
         player = playerGameObject.GetComponent<Fighter>();
         bot = botGameObject.GetComponent<Fighter>();
-    }
-
-    private void SetPlayerGameObjectInsideContainer()
-    {
-        playerWrapper.transform.SetParent(GameObject.FindGameObjectWithTag("FightersContainer").transform);
-        playerWrapper.transform.localScale = new Vector3(1, 1, 1);
     }
 
     private void SetVisibilityOfGameObjects()
@@ -104,6 +98,7 @@ public class Combat : MonoBehaviour
         Fighter firstAttacker = fightersOrderOfAttack[0];
         Fighter secondAttacker = fightersOrderOfAttack[1];
 
+        //1 loop = 1 turn (both players attacking)
         while (!isGameOver)
         {
             // The CombatLogicHandler method should handle all the actions of a player for that turn. E.G. Move, Attack, Throw skill....
@@ -112,9 +107,9 @@ public class Combat : MonoBehaviour
             yield return StartCoroutine(CombatLogicHandler(secondAttacker, firstAttacker));
         }
 
-        //TODO: Send the correct value for the boolean here
-        PostGameActions.UpdateElo(User.Instance.elo, botElo, true);
+        StartPostGameActions();
     }
+
 
     private void GenerateBotData()
     {
@@ -152,11 +147,6 @@ public class Combat : MonoBehaviour
         FighterSkin.SwitchFighterOrientation(attacker.GetComponent<SpriteRenderer>());
         yield return StartCoroutine(movementScript.MoveBack(attacker, attacker.initialPosition));
         FighterSkin.SwitchFighterOrientation(attacker.GetComponent<SpriteRenderer>());
-
-        if (isGameOver)
-        {
-            results.enabled = true;
-        }
     }
 
     // This method creates a dictionary with the Fighter class objects sorted by their speeds to get the order of attack.
@@ -177,5 +167,14 @@ public class Combat : MonoBehaviour
         {
             fightersOrderOfAttack.Add((Fighter)fighter.Key);
         }
+    }
+
+    private void StartPostGameActions()
+    {
+        bool isPlayerWinner = PostGameActions.HasPlayerWon(player);
+        int eloChange = MatchMaking.CalculateEloChange(User.Instance.elo, botElo, isPlayerWinner);
+        PostGameActions.SetElo(eloChange);
+        fightersUIDataScript.SetResultsEloChange(eloChange);
+        PostGameActions.EnableResults(results);
     }
 }

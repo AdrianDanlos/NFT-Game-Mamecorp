@@ -14,6 +14,7 @@ public class FightersUIData : MonoBehaviour
     public GameObject botHealthBarGO;
     private float playerMaxHealth;
     private float botMaxHealth;
+    public GameObject resultsEloChange;
 
     public void SetFightersUIInfo(Fighter player, Fighter bot, int botElo)
     {
@@ -42,7 +43,8 @@ public class FightersUIData : MonoBehaviour
 
     public void ModifyHealthBar(Fighter fighter, bool isPlayer)
     {
-        if(isPlayer){
+        if (isPlayer)
+        {
             SetHealthBarValue(playerHealthBarGO, fighter, playerMaxHealth);
             return;
         }
@@ -50,7 +52,13 @@ public class FightersUIData : MonoBehaviour
         SetHealthBarValue(botHealthBarGO, fighter, botMaxHealth);
     }
 
-    private void SetHealthBarValue(GameObject healthBar, Fighter fighter, float maxHealth){
+    private void SetHealthBarValue(GameObject healthBar, Fighter fighter, float maxHealth)
+    {
         healthBar.GetComponent<Slider>().value = fighter.hp / maxHealth;
+    }
+
+    public void SetResultsEloChange(int eloChange)
+    {
+        resultsEloChange.GetComponent<TextMeshProUGUI>().text = eloChange.ToString();
     }
 }

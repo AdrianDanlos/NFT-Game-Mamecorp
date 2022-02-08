@@ -13,11 +13,11 @@ public static class MatchMaking
         return botElo >= 0 ? botElo : 0;
     }
 
-    public static int CalculateEloChange(int playerElo, int botElo, bool hasPlayerWon)
+    public static int CalculateEloChange(int playerElo, int botElo, bool isPlayerWinner)
     {
         int eloDifference = botElo - playerElo;
         int eloPonderance = eloDifference / 10;
         int eloChange = baseEloGain + eloPonderance;
-        return hasPlayerWon ? eloChange : -eloChange;
+        return isPlayerWinner ? eloChange : -eloChange;
     }
 }

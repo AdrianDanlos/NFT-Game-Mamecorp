@@ -132,7 +132,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8655791}
-  - component: {fileID: 8655793}
   m_Layer: 0
   m_Name: All_Fighter
   m_TagString: Untagged
@@ -310,7 +309,7 @@ GameObject:
   - component: {fileID: 64211766}
   m_Layer: 5
   m_Name: Canvas_Choose_Name_Fighter
-  m_TagString: Untagged
+  m_TagString: FighterNamePopup
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -563,7 +562,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!1 &312014217
 GameObject:
@@ -1107,6 +1106,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eea974abf9c95ae43bd7b1f00fb8665f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fighterNameInput: {fileID: 0}
 --- !u!1 &583111582
 GameObject:
   m_ObjectHideFlags: 0
@@ -1508,6 +1508,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eea974abf9c95ae43bd7b1f00fb8665f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fighterNameInput: {fileID: 0}
 --- !u!1 &768461674
 GameObject:
   m_ObjectHideFlags: 0
@@ -2178,6 +2179,7 @@ GameObject:
   - component: {fileID: 1088554336}
   - component: {fileID: 1088554335}
   - component: {fileID: 1088554334}
+  - component: {fileID: 1088554337}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -2310,6 +2312,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eea974abf9c95ae43bd7b1f00fb8665f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fighterNameInput: {fileID: 0}
 --- !u!1 &1099925615
 GameObject:
   m_ObjectHideFlags: 0
@@ -3587,6 +3590,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 96274b6f4982041558dfdc5471747076, type: 3}
     - target: {fileID: 6626206736398647532, guid: f18d442dcf9d8bd468eaadd2831ecc17, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6626206736398647532, guid: f18d442dcf9d8bd468eaadd2831ecc17, type: 3}
       propertyPath: m_AdditionalShaderChannelsFlag
       value: 25
       objectReference: {fileID: 0}
@@ -3600,7 +3607,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6626206736398647533, guid: f18d442dcf9d8bd468eaadd2831ecc17, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 6626206736398647533, guid: f18d442dcf9d8bd468eaadd2831ecc17, type: 3}
       propertyPath: m_AnchorMax.x
@@ -4444,6 +4451,8 @@ GameObject:
   - component: {fileID: 1907604892}
   - component: {fileID: 1907604891}
   - component: {fileID: 1907604890}
+  - component: {fileID: 1907604894}
+  - component: {fileID: 1907604893}
   m_Layer: 5
   m_Name: Button_Ok
   m_TagString: Untagged
@@ -4514,7 +4523,31 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1907604891}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1907604894}
+        m_TargetAssemblyTypeName: ChooseFirstFighter, Assembly-CSharp
+        m_MethodName: OnConfirmFighterName
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1907604893}
+        m_TargetAssemblyTypeName: OnClickGoToMainMenu, Assembly-CSharp
+        m_MethodName: GoToMainMenu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1907604891
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4553,6 +4586,97 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1907604888}
   m_CullTransparentMesh: 1
+--- !u!114 &1907604893
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1907604888}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5845c43788b7574fa35a1f8be8a587e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1907604894
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1907604888}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eea974abf9c95ae43bd7b1f00fb8665f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fighterNameInput: {fileID: 1603162459}
+--- !u!1 &1917268658
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1917268661}
+  - component: {fileID: 1917268660}
+  - component: {fileID: 1917268659}
+  m_Layer: 0
+  m_Name: EventSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1917268659
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1917268658}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalAxis: Horizontal
+  m_VerticalAxis: Vertical
+  m_SubmitButton: Submit
+  m_CancelButton: Cancel
+  m_InputActionsPerSecond: 10
+  m_RepeatDelay: 0.5
+  m_ForceModuleActive: 0
+--- !u!114 &1917268660
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1917268658}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_FirstSelected: {fileID: 0}
+  m_sendNavigationEvents: 1
+  m_DragThreshold: 10
+--- !u!4 &1917268661
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1917268658}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1923502740
 GameObject:
   m_ObjectHideFlags: 0

@@ -7,11 +7,9 @@ public class ChooseFirstFighter : MonoBehaviour
 {
     public void OnSelectFighter()
     {
-        Debug.Log("entro");
         CreateFighterFile();
         //FIXME: Redirect to main menu after user has given a name to the fighter
         //Send selected skin to the fighter constructor
-        Debug.Log("antes del cambio");
         UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
     }
 

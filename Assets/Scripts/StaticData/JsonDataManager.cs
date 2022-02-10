@@ -6,12 +6,11 @@ using UnityEngine;
 
 public static class JsonDataManager
 {
-    private static string savePath;
+    private static string savePath = Application.persistentDataPath;
     public const string UserFileName = "user";
     public const string FighterFileName = "fighter";
     public static void SaveData(JObject data, string fileName)
     {
-        savePath = Application.persistentDataPath;
         System.IO.Directory.CreateDirectory(savePath);
         string json = JsonConvert.SerializeObject(data, Formatting.Indented);
         System.IO.File.WriteAllText(getFilePath(fileName), json);

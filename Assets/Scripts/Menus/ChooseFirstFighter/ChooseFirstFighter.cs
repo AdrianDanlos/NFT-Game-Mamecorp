@@ -1,24 +1,20 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using Newtonsoft.Json.Linq;
-using UnityEngine.UI;
-using TMPro;
 
-public class OnClickContinue : MonoBehaviour
+public class ChooseFirstFighter : MonoBehaviour
 {
-    public GameObject nickNameInput;
-    public void onClickHandler()
+    public void OnSelectFighter()
     {
-        CreateUserFile();
+        Debug.Log("entro");
         CreateFighterFile();
+        //FIXME: Redirect to main menu after user has given a name to the fighter
+        //Send selected skin to the fighter constructor
+        Debug.Log("antes del cambio");
+        UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
     }
 
-    private void CreateUserFile()
-    {
-        string userName = nickNameInput.GetComponent<TextMeshProUGUI>().text;
-        UserFactory.CreateUserInstance(userName);
-        JObject user = JObject.FromObject(User.Instance);
-        JsonDataManager.SaveData(user, JsonDataManager.UserFileName);
-    }
     private void CreateFighterFile()
     {
         //TODO: Pedir nombre al usuario en escena

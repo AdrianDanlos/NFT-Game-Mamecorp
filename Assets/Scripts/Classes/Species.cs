@@ -2,5 +2,5 @@ enum Species
 {
     Monster,
     Robot,
-    Alien,      
+    Alien      
 }

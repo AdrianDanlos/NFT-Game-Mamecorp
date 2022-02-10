@@ -802,7 +802,6 @@ GameObject:
   - component: {fileID: 410527967}
   - component: {fileID: 410527966}
   - component: {fileID: 410527969}
-  - component: {fileID: 410527970}
   m_Layer: 5
   m_Name: button_yellow
   m_TagString: Untagged
@@ -875,20 +874,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 410527969}
-        m_TargetAssemblyTypeName: OnClickContinue, Assembly-CSharp
-        m_MethodName: onClickHandler
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 410527970}
-        m_TargetAssemblyTypeName: OnClickGoToMainMenu, Assembly-CSharp
-        m_MethodName: GoToMainMenu
+        m_TargetAssemblyTypeName: OnCreateUser, Assembly-CSharp
+        m_MethodName: onClickContinue
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -949,18 +936,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nickNameInput: {fileID: 1126224699}
---- !u!114 &410527970
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 410527964}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f5845c43788b7574fa35a1f8be8a587e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &506324782
 GameObject:
   m_ObjectHideFlags: 0

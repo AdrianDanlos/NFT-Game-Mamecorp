@@ -18,7 +18,7 @@ public static class FighterSkin
 
     private static void LoadFighterSkin(Fighter fighter)
     {
-        fighter.skinAnimations = Resources.LoadAll<AnimationClip>("Animations/" + fighter.skin);
+        fighter.skinAnimations = Resources.LoadAll<AnimationClip>("Animations/Characters/" + fighter.skin);
     }
     
     //This method gets a list (aoc) with the animation nodes in the animator controller (ordered by creation date)

@@ -7,6 +7,14 @@ using TMPro;
 public class ChooseFirstFighter : MonoBehaviour
 {
     public GameObject fighterNameInput;
+    public Animator fighterOne;
+    // public Animator fighterTwo;
+    // public Animator fighterThree;
+
+    private void Start() {
+        fighterOne = GameObject.FindGameObjectWithTag("StarterFighterOne").GetComponent<Animator>();
+        //ChooseFirstFighterAnimations.SetFightersSkin(fighterOne);
+    }
     public void OnSelectFighter()
     {
         //FIXME: Save skin

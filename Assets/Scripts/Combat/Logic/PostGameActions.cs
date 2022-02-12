@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 public class PostGameActions
 {
     public static void SetElo(int eloChange)
@@ -11,8 +12,6 @@ public class PostGameActions
         results.enabled = true;
     }
 
-    public static bool HasPlayerWon(Fighter player)
-    {
-        return player.hp > 0 ? true : false;
-    }
+    //Functional Pattern. Func<ParameterType, ReturnType>
+    public static Func<Fighter, bool> HasPlayerWon = player => player.hp > 0 ? true : false;
 }

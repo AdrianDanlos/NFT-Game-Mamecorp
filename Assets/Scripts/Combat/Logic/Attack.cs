@@ -5,6 +5,8 @@ public class Attack : MonoBehaviour
 {
     public IEnumerator PerformAttack(Fighter attacker, Fighter defender)
     {
+        //We need to use yield return to wait until anim is finished
+        yield return StartCoroutine(FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.ATTACK));
         if (IsAttackDodged(defender))
         {
             Debug.Log("Dodged!");

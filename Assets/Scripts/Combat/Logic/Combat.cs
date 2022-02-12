@@ -25,7 +25,7 @@ public class Combat : MonoBehaviour
     // Positions data
     static Vector3 PlayerStartingPosition = new Vector3(-6, -0.7f, 0);
     static Vector3 BotStartingPosition = new Vector3(6, -0.7f, 0);
-    float DistanceAwayFromEachotherOnAttack = 1.25f;
+    float DistanceAwayFromEachotherOnAttack = 1.5f;
 
     // Game status data
     public static bool isGameOver;
@@ -49,10 +49,7 @@ public class Combat : MonoBehaviour
         SetOrderOfAttacks();
         fightersUIDataScript.SetFightersUIInfo(player, bot, botElo);
         FighterSkin.SetFightersSkin(player, bot);
-
-        //FIXME: ANIMATION TEST
-        FighterAnimations.ChangeAnimation(player, FighterAnimations.AnimationNames.IDLE);
-
+        
         StartCoroutine(InitiateCombat());
     }
 
@@ -131,6 +128,7 @@ public class Combat : MonoBehaviour
     IEnumerator CombatLogicHandler(Fighter attacker, Fighter defender)
     {
         // Move forward
+        StartCoroutine(FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.RUN));
         yield return StartCoroutine(movementScript.MoveForward(attacker, attacker.destinationPosition));
 
         // Attack
@@ -144,9 +142,11 @@ public class Combat : MonoBehaviour
         };
 
         // Move back
+        StartCoroutine(FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.RUN));
         FighterSkin.SwitchFighterOrientation(attacker.GetComponent<SpriteRenderer>());
         yield return StartCoroutine(movementScript.MoveBack(attacker, attacker.initialPosition));
         FighterSkin.SwitchFighterOrientation(attacker.GetComponent<SpriteRenderer>());
+        StartCoroutine(FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.IDLE));
     }
 
     // This method creates a dictionary with the Fighter class objects sorted by their speeds to get the order of attack.

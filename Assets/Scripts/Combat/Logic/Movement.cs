@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 public class Movement : MonoBehaviour
 {
-    private float runningDurationInSeconds = 1f;
+    private float runningDurationInSeconds = 0.7f;
     public double dodgeDurationInSeconds = 0.15;
     
     //FIXME: This value is not correct + Is it possible to get this value automatically from the canvas?

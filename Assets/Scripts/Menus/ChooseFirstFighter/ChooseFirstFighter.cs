@@ -7,31 +7,24 @@ using TMPro;
 public class ChooseFirstFighter : MonoBehaviour
 {
     public GameObject fighterNameInput;
-    public Animator fighterOne;
-    // public Animator fighterTwo;
-    // public Animator fighterThree;
-
-    private void Start() {
-        fighterOne = GameObject.FindGameObjectWithTag("StarterFighterOne").GetComponent<Animator>();
-        //ChooseFirstFighterAnimations.SetFightersSkin(fighterOne);
-    }
+    private string fighterName;
+    private string skinName;
     public void OnSelectFighter()
     {
-        //FIXME: Save skin
         GameObject.FindGameObjectWithTag("FighterNamePopup").GetComponent<Canvas>().enabled = true;
+        skinName = this.transform.Find("Fighter").GetComponent<FighterSkinName>().skinName;
     }
 
     public void OnConfirmFighterName()
     {
-        string fighterName = fighterNameInput.GetComponent<TextMeshProUGUI>().text;
-        //FIXME: Send selected skin to the fighter constructor
-        CreateFighterFile(fighterName);
+        fighterName = fighterNameInput.GetComponent<TextMeshProUGUI>().text;
+        CreateFighterFile();
         UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
     }
 
-    private void CreateFighterFile(string fighterName)
+    private void CreateFighterFile()
     {
-        JObject serializableFighter = JObject.FromObject(JsonDataManager.CreateSerializableFighterInstance(FighterFactory.CreatePlayerFighterInstance(fighterName)));
+        JObject serializableFighter = JObject.FromObject(JsonDataManager.CreateSerializableFighterInstance(FighterFactory.CreatePlayerFighterInstance(fighterName, skinName)));
         JsonDataManager.SaveData(serializableFighter, JsonDataManager.FighterFileName);
     }
 }

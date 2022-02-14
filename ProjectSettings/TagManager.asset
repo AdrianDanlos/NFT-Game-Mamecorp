@@ -7,7 +7,6 @@ TagManager:
   - Fighter
   - Results
   - FighterNamePopup
-  - StarterFighterOne
   layers:
   - Default
   - TransparentFX

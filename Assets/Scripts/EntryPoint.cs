@@ -16,9 +16,9 @@ public class EntryPoint : MonoBehaviour
         {
             ReadUserFile();
             ReadFighterFile();
-            UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
+            UnityEngine.SceneManagement.SceneManager.LoadScene(SceneNames.MainMenu.ToString());
         }
-        else UnityEngine.SceneManagement.SceneManager.LoadScene("UserFirstStart");
+        else UnityEngine.SceneManagement.SceneManager.LoadScene(SceneNames.UserFirstStart.ToString());
     }
 
     private static void ReadUserFile()

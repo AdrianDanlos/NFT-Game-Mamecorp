@@ -19,7 +19,7 @@ public class ChooseFirstFighter : MonoBehaviour
     {
         fighterName = fighterNameInput.GetComponent<TextMeshProUGUI>().text;
         CreateFighterFile();
-        UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
+        UnityEngine.SceneManagement.SceneManager.LoadScene(SceneNames.MainMenu.ToString());
     }
 
     public void CreateFighterFile()

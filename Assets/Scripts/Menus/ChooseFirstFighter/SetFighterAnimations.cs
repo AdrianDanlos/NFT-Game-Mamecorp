@@ -13,7 +13,7 @@ public class SetFighterAnimations : MonoBehaviour
 
         if (IsMainMenu()) skinName = PlayerUtils.FindInactiveFighter().skin;
         //For ChooseFirstFighter Menu
-        else skinName = this.GetComponent<FighterSkinName>().skinName;
+        else skinName = this.GetComponent<FighterSkinData>().skinName;
 
         AnimationClip idleAnimation = Resources.Load<AnimationClip>("Animations/Characters/" + skinName + "/01_idle");
         SetAnimationClipToAnimator(fighterAnimator, idleAnimation);

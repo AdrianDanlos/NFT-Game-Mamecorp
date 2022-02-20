@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FighterSkinName : MonoBehaviour
+public class FighterSkinData : MonoBehaviour
 {
     public string skinName;
+    public string species;
 }

@@ -17,7 +17,7 @@ public class MainMenu : MonoBehaviour
     void Start()
     {
         player = PlayerUtils.FindInactiveFighter();
-        //EntryPoint.fighterGameObject.SetActive(true);
+        PlayerUtils.FindInactiveFighterGameObject().SetActive(false);
         maxXp = Levels.MaxXpOfCurrentLevel(player.level);
 
         SetName();

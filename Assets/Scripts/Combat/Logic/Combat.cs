@@ -40,19 +40,21 @@ public class Combat : MonoBehaviour
         fightersUIDataScript = this.GetComponent<FightersUIData>();
         isGameOver = false;
     }
+
     void Start()
     {
         FindGameObjects();
         SetVisibilityOfGameObjects();
         GetFighterScriptComponents();
+        ResetAnimationsState();  
         GenerateBotData();
         SetFighterPositions();
         SetOrderOfAttacks();
         fightersUIDataScript.SetFightersUIInfo(player, bot, botElo);
         FighterSkin.SetFightersSkin(player, bot);
         playerMaxHp = player.hp;
-        //FIXME: This should not be needed if we are using the instance of the main menu which is already on IDLE state
-        StartCoroutine(FighterAnimations.ChangeAnimation(player, FighterAnimations.AnimationNames.IDLE));
+              
+        Debug.Log(player.damage);
         StartCoroutine(InitiateCombat());
     }
 
@@ -124,7 +126,12 @@ public class Combat : MonoBehaviour
             Card cardInstance = new Card((string)card["cardName"], (int)card["mana"], (string)card["text"], (string)card["rarity"], (string)card["type"]);
             botCards.Add(cardInstance);
         }
-        bot.FighterConstructor(botName, 10, 1, 6, "Leaf", "MonsterV5", 1, 0, 10, botCards);
+        //FIXME: Randomize bot skin/species
+        bot.FighterConstructor(botName, 
+            Species.defaultStats[SpeciesNames.Monster]["hp"], 
+            Species.defaultStats[SpeciesNames.Monster]["damage"], 
+            Species.defaultStats[SpeciesNames.Monster]["speed"], 
+            SpeciesNames.Monster.ToString(), "MonsterV5", 1, 0, 10, botCards);
     }
 
     IEnumerator CombatLogicHandler(Fighter attacker, Fighter defender)
@@ -175,21 +182,19 @@ public class Combat : MonoBehaviour
     {
         bool isPlayerWinner = PostGameActions.HasPlayerWon(player);
         int eloChange = MatchMaking.CalculateEloChange(User.Instance.elo, botElo, isPlayerWinner);
-        PostGameActions.SetElo(eloChange);
         fightersUIDataScript.SetResultsEloChange(eloChange);
+        PostGameActions.SetElo(eloChange);
         PostGameActions.EnableResults(results);
-        HideLoserFighter();
-        ResetPlayerHp();
+        PostGameActions.HideLoserFighter();
+        PostGameActions.ResetPlayerHp(playerMaxHp);
+        //TODO
+        //update exp
+        //if level up update stats
+        //Remove some savedata from the fighter class setters and save everything needed when combat is finished
     }
 
-    private void HideLoserFighter()
+    private void ResetAnimationsState()
     {
-        if (PostGameActions.HasPlayerWon(player)) botGameObject.SetActive(false);
-        else playerGameObject.SetActive(false);
-    }
-
-    private void ResetPlayerHp()
-    {
-        player.hp = playerMaxHp;
+        StartCoroutine(FighterAnimations.ChangeAnimation(player, FighterAnimations.AnimationNames.IDLE));
     }
 }

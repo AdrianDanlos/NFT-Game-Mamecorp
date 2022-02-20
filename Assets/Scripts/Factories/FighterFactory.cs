@@ -4,8 +4,7 @@ using UnityEngine;
 
 public static class FighterFactory
 {
-    //FIXME: In the future dont give a default for species.
-    public static Fighter CreatePlayerFighterInstance(string fighterName, string skin, float hp = 10, float damage = 1, float speed = 3, string species = "fire",
+    public static Fighter CreatePlayerFighterInstance(string fighterName, string skin, string species, float hp, float damage, float speed,
         int level = 1, int experiencePoints = 0, int manaSlots = 10, List<Card> cards = null)
     {
         Fighter fighter = PlayerUtils.FindInactiveFighter();

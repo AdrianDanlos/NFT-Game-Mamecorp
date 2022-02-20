@@ -1,18 +1,22 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Newtonsoft.Json.Linq;
 using TMPro;
+using System;
+using System.Reflection;
+using System.Linq;
 
 public class ChooseFirstFighter : MonoBehaviour
 {
     public GameObject fighterNameInput;
     private string fighterName;
     private static string skinName;
+    private static string species;
     public void OnSelectFighter()
     {
         GameObject.FindGameObjectWithTag("FighterNamePopup").GetComponent<Canvas>().enabled = true;
-        skinName = this.transform.Find("Fighter").GetComponent<FighterSkinName>().skinName;
+        FighterSkinData fighterSkin = this.transform.Find("Fighter").GetComponent<FighterSkinData>();
+        skinName = fighterSkin.skinName;
+        species = fighterSkin.species;
     }
 
     public void OnConfirmFighterName()
@@ -22,9 +26,14 @@ public class ChooseFirstFighter : MonoBehaviour
         UnityEngine.SceneManagement.SceneManager.LoadScene(SceneNames.MainMenu.ToString());
     }
 
-    public void CreateFighterFile()
+    private void CreateFighterFile()
     {
-        JObject serializableFighter = JObject.FromObject(JsonDataManager.CreateSerializableFighterInstance(FighterFactory.CreatePlayerFighterInstance(fighterName, skinName)));
+        SpeciesNames speciesEnumMember = (SpeciesNames)Enum.Parse(typeof(SpeciesNames), species); //Monster, Robot, Alien
+        JObject serializableFighter = JObject.FromObject(JsonDataManager.CreateSerializableFighterInstance(FighterFactory.CreatePlayerFighterInstance(
+            fighterName, skinName, species, 
+            Species.defaultStats[speciesEnumMember]["hp"], 
+            Species.defaultStats[speciesEnumMember]["damage"],
+            Species.defaultStats[speciesEnumMember]["speed"])));
         JsonDataManager.SaveData(serializableFighter, JsonDataManager.FighterFileName);
     }
 }

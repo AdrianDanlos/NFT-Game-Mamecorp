@@ -40,19 +40,21 @@ public class Combat : MonoBehaviour
         fightersUIDataScript = this.GetComponent<FightersUIData>();
         isGameOver = false;
     }
+
     void Start()
     {
         FindGameObjects();
         SetVisibilityOfGameObjects();
         GetFighterScriptComponents();
+        ResetAnimationsState();  
         GenerateBotData();
         SetFighterPositions();
         SetOrderOfAttacks();
         fightersUIDataScript.SetFightersUIInfo(player, bot, botElo);
         FighterSkin.SetFightersSkin(player, bot);
         playerMaxHp = player.hp;
-        //FIXME: This should not be needed if we are using the instance of the main menu which is already on IDLE state
-        StartCoroutine(FighterAnimations.ChangeAnimation(player, FighterAnimations.AnimationNames.IDLE));
+              
+        Debug.Log(player.damage);
         StartCoroutine(InitiateCombat());
     }
 
@@ -124,7 +126,12 @@ public class Combat : MonoBehaviour
             Card cardInstance = new Card((string)card["cardName"], (int)card["mana"], (string)card["text"], (string)card["rarity"], (string)card["type"]);
             botCards.Add(cardInstance);
         }
-        bot.FighterConstructor(botName, 10, 1, 6, "Leaf", "MonsterV5", 1, 0, 10, botCards);
+        //FIXME: Randomize bot skin/species
+        bot.FighterConstructor(botName, 
+            Species.defaultStats[SpeciesNames.Monster]["hp"], 
+            Species.defaultStats[SpeciesNames.Monster]["damage"], 
+            Species.defaultStats[SpeciesNames.Monster]["speed"], 
+            SpeciesNames.Monster.ToString(), "MonsterV5", 1, 0, 10, botCards);
     }
 
     IEnumerator CombatLogicHandler(Fighter attacker, Fighter defender)
@@ -180,7 +187,14 @@ public class Combat : MonoBehaviour
         PostGameActions.EnableResults(results);
         PostGameActions.HideLoserFighter();
         PostGameActions.ResetPlayerHp(playerMaxHp);
-        //update dummy exp to gain stats when leveling up
+        //TODO
+        //update exp
         //if level up update stats
+        //Remove some savedata from the fighter class setters and save everything needed when combat is finished
+    }
+
+    private void ResetAnimationsState()
+    {
+        StartCoroutine(FighterAnimations.ChangeAnimation(player, FighterAnimations.AnimationNames.IDLE));
     }
 }

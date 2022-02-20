@@ -175,21 +175,12 @@ public class Combat : MonoBehaviour
     {
         bool isPlayerWinner = PostGameActions.HasPlayerWon(player);
         int eloChange = MatchMaking.CalculateEloChange(User.Instance.elo, botElo, isPlayerWinner);
-        PostGameActions.SetElo(eloChange);
         fightersUIDataScript.SetResultsEloChange(eloChange);
+        PostGameActions.SetElo(eloChange);
         PostGameActions.EnableResults(results);
-        HideLoserFighter();
-        ResetPlayerHp();
-    }
-
-    private void HideLoserFighter()
-    {
-        if (PostGameActions.HasPlayerWon(player)) botGameObject.SetActive(false);
-        else playerGameObject.SetActive(false);
-    }
-
-    private void ResetPlayerHp()
-    {
-        player.hp = playerMaxHp;
+        PostGameActions.HideLoserFighter();
+        PostGameActions.ResetPlayerHp(playerMaxHp);
+        //update dummy exp to gain stats when leveling up
+        //if level up update stats
     }
 }

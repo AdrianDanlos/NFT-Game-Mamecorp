@@ -12,9 +12,9 @@ public class Combat : MonoBehaviour
     public int botElo;
 
     // GameObjects related data
-    public GameObject playerGameObject;
+    public static GameObject playerGameObject;
     public GameObject playerWrapper;
-    public GameObject botGameObject;
+    public static GameObject botGameObject;
     public Canvas results;
 
     // Script references
@@ -49,7 +49,9 @@ public class Combat : MonoBehaviour
         SetOrderOfAttacks();
         fightersUIDataScript.SetFightersUIInfo(player, bot, botElo);
         FighterSkin.SetFightersSkin(player, bot);
-        
+        //FIXME: This should not be needed if we are using the instance of the main menu which is already on IDLE state
+        StartCoroutine(FighterAnimations.ChangeAnimation(player, FighterAnimations.AnimationNames.IDLE));
+
         StartCoroutine(InitiateCombat());
     }
 
@@ -103,7 +105,6 @@ public class Combat : MonoBehaviour
             if (isGameOver) break;
             yield return StartCoroutine(CombatLogicHandler(secondAttacker, firstAttacker));
         }
-
         StartPostGameActions();
     }
 
@@ -176,5 +177,12 @@ public class Combat : MonoBehaviour
         PostGameActions.SetElo(eloChange);
         fightersUIDataScript.SetResultsEloChange(eloChange);
         PostGameActions.EnableResults(results);
+        HideLoserFighter();
+    }
+
+    private void HideLoserFighter()
+    {
+        if (PostGameActions.HasPlayerWon(player)) botGameObject.SetActive(false);
+        else playerGameObject.SetActive(false);
     }
 }

@@ -13,7 +13,6 @@ public class ChooseFirstFighter : MonoBehaviour
     {
         GameObject.FindGameObjectWithTag("FighterNamePopup").GetComponent<Canvas>().enabled = true;
         skinName = this.transform.Find("Fighter").GetComponent<FighterSkinName>().skinName;
-        Debug.Log(skinName);
     }
 
     public void OnConfirmFighterName()
@@ -25,7 +24,6 @@ public class ChooseFirstFighter : MonoBehaviour
 
     public void CreateFighterFile()
     {
-        Debug.Log(skinName);
         JObject serializableFighter = JObject.FromObject(JsonDataManager.CreateSerializableFighterInstance(FighterFactory.CreatePlayerFighterInstance(fighterName, skinName)));
         JsonDataManager.SaveData(serializableFighter, JsonDataManager.FighterFileName);
     }

@@ -11,7 +11,7 @@ public class Combat : MonoBehaviour
     public Fighter bot;
     public int botElo;
 
-    // GameObjects related data
+    // GameObjects data
     public static GameObject playerGameObject;
     public GameObject playerWrapper;
     public static GameObject botGameObject;
@@ -30,6 +30,7 @@ public class Combat : MonoBehaviour
     // Game status data
     public static bool isGameOver;
     List<Fighter> fightersOrderOfAttack = new List<Fighter> { };
+    private float playerMaxHp;
 
     private void Awake()
     {
@@ -43,19 +44,19 @@ public class Combat : MonoBehaviour
     {
         FindGameObjects();
         SetVisibilityOfGameObjects();
-        GetFighterScriptComponent();
+        GetFighterScriptComponents();
         GenerateBotData();
         SetFighterPositions();
         SetOrderOfAttacks();
         fightersUIDataScript.SetFightersUIInfo(player, bot, botElo);
         FighterSkin.SetFightersSkin(player, bot);
+        playerMaxHp = player.hp;
         //FIXME: This should not be needed if we are using the instance of the main menu which is already on IDLE state
         StartCoroutine(FighterAnimations.ChangeAnimation(player, FighterAnimations.AnimationNames.IDLE));
-
         StartCoroutine(InitiateCombat());
     }
 
-    private void GetFighterScriptComponent()
+    private void GetFighterScriptComponents()
     {
         player = playerGameObject.GetComponent<Fighter>();
         bot = botGameObject.GetComponent<Fighter>();
@@ -178,11 +179,17 @@ public class Combat : MonoBehaviour
         fightersUIDataScript.SetResultsEloChange(eloChange);
         PostGameActions.EnableResults(results);
         HideLoserFighter();
+        ResetPlayerHp();
     }
 
     private void HideLoserFighter()
     {
         if (PostGameActions.HasPlayerWon(player)) botGameObject.SetActive(false);
         else playerGameObject.SetActive(false);
+    }
+
+    private void ResetPlayerHp()
+    {
+        player.hp = playerMaxHp;
     }
 }

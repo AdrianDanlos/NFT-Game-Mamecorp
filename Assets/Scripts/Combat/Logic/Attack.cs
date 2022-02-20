@@ -11,10 +11,14 @@ public class Attack : MonoBehaviour
         {
             Debug.Log("Dodged!");
             StartCoroutine(Combat.movementScript.DodgeMovement(defender));
+            yield return StartCoroutine(FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.JUMP));
+            yield return StartCoroutine(FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.IDLE));
+            //This break exits the PerformAttack function and therefore prevents from calling the dealDamage function.
             yield break;
         }
         DealDamage(attacker, defender);
         Combat.isGameOver = defender.hp <= 0 ? true : false;
+        if (Combat.isGameOver) StartCoroutine(FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.DEATH));
     }
 
     private void DealDamage(Fighter attacker, Fighter defender)

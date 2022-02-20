@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
-
+//FIXME: Do we need this class?
 public class CombatSimulation : MonoBehaviour
 {
     // components

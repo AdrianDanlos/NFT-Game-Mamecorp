@@ -24,6 +24,7 @@ public static class FighterSkin
     //This method gets a list (aoc) with the animation nodes in the animator controller (ordered by creation date)
     //We then loop through all the animation nodes and override them with the skinAnimations loaded from Resources.
     //It is very important that the animation nodes and the animations loaded from resources are in the same order.
+    //Consider adding tags to animations to avoid this behaviour
     private static void SetAnimationClipToAnimator(Fighter fighter)
     {
         AnimatorOverrideController aoc = new AnimatorOverrideController(fighter.animator.runtimeAnimatorController);

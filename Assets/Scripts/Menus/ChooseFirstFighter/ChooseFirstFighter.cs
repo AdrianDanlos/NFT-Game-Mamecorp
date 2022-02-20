@@ -8,7 +8,7 @@ public class ChooseFirstFighter : MonoBehaviour
 {
     public GameObject fighterNameInput;
     private string fighterName;
-    private string skinName;
+    private static string skinName;
     public void OnSelectFighter()
     {
         GameObject.FindGameObjectWithTag("FighterNamePopup").GetComponent<Canvas>().enabled = true;
@@ -19,10 +19,10 @@ public class ChooseFirstFighter : MonoBehaviour
     {
         fighterName = fighterNameInput.GetComponent<TextMeshProUGUI>().text;
         CreateFighterFile();
-        UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
+        UnityEngine.SceneManagement.SceneManager.LoadScene(SceneNames.MainMenu.ToString());
     }
 
-    private void CreateFighterFile()
+    public void CreateFighterFile()
     {
         JObject serializableFighter = JObject.FromObject(JsonDataManager.CreateSerializableFighterInstance(FighterFactory.CreatePlayerFighterInstance(fighterName, skinName)));
         JsonDataManager.SaveData(serializableFighter, JsonDataManager.FighterFileName);

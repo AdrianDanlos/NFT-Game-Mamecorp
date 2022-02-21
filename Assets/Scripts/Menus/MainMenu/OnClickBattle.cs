@@ -6,6 +6,6 @@ public class OnClickBattle : MonoBehaviour
 {
     public void OnClickHandler()
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene("Combat");
+        UnityEngine.SceneManagement.SceneManager.LoadScene(SceneNames.Combat.ToString());
     }
 }

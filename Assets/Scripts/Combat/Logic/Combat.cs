@@ -11,10 +11,10 @@ public class Combat : MonoBehaviour
     public Fighter bot;
     public int botElo;
 
-    // GameObjects related data
-    public GameObject playerGameObject;
+    // GameObjects data
+    public static GameObject playerGameObject;
     public GameObject playerWrapper;
-    public GameObject botGameObject;
+    public static GameObject botGameObject;
     public Canvas results;
 
     // Script references
@@ -30,6 +30,7 @@ public class Combat : MonoBehaviour
     // Game status data
     public static bool isGameOver;
     List<Fighter> fightersOrderOfAttack = new List<Fighter> { };
+    private float playerMaxHp;
 
     private void Awake()
     {
@@ -39,21 +40,25 @@ public class Combat : MonoBehaviour
         fightersUIDataScript = this.GetComponent<FightersUIData>();
         isGameOver = false;
     }
+
     void Start()
     {
         FindGameObjects();
         SetVisibilityOfGameObjects();
-        GetFighterScriptComponent();
+        GetFighterScriptComponents();
+        ResetAnimationsState();  
         GenerateBotData();
         SetFighterPositions();
         SetOrderOfAttacks();
         fightersUIDataScript.SetFightersUIInfo(player, bot, botElo);
         FighterSkin.SetFightersSkin(player, bot);
-        
+        playerMaxHp = player.hp;
+              
+        Debug.Log(player.damage);
         StartCoroutine(InitiateCombat());
     }
 
-    private void GetFighterScriptComponent()
+    private void GetFighterScriptComponents()
     {
         player = playerGameObject.GetComponent<Fighter>();
         bot = botGameObject.GetComponent<Fighter>();
@@ -103,7 +108,6 @@ public class Combat : MonoBehaviour
             if (isGameOver) break;
             yield return StartCoroutine(CombatLogicHandler(secondAttacker, firstAttacker));
         }
-
         StartPostGameActions();
     }
 
@@ -122,7 +126,12 @@ public class Combat : MonoBehaviour
             Card cardInstance = new Card((string)card["cardName"], (int)card["mana"], (string)card["text"], (string)card["rarity"], (string)card["type"]);
             botCards.Add(cardInstance);
         }
-        bot.FighterConstructor(botName, 10, 1, 6, "Leaf", "MonsterV5", 1, 0, 10, botCards);
+        //FIXME: Randomize bot skin/species
+        bot.FighterConstructor(botName, 
+            Species.defaultStats[SpeciesNames.Monster]["hp"], 
+            Species.defaultStats[SpeciesNames.Monster]["damage"], 
+            Species.defaultStats[SpeciesNames.Monster]["speed"], 
+            SpeciesNames.Monster.ToString(), "MonsterV5", 1, 0, 10, botCards);
     }
 
     IEnumerator CombatLogicHandler(Fighter attacker, Fighter defender)
@@ -173,8 +182,19 @@ public class Combat : MonoBehaviour
     {
         bool isPlayerWinner = PostGameActions.HasPlayerWon(player);
         int eloChange = MatchMaking.CalculateEloChange(User.Instance.elo, botElo, isPlayerWinner);
-        PostGameActions.SetElo(eloChange);
         fightersUIDataScript.SetResultsEloChange(eloChange);
+        PostGameActions.SetElo(eloChange);
         PostGameActions.EnableResults(results);
+        PostGameActions.HideLoserFighter();
+        PostGameActions.ResetPlayerHp(playerMaxHp);
+        //TODO
+        //update exp
+        //if level up update stats
+        //Remove some savedata from the fighter class setters and save everything needed when combat is finished
+    }
+
+    private void ResetAnimationsState()
+    {
+        StartCoroutine(FighterAnimations.ChangeAnimation(player, FighterAnimations.AnimationNames.IDLE));
     }
 }

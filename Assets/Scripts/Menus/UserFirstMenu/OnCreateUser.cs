@@ -9,7 +9,7 @@ public class OnCreateUser : MonoBehaviour
     public void onClickContinue()
     {
         CreateUserFile();
-        UnityEngine.SceneManagement.SceneManager.LoadScene("ChooseFirstFighter");
+        UnityEngine.SceneManagement.SceneManager.LoadScene(SceneNames.ChooseFirstFighter.ToString());
 
     }
     private void CreateUserFile()

@@ -976,7 +976,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: baa42e0df533e7c46aab1a87d2206ac4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fighter: {fileID: 454658693}
+  fighterAnimator: {fileID: 0}
 --- !u!114 &454658697
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -986,10 +986,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 454658691}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a732a8864df5c834eb16a55a81ac5a43, type: 3}
+  m_Script: {fileID: 11500000, guid: 7663284216ff84c4582df009f19f8d8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   skinName: AlienV5
+  species: Alien
 --- !u!1 &498331130
 GameObject:
   m_ObjectHideFlags: 0
@@ -2149,7 +2150,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: baa42e0df533e7c46aab1a87d2206ac4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fighter: {fileID: 1088554337}
+  fighterAnimator: {fileID: 0}
 --- !u!212 &1088554335
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2237,10 +2238,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1088554332}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a732a8864df5c834eb16a55a81ac5a43, type: 3}
+  m_Script: {fileID: 11500000, guid: 7663284216ff84c4582df009f19f8d8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   skinName: MonsterV5
+  species: Monster
 --- !u!1 &1099925615
 GameObject:
   m_ObjectHideFlags: 0
@@ -2714,7 +2716,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: baa42e0df533e7c46aab1a87d2206ac4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fighter: {fileID: 1194521089}
+  fighterAnimator: {fileID: 0}
 --- !u!114 &1194521093
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2724,10 +2726,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1194521087}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a732a8864df5c834eb16a55a81ac5a43, type: 3}
+  m_Script: {fileID: 11500000, guid: 7663284216ff84c4582df009f19f8d8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   skinName: RobotV1
+  species: Robot
 --- !u!1 &1216940584
 GameObject:
   m_ObjectHideFlags: 0

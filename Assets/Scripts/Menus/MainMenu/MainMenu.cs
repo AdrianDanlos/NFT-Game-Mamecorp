@@ -17,8 +17,9 @@ public class MainMenu : MonoBehaviour
     void Start()
     {
         player = PlayerUtils.FindInactiveFighter();
+        PlayerUtils.FindInactiveFighterGameObject().SetActive(false);
         maxXp = Levels.MaxXpOfCurrentLevel(player.level);
-        
+
         SetName();
         SetLevel();
         SetExperiencePoints();
@@ -29,7 +30,7 @@ public class MainMenu : MonoBehaviour
     }
     private void SetName()
     {
-        playerNameGO.GetComponent<TextMeshProUGUI>().text = player.fighterName;
+        playerNameGO.GetComponent<TextMeshProUGUI>().text = User.Instance.userName;
     }
     private void SetLevel()
     {

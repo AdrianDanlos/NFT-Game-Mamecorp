@@ -79,7 +79,6 @@ public class Fighter : MonoBehaviour
         get => _level; set
         {
             _level = value;
-            SaveFighter();
         }
     }
     public int experiencePoints

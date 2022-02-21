@@ -10,4 +10,10 @@ public static class PlayerUtils
         Fighter fighter = fighterGameObject.GetComponent<Fighter>();
         return fighter;
     }
+
+    public static GameObject FindInactiveFighterGameObject() // <3 (Akiho)
+    {
+        //FIXME: Reuse this with the call above
+        return GameObject.Find("FighterWrapper").transform.Find("Fighter").gameObject;
+    }
 }

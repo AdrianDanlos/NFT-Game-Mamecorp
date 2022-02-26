@@ -181,13 +181,20 @@ public class Combat : MonoBehaviour
     {
         bool isPlayerWinner = PostGameActions.HasPlayerWon(player);
         int eloChange = MatchMaking.CalculateEloChange(User.Instance.elo, botElo, isPlayerWinner);
-        fightersUIDataScript.SetResultsEloChange(eloChange);
+        
+        //PlayerData
         PostGameActions.SetElo(eloChange);
-        PostGameActions.EnableResults(results);
-        PostGameActions.HideLoserFighter();
         PostGameActions.ResetPlayerHp(playerMaxHp);
         PostGameActions.SetExperience(player, isPlayerWinner);
         PostGameActions.Save(player);
+
+        //UI
+        fightersUIDataScript.SetResultsEloChange(eloChange);
+        PostGameActions.HideLoserFighter();
+        PostGameActions.EnableResults(results);
+        //TODO -> SET RESULTS UI
+        
+        
     }
 
     private void ResetAnimationsState()

@@ -1,8 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
-using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
 {
@@ -18,41 +14,12 @@ public class MainMenu : MonoBehaviour
     {
         player = PlayerUtils.FindInactiveFighter();
         PlayerUtils.FindInactiveFighterGameObject().SetActive(false);
-        maxXp = Levels.MaxXpOfCurrentLevel(player.level);
 
-        SetName();
-        SetLevel();
-        SetExperiencePoints();
-        SetSlider();
-        SetGold();
-        SetEnergy();
-
-    }
-    private void SetName()
-    {
-        playerNameGO.GetComponent<TextMeshProUGUI>().text = User.Instance.userName;
-    }
-    private void SetLevel()
-    {
-        playerLevelGO.GetComponent<TextMeshProUGUI>().text = player.level.ToString();
-    }
-    private void SetExperiencePoints()
-    {
-        playerExpGO.GetComponent<TextMeshProUGUI>().text = $"{player.experiencePoints.ToString()}/{maxXp}";
-    }
-    private void SetSlider()
-    {
-        playerLevelSlider.GetComponent<Slider>().value = (float)player.experiencePoints / (float)maxXp;
-    }
-
-    private void SetGold()
-    {
-        gold.GetComponent<TextMeshProUGUI>().text = User.Instance.gold.ToString();
-    }
-
-    private void SetEnergy()
-    {
-        //FIXME: Set max energy here
-        energy.GetComponent<TextMeshProUGUI>().text = $"{User.Instance.energy.ToString()}/{10}";
+        MenuUtils.SetName(playerNameGO);
+        MenuUtils.SetLevel(playerLevelGO, player.level);
+        MenuUtils.SetExperiencePoints(playerNameGO, player.level, player.experiencePoints);
+        MenuUtils.SetSlider(playerLevelSlider, player.level, player.experiencePoints);
+        MenuUtils.SetGold(gold);
+        MenuUtils.SetEnergy(energy);
     }
 }

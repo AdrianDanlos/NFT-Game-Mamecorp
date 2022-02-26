@@ -86,7 +86,6 @@ public class Fighter : MonoBehaviour
         get => _experiencePoints; set
         {
             _experiencePoints = value;
-            SaveFighter();
         }
     }
     public int manaSlots
@@ -153,7 +152,7 @@ public class Fighter : MonoBehaviour
         this.saveEnabled = true;
     }
 
-    private void SaveFighter()
+    public void SaveFighter()
     {
         if (this.saveEnabled == true)
         {

@@ -54,7 +54,6 @@ public class Combat : MonoBehaviour
         FighterSkin.SetFightersSkin(player, bot);
         playerMaxHp = player.hp;
               
-        Debug.Log(player.damage);
         StartCoroutine(InitiateCombat());
     }
 
@@ -187,10 +186,8 @@ public class Combat : MonoBehaviour
         PostGameActions.EnableResults(results);
         PostGameActions.HideLoserFighter();
         PostGameActions.ResetPlayerHp(playerMaxHp);
-        //TODO
-        //update exp
-        //if level up update stats
-        //Remove some savedata from the fighter class setters and save everything needed when combat is finished
+        PostGameActions.SetExperience(player, isPlayerWinner);
+        PostGameActions.Save(player);
     }
 
     private void ResetAnimationsState()

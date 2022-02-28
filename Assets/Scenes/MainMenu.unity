@@ -1458,7 +1458,7 @@ GameObject:
   - component: {fileID: 440907230}
   - component: {fileID: 440907229}
   m_Layer: 3
-  m_Name: Exp_Gain Text (TMP)
+  m_Name: Elo_Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3153,6 +3153,7 @@ MonoBehaviour:
   playerLevelSlider: {fileID: 385165061}
   gold: {fileID: 958923376}
   energy: {fileID: 1938432369}
+  playerEloGO: {fileID: 0}
 --- !u!1 &1203680082
 GameObject:
   m_ObjectHideFlags: 0

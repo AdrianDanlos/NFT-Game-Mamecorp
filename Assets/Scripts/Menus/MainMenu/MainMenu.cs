@@ -16,7 +16,7 @@ public class MainMenu : MonoBehaviour
         PlayerUtils.FindInactiveFighterGameObject().SetActive(false);
 
         MenuUtils.SetName(playerNameGO);
-        MenuUtils.SetLevelSlider(playerLevelGO, playerNameGO, playerLevelSlider, player.level, player.experiencePoints);
+        MenuUtils.SetLevelSlider(playerLevelGO, playerExpGO, playerLevelSlider, player.level, player.experiencePoints);
         MenuUtils.SetGold(gold);
         MenuUtils.SetEnergy(energy);
         MenuUtils.SetElo(playerEloGO);

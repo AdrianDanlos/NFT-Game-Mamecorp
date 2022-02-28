@@ -3153,7 +3153,7 @@ MonoBehaviour:
   playerLevelSlider: {fileID: 385165061}
   gold: {fileID: 958923376}
   energy: {fileID: 1938432369}
-  playerEloGO: {fileID: 0}
+  playerEloGO: {fileID: 440907227}
 --- !u!1 &1203680082
 GameObject:
   m_ObjectHideFlags: 0

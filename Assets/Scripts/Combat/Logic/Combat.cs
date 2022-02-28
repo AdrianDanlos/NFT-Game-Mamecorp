@@ -46,15 +46,14 @@ public class Combat : MonoBehaviour
         FindGameObjects();
         SetVisibilityOfGameObjects();
         GetFighterScriptComponents();
-        ResetAnimationsState();  
+        ResetAnimationsState();
         GenerateBotData();
         SetFighterPositions();
         SetOrderOfAttacks();
         fightersUIDataScript.SetFightersUIInfo(player, bot, botElo);
         FighterSkin.SetFightersSkin(player, bot);
         playerMaxHp = player.hp;
-              
-        Debug.Log(player.damage);
+
         StartCoroutine(InitiateCombat());
     }
 
@@ -127,10 +126,10 @@ public class Combat : MonoBehaviour
             botCards.Add(cardInstance);
         }
         //FIXME: Randomize bot skin/species
-        bot.FighterConstructor(botName, 
-            Species.defaultStats[SpeciesNames.Monster]["hp"], 
-            Species.defaultStats[SpeciesNames.Monster]["damage"], 
-            Species.defaultStats[SpeciesNames.Monster]["speed"], 
+        bot.FighterConstructor(botName,
+            Species.defaultStats[SpeciesNames.Monster]["hp"],
+            Species.defaultStats[SpeciesNames.Monster]["damage"],
+            Species.defaultStats[SpeciesNames.Monster]["speed"],
             SpeciesNames.Monster.ToString(), "MonsterV5", 1, 0, 10, botCards);
     }
 
@@ -182,15 +181,23 @@ public class Combat : MonoBehaviour
     {
         bool isPlayerWinner = PostGameActions.HasPlayerWon(player);
         int eloChange = MatchMaking.CalculateEloChange(User.Instance.elo, botElo, isPlayerWinner);
-        fightersUIDataScript.SetResultsEloChange(eloChange);
+        int playerUpdatedExperience = player.experiencePoints + Levels.GetXpGain(isPlayerWinner);
+        bool isLevelUp = Levels.IsLevelUp(player.level, playerUpdatedExperience);
+
+        //PlayerData
         PostGameActions.SetElo(eloChange);
-        PostGameActions.EnableResults(results);
-        PostGameActions.HideLoserFighter();
         PostGameActions.ResetPlayerHp(playerMaxHp);
-        //TODO
-        //update exp
-        //if level up update stats
-        //Remove some savedata from the fighter class setters and save everything needed when combat is finished
+        PostGameActions.SetExperience(player, isPlayerWinner);
+        if (isLevelUp) PostGameActions.SetLevelUpSideEffects(player);
+        PostGameActions.Save(player);
+
+        //UI
+        fightersUIDataScript.SetResultsEloChange(eloChange);
+        fightersUIDataScript.SetResultsLevelSlider(player.level, player.experiencePoints);
+        fightersUIDataScript.SetResultsExpGainText(isPlayerWinner);
+        fightersUIDataScript.ShowLevelUpIcon(isLevelUp);
+        PostGameActions.HideLoserFighter();
+        PostGameActions.EnableResults(results);
     }
 
     private void ResetAnimationsState()

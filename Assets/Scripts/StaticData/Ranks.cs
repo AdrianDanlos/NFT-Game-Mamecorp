@@ -1,4 +1,4 @@
-//This should be in a database in the future
+//This is currently unused as we are using the cups system of clash royale
 
 using System.Collections.Generic;
 

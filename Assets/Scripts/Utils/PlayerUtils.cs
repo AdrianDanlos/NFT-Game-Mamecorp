@@ -11,7 +11,7 @@ public static class PlayerUtils
         return fighter;
     }
 
-    public static GameObject FindInactiveFighterGameObject() // <3 (Akiho)
+    public static GameObject FindInactiveFighterGameObject() 
     {
         //FIXME: Reuse this with the call above
         return GameObject.Find("FighterWrapper").transform.Find("Fighter").gameObject;

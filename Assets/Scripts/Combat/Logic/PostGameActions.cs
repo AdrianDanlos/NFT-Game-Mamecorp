@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+
 public class PostGameActions
 {
     public static void SetElo(int eloChange)
@@ -22,4 +23,15 @@ public class PostGameActions
         else Combat.playerGameObject.SetActive(false);
     }
 
+    public static void SetExperience(Fighter player, bool isPlayerWinner)
+    {
+        player.experiencePoints += Levels.GetXpGain(isPlayerWinner);
+    }
+    public static void SetLevelUpSideEffects(Fighter player)
+    {
+        Levels.ResetExperience(player);
+        Levels.UpgradeStats(player);
+        Levels.SetLevel(player);
+    }
+    public static Action<Fighter> Save = (player) => player.SaveFighter();
 }

@@ -26,12 +26,12 @@ public class PostGameActions
     public static void SetExperience(Fighter player, bool isPlayerWinner)
     {
         player.experiencePoints += Levels.GetXpGain(isPlayerWinner);
-        if (Levels.IsLevelUp(player))
-        {
-            Levels.ResetExperience(player);
-            Levels.UpgradeStats(player);
-            Levels.SetLevel(player);
-        }
+    }
+    public static void SetLevelUpSideEffects(Fighter player)
+    {
+        Levels.ResetExperience(player);
+        Levels.UpgradeStats(player);
+        Levels.SetLevel(player);
     }
     public static Action<Fighter> Save = (player) => player.SaveFighter();
 }

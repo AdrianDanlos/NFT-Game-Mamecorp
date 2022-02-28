@@ -15,6 +15,11 @@ public class FightersUIData : MonoBehaviour
     private float playerMaxHealth;
     private float botMaxHealth;
     public GameObject resultsEloChange;
+    public GameObject playerLevelGO;
+    public GameObject playerExpGO;
+    public GameObject playerLevelSliderGO;
+    public GameObject playerExpGainTextGO;
+    public GameObject levelUpIcon;
 
     public void SetFightersUIInfo(Fighter player, Fighter bot, int botElo)
     {
@@ -59,6 +64,18 @@ public class FightersUIData : MonoBehaviour
 
     public void SetResultsEloChange(int eloChange)
     {
-        resultsEloChange.GetComponent<TextMeshProUGUI>().text = eloChange.ToString();
+        resultsEloChange.GetComponent<TextMeshProUGUI>().text = eloChange > 0 ? $"+{eloChange.ToString()}" : eloChange.ToString();
+    }
+    public void SetResultsLevelSlider(int playerLevel, int playerExp)
+    {
+        MenuUtils.SetLevelSlider(playerLevelGO, playerExpGO, playerLevelSliderGO, playerLevel, playerExp);
+    }
+    public void SetResultsExpGainText(bool isPlayerWinner)
+    {
+        playerExpGainTextGO.GetComponent<TextMeshProUGUI>().text = $"+{Levels.GetXpGain(isPlayerWinner).ToString()}";
+    }
+    public void ShowLevelUpIcon(bool isLevelUp)
+    {
+        levelUpIcon.SetActive(isLevelUp);
     }
 }

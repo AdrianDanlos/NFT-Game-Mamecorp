@@ -3,7 +3,6 @@ using UnityEngine;
 public class MainMenu : MonoBehaviour
 {
     Fighter player;
-    int maxXp;
     public GameObject playerNameGO;
     public GameObject playerLevelGO;
     public GameObject playerExpGO;
@@ -16,9 +15,7 @@ public class MainMenu : MonoBehaviour
         PlayerUtils.FindInactiveFighterGameObject().SetActive(false);
 
         MenuUtils.SetName(playerNameGO);
-        MenuUtils.SetLevel(playerLevelGO, player.level);
-        MenuUtils.SetExperiencePoints(playerNameGO, player.level, player.experiencePoints);
-        MenuUtils.SetSlider(playerLevelSlider, player.level, player.experiencePoints);
+        MenuUtils.SetLevelSlider(playerLevelGO, playerNameGO, playerLevelSlider, player.level, player.experiencePoints);
         MenuUtils.SetGold(gold);
         MenuUtils.SetEnergy(energy);
     }

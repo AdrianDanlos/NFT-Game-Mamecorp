@@ -17,11 +17,15 @@ public static class Levels
     }
     public static Func<bool, int> GetXpGain = isPlayerWinner => isPlayerWinner ? 20 : 10;
 
-    public static Func<Fighter, bool> IsLevelUp = player => MaxXpOfCurrentLevel(player.level) < player.experiencePoints;
-    
     public static void SetLevel(Fighter player)
     {
         player.level++;
+    }
+
+    
+    public static bool IsLevelUp(int playerCurrentLevel, int playerUpdatedExperience)
+    {
+        return MaxXpOfCurrentLevel(playerCurrentLevel) <= playerUpdatedExperience;
     }
 
     public static void ResetExperience(Fighter player)

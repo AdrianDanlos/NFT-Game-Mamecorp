@@ -26,4 +26,8 @@ public class MenuUtils
         //FIXME: Set max energy here
         energyGO.GetComponent<TextMeshProUGUI>().text = $"{User.Instance.energy.ToString()}/{10}";
     }
+    public static void SetElo(GameObject playerEloGO)
+    {
+        playerEloGO.GetComponent<TextMeshProUGUI>().text = User.Instance.elo.ToString();
+    }
 }

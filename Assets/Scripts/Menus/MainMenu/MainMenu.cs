@@ -9,6 +9,7 @@ public class MainMenu : MonoBehaviour
     public GameObject playerLevelSlider;
     public GameObject gold;
     public GameObject energy;
+    public GameObject playerEloGO;
     void Start()
     {
         player = PlayerUtils.FindInactiveFighter();
@@ -18,5 +19,6 @@ public class MainMenu : MonoBehaviour
         MenuUtils.SetLevelSlider(playerLevelGO, playerNameGO, playerLevelSlider, player.level, player.experiencePoints);
         MenuUtils.SetGold(gold);
         MenuUtils.SetEnergy(energy);
+        MenuUtils.SetElo(playerEloGO);
     }
 }

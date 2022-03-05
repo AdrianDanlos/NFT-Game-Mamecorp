@@ -78,4 +78,15 @@ public class FightersUIData : MonoBehaviour
     {
         levelUpIcon.SetActive(isLevelUp);
     }
+
+    public void HideLoserFighter()
+    {
+        if (PostGameActions.HasPlayerWon(Combat.player)) Combat.botGameObject.SetActive(false);
+        else Combat.playerGameObject.SetActive(false);
+    }
+
+    public void EnableResults(Canvas results)
+    {
+        results.enabled = true;
+    }
 }

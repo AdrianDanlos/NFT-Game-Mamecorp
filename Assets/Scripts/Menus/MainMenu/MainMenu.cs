@@ -8,6 +8,7 @@ public class MainMenu : MonoBehaviour
     public GameObject playerExpGO;
     public GameObject playerLevelSlider;
     public GameObject gold;
+    public GameObject gems;
     public GameObject energy;
     public GameObject playerEloGO;
     void Start()
@@ -18,6 +19,7 @@ public class MainMenu : MonoBehaviour
         MenuUtils.SetName(playerNameGO);
         MenuUtils.SetLevelSlider(playerLevelGO, playerExpGO, playerLevelSlider, player.level, player.experiencePoints);
         MenuUtils.SetGold(gold);
+        MenuUtils.SetGems(gems);
         MenuUtils.SetEnergy(energy);
         MenuUtils.SetElo(playerEloGO);
     }

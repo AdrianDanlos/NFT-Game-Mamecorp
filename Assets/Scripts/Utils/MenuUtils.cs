@@ -21,6 +21,11 @@ public class MenuUtils
         goldGO.GetComponent<TextMeshProUGUI>().text = User.Instance.gold.ToString();
     }
 
+    public static void SetGems(GameObject gemsGO)
+    {
+        gemsGO.GetComponent<TextMeshProUGUI>().text = User.Instance.gems.ToString();
+    }
+
     public static void SetEnergy(GameObject energyGO)
     {
         //FIXME: Set max energy here

@@ -26,6 +26,7 @@ public class User
     private int _loses;
     private int _elo;
     private int _gold;
+    private int _gems;
     private int _energy;
     private bool _saveEnabled = false;
     public string userName
@@ -74,6 +75,16 @@ public class User
         }
     }
 
+    public int gems
+    {
+        get => _gems;
+        set
+        {
+            _gems = value;
+            SaveUser();
+        }
+    }
+
     public int energy
     {
         get => _energy;
@@ -90,13 +101,14 @@ public class User
             _saveEnabled = value;
         }
     }
-    public void SetUserValues(string userName, int wins, int loses, int elo, int gold, int energy)
+    public void SetUserValues(string userName, int wins, int loses, int elo, int gold, int gems, int energy)
     {
         this.userName = userName;
         this.wins = wins;
         this.loses = loses;
         this.elo = elo;
         this.gold = gold;
+        this.gems = gems;
         this.energy = energy;
     }
 

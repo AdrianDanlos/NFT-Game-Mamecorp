@@ -20,10 +20,11 @@ public class MainMenu : MonoBehaviour
 
         MenuUtils.SetName(playerNameGO);
         MenuUtils.SetLevelSlider(playerLevelGO, playerExpGO, playerLevelSlider, player.level, player.experiencePoints);
-        MenuUtils.SetGold(gold);
-        MenuUtils.SetGems(gems);
         MenuUtils.SetElo(playerEloGO);
 
+        //FIXME: This should be reused
+        MenuUtils.SetGold(gold);
+        MenuUtils.SetGems(gems);
         SetEnergy();
     }
 

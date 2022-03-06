@@ -20,4 +20,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/ChooseFirstFighter.unity
     guid: 33c5ec2074863bb4eb9d2c746cab3832
+  - enabled: 1
+    path: Assets/Scenes/Shop.unity
+    guid: 96d7702ae9310e94f9f71552413b03ec
   m_configObjects: {}

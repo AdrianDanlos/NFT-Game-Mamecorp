@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
 {
@@ -8,8 +9,9 @@ public class MainMenu : MonoBehaviour
     public GameObject playerExpGO;
     public GameObject playerLevelSlider;
     public GameObject gold;
-    public GameObject energy;
+    public GameObject gems;
     public GameObject playerEloGO;
+    public GameObject battleButtonGO;
     void Start()
     {
         player = PlayerUtils.FindInactiveFighter();
@@ -17,8 +19,8 @@ public class MainMenu : MonoBehaviour
 
         MenuUtils.SetName(playerNameGO);
         MenuUtils.SetLevelSlider(playerLevelGO, playerExpGO, playerLevelSlider, player.level, player.experiencePoints);
-        MenuUtils.SetGold(gold);
-        MenuUtils.SetEnergy(energy);
         MenuUtils.SetElo(playerEloGO);
+        
+        battleButtonGO.GetComponent<Button>().interactable = User.Instance.energy > 0;
     }
 }

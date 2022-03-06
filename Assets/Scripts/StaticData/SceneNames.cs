@@ -4,5 +4,6 @@ enum SceneNames
     Combat,
     UserFirstStart,
     MainMenu,
-    ChooseFirstFighter
+    ChooseFirstFighter,
+    Shop
 }

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public static class PlayerUtils
 {
+    public static int maxEnergy = 6;
     public static Fighter FindInactiveFighter()
     {
         GameObject fighterGameObject = GameObject.Find("FighterWrapper").transform.Find("Fighter").gameObject;

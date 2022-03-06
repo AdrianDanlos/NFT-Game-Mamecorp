@@ -186,18 +186,25 @@ public class Combat : MonoBehaviour
 
         //PlayerData
         PostGameActions.SetElo(eloChange);
-        PostGameActions.ResetPlayerHp(playerMaxHp);
+        PostGameActions.SetWinLoseCounter(isPlayerWinner);
         PostGameActions.SetExperience(player, isPlayerWinner);
         if (isLevelUp) PostGameActions.SetLevelUpSideEffects(player);
-        PostGameActions.Save(player);
+        EnergyManager.SubtractOneEnergyPoint();
+
+        //Rewards
+        PostGameActions.SetCurrencies(isPlayerWinner, isLevelUp);
 
         //UI
         fightersUIDataScript.SetResultsEloChange(eloChange);
         fightersUIDataScript.SetResultsLevelSlider(player.level, player.experiencePoints);
         fightersUIDataScript.SetResultsExpGainText(isPlayerWinner);
         fightersUIDataScript.ShowLevelUpIcon(isLevelUp);
-        PostGameActions.HideLoserFighter();
-        PostGameActions.EnableResults(results);
+        fightersUIDataScript.HideLoserFighter();
+        fightersUIDataScript.EnableResults(results);
+
+        //Save
+        PostGameActions.ResetPlayerHp(playerMaxHp);
+        PostGameActions.Save(player);
     }
 
     private void ResetAnimationsState()

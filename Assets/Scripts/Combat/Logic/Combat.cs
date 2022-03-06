@@ -190,6 +190,8 @@ public class Combat : MonoBehaviour
         PostGameActions.SetExperience(player, isPlayerWinner);
         if (isLevelUp) PostGameActions.SetLevelUpSideEffects(player);
 
+        //Rewards
+        PostGameActions.SetCurrencies(isPlayerWinner, isLevelUp);
 
         //UI
         fightersUIDataScript.SetResultsEloChange(eloChange);
@@ -198,9 +200,6 @@ public class Combat : MonoBehaviour
         fightersUIDataScript.ShowLevelUpIcon(isLevelUp);
         fightersUIDataScript.HideLoserFighter();
         fightersUIDataScript.EnableResults(results);
-
-        //Rewards
-        PostGameActions.SetCurrencies(isPlayerWinner, isLevelUp);
 
         //Save
         PostGameActions.ResetPlayerHp(playerMaxHp);

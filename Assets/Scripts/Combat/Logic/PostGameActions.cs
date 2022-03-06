@@ -32,7 +32,7 @@ public class PostGameActions
         else User.Instance.loses++;
     }
 
-     public static void SetCurrencies(bool isPlayerWinner, bool isLevelUp)
+    public static void SetCurrencies(bool isPlayerWinner, bool isLevelUp)
     {
         User.Instance.gold += isPlayerWinner ? 40 : 10;
         User.Instance.gems += isLevelUp && Probabilities.IsHappening(50) ? 20 : 0;

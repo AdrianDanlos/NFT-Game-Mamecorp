@@ -29,11 +29,16 @@ public class MainMenu : MonoBehaviour
 
     private void SetEnergy()
     {
-        if (EnergyManager.IsCountdownOver())
+        //Move this logic to a reusable place
+        //////////
+        if (User.Instance.energy < PlayerUtils.maxEnergy
+            && PlayerPrefs.HasKey("countdownEndTime")
+            && EnergyManager.IsCountdownOver())
         {
             User.Instance.energy++;
             if (User.Instance.energy < PlayerUtils.maxEnergy) EnergyManager.StartCountdown();
         }
+        ////////
 
         battleButtonGO.GetComponent<Button>().interactable = User.Instance.energy > 0;
 

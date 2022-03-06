@@ -2,9 +2,6 @@ using UnityEngine;
 using System;
 public static class EnergyManager
 {
-
-    public static DateTime countdownStartTime;
-    public static DateTime countdownEndTime;
     public static void SubtractOneEnergyPoint()
     {
         if (User.Instance.energy == PlayerUtils.maxEnergy) StartCountdown();
@@ -13,12 +10,16 @@ public static class EnergyManager
 
     public static void StartCountdown()
     {
-        countdownStartTime = DateTime.Now;
-        countdownEndTime = countdownStartTime.AddHours(4);
+        DateTime countdownEndTime = DateTime.Now.AddHours(4);
+
+        //Save the countdownEndTime to player prefs so they can be recovered after closing the game
+        PlayerPrefs.SetString("countdownEndTime", countdownEndTime.ToBinary().ToString());
     }
 
     public static bool IsCountdownOver()
     {
-        return countdownStartTime.CompareTo(countdownEndTime) > 0;
+        long tempEndTime = Convert.ToInt64(PlayerPrefs.GetString("countdownEndTime"));
+        DateTime countdownEndTime = DateTime.FromBinary(tempEndTime);
+        return DateTime.Now.CompareTo(countdownEndTime) > 0;
     }
 }

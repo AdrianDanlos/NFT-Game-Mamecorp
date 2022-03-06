@@ -22,4 +22,9 @@ public static class EnergyManager
         DateTime countdownEndTime = DateTime.FromBinary(tempEndTime);
         return DateTime.Now.CompareTo(countdownEndTime) > 0;
     }
+
+    public static bool UserHasMaxEnergy()
+    {
+        return User.Instance.energy == PlayerUtils.maxEnergy;
+    }
 }

@@ -10,7 +10,6 @@ public class MainMenu : MonoBehaviour
     public GameObject playerLevelSlider;
     public GameObject gold;
     public GameObject gems;
-    public GameObject energy;
     public GameObject playerEloGO;
     public GameObject battleButtonGO;
     void Start()
@@ -21,29 +20,7 @@ public class MainMenu : MonoBehaviour
         MenuUtils.SetName(playerNameGO);
         MenuUtils.SetLevelSlider(playerLevelGO, playerExpGO, playerLevelSlider, player.level, player.experiencePoints);
         MenuUtils.SetElo(playerEloGO);
-
-        //FIXME: This should be reused
-        MenuUtils.SetGold(gold);
-        MenuUtils.SetGems(gems);
-        SetEnergy();
-    }
-
-    private void SetEnergy()
-    {
-        //Move this logic to a reusable place
-        //////////
-        if (User.Instance.energy < PlayerUtils.maxEnergy
-            && PlayerPrefs.HasKey("countdownEndTime")
-            && EnergyManager.IsCountdownOver())
-        {
-            User.Instance.energy++;
-            if (User.Instance.energy < PlayerUtils.maxEnergy) EnergyManager.StartCountdown();
-        }
-        ////////
-
+        
         battleButtonGO.GetComponent<Button>().interactable = User.Instance.energy > 0;
-
-        MenuUtils.SetEnergy(energy);
-        //Set energy timer on main menu
     }
 }

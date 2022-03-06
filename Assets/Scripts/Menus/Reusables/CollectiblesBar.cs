@@ -1,6 +1,7 @@
 using UnityEngine;
 
-public class CollectiblesBar : MonoBehaviour {
+public class CollectiblesBar : MonoBehaviour
+{
     public GameObject gold;
     public GameObject gems;
     public GameObject energy;
@@ -9,18 +10,18 @@ public class CollectiblesBar : MonoBehaviour {
     {
         MenuUtils.SetGold(gold);
         MenuUtils.SetGems(gems);
-        SetEnergy();
+        UpdateUserEnergyBasedOnCountdown();
+        MenuUtils.SetEnergy(energy);
+        MenuUtils.DisplayEnergyCountdown();
     }
-    private void SetEnergy()
+
+    private void UpdateUserEnergyBasedOnCountdown()
     {
-        if (User.Instance.energy < PlayerUtils.maxEnergy
-            && PlayerPrefs.HasKey("countdownEndTime")
+        if (!EnergyManager.UserHasMaxEnergy()
             && EnergyManager.IsCountdownOver())
         {
             User.Instance.energy++;
-            if (User.Instance.energy < PlayerUtils.maxEnergy) EnergyManager.StartCountdown();
+            if (!EnergyManager.UserHasMaxEnergy()) EnergyManager.StartCountdown();
         }
-
-        //Set energy timer
     }
 }

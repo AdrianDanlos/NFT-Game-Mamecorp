@@ -25,14 +25,22 @@ public class MenuUtils
     {
         gemsGO.GetComponent<TextMeshProUGUI>().text = User.Instance.gems.ToString();
     }
-
-    public static void SetEnergy(GameObject energyGO)
-    {
-        //FIXME: Set max energy here
-        energyGO.GetComponent<TextMeshProUGUI>().text = $"{User.Instance.energy.ToString()}/{PlayerUtils.maxEnergy}";
-    }
     public static void SetElo(GameObject playerEloGO)
     {
         playerEloGO.GetComponent<TextMeshProUGUI>().text = User.Instance.elo.ToString();
     }
+
+    public static void SetEnergy(GameObject energyGO)
+    {
+        energyGO.GetComponent<TextMeshProUGUI>().text = $"{User.Instance.energy.ToString()}/{PlayerUtils.maxEnergy}";
+    }
+    public static void DisplayEnergyCountdown()
+    {
+        if (!EnergyManager.UserHasMaxEnergy()
+            && !EnergyManager.IsCountdownOver())
+        {
+            //FIXME: Display Energy Countdown
+        }
+    }
+
 }

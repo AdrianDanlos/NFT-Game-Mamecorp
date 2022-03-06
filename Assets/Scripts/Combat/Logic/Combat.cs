@@ -189,6 +189,7 @@ public class Combat : MonoBehaviour
         PostGameActions.SetWinLoseCounter(isPlayerWinner);
         PostGameActions.SetExperience(player, isPlayerWinner);
         if (isLevelUp) PostGameActions.SetLevelUpSideEffects(player);
+        EnergyManager.SubtractOneEnergyPoint();
 
         //Rewards
         PostGameActions.SetCurrencies(isPlayerWinner, isLevelUp);

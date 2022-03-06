@@ -15,7 +15,7 @@ public class OnCreateUser : MonoBehaviour
     private void CreateUserFile()
     {
         string userName = nickNameInput.GetComponent<TextMeshProUGUI>().text;
-        UserFactory.CreateUserInstance(userName);
+        UserFactory.CreateUserInstance(userName, PlayerUtils.maxEnergy);
         JObject user = JObject.FromObject(User.Instance);
         JsonDataManager.SaveData(user, JsonDataManager.UserFileName);
     }

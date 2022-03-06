@@ -29,7 +29,7 @@ public class MenuUtils
     public static void SetEnergy(GameObject energyGO)
     {
         //FIXME: Set max energy here
-        energyGO.GetComponent<TextMeshProUGUI>().text = $"{User.Instance.energy.ToString()}/{10}";
+        energyGO.GetComponent<TextMeshProUGUI>().text = $"{User.Instance.energy.ToString()}/{PlayerUtils.maxEnergy}";
     }
     public static void SetElo(GameObject playerEloGO)
     {

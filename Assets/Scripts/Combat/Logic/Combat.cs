@@ -127,10 +127,10 @@ public class Combat : MonoBehaviour
         }
         //FIXME: Randomize bot skin/species
         bot.FighterConstructor(botName,
-            Species.defaultStats[SpeciesNames.Monster]["hp"],
-            Species.defaultStats[SpeciesNames.Monster]["damage"],
-            Species.defaultStats[SpeciesNames.Monster]["speed"],
-            SpeciesNames.Monster.ToString(), "MonsterV5", 1, 0, 10, botCards);
+            Species.defaultStats[SpeciesNames.Orc]["hp"],
+            Species.defaultStats[SpeciesNames.Orc]["damage"],
+            Species.defaultStats[SpeciesNames.Orc]["speed"],
+            SpeciesNames.Orc.ToString(), "Orc", 1, 0, 10, botCards);
     }
 
     IEnumerator CombatLogicHandler(Fighter attacker, Fighter defender)

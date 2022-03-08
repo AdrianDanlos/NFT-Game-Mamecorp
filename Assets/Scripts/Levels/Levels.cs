@@ -22,7 +22,7 @@ public static class Levels
         player.level++;
     }
 
-    
+
     public static bool IsLevelUp(int playerCurrentLevel, int playerUpdatedExperience)
     {
         return MaxXpOfCurrentLevel(playerCurrentLevel) <= playerUpdatedExperience;
@@ -37,15 +37,15 @@ public static class Levels
     {
         foreach (KeyValuePair<SpeciesNames, Dictionary<string, float>> species in Species.statsPerLevel)
         {
-            //species -> [Monster, Dictionary<string, float>] ...
+            //species -> [Orc, Dictionary<string, float>] ...
             var isCurrentSpecies = false;
 
             foreach (PropertyInfo prop in species.GetType().GetProperties())
             {
-                //prop -> Iteration 1: Monster, Iteration 2: Dictionary<string, float>
+                //prop -> Iteration 1: Orc, Iteration 2: Dictionary<string, float>
                 if (isCurrentSpecies)
                 {
-                    SpeciesNames speciesEnumMember = (SpeciesNames)Enum.Parse(typeof(SpeciesNames), player.species); //Monster, Robot, Alien
+                    SpeciesNames speciesEnumMember = (SpeciesNames)Enum.Parse(typeof(SpeciesNames), player.species); //Orc, Golem, FallenAngel
                     player.hp += Species.statsPerLevel[speciesEnumMember]["hp"];
                     player.damage += Species.statsPerLevel[speciesEnumMember]["damage"];
                     player.speed += Species.statsPerLevel[speciesEnumMember]["speed"];

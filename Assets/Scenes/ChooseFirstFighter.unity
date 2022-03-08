@@ -945,9 +945,9 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 467bc347d33a51c4880d0d43bfa24dac, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 9b92608501d2be842ada1043c652fd49, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 1
+  m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 4.53, y: 3.24}
@@ -989,8 +989,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7663284216ff84c4582df009f19f8d8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skinName: AlienV5
-  species: Alien
+  skinName: Orc
+  species: Orc
 --- !u!1 &498331130
 GameObject:
   m_ObjectHideFlags: 0
@@ -2191,9 +2191,9 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 467bc347d33a51c4880d0d43bfa24dac, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 31e6f4634a6779246b1deeecc120cc2c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 1
+  m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 4.53, y: 3.24}
@@ -2241,8 +2241,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7663284216ff84c4582df009f19f8d8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skinName: MonsterV5
-  species: Monster
+  skinName: FallenAngel
+  species: FallenAngel
 --- !u!1 &1099925615
 GameObject:
   m_ObjectHideFlags: 0
@@ -2685,9 +2685,9 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 467bc347d33a51c4880d0d43bfa24dac, type: 3}
+  m_Sprite: {fileID: 21300000, guid: cb69e3f6ac537544fa04e7dadcc1325f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 1
+  m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 4.53, y: 3.24}
@@ -2729,8 +2729,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7663284216ff84c4582df009f19f8d8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skinName: RobotV1
-  species: Robot
+  skinName: Golem
+  species: Golem
 --- !u!1 &1216940584
 GameObject:
   m_ObjectHideFlags: 0

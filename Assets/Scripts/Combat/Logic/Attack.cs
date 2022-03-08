@@ -5,28 +5,32 @@ public class Attack : MonoBehaviour
 {
     public IEnumerator PerformAttack(Fighter attacker, Fighter defender)
     {
-        if (Combat.movementScript.FighterShouldAdvanceToAttack(attacker)){
-            yield return StartCoroutine(Combat.movementScript.MoveToMeleeRangeAgain(attacker, defender));
-        }
-        //FIXME: remove yield return once hurt has been introduced
-        yield return StartCoroutine(FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.ATTACK));
-        
+        if (Combat.movementScript.FighterShouldAdvanceToAttack(attacker)) yield return StartCoroutine(Combat.movementScript.MoveToMeleeRangeAgain(attacker, defender));
+
+        StartCoroutine(FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.ATTACK));
+
         if (IsAttackDodged(defender))
         {
-            Debug.Log("Dodged!");
             StartCoroutine(Combat.movementScript.DodgeMovement(defender));
             yield return StartCoroutine(FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.JUMP));
-            yield return StartCoroutine(FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.IDLE));
+            StartCoroutine(FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.IDLE));
             //This break exits the PerformAttack function and therefore prevents from calling the dealDamage function.
             yield break;
         }
+        
         DealDamage(attacker, defender);
 
-        yield return StartCoroutine(FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.HURT));
-        StartCoroutine(FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.IDLE));
-        
         Combat.isGameOver = defender.hp <= 0 ? true : false;
-        if (Combat.isGameOver) StartCoroutine(FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.DEATH));
+        
+        if (Combat.isGameOver)
+        {
+            yield return StartCoroutine(FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.DEATH));
+        }
+        else
+        {
+            yield return StartCoroutine(FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.HURT));
+            StartCoroutine(FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.IDLE));
+        }
     }
 
     private void DealDamage(Fighter attacker, Fighter defender)

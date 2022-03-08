@@ -21,8 +21,8 @@ public class FighterAnimations : MonoBehaviour
         {AnimationNames.RUN, 0},
         {AnimationNames.ATTACK, 0.3f},
         {AnimationNames.JUMP, 0.3f},
-        {AnimationNames.DEATH, 0.5f},
-        {AnimationNames.HURT, 0.5f},
+        {AnimationNames.DEATH, 0.3f},
+        {AnimationNames.HURT, 0.45f},
     };
 
     public static IEnumerator ChangeAnimation(Fighter fighter, AnimationNames newAnimation)

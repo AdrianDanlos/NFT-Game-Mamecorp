@@ -8,8 +8,9 @@ public class Attack : MonoBehaviour
         if (Combat.movementScript.FighterShouldAdvanceToAttack(attacker)){
             yield return StartCoroutine(Combat.movementScript.MoveToMeleeRangeAgain(attacker, defender));
         }
-        //FIXME: We need to use yield return to wait until anim is finished? In the last game we didnt yield return
+        //FIXME: remove yield return once hurt has been introduced
         yield return StartCoroutine(FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.ATTACK));
+        
         if (IsAttackDodged(defender))
         {
             Debug.Log("Dodged!");
@@ -20,6 +21,10 @@ public class Attack : MonoBehaviour
             yield break;
         }
         DealDamage(attacker, defender);
+
+        yield return StartCoroutine(FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.HURT));
+        StartCoroutine(FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.IDLE));
+        
         Combat.isGameOver = defender.hp <= 0 ? true : false;
         if (Combat.isGameOver) StartCoroutine(FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.DEATH));
     }

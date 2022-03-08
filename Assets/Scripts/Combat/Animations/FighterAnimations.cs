@@ -12,6 +12,7 @@ public class FighterAnimations : MonoBehaviour
         ATTACK,
         JUMP,
         DEATH,
+        HURT,
     }
 
     public static readonly Dictionary<FighterAnimations.AnimationNames, float> animationDuration = new Dictionary<FighterAnimations.AnimationNames, float>
@@ -21,6 +22,7 @@ public class FighterAnimations : MonoBehaviour
         {AnimationNames.ATTACK, 0.3f},
         {AnimationNames.JUMP, 0.3f},
         {AnimationNames.DEATH, 0.5f},
+        {AnimationNames.HURT, 0.5f},
     };
 
     public static IEnumerator ChangeAnimation(Fighter fighter, AnimationNames newAnimation)

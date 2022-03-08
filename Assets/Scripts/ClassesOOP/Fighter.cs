@@ -17,8 +17,8 @@ public class Fighter : MonoBehaviour
     private List<Card> _cards;
     private Vector2 _initialPosition;
     private Vector2 _destinationPosition;
-    private int _repeatAttackChance = 100;
-    private int _dodgeChance = 100;
+    private int _repeatAttackChance = 10;
+    private int _dodgeChance = 10;
     private int _criticalChance = 10;
 
     //Set to true if instance in a saveable state (The fighter instance has already been created and it is not a bot)

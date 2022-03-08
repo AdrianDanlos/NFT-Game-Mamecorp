@@ -125,7 +125,8 @@ public class Combat : MonoBehaviour
             Card cardInstance = new Card((string)card["cardName"], (int)card["mana"], (string)card["text"], (string)card["rarity"], (string)card["type"]);
             botCards.Add(cardInstance);
         }
-        //FIXME: Randomize bot skin/species + stats should scale to match player stats otherwise it will become weak very fast
+        //FIXME: Randomize bot skin/species
+        //FIXME: stats should scale to match player stats otherwise it will become weak very fast
         bot.FighterConstructor(botName,
             Species.defaultStats[SpeciesNames.Orc]["hp"],
             Species.defaultStats[SpeciesNames.Orc]["damage"],

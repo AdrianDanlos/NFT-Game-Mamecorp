@@ -36,8 +36,7 @@ public class MenuUtils
     }
     public static void DisplayEnergyCountdown()
     {
-        if (!EnergyManager.UserHasMaxEnergy()
-            && !EnergyManager.IsCountdownOver())
+        if (!EnergyManager.UserHasMaxEnergy())
         {
             //FIXME: Display Energy Countdown
         }

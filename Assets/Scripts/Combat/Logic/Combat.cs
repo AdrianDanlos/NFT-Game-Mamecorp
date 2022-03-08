@@ -46,7 +46,7 @@ public class Combat : MonoBehaviour
         FindGameObjects();
         SetVisibilityOfGameObjects();
         GetFighterScriptComponents();
-        ResetAnimationsState();
+        FighterAnimations.ResetToDefaultAnimation(player);
         GenerateBotData();
         SetFighterPositions();
         SetOrderOfAttacks();
@@ -136,7 +136,7 @@ public class Combat : MonoBehaviour
     IEnumerator CombatLogicHandler(Fighter attacker, Fighter defender)
     {
         // Move forward
-        StartCoroutine(FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.RUN));
+        FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.RUN);
         yield return StartCoroutine(movementScript.MoveForward(attacker, attacker.destinationPosition));
 
         // Attack
@@ -150,11 +150,11 @@ public class Combat : MonoBehaviour
         };
 
         // Move back
-        StartCoroutine(FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.RUN));
+        FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.RUN);
         FighterSkin.SwitchFighterOrientation(attacker.GetComponent<SpriteRenderer>());
         yield return StartCoroutine(movementScript.MoveBack(attacker, attacker.initialPosition));
         FighterSkin.SwitchFighterOrientation(attacker.GetComponent<SpriteRenderer>());
-        StartCoroutine(FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.IDLE));
+        FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.IDLE);
     }
 
     // This method creates a dictionary with the Fighter class objects sorted by their speeds to get the order of attack.
@@ -204,10 +204,5 @@ public class Combat : MonoBehaviour
         //Save
         PostGameActions.ResetPlayerHp(playerMaxHp);
         PostGameActions.Save(player);
-    }
-
-    private void ResetAnimationsState()
-    {
-        StartCoroutine(FighterAnimations.ChangeAnimation(player, FighterAnimations.AnimationNames.IDLE));
     }
 }

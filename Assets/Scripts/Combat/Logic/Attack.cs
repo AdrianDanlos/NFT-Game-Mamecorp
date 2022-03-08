@@ -7,13 +7,14 @@ public class Attack : MonoBehaviour
     {
         if (Combat.movementScript.FighterShouldAdvanceToAttack(attacker)) yield return StartCoroutine(Combat.movementScript.MoveToMeleeRangeAgain(attacker, defender));
 
-        StartCoroutine(FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.ATTACK));
+        FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.ATTACK);
 
         if (IsAttackDodged(defender))
         {
             StartCoroutine(Combat.movementScript.DodgeMovement(defender));
-            yield return StartCoroutine(FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.JUMP));
-            StartCoroutine(FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.IDLE));
+            FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.JUMP);
+            yield return new WaitForSeconds(.3f);
+            FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.IDLE);
             //This break exits the PerformAttack function and therefore prevents from calling the dealDamage function.
             yield break;
         }
@@ -24,14 +25,14 @@ public class Attack : MonoBehaviour
 
         if (Combat.isGameOver)
         {
-            StartCoroutine(FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.DEATH));
+            FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.DEATH);
             yield return StartCoroutine(ReceiveDamageAnimation(defender));
         }
         else
         {
-            StartCoroutine(FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.HURT));
+            FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.HURT);
             yield return StartCoroutine(ReceiveDamageAnimation(defender));
-            StartCoroutine(FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.IDLE));
+            FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.IDLE);
         }
     }
 

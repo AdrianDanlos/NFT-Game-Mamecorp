@@ -28,10 +28,10 @@ public class ChooseFirstFighter : MonoBehaviour
 
     private void CreateFighterFile()
     {
-        SpeciesNames speciesEnumMember = (SpeciesNames)Enum.Parse(typeof(SpeciesNames), species); //Monster, Robot, Alien
+        SpeciesNames speciesEnumMember = (SpeciesNames)Enum.Parse(typeof(SpeciesNames), species); //Orc, Golem, FallenAngel
         JObject serializableFighter = JObject.FromObject(JsonDataManager.CreateSerializableFighterInstance(FighterFactory.CreatePlayerFighterInstance(
-            fighterName, skinName, species, 
-            Species.defaultStats[speciesEnumMember]["hp"], 
+            fighterName, skinName, species,
+            Species.defaultStats[speciesEnumMember]["hp"],
             Species.defaultStats[speciesEnumMember]["damage"],
             Species.defaultStats[speciesEnumMember]["speed"])));
         JsonDataManager.SaveData(serializableFighter, JsonDataManager.FighterFileName);

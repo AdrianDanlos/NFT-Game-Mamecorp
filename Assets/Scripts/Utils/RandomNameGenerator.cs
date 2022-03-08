@@ -394,6 +394,8 @@ public static class RandomNameGenerator
     "Uprising",
     "Aero",
     "K-9",
+    "Castolo",
+    "Ximelez",
     "Wildcat",
     "Blonde",
     "Electric Saturn",

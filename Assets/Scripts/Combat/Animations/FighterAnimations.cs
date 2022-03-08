@@ -12,21 +12,17 @@ public class FighterAnimations : MonoBehaviour
         ATTACK,
         JUMP,
         DEATH,
+        HURT,
     }
 
-    public static readonly Dictionary<FighterAnimations.AnimationNames, float> animationDuration = new Dictionary<FighterAnimations.AnimationNames, float>
+    public static void ChangeAnimation(Fighter fighter, AnimationNames newAnimation)
     {
-        {AnimationNames.IDLE, 0},
-        {AnimationNames.RUN, 0},
-        {AnimationNames.ATTACK, 0.4f},
-        {AnimationNames.JUMP, 0.3f},
-        {AnimationNames.DEATH, 0.6f},
-    };
-
-    public static IEnumerator ChangeAnimation(Fighter fighter, AnimationNames newAnimation)
-    {
-        fighter.GetComponent<Animator>().Play(newAnimation.ToString());
+        fighter.GetComponent<Animator>().Play(newAnimation.ToString(), -1, 0f);
         fighter.currentAnimation = newAnimation.ToString();
-        yield return new WaitForSeconds(animationDuration[newAnimation]);
+    }
+
+    public static void ResetToDefaultAnimation(Fighter player)
+    {
+        ChangeAnimation(player, FighterAnimations.AnimationNames.IDLE);
     }
 }

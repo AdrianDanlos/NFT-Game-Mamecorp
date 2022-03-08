@@ -8,7 +8,7 @@ public class Combat : MonoBehaviour
 {
     // Data Objects
     public static Fighter player;
-    public Fighter bot;
+    public static Fighter bot;
     public int botElo;
 
     // GameObjects data
@@ -23,9 +23,9 @@ public class Combat : MonoBehaviour
     public static FightersUIData fightersUIDataScript;
 
     // Positions data
-    static Vector3 PlayerStartingPosition = new Vector3(-6, -0.7f, 0);
-    static Vector3 BotStartingPosition = new Vector3(6, -0.7f, 0);
-    float DistanceAwayFromEachotherOnAttack = 1.5f;
+    static Vector3 playerStartingPosition = new Vector3(-6, -0.7f, 0);
+    static Vector3 botStartingPosition = new Vector3(6, -0.7f, 0);
+    public static float distanceAwayFromEachotherOnAttack = 1.5f;
 
     // Game status data
     public static bool isGameOver;
@@ -46,7 +46,7 @@ public class Combat : MonoBehaviour
         FindGameObjects();
         SetVisibilityOfGameObjects();
         GetFighterScriptComponents();
-        ResetAnimationsState();
+        FighterAnimations.ResetToDefaultAnimation(player);
         GenerateBotData();
         SetFighterPositions();
         SetOrderOfAttacks();
@@ -78,19 +78,19 @@ public class Combat : MonoBehaviour
     private void SetFighterPositions()
     {
         //Set GameObjects
-        playerGameObject.transform.position = PlayerStartingPosition;
-        botGameObject.transform.position = BotStartingPosition;
+        playerGameObject.transform.position = playerStartingPosition;
+        botGameObject.transform.position = botStartingPosition;
 
         //Set Objects
-        Vector3 playerDestinationPosition = BotStartingPosition;
-        Vector3 botDestinationPosition = PlayerStartingPosition;
+        Vector3 playerDestinationPosition = botStartingPosition;
+        Vector3 botDestinationPosition = playerStartingPosition;
 
-        player.initialPosition = PlayerStartingPosition;
-        playerDestinationPosition.x -= DistanceAwayFromEachotherOnAttack;
+        player.initialPosition = playerStartingPosition;
+        playerDestinationPosition.x -= distanceAwayFromEachotherOnAttack;
         player.destinationPosition = playerDestinationPosition;
 
-        bot.initialPosition = BotStartingPosition;
-        botDestinationPosition.x += DistanceAwayFromEachotherOnAttack;
+        bot.initialPosition = botStartingPosition;
+        botDestinationPosition.x += distanceAwayFromEachotherOnAttack;
         bot.destinationPosition = botDestinationPosition;
     }
 
@@ -125,18 +125,18 @@ public class Combat : MonoBehaviour
             Card cardInstance = new Card((string)card["cardName"], (int)card["mana"], (string)card["text"], (string)card["rarity"], (string)card["type"]);
             botCards.Add(cardInstance);
         }
-        //FIXME: Randomize bot skin/species
+        //FIXME: Randomize bot skin/species + stats should scale to match player stats otherwise it will become weak very fast
         bot.FighterConstructor(botName,
-            Species.defaultStats[SpeciesNames.Monster]["hp"],
-            Species.defaultStats[SpeciesNames.Monster]["damage"],
-            Species.defaultStats[SpeciesNames.Monster]["speed"],
-            SpeciesNames.Monster.ToString(), "MonsterV5", 1, 0, 10, botCards);
+            Species.defaultStats[SpeciesNames.Orc]["hp"],
+            Species.defaultStats[SpeciesNames.Orc]["damage"],
+            Species.defaultStats[SpeciesNames.Orc]["speed"],
+            SpeciesNames.Orc.ToString(), "Orc", 1, 0, 10, botCards);
     }
 
     IEnumerator CombatLogicHandler(Fighter attacker, Fighter defender)
     {
         // Move forward
-        StartCoroutine(FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.RUN));
+        FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.RUN);
         yield return StartCoroutine(movementScript.MoveForward(attacker, attacker.destinationPosition));
 
         // Attack
@@ -150,11 +150,11 @@ public class Combat : MonoBehaviour
         };
 
         // Move back
-        StartCoroutine(FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.RUN));
+        FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.RUN);
         FighterSkin.SwitchFighterOrientation(attacker.GetComponent<SpriteRenderer>());
         yield return StartCoroutine(movementScript.MoveBack(attacker, attacker.initialPosition));
         FighterSkin.SwitchFighterOrientation(attacker.GetComponent<SpriteRenderer>());
-        StartCoroutine(FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.IDLE));
+        FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.IDLE);
     }
 
     // This method creates a dictionary with the Fighter class objects sorted by their speeds to get the order of attack.
@@ -199,16 +199,10 @@ public class Combat : MonoBehaviour
         fightersUIDataScript.SetResultsLevelSlider(player.level, player.experiencePoints);
         fightersUIDataScript.SetResultsExpGainText(isPlayerWinner);
         fightersUIDataScript.ShowLevelUpIcon(isLevelUp);
-        fightersUIDataScript.HideLoserFighter();
         fightersUIDataScript.EnableResults(results);
 
         //Save
         PostGameActions.ResetPlayerHp(playerMaxHp);
         PostGameActions.Save(player);
-    }
-
-    private void ResetAnimationsState()
-    {
-        StartCoroutine(FighterAnimations.ChangeAnimation(player, FighterAnimations.AnimationNames.IDLE));
     }
 }

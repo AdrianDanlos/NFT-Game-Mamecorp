@@ -4,9 +4,9 @@ public class Movement : MonoBehaviour
 {
     private float runningDurationInSeconds = 0.7f;
     public double dodgeDurationInSeconds = 0.15;
-    
+
     //FIXME: This value is not correct + Is it possible to get this value automatically from the canvas?
-    float screenEdgeX = 22;
+    float screenEdgeX = 7;
 
     public IEnumerator MoveForward(Fighter fighter, Vector3 target)
     {

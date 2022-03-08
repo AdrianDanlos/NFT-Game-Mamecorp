@@ -25,7 +25,7 @@ public class FighterAnimations : MonoBehaviour
 
     public static IEnumerator ChangeAnimation(Fighter fighter, AnimationNames newAnimation)
     {
-        fighter.GetComponent<Animator>().Play(newAnimation.ToString());
+        fighter.GetComponent<Animator>().Play(newAnimation.ToString(), -1, 0f);
         fighter.currentAnimation = newAnimation.ToString();
         yield return new WaitForSeconds(animationDuration[newAnimation]);
     }

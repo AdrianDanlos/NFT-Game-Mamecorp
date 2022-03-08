@@ -5,7 +5,10 @@ public class Attack : MonoBehaviour
 {
     public IEnumerator PerformAttack(Fighter attacker, Fighter defender)
     {
-        //We need to use yield return to wait until anim is finished
+        if (Combat.movementScript.FighterShouldAdvanceToAttack(attacker)){
+            yield return StartCoroutine(Combat.movementScript.MoveToMeleeRangeAgain(attacker, defender));
+        }
+        //FIXME: We need to use yield return to wait until anim is finished? In the last game we didnt yield return
         yield return StartCoroutine(FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.ATTACK));
         if (IsAttackDodged(defender))
         {

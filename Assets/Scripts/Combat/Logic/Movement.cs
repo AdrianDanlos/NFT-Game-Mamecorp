@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using System;
 public class Movement : MonoBehaviour
 {
     private float runningDurationInSeconds = 0.7f;
@@ -43,7 +44,7 @@ public class Movement : MonoBehaviour
 
         bool isPlayerDodging = Combat.player == defender;
         int xDistanceOnJump = isPlayerDodging ? -1 : 1;
-        int xDistanceOnLand = isPlayerDodging ? -2 : 2;
+        int xDistanceOnLand = GetBackwardMovement(isPlayerDodging);
 
         if (!IsFighterInTheEdgeOfScreen(isPlayerDodging, defender.transform.position.x))
         {
@@ -61,5 +62,43 @@ public class Movement : MonoBehaviour
     private bool IsFighterInTheEdgeOfScreen(bool isPlayerDodging, float defenderXPosition)
     {
         return isPlayerDodging && defenderXPosition <= -screenEdgeX || !isPlayerDodging && defenderXPosition >= screenEdgeX;
+    }
+
+    private bool IsAtMeleeRange()
+    {        
+        double currentDistanceAwayFromEachOther = ToSingleDecimal(Combat.player.transform.position.x - Combat.bot.transform.position.x);
+        return System.Math.Abs(currentDistanceAwayFromEachOther) <= Combat.distanceAwayFromEachotherOnAttack;
+    }
+
+    private bool HasSpaceToKeepPushing(bool isPlayerAttacking, float attackerXPosition)
+    {
+        return isPlayerAttacking && attackerXPosition <= screenEdgeX - Combat.distanceAwayFromEachotherOnAttack || !isPlayerAttacking && attackerXPosition >= -screenEdgeX + Combat.distanceAwayFromEachotherOnAttack;
+    }
+
+    public bool FighterShouldAdvanceToAttack(Fighter attacker)
+    {
+        return !IsAtMeleeRange() && HasSpaceToKeepPushing(Combat.player == attacker, attacker.transform.position.x);
+    }
+
+    private int GetBackwardMovement(bool isPlayerDodging)
+    {
+        return isPlayerDodging ? -2 : 2;
+    }
+
+    public IEnumerator MoveToMeleeRangeAgain(Fighter attacker, Fighter defender)
+    {
+        Vector2 newDestinationPosition = attacker.transform.position;
+        newDestinationPosition.x += GetBackwardMovement(Combat.player == defender);
+
+        FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.RUN);
+        yield return StartCoroutine(Move(attacker, attacker.transform.position, newDestinationPosition, runningDurationInSeconds * 0.2f));
+    }
+
+    private double ToSingleDecimal(double number){
+		string numberAsString = number.ToString();
+		int startingPositionToTrim = 3;
+		
+		string trimmedString = numberAsString.Remove(startingPositionToTrim, numberAsString.Length - startingPositionToTrim);
+		return Convert.ToDouble(trimmedString);
     }
 }

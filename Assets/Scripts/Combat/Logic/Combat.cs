@@ -8,7 +8,7 @@ public class Combat : MonoBehaviour
 {
     // Data Objects
     public static Fighter player;
-    public Fighter bot;
+    public static Fighter bot;
     public int botElo;
 
     // GameObjects data
@@ -23,9 +23,9 @@ public class Combat : MonoBehaviour
     public static FightersUIData fightersUIDataScript;
 
     // Positions data
-    static Vector3 PlayerStartingPosition = new Vector3(-6, -0.7f, 0);
-    static Vector3 BotStartingPosition = new Vector3(6, -0.7f, 0);
-    float DistanceAwayFromEachotherOnAttack = 1.5f;
+    static Vector3 playerStartingPosition = new Vector3(-6, -0.7f, 0);
+    static Vector3 botStartingPosition = new Vector3(6, -0.7f, 0);
+    public static float distanceAwayFromEachotherOnAttack = 1.5f;
 
     // Game status data
     public static bool isGameOver;
@@ -78,19 +78,19 @@ public class Combat : MonoBehaviour
     private void SetFighterPositions()
     {
         //Set GameObjects
-        playerGameObject.transform.position = PlayerStartingPosition;
-        botGameObject.transform.position = BotStartingPosition;
+        playerGameObject.transform.position = playerStartingPosition;
+        botGameObject.transform.position = botStartingPosition;
 
         //Set Objects
-        Vector3 playerDestinationPosition = BotStartingPosition;
-        Vector3 botDestinationPosition = PlayerStartingPosition;
+        Vector3 playerDestinationPosition = botStartingPosition;
+        Vector3 botDestinationPosition = playerStartingPosition;
 
-        player.initialPosition = PlayerStartingPosition;
-        playerDestinationPosition.x -= DistanceAwayFromEachotherOnAttack;
+        player.initialPosition = playerStartingPosition;
+        playerDestinationPosition.x -= distanceAwayFromEachotherOnAttack;
         player.destinationPosition = playerDestinationPosition;
 
-        bot.initialPosition = BotStartingPosition;
-        botDestinationPosition.x += DistanceAwayFromEachotherOnAttack;
+        bot.initialPosition = botStartingPosition;
+        botDestinationPosition.x += distanceAwayFromEachotherOnAttack;
         bot.destinationPosition = botDestinationPosition;
     }
 

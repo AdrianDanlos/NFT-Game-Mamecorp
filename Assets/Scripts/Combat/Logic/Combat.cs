@@ -11,11 +11,12 @@ public class Combat : MonoBehaviour
     public static Fighter bot;
     public int botElo;
 
-    // GameObjects data
+    // GameObjects
     public static GameObject playerGameObject;
     public GameObject playerWrapper;
     public static GameObject botGameObject;
     public Canvas results;
+    public SpriteRenderer arena;
 
     // Script references
     public static Movement movementScript;
@@ -46,12 +47,13 @@ public class Combat : MonoBehaviour
         FindGameObjects();
         SetVisibilityOfGameObjects();
         GetFighterScriptComponents();
-        FighterAnimations.ResetToDefaultAnimation(player);
         GenerateBotData();
         SetFighterPositions();
         SetOrderOfAttacks();
-        fightersUIDataScript.SetFightersUIInfo(player, bot, botElo);
+        GetRandomArena();
         FighterSkin.SetFightersSkin(player, bot);
+        FighterAnimations.ResetToDefaultAnimation(player);
+        fightersUIDataScript.SetFightersUIInfo(player, bot, botElo);
         playerMaxHp = player.hp;
 
         StartCoroutine(InitiateCombat());
@@ -61,6 +63,12 @@ public class Combat : MonoBehaviour
     {
         player = playerGameObject.GetComponent<Fighter>();
         bot = botGameObject.GetComponent<Fighter>();
+    }
+    private void GetRandomArena()
+    {
+        Sprite[] arenas = Resources.LoadAll<Sprite>("Arenas/");
+        int chosenArena = Random.Range(0, arenas.Length);
+        arena.sprite = arenas[chosenArena]; 
     }
 
     private void SetVisibilityOfGameObjects()
@@ -73,6 +81,7 @@ public class Combat : MonoBehaviour
         playerGameObject = playerWrapper.transform.Find("Fighter").gameObject;
         botGameObject = GameObject.Find("Bot");
         results = GameObject.FindGameObjectWithTag("Results").GetComponent<Canvas>();
+        arena = GameObject.FindGameObjectWithTag("Arena").GetComponent<SpriteRenderer>();
     }
 
     private void SetFighterPositions()

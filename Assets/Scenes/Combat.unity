@@ -4130,7 +4130,7 @@ GameObject:
   - component: {fileID: 1493600184}
   m_Layer: 0
   m_Name: Arena
-  m_TagString: Untagged
+  m_TagString: Arena
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4821,10 +4821,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef9e647891befa34488d69dd28447053, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bot: {fileID: 0}
   botElo: 0
   playerWrapper: {fileID: 0}
   results: {fileID: 0}
+  arena: {fileID: 0}
 --- !u!114 &1570540187
 MonoBehaviour:
   m_ObjectHideFlags: 0

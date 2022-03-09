@@ -120,7 +120,6 @@ public class Combat : MonoBehaviour
         StartPostGameActions();
     }
 
-
     private void GenerateBotData()
     {
         string botName = MatchMaking.FetchBotRandomName();
@@ -138,16 +137,27 @@ public class Combat : MonoBehaviour
 
         SpeciesNames randomSpecies = GetRandomSpecies();
 
-        bot.FighterConstructor(botName,
-            Species.defaultStats[randomSpecies]["hp"],
-            Species.defaultStats[randomSpecies]["damage"],
-            Species.defaultStats[randomSpecies]["speed"],
+        Dictionary<string, float> botStats = GenerateBotRandomStats(randomSpecies);
+
+        bot.FighterConstructor(botName, botStats["hp"], botStats["damage"], botStats["speed"],
             randomSpecies.ToString(), randomSpecies.ToString(), 1, 0, 10, botCards);
 
         //FIXME: We should remove the skin concept from the fighters and use the species name for the skin.
-        //FIXME: stats should scale to match player stats otherwise it will become weak very fast
     }
 
+    private Dictionary<string, float> GenerateBotRandomStats(SpeciesNames randomSpecies)
+    {
+        float hp = Species.defaultStats[randomSpecies]["hp"] + (Species.statsPerLevel[randomSpecies]["hp"] * player.level);
+        float damage = Species.defaultStats[randomSpecies]["damage"] + (Species.statsPerLevel[randomSpecies]["damage"] * player.level);
+        float speed = Species.defaultStats[randomSpecies]["speed"] + (Species.statsPerLevel[randomSpecies]["speed"] * player.level);
+
+        return new Dictionary<string, float>
+        {
+            {"hp", hp},
+            {"damage", damage},
+            {"speed", speed},
+        };
+    }
     private SpeciesNames GetRandomSpecies()
     {
         System.Random random = new System.Random();

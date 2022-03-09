@@ -19,6 +19,17 @@ public class Attack : MonoBehaviour
             yield break;
         }
 
+        yield return DefenderReceivesAttack(attacker, defender, 0.2f);
+    }
+
+    public IEnumerator PerformCosmicKicks(Fighter attacker, Fighter defender)
+    {
+        FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.KICK);
+        yield return DefenderReceivesAttack(attacker, defender, 0);
+    }
+
+    IEnumerator DefenderReceivesAttack(Fighter attacker, Fighter defender, float secondsToWaitForHurtAnim)
+    {
         DealDamage(attacker, defender);
 
         Combat.isGameOver = defender.hp <= 0 ? true : false;
@@ -32,6 +43,7 @@ public class Attack : MonoBehaviour
         {
             FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.HURT);
             yield return StartCoroutine(ReceiveDamageAnimation(defender));
+            yield return new WaitForSeconds(secondsToWaitForHurtAnim);
             FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.IDLE);
         }
     }
@@ -48,10 +60,8 @@ public class Attack : MonoBehaviour
         yield return new WaitForSeconds(.1f);
         Renderer defenderRenderer = defender.GetComponent<Renderer>();
         defenderRenderer.material.color = new Color(255, 1, 1);
-        yield return new WaitForSeconds(.1f);
+        yield return new WaitForSeconds(.08f);
         defenderRenderer.material.color = new Color(1, 1, 1);
-        //Wait for hurt animation to finish
-        yield return new WaitForSeconds(.2f);
     }
 
     public bool IsAttackRepeated(Fighter attacker)

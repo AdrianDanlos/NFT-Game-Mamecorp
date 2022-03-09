@@ -3,6 +3,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 using System.Collections.Specialized;
+using System;
 
 public class Combat : MonoBehaviour
 {
@@ -11,11 +12,12 @@ public class Combat : MonoBehaviour
     public static Fighter bot;
     public int botElo;
 
-    // GameObjects data
+    // GameObjects
     public static GameObject playerGameObject;
     public GameObject playerWrapper;
     public static GameObject botGameObject;
     public Canvas results;
+    public SpriteRenderer arena;
 
     // Script references
     public static Movement movementScript;
@@ -46,12 +48,13 @@ public class Combat : MonoBehaviour
         FindGameObjects();
         SetVisibilityOfGameObjects();
         GetFighterScriptComponents();
-        FighterAnimations.ResetToDefaultAnimation(player);
         GenerateBotData();
         SetFighterPositions();
         SetOrderOfAttacks();
-        fightersUIDataScript.SetFightersUIInfo(player, bot, botElo);
+        GetRandomArena();
         FighterSkin.SetFightersSkin(player, bot);
+        FighterAnimations.ResetToDefaultAnimation(player);
+        fightersUIDataScript.SetFightersUIInfo(player, bot, botElo);
         playerMaxHp = player.hp;
 
         StartCoroutine(InitiateCombat());
@@ -61,6 +64,12 @@ public class Combat : MonoBehaviour
     {
         player = playerGameObject.GetComponent<Fighter>();
         bot = botGameObject.GetComponent<Fighter>();
+    }
+    private void GetRandomArena()
+    {
+        Sprite[] arenas = Resources.LoadAll<Sprite>("Arenas/");
+        int chosenArena = UnityEngine.Random.Range(0, arenas.Length);
+        arena.sprite = arenas[chosenArena];
     }
 
     private void SetVisibilityOfGameObjects()
@@ -73,6 +82,7 @@ public class Combat : MonoBehaviour
         playerGameObject = playerWrapper.transform.Find("Fighter").gameObject;
         botGameObject = GameObject.Find("Bot");
         results = GameObject.FindGameObjectWithTag("Results").GetComponent<Canvas>();
+        arena = GameObject.FindGameObjectWithTag("Arena").GetComponent<SpriteRenderer>();
     }
 
     private void SetFighterPositions()
@@ -110,7 +120,6 @@ public class Combat : MonoBehaviour
         StartPostGameActions();
     }
 
-
     private void GenerateBotData()
     {
         string botName = MatchMaking.FetchBotRandomName();
@@ -125,13 +134,35 @@ public class Combat : MonoBehaviour
             Card cardInstance = new Card((string)card["cardName"], (int)card["mana"], (string)card["text"], (string)card["rarity"], (string)card["type"]);
             botCards.Add(cardInstance);
         }
-        //FIXME: Randomize bot skin/species
-        //FIXME: stats should scale to match player stats otherwise it will become weak very fast
-        bot.FighterConstructor(botName,
-            Species.defaultStats[SpeciesNames.Orc]["hp"],
-            Species.defaultStats[SpeciesNames.Orc]["damage"],
-            Species.defaultStats[SpeciesNames.Orc]["speed"],
-            SpeciesNames.Orc.ToString(), "Orc", 1, 0, 10, botCards);
+
+        SpeciesNames randomSpecies = GetRandomSpecies();
+
+        Dictionary<string, float> botStats = GenerateBotRandomStats(randomSpecies);
+
+        bot.FighterConstructor(botName, botStats["hp"], botStats["damage"], botStats["speed"],
+            randomSpecies.ToString(), randomSpecies.ToString(), 1, 0, 10, botCards);
+
+        //FIXME: We should remove the skin concept from the fighters and use the species name for the skin.
+    }
+
+    private Dictionary<string, float> GenerateBotRandomStats(SpeciesNames randomSpecies)
+    {
+        float hp = Species.defaultStats[randomSpecies]["hp"] + (Species.statsPerLevel[randomSpecies]["hp"] * player.level);
+        float damage = Species.defaultStats[randomSpecies]["damage"] + (Species.statsPerLevel[randomSpecies]["damage"] * player.level);
+        float speed = Species.defaultStats[randomSpecies]["speed"] + (Species.statsPerLevel[randomSpecies]["speed"] * player.level);
+
+        return new Dictionary<string, float>
+        {
+            {"hp", hp},
+            {"damage", damage},
+            {"speed", speed},
+        };
+    }
+    private SpeciesNames GetRandomSpecies()
+    {
+        System.Random random = new System.Random();
+        Array species = Enum.GetValues(typeof(SpeciesNames));
+        return (SpeciesNames)species.GetValue(random.Next(species.Length));
     }
 
     IEnumerator CombatLogicHandler(Fighter attacker, Fighter defender)

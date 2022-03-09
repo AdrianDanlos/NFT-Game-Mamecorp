@@ -13,6 +13,7 @@ public class FighterAnimations : MonoBehaviour
         JUMP,
         DEATH,
         HURT,
+        KICK,
     }
 
     public static void ChangeAnimation(Fighter fighter, AnimationNames newAnimation)

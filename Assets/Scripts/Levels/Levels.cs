@@ -45,6 +45,7 @@ public static class Levels
                 //prop -> Iteration 1: Orc, Iteration 2: Dictionary<string, float>
                 if (isCurrentSpecies)
                 {
+                    //Convert species string to enumMember
                     SpeciesNames speciesEnumMember = (SpeciesNames)Enum.Parse(typeof(SpeciesNames), player.species); //Orc, Golem, FallenAngel
                     player.hp += Species.statsPerLevel[speciesEnumMember]["hp"];
                     player.damage += Species.statsPerLevel[speciesEnumMember]["damage"];

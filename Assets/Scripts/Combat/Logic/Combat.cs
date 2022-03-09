@@ -3,6 +3,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 using System.Collections.Specialized;
+using System;
 
 public class Combat : MonoBehaviour
 {
@@ -67,8 +68,8 @@ public class Combat : MonoBehaviour
     private void GetRandomArena()
     {
         Sprite[] arenas = Resources.LoadAll<Sprite>("Arenas/");
-        int chosenArena = Random.Range(0, arenas.Length);
-        arena.sprite = arenas[chosenArena]; 
+        int chosenArena = UnityEngine.Random.Range(0, arenas.Length);
+        arena.sprite = arenas[chosenArena];
     }
 
     private void SetVisibilityOfGameObjects()
@@ -134,13 +135,24 @@ public class Combat : MonoBehaviour
             Card cardInstance = new Card((string)card["cardName"], (int)card["mana"], (string)card["text"], (string)card["rarity"], (string)card["type"]);
             botCards.Add(cardInstance);
         }
-        //FIXME: Randomize bot skin/species
-        //FIXME: stats should scale to match player stats otherwise it will become weak very fast
+
+        SpeciesNames randomSpecies = GetRandomSpecies();
+
         bot.FighterConstructor(botName,
-            Species.defaultStats[SpeciesNames.Orc]["hp"],
-            Species.defaultStats[SpeciesNames.Orc]["damage"],
-            Species.defaultStats[SpeciesNames.Orc]["speed"],
-            SpeciesNames.Orc.ToString(), "Orc", 1, 0, 10, botCards);
+            Species.defaultStats[randomSpecies]["hp"],
+            Species.defaultStats[randomSpecies]["damage"],
+            Species.defaultStats[randomSpecies]["speed"],
+            randomSpecies.ToString(), randomSpecies.ToString(), 1, 0, 10, botCards);
+
+        //FIXME: We should remove the skin concept from the fighters and use the species name for the skin.
+        //FIXME: stats should scale to match player stats otherwise it will become weak very fast
+    }
+
+    private SpeciesNames GetRandomSpecies()
+    {
+        System.Random random = new System.Random();
+        Array species = Enum.GetValues(typeof(SpeciesNames));
+        return (SpeciesNames)species.GetValue(random.Next(species.Length));
     }
 
     IEnumerator CombatLogicHandler(Fighter attacker, Fighter defender)

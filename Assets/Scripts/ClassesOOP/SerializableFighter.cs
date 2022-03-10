@@ -10,7 +10,6 @@ public class SerializableFighter
     private string _skin;
     private int _level;
     private int _experiencePoints;
-    private int _manaSlots;
     private List<Card> _cards;
 
     public string fighterName { get => _fighterName; set => _fighterName = value; }
@@ -21,7 +20,6 @@ public class SerializableFighter
     public string skin { get => _skin; set => _skin = value; }
     public int level { get => _level; set => _level = value; }
     public int experiencePoints { get => _experiencePoints; set => _experiencePoints = value; }
-    public int manaSlots { get => _manaSlots; set => _manaSlots = value; }
     public List<Card> cards { get => _cards; set => _cards = value; }
 
     public SerializableFighter(Fighter fighter)
@@ -34,7 +32,6 @@ public class SerializableFighter
         this.skin = fighter.skin;
         this.level = fighter.level;
         this.experiencePoints = fighter.experiencePoints;
-        this.manaSlots = fighter.manaSlots;
         this.cards = fighter.cards;
     }
 }

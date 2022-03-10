@@ -112,10 +112,10 @@ public class Combat : MonoBehaviour
         //1 loop = 1 turn (both players attacking)
         while (!isGameOver)
         {
-            // The CombatLogicHandler method should handle all the actions of a player for that turn. E.G. Move, Attack, Throw skill....
-            yield return StartCoroutine(CombatLogicHandler(firstAttacker, secondAttacker));
+            // The StartTurn method should handle all the actions of a player for that turn. E.G. Move, Attack, Throw skill....
+            yield return StartCoroutine(StartTurn(firstAttacker, secondAttacker));
             if (isGameOver) break;
-            yield return StartCoroutine(CombatLogicHandler(secondAttacker, firstAttacker));
+            yield return StartCoroutine(StartTurn(secondAttacker, firstAttacker));
         }
         StartPostGameActions();
     }
@@ -165,14 +165,43 @@ public class Combat : MonoBehaviour
         return (SpeciesNames)species.GetValue(random.Next(species.Length));
     }
 
-    IEnumerator CombatLogicHandler(Fighter attacker, Fighter defender)
+    IEnumerator StartTurn(Fighter attacker, Fighter defender)
     {
-        // Move forward
-        FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.RUN);
-        yield return StartCoroutine(movementScript.MoveForward(attacker, attacker.destinationPosition));
+        //FIXME: Check if fighter has used skill
+        //yield return AttackWithoutSkills(attacker, defender);
+        //yield return CosmicKicks(attacker, defender);
+        yield return ShurikenFury(attacker, defender);
+    }
+
+    IEnumerator ShurikenFury(Fighter attacker, Fighter defender)
+    {
+        int nShurikens = UnityEngine.Random.Range(4, 9); // 4-8 shurikens
+
+        for (int i = 0; i < nShurikens && !isGameOver; i++)
+        {
+            yield return StartCoroutine(attacktScript.PerformShurikenFury(attacker, defender));
+        }
+    }
+
+    IEnumerator CosmicKicks(Fighter attacker, Fighter defender)
+    {
+        yield return MoveForwardHandler(attacker);
+
+        int nKicks = UnityEngine.Random.Range(4, 9); // 4-8 kicks
+
+        for (int i = 0; i < nKicks && !isGameOver; i++)
+        {
+            yield return StartCoroutine(attacktScript.PerformCosmicKicks(attacker, defender));
+        }
+
+        yield return MoveBackHandler(attacker);
+    }
+
+    IEnumerator AttackWithoutSkills(Fighter attacker, Fighter defender)
+    {
+        yield return MoveForwardHandler(attacker);
 
         // Attack
-
         int attackCounter = 0;
 
         while (!isGameOver && (attackCounter == 0 || attacktScript.IsAttackRepeated(attacker)))
@@ -181,7 +210,17 @@ public class Combat : MonoBehaviour
             attackCounter++;
         };
 
-        // Move back
+        yield return MoveBackHandler(attacker);
+    }
+
+    IEnumerator MoveForwardHandler(Fighter attacker)
+    {
+        FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.RUN);
+        yield return StartCoroutine(movementScript.MoveForward(attacker, attacker.destinationPosition));
+    }
+
+    IEnumerator MoveBackHandler(Fighter attacker)
+    {
         FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.RUN);
         FighterSkin.SwitchFighterOrientation(attacker.GetComponent<SpriteRenderer>());
         yield return StartCoroutine(movementScript.MoveBack(attacker, attacker.initialPosition));

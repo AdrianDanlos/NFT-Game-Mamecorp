@@ -19,6 +19,7 @@ public class Movement : MonoBehaviour
         yield return StartCoroutine(Move(fighter, fighter.transform.position, target, runningDurationInSeconds));
     }
 
+
     public IEnumerator Move(Fighter fighter, Vector3 startingPosition, Vector3 targetPosition, double duration)
     {
         float elapsedTime = 0;
@@ -26,6 +27,19 @@ public class Movement : MonoBehaviour
         while (elapsedTime < duration)
         {
             fighter.transform.position = Vector3.Lerp(startingPosition, targetPosition, (float)(elapsedTime / duration));
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+    }
+
+    //FIXME: Find a way to reuse this. Spoiler: Its not easy to have a function that accepts a param of different types (Fighter and Gameobject)
+    public IEnumerator MoveShuriken(GameObject shuriken, Vector3 startingPosition, Vector3 targetPosition, double duration)
+    {        
+        float elapsedTime = 0;
+
+        while (elapsedTime < duration)
+        {
+            shuriken.transform.position = Vector3.Lerp(startingPosition, targetPosition, (float)(elapsedTime / duration));
             elapsedTime += Time.deltaTime;
             yield return null;
         }
@@ -40,7 +54,7 @@ public class Movement : MonoBehaviour
         Vector2 defenderMaxHeightInAirPosition = initialPosition;
         Vector2 defenderLandingPosition = initialPosition;
 
-        const int JumpHeight = 1;
+        const int JumpHeight = 2;
 
         bool isPlayerDodging = Combat.player == defender;
         int xDistanceOnJump = isPlayerDodging ? -1 : 1;
@@ -65,7 +79,7 @@ public class Movement : MonoBehaviour
     }
 
     private bool IsAtMeleeRange()
-    {        
+    {
         double currentDistanceAwayFromEachOther = ToSingleDecimal(Combat.player.transform.position.x - Combat.bot.transform.position.x);
         return System.Math.Abs(currentDistanceAwayFromEachOther) <= Combat.distanceAwayFromEachotherOnAttack;
     }
@@ -94,11 +108,12 @@ public class Movement : MonoBehaviour
         yield return StartCoroutine(Move(attacker, attacker.transform.position, newDestinationPosition, runningDurationInSeconds * 0.2f));
     }
 
-    private double ToSingleDecimal(double number){
-		string numberAsString = number.ToString();
-		int startingPositionToTrim = 3;
-		
-		string trimmedString = numberAsString.Remove(startingPositionToTrim, numberAsString.Length - startingPositionToTrim);
-		return Convert.ToDouble(trimmedString);
+    private double ToSingleDecimal(double number)
+    {
+        string numberAsString = number.ToString();
+        int startingPositionToTrim = 3;
+
+        string trimmedString = numberAsString.Remove(startingPositionToTrim, numberAsString.Length - startingPositionToTrim);
+        return Convert.ToDouble(trimmedString);
     }
 }

@@ -8,6 +8,7 @@ TagManager:
   - Results
   - FighterNamePopup
   - Arena
+  - ResultsBanner
   layers:
   - Default
   - TransparentFX

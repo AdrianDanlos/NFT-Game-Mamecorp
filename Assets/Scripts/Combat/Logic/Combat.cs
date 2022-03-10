@@ -140,7 +140,7 @@ public class Combat : MonoBehaviour
         Dictionary<string, float> botStats = GenerateBotRandomStats(randomSpecies);
 
         bot.FighterConstructor(botName, botStats["hp"], botStats["damage"], botStats["speed"],
-            randomSpecies.ToString(), randomSpecies.ToString(), 1, 0, 10, botCards);
+            randomSpecies.ToString(), randomSpecies.ToString(), 1, 0, botCards);
 
         //FIXME: We should remove the skin concept from the fighters and use the species name for the skin.
     }
@@ -266,6 +266,7 @@ public class Combat : MonoBehaviour
         PostGameActions.SetCurrencies(isPlayerWinner, isLevelUp);
 
         //UI
+        fightersUIDataScript.SetResultsBanner(isPlayerWinner);
         fightersUIDataScript.SetResultsEloChange(eloChange);
         fightersUIDataScript.SetResultsLevelSlider(player.level, player.experiencePoints);
         fightersUIDataScript.SetResultsExpGainText(isPlayerWinner);

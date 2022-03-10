@@ -83,4 +83,8 @@ public class FightersUIData : MonoBehaviour
     {
         results.enabled = true;
     }
+    public void SetResultsBanner(bool isPlayerWinner)
+    {
+        GameObject.FindGameObjectWithTag("ResultsBanner").GetComponent<TextMeshProUGUI>().text = isPlayerWinner ? "VICTORY" : "DEFEAT";
+    }
 }

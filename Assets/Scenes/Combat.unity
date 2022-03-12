@@ -135,12 +135,12 @@ GameObject:
   - component: {fileID: 1754687}
   - component: {fileID: 1754686}
   m_Layer: 3
-  m_Name: Reward_Item
-  m_TagString: Untagged
+  m_Name: Chest
+  m_TagString: ChestRewardInResults
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1754685
 RectTransform:
   m_ObjectHideFlags: 0
@@ -156,11 +156,11 @@ RectTransform:
   - {fileID: 183409869}
   - {fileID: 761933505}
   m_Father: {fileID: 1581309673}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 313.67368, y: -100.048706}
   m_SizeDelta: {x: 182.44911, y: 200.09741}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1754686
@@ -2379,12 +2379,12 @@ GameObject:
   - component: {fileID: 884243765}
   - component: {fileID: 884243764}
   m_Layer: 3
-  m_Name: Reward_Item
-  m_TagString: Untagged
+  m_Name: Gems
+  m_TagString: GemsRewardInResults
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &884243763
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2400,11 +2400,11 @@ RectTransform:
   - {fileID: 1985290926}
   - {fileID: 617621065}
   m_Father: {fileID: 1581309673}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 313.67368, y: -100.048706}
   m_SizeDelta: {x: 182.44911, y: 200.09741}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &884243764
@@ -3283,8 +3283,8 @@ GameObject:
   - component: {fileID: 1251270551}
   - component: {fileID: 1251270550}
   m_Layer: 3
-  m_Name: Reward_Item
-  m_TagString: Untagged
+  m_Name: Gold
+  m_TagString: GoldRewardInResults
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4850,6 +4850,10 @@ MonoBehaviour:
   playerLevelSliderGO: {fileID: 468575894}
   playerExpGainTextGO: {fileID: 1463550687}
   levelUpIcon: {fileID: 266033478}
+  resultsBanner: {fileID: 1521653713}
+  goldRewardGO: {fileID: 1251270548}
+  gemsRewardGO: {fileID: 884243762}
+  chestRewardGO: {fileID: 1754684}
 --- !u!1 &1581309672
 GameObject:
   m_ObjectHideFlags: 0
@@ -4880,8 +4884,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1251270549}
-  - {fileID: 1754685}
   - {fileID: 884243763}
+  - {fileID: 1754685}
   m_Father: {fileID: 1454449140}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6422,7 +6426,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 7f5077902f34e4dcda6e69df4ced83a7, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 3927a868a1742443595290c357f6d342, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

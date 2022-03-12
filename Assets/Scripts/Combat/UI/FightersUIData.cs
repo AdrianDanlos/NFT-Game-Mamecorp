@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
@@ -20,6 +19,10 @@ public class FightersUIData : MonoBehaviour
     public GameObject playerLevelSliderGO;
     public GameObject playerExpGainTextGO;
     public GameObject levelUpIcon;
+    public TextMeshProUGUI resultsBanner;
+    public GameObject goldRewardGO;
+    public GameObject gemsRewardGO;
+    public GameObject chestRewardGO;
 
     public void SetFightersUIInfo(Fighter player, Fighter bot, int botElo)
     {
@@ -85,6 +88,15 @@ public class FightersUIData : MonoBehaviour
     }
     public void SetResultsBanner(bool isPlayerWinner)
     {
-        GameObject.FindGameObjectWithTag("ResultsBanner").GetComponent<TextMeshProUGUI>().text = isPlayerWinner ? "VICTORY" : "DEFEAT";
+        resultsBanner.GetComponent<TextMeshProUGUI>().text = isPlayerWinner ? "VICTORY" : "DEFEAT";
+    }
+
+    public void ShowRewards(int goldReward, int gemsReward, bool isLevelUp)
+    {
+        gemsRewardGO.SetActive(Convert.ToBoolean(gemsReward));
+        chestRewardGO.SetActive(isLevelUp);
+
+        goldRewardGO.transform.Find("TextValue").gameObject.GetComponent<TextMeshProUGUI>().text = goldReward.ToString();
+        if(Convert.ToBoolean(gemsReward)) gemsRewardGO.transform.Find("TextValue").gameObject.GetComponent<TextMeshProUGUI>().text = gemsReward.ToString();
     }
 }

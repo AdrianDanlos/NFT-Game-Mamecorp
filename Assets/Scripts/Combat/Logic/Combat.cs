@@ -173,19 +173,19 @@ public class Combat : MonoBehaviour
 
     IEnumerator StartTurn(Fighter attacker, Fighter defender)
     {
-        if (WillUseSkillThisTurn())
-        {
-            //yield return CosmicKicks(attacker, defender);
-            //yield return ShurikenFury(attacker, defender);
-            yield break;
-        }
+        // if (WillUseSkillThisTurn())
+        // {
+        //     //yield return CosmicKicks(attacker, defender);
+        //     //yield return ShurikenFury(attacker, defender);
+        //     yield break;
+        // }
         yield return AttackWithoutSkills(attacker, defender);
     }
 
     private bool WillUseSkillThisTurn()
     {
         int probabilityOfUsingSkillEachTurn = 40;
-        return UnityEngine.Random.Range(0, 100) <= probabilityOfUsingSkillEachTurn;
+        return Probabilities.IsHappening(probabilityOfUsingSkillEachTurn);
     }
 
     IEnumerator ShurikenFury(Fighter attacker, Fighter defender)
@@ -271,6 +271,8 @@ public class Combat : MonoBehaviour
         int eloChange = MatchMaking.CalculateEloChange(User.Instance.elo, botElo, isPlayerWinner);
         int playerUpdatedExperience = player.experiencePoints + Levels.GetXpGain(isPlayerWinner);
         bool isLevelUp = Levels.IsLevelUp(player.level, playerUpdatedExperience);
+        int goldReward = PostGameActions.GoldReward(isPlayerWinner);
+        int gemsReward = PostGameActions.GemsReward();
 
         //PlayerData
         PostGameActions.SetElo(eloChange);
@@ -280,7 +282,7 @@ public class Combat : MonoBehaviour
         EnergyManager.SubtractOneEnergyPoint();
 
         //Rewards
-        PostGameActions.SetCurrencies(isPlayerWinner, isLevelUp);
+        PostGameActions.SetCurrencies(goldReward, gemsReward);
 
         //UI
         fightersUIDataScript.SetResultsBanner(isPlayerWinner);
@@ -288,6 +290,7 @@ public class Combat : MonoBehaviour
         fightersUIDataScript.SetResultsLevelSlider(player.level, player.experiencePoints);
         fightersUIDataScript.SetResultsExpGainText(isPlayerWinner);
         fightersUIDataScript.ShowLevelUpIcon(isLevelUp);
+        fightersUIDataScript.ShowRewards(goldReward, gemsReward, isLevelUp);
         fightersUIDataScript.EnableResults(results);
 
         //Save

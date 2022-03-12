@@ -174,7 +174,7 @@ public class Combat : MonoBehaviour
 
     IEnumerator StartTurn(Fighter attacker, Fighter defender)
     {
-        // yield return LowBlow(attacker, defender);
+        yield return LowBlow(attacker, defender);
         // if (WillUseSkillThisTurn())
         // {
         //     //yield return CosmicKicks(attacker, defender);
@@ -182,7 +182,7 @@ public class Combat : MonoBehaviour
         //     yield return LowBlow(attacker, defender);
         //     yield break;
         // }
-        yield return AttackWithoutSkills(attacker, defender);
+        // yield return AttackWithoutSkills(attacker, defender);
     }
 
     private bool WillUseSkillThisTurn()

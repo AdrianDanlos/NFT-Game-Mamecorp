@@ -125,14 +125,14 @@ public class Combat : MonoBehaviour
         string botName = MatchMaking.FetchBotRandomName();
         botElo = MatchMaking.GenerateBotElo(User.Instance.elo);
 
-        // Get all the existing cards and add them to the list of cards of the fighter
-        List<OrderedDictionary> cardCollection = CardCollection.cards;
-        List<Card> botCards = new List<Card>();
+        // Get all the existing skills and add them to the list of skills of the fighter
+        List<OrderedDictionary> skillCollection = SkillCollection.skills;
+        List<Skill> botSkills = new List<Skill>();
 
-        foreach (OrderedDictionary card in cardCollection)
+        foreach (OrderedDictionary skill in skillCollection)
         {
-            Card cardInstance = new Card((string)card["cardName"], (int)card["mana"], (string)card["text"], (string)card["rarity"], (string)card["type"]);
-            botCards.Add(cardInstance);
+            Skill skillInstance = new Skill((string)skill["skillName"], (int)skill["mana"], (string)skill["text"], (string)skill["rarity"], (string)skill["type"]);
+            botSkills.Add(skillInstance);
         }
 
         SpeciesNames randomSpecies = GetRandomSpecies();
@@ -140,7 +140,7 @@ public class Combat : MonoBehaviour
         Dictionary<string, float> botStats = GenerateBotRandomStats(randomSpecies);
 
         bot.FighterConstructor(botName, botStats["hp"], botStats["damage"], botStats["speed"],
-            randomSpecies.ToString(), randomSpecies.ToString(), 1, 0, botCards);
+            randomSpecies.ToString(), randomSpecies.ToString(), 1, 0, botSkills);
 
         //FIXME: We should remove the skin concept from the fighters and use the species name for the skin.
     }

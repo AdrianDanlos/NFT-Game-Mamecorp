@@ -27,7 +27,7 @@ public class Combat : MonoBehaviour
     // Positions data
     static Vector3 playerStartingPosition = new Vector3(-6, -0.7f, 0);
     static Vector3 botStartingPosition = new Vector3(6, -0.7f, 0);
-    public static float distanceAwayFromEachotherOnAttack = 1.5f;
+    public const float DefaultDistanceFromEachotherOnAttack = 2.3f;
 
     // Game status data
     public static bool isGameOver;
@@ -92,15 +92,21 @@ public class Combat : MonoBehaviour
         botGameObject.transform.position = botStartingPosition;
 
         //Set Objects
+        player.initialPosition = playerStartingPosition;
+        bot.initialPosition = botStartingPosition;
+
+        SetFightersDestinationPositions(DefaultDistanceFromEachotherOnAttack);
+    }
+
+    private void SetFightersDestinationPositions(float distanceAwayFromEachOtherOnAttack)
+    {
         Vector3 playerDestinationPosition = botStartingPosition;
         Vector3 botDestinationPosition = playerStartingPosition;
 
-        player.initialPosition = playerStartingPosition;
-        playerDestinationPosition.x -= distanceAwayFromEachotherOnAttack;
+        playerDestinationPosition.x -= distanceAwayFromEachOtherOnAttack;
         player.destinationPosition = playerDestinationPosition;
 
-        bot.initialPosition = botStartingPosition;
-        botDestinationPosition.x += distanceAwayFromEachotherOnAttack;
+        botDestinationPosition.x += distanceAwayFromEachOtherOnAttack;
         bot.destinationPosition = botDestinationPosition;
     }
 
@@ -125,14 +131,14 @@ public class Combat : MonoBehaviour
         string botName = MatchMaking.FetchBotRandomName();
         botElo = MatchMaking.GenerateBotElo(User.Instance.elo);
 
-        // Get all the existing cards and add them to the list of cards of the fighter
-        List<OrderedDictionary> cardCollection = CardCollection.cards;
-        List<Card> botCards = new List<Card>();
+        // Get all the existing skills and add them to the list of skills of the fighter
+        List<OrderedDictionary> skillCollection = SkillCollection.skills;
+        List<Skill> botSkills = new List<Skill>();
 
-        foreach (OrderedDictionary card in cardCollection)
+        foreach (OrderedDictionary skill in skillCollection)
         {
-            Card cardInstance = new Card((string)card["cardName"], (int)card["mana"], (string)card["text"], (string)card["rarity"], (string)card["type"]);
-            botCards.Add(cardInstance);
+            Skill skillInstance = new Skill((string)skill["skillName"], (int)skill["mana"], (string)skill["text"], (string)skill["rarity"], (string)skill["type"]);
+            botSkills.Add(skillInstance);
         }
 
         SpeciesNames randomSpecies = GetRandomSpecies();
@@ -140,7 +146,7 @@ public class Combat : MonoBehaviour
         Dictionary<string, float> botStats = GenerateBotRandomStats(randomSpecies);
 
         bot.FighterConstructor(botName, botStats["hp"], botStats["damage"], botStats["speed"],
-            randomSpecies.ToString(), randomSpecies.ToString(), 1, 0, 10, botCards);
+            randomSpecies.ToString(), randomSpecies.ToString(), 1, 0, botSkills);
 
         //FIXME: We should remove the skin concept from the fighters and use the species name for the skin.
     }
@@ -167,10 +173,19 @@ public class Combat : MonoBehaviour
 
     IEnumerator StartTurn(Fighter attacker, Fighter defender)
     {
-        //FIXME: Check if fighter has used skill
-        //yield return AttackWithoutSkills(attacker, defender);
-        //yield return CosmicKicks(attacker, defender);
-        yield return ShurikenFury(attacker, defender);
+        if (WillUseSkillThisTurn())
+        {
+            yield return CosmicKicks(attacker, defender);
+            //yield return ShurikenFury(attacker, defender);
+            yield break;
+        }
+        yield return AttackWithoutSkills(attacker, defender);
+    }
+
+    private bool WillUseSkillThisTurn()
+    {
+        int probabilityOfUsingSkillEachTurn = 40;
+        return Probabilities.IsHappening(probabilityOfUsingSkillEachTurn);
     }
 
     IEnumerator ShurikenFury(Fighter attacker, Fighter defender)
@@ -185,6 +200,7 @@ public class Combat : MonoBehaviour
 
     IEnumerator CosmicKicks(Fighter attacker, Fighter defender)
     {
+        SetFightersDestinationPositions(1.5f);
         yield return MoveForwardHandler(attacker);
 
         int nKicks = UnityEngine.Random.Range(4, 9); // 4-8 kicks
@@ -195,6 +211,7 @@ public class Combat : MonoBehaviour
         }
 
         yield return MoveBackHandler(attacker);
+        SetFightersDestinationPositions(DefaultDistanceFromEachotherOnAttack);
     }
 
     IEnumerator AttackWithoutSkills(Fighter attacker, Fighter defender)
@@ -254,6 +271,8 @@ public class Combat : MonoBehaviour
         int eloChange = MatchMaking.CalculateEloChange(User.Instance.elo, botElo, isPlayerWinner);
         int playerUpdatedExperience = player.experiencePoints + Levels.GetXpGain(isPlayerWinner);
         bool isLevelUp = Levels.IsLevelUp(player.level, playerUpdatedExperience);
+        int goldReward = PostGameActions.GoldReward(isPlayerWinner);
+        int gemsReward = PostGameActions.GemsReward();
 
         //PlayerData
         PostGameActions.SetElo(eloChange);
@@ -263,13 +282,15 @@ public class Combat : MonoBehaviour
         EnergyManager.SubtractOneEnergyPoint();
 
         //Rewards
-        PostGameActions.SetCurrencies(isPlayerWinner, isLevelUp);
+        PostGameActions.SetCurrencies(goldReward, gemsReward);
 
         //UI
+        fightersUIDataScript.SetResultsBanner(isPlayerWinner);
         fightersUIDataScript.SetResultsEloChange(eloChange);
         fightersUIDataScript.SetResultsLevelSlider(player.level, player.experiencePoints);
         fightersUIDataScript.SetResultsExpGainText(isPlayerWinner);
         fightersUIDataScript.ShowLevelUpIcon(isLevelUp);
+        fightersUIDataScript.ShowRewards(goldReward, gemsReward, isLevelUp);
         fightersUIDataScript.EnableResults(results);
 
         //Save

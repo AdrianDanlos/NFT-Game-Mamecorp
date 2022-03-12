@@ -30,10 +30,20 @@ public class PostGameActions
         else User.Instance.loses++;
     }
 
-    public static void SetCurrencies(bool isPlayerWinner, bool isLevelUp)
+    public static void SetCurrencies(int goldReward, int gemsReward)
     {
-        User.Instance.gold += isPlayerWinner ? 40 : 10;
-        User.Instance.gems += isLevelUp && Probabilities.IsHappening(50) ? 20 : 0;
+        User.Instance.gold += goldReward;
+        User.Instance.gems += gemsReward;
     }
     public static Action<Fighter> Save = (player) => player.SaveFighter();
+
+    public static int GoldReward(bool isPlayerWinner)
+    {
+        return isPlayerWinner ? 20 : 10;
+    }
+
+    public static int GemsReward()
+    {
+        return Probabilities.IsHappening(10) ? UnityEngine.Random.Range(20, 40) : 0;
+    }
 }

@@ -8,6 +8,10 @@ TagManager:
   - Results
   - FighterNamePopup
   - Arena
+  - ResultsBanner
+  - GoldRewardInResults
+  - GemsRewardInResults
+  - ChestRewardInResults
   layers:
   - Default
   - TransparentFX

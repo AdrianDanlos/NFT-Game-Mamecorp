@@ -3,13 +3,13 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 
-public static class CardCollection
+public static class SkillCollection
 {
-    public static readonly List<OrderedDictionary> cards = new List<OrderedDictionary>()
+    public static readonly List<OrderedDictionary> skills = new List<OrderedDictionary>()
     {
         new OrderedDictionary
         {
-            {"cardName", "A"},
+            {"skillName", "A"},
             {"mana", 5},
             {"text", "B"},
             {"rarity", "C"},
@@ -17,7 +17,7 @@ public static class CardCollection
         },
         new OrderedDictionary
         {
-            {"cardName", "A"},
+            {"skillName", "A"},
             {"mana", 5},
             {"text", "B"},
             {"rarity", "C"},

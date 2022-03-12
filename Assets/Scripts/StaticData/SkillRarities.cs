@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 
-public static class CardRarity
+public static class SkillRarity
 {
-    public static readonly Dictionary<string, Dictionary<string, string>> cardRarities = new Dictionary<string, Dictionary<string, string>>
+    public static readonly Dictionary<string, Dictionary<string, string>> skillRarities = new Dictionary<string, Dictionary<string, string>>
     {
         {"Common", new Dictionary<string, string>{{"color", "#e0e5ee"}}},
         {"Rare", new Dictionary<string, string>{{"color", "#3887f2"}}},

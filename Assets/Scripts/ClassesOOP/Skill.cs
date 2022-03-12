@@ -1,27 +1,27 @@
 using UnityEngine;
-enum CardTypes
+enum SkillTypes
 {
     Basic,
     Neutral,
     Species,
 }
 
-public class Card
+public class Skill
 {
-    private string _cardName;
+    private string _skillName;
     private int _mana;
     private string _description;
     private string _rarity;
     private string _type;
-    public string cardName { get => _cardName; set => _cardName = value; }
+    public string skillName { get => _skillName; set => _skillName = value; }
     public int mana { get => _mana; set => _mana = value; }
     public string description { get => _description; set => _description = value; }
     public string rarity { get => _rarity; set => _rarity = value; }
     public string type { get => _type; set => _type = value; }
 
-    public Card(string cardName, int mana, string description, string rarity, string type)
+    public Skill(string skillName, int mana, string description, string rarity, string type)
     {
-        this.cardName = cardName;
+        this.skillName = skillName;
         this.mana = mana;
         this.description = description;
         this.rarity = rarity;

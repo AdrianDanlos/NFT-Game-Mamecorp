@@ -16,13 +16,13 @@ public class Attack : MonoBehaviour
             yield break;
         }
 
-        yield return DefenderReceivesAttack(attacker, defender, 0.25f);
+        yield return DefenderReceivesAttack(attacker, defender, 0.25f, 0.05f);
     }
 
     public IEnumerator PerformCosmicKicks(Fighter attacker, Fighter defender)
     {
         FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.KICK);
-        yield return DefenderReceivesAttack(attacker, defender, 0.1f);
+        yield return DefenderReceivesAttack(attacker, defender, 0.1f, 0.05f);
     }
     public IEnumerator PerformShurikenFury(Fighter attacker, Fighter defender)
     {
@@ -32,29 +32,36 @@ public class Attack : MonoBehaviour
         Vector3 shurikenEndPos = defender.transform.position;
         shurikenStartPos.y -= 0.7f;
         shurikenEndPos.y -= 0.7f;
-        //If the attack is dodged throw the shuriken much further away
-        shurikenEndPos.x = dodged ? Combat.player == attacker ? shurikenEndPos.x + 10 : shurikenEndPos.x - 10 : shurikenEndPos.x;
+        shurikenEndPos.x = GetShurikenEndPositionX(dodged, attacker, shurikenEndPos);
 
         FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.THROW);
-        //Throw the shuriken when the fighter arm is already up
-        yield return new WaitForSeconds(.1f);
+        yield return new WaitForSeconds(.1f); //Throw the shuriken when the fighter arm is already up
 
         GameObject shurikenInstance = Instantiate(shuriken, shurikenStartPos, Quaternion.identity);
 
         if (dodged)
         {
-            StartCoroutine(Combat.movementScript.MoveShuriken(shurikenInstance, shurikenStartPos, shurikenEndPos, 0.25f));
-            //Wait for the shuriken to approach before jumping
-            yield return new WaitForSeconds(.1f);
+            StartCoroutine(Combat.movementScript.RotateObject(shurikenInstance, new Vector3(0, 0, 3000), 0.7f));
+            StartCoroutine(Combat.movementScript.MoveShuriken(shurikenInstance, shurikenStartPos, shurikenEndPos, 0.7f)); //We dont yield here so we can jump mid animation
+            yield return new WaitForSeconds(.2f); //Wait for the shuriken to approach before jumping
             yield return DefenderDodgesAttack(defender);
+            yield return new WaitForSeconds(.2f); //Wait for the shuriken to be in its final position before destroying it (This could be avoided with colliders)
             Destroy(shurikenInstance);
             yield break;
         }
 
-        yield return StartCoroutine(Combat.movementScript.MoveShuriken(shurikenInstance, shurikenStartPos, shurikenEndPos, 0.25f));
+        StartCoroutine(Combat.movementScript.RotateObject(shurikenInstance, new Vector3(0, 0, 2000), 0.45f));
+        yield return StartCoroutine(Combat.movementScript.MoveShuriken(shurikenInstance, shurikenStartPos, shurikenEndPos, 0.45f));
         Destroy(shurikenInstance);
-        yield return DefenderReceivesAttack(attacker, defender, 0.25f);
+        yield return DefenderReceivesAttack(attacker, defender, 0.25f, 0);
     }
+
+    private float GetShurikenEndPositionX(bool dodged, Fighter attacker, Vector3 shurikenEndPos)
+    {
+        if (dodged) return Combat.player == attacker ? shurikenEndPos.x + 10 : shurikenEndPos.x - 10;
+        return Combat.player == attacker ? shurikenEndPos.x - 1f : shurikenEndPos.x + 1f; //To move the hitbox a bit upfront
+    }
+
 
     IEnumerator DefenderDodgesAttack(Fighter defender)
     {
@@ -64,7 +71,7 @@ public class Attack : MonoBehaviour
         FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.IDLE);
     }
 
-    IEnumerator DefenderReceivesAttack(Fighter attacker, Fighter defender, float secondsToWaitForHurtAnim)
+    IEnumerator DefenderReceivesAttack(Fighter attacker, Fighter defender, float secondsToWaitForHurtAnim, float secondsUntilHitMarker)
     {
         DealDamage(attacker, defender);
 
@@ -73,12 +80,13 @@ public class Attack : MonoBehaviour
         if (Combat.isGameOver)
         {
             FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.DEATH);
-            yield return StartCoroutine(ReceiveDamageAnimation(defender));
+            yield return StartCoroutine(ReceiveDamageAnimation(defender, secondsUntilHitMarker));
+            yield return new WaitForSeconds(.15f); //Wait for attack animation to finish
         }
         else
         {
             FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.HURT);
-            yield return StartCoroutine(ReceiveDamageAnimation(defender));
+            yield return StartCoroutine(ReceiveDamageAnimation(defender, secondsUntilHitMarker));
             yield return new WaitForSeconds(secondsToWaitForHurtAnim);
             FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.IDLE);
         }
@@ -91,9 +99,9 @@ public class Attack : MonoBehaviour
         Combat.fightersUIDataScript.ModifyHealthBar(defender, Combat.player == defender);
     }
 
-    IEnumerator ReceiveDamageAnimation(Fighter defender)
+    IEnumerator ReceiveDamageAnimation(Fighter defender, float secondsUntilHitMarker)
     {
-        yield return new WaitForSeconds(.05f);
+        yield return new WaitForSeconds(secondsUntilHitMarker);
         Renderer defenderRenderer = defender.GetComponent<Renderer>();
         defenderRenderer.material.color = new Color(255, 1, 1);
         yield return new WaitForSeconds(.08f);

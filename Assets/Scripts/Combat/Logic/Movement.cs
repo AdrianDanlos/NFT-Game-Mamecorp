@@ -45,6 +45,21 @@ public class Movement : MonoBehaviour
         }
     }
 
+    public IEnumerator RotateObject(GameObject gameObjectToMove, Vector3 eulerAngles, float duration)
+    {
+        Vector3 newRot = gameObjectToMove.transform.eulerAngles + eulerAngles;
+
+        Vector3 currentRot = gameObjectToMove.transform.eulerAngles;
+
+        float counter = 0;
+        while (counter < duration)
+        {
+            counter += Time.deltaTime;
+            gameObjectToMove.transform.eulerAngles = Vector3.Lerp(currentRot, newRot, counter / duration);
+            yield return null;
+        }
+    }
+
     public IEnumerator DodgeMovement(Fighter defender)
     {
         //This initial position might be at the back if we are defending or at the front if we are attacking and the fighter got hit by a counter or reversal attack
@@ -81,12 +96,12 @@ public class Movement : MonoBehaviour
     private bool IsAtMeleeRange()
     {
         double currentDistanceAwayFromEachOther = ToSingleDecimal(Combat.player.transform.position.x - Combat.bot.transform.position.x);
-        return System.Math.Abs(currentDistanceAwayFromEachOther) <= Combat.distanceAwayFromEachotherOnAttack;
+        return System.Math.Abs(currentDistanceAwayFromEachOther) <= Combat.DefaultDistanceFromEachotherOnAttack;
     }
 
     private bool HasSpaceToKeepPushing(bool isPlayerAttacking, float attackerXPosition)
     {
-        return isPlayerAttacking && attackerXPosition <= screenEdgeX - Combat.distanceAwayFromEachotherOnAttack || !isPlayerAttacking && attackerXPosition >= -screenEdgeX + Combat.distanceAwayFromEachotherOnAttack;
+        return isPlayerAttacking && attackerXPosition <= screenEdgeX - Combat.DefaultDistanceFromEachotherOnAttack || !isPlayerAttacking && attackerXPosition >= -screenEdgeX + Combat.DefaultDistanceFromEachotherOnAttack;
     }
 
     public bool FighterShouldAdvanceToAttack(Fighter attacker)

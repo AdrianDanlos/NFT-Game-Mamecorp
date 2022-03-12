@@ -132,11 +132,13 @@ public class Combat : MonoBehaviour
         botElo = MatchMaking.GenerateBotElo(User.Instance.elo);
 
         List<Skill> botSkills = new List<Skill>();
-        
+
         //ADD ALL SKILLS
         foreach (OrderedDictionary skill in SkillCollection.skills)
         {
-            Skill skillInstance = new Skill((string)skill["skillName"], (int)skill["mana"], (string)skill["text"], (string)skill["rarity"], (string)skill["type"]);
+            Skill skillInstance = new Skill(skill["name"].ToString(), skill["description"].ToString(),
+                skill["rarity"].ToString(), skill["category"].ToString(), skill["icon"].ToString());
+
             botSkills.Add(skillInstance);
         }
 

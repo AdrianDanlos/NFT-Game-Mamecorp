@@ -1,4 +1,5 @@
 using UnityEngine;
+//Unused atm
 enum SkillTypes
 {
     Basic,
@@ -9,22 +10,22 @@ enum SkillTypes
 public class Skill
 {
     private string _skillName;
-    private int _mana;
     private string _description;
     private string _rarity;
-    private string _type;
+    private string _category;
+    private string _icon;
     public string skillName { get => _skillName; set => _skillName = value; }
-    public int mana { get => _mana; set => _mana = value; }
     public string description { get => _description; set => _description = value; }
     public string rarity { get => _rarity; set => _rarity = value; }
-    public string type { get => _type; set => _type = value; }
+    public string category { get => _category; set => _category = value; }
+    public string icon { get => _icon; set => _icon = value; }
 
-    public Skill(string skillName, int mana, string description, string rarity, string type)
+    public Skill(string skillName, string description, string rarity, string category, string icon)
     {
         this.skillName = skillName;
-        this.mana = mana;
         this.description = description;
         this.rarity = rarity;
-        this.type = type;
+        this.category = category;
+        this.icon = icon;
     }
 }

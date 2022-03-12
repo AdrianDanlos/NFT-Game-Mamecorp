@@ -31,19 +31,19 @@ public static class SkillCollection
     {
         new OrderedDictionary
         {
-            {"Title", SkillsList.COSMIC_KICKS},
-            {"Description", "Land between 4 and 8 deadly kicks that can't be dodged."},
-            {"Rarity", Rarity.RARE.ToString()},
-            {"Category", SkillType.SUPERS.ToString()},
-            {"Icon", "5" }
+            {"name", SkillsList.COSMIC_KICKS},
+            {"description", "Land between 4 and 8 deadly kicks that can't be dodged."},
+            {"rarity", Rarity.RARE.ToString()},
+            {"category", SkillType.SUPERS.ToString()},
+            {"icon", "5" }
         },
         new OrderedDictionary
         {
-            {"Title", SkillsList.COSMIC_KICKS},
-            {"Description", "Throw between 4 and 8 ninja shurikens at high speed to your opponent."},
-            {"Rarity", Rarity.RARE.ToString()},
-            {"Category", SkillType.SUPERS.ToString()},
-            {"Icon", "5" }
+            {"name", SkillsList.SHURIKEN_FURY},
+            {"description", "Throw between 4 and 8 ninja shurikens at high speed to your opponent."},
+            {"rarity", Rarity.RARE.ToString()},
+            {"category", SkillType.SUPERS.ToString()},
+            {"icon", "5" }
         }
     };
 }

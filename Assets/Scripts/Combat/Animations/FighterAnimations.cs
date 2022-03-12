@@ -15,6 +15,7 @@ public class FighterAnimations : MonoBehaviour
         HURT,
         KICK,
         THROW,
+        SLIDE,
     }
 
     public static void ChangeAnimation(Fighter fighter, AnimationNames newAnimation)

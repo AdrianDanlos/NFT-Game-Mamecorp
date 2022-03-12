@@ -35,21 +35,17 @@ public class Attack : MonoBehaviour
         shurikenEndPos.x = GetShurikenEndPositionX(dodged, attacker, shurikenEndPos);
 
         FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.THROW);
-        //Throw the shuriken when the fighter arm is already up
-        yield return new WaitForSeconds(.1f);
+        yield return new WaitForSeconds(.1f); //Throw the shuriken when the fighter arm is already up
 
         GameObject shurikenInstance = Instantiate(shuriken, shurikenStartPos, Quaternion.identity);
 
         if (dodged)
         {
             StartCoroutine(Combat.movementScript.RotateObject(shurikenInstance, new Vector3(0, 0, 3000), 0.7f));
-            //We dont yield here so we can jump mid animation
-            StartCoroutine(Combat.movementScript.MoveShuriken(shurikenInstance, shurikenStartPos, shurikenEndPos, 0.7f));
-            //Wait for the shuriken to approach before jumping
-            yield return new WaitForSeconds(.2f);
+            StartCoroutine(Combat.movementScript.MoveShuriken(shurikenInstance, shurikenStartPos, shurikenEndPos, 0.7f)); //We dont yield here so we can jump mid animation
+            yield return new WaitForSeconds(.2f); //Wait for the shuriken to approach before jumping
             yield return DefenderDodgesAttack(defender);
-            //Wait for the shuriken to be in its final position before destroying it (This could be avoided with colliders)
-            yield return new WaitForSeconds(.2f);
+            yield return new WaitForSeconds(.2f); //Wait for the shuriken to be in its final position before destroying it (This could be avoided with colliders)
             Destroy(shurikenInstance);
             yield break;
         }
@@ -63,8 +59,7 @@ public class Attack : MonoBehaviour
     private float GetShurikenEndPositionX(bool dodged, Fighter attacker, Vector3 shurikenEndPos)
     {
         if (dodged) return Combat.player == attacker ? shurikenEndPos.x + 10 : shurikenEndPos.x - 10;
-        //To move the hitbox a bit upfront
-        return Combat.player == attacker ? shurikenEndPos.x - 1f : shurikenEndPos.x + 1f;
+        return Combat.player == attacker ? shurikenEndPos.x - 1f : shurikenEndPos.x + 1f; //To move the hitbox a bit upfront
     }
 
 
@@ -86,6 +81,7 @@ public class Attack : MonoBehaviour
         {
             FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.DEATH);
             yield return StartCoroutine(ReceiveDamageAnimation(defender, secondsUntilHitMarker));
+            yield return new WaitForSeconds(.15f); //Wait for attack animation to finish
         }
         else
         {

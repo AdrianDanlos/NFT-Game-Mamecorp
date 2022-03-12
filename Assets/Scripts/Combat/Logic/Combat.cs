@@ -167,10 +167,18 @@ public class Combat : MonoBehaviour
 
     IEnumerator StartTurn(Fighter attacker, Fighter defender)
     {
-        //FIXME: Check if fighter has used skill
-        //yield return AttackWithoutSkills(attacker, defender);
-        //yield return CosmicKicks(attacker, defender);
-        yield return ShurikenFury(attacker, defender);
+        if(WillUseSkillThisTurn()){
+            //yield return CosmicKicks(attacker, defender);
+            yield return ShurikenFury(attacker, defender);
+            yield break;
+        }
+        yield return AttackWithoutSkills(attacker, defender);
+    }
+
+    private bool WillUseSkillThisTurn()
+    {
+        int probabilityOfUsingSkillEachTurn = 40;
+        return UnityEngine.Random.Range(0, 100) <= probabilityOfUsingSkillEachTurn;
     }
 
     IEnumerator ShurikenFury(Fighter attacker, Fighter defender)

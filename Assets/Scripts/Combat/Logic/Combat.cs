@@ -175,8 +175,8 @@ public class Combat : MonoBehaviour
     {
         if (WillUseSkillThisTurn())
         {
-            yield return CosmicKicks(attacker, defender);
-            //yield return ShurikenFury(attacker, defender);
+            //yield return CosmicKicks(attacker, defender);
+            yield return ShurikenFury(attacker, defender);
             yield break;
         }
         yield return AttackWithoutSkills(attacker, defender);

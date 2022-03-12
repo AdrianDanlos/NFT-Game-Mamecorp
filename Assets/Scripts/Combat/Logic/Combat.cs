@@ -173,12 +173,12 @@ public class Combat : MonoBehaviour
 
     IEnumerator StartTurn(Fighter attacker, Fighter defender)
     {
-        // if (WillUseSkillThisTurn())
-        // {
-        //     //yield return CosmicKicks(attacker, defender);
-        //     //yield return ShurikenFury(attacker, defender);
-        //     yield break;
-        // }
+        if (WillUseSkillThisTurn())
+        {
+            yield return CosmicKicks(attacker, defender);
+            //yield return ShurikenFury(attacker, defender);
+            yield break;
+        }
         yield return AttackWithoutSkills(attacker, defender);
     }
 

@@ -17,14 +17,12 @@ public class Attack : MonoBehaviour
         }
 
         yield return DefenderReceivesAttack(attacker, defender, 0.25f, 0.05f);
-        FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.IDLE);
     }
 
     public IEnumerator PerformCosmicKicks(Fighter attacker, Fighter defender)
     {
         FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.KICK);
         yield return DefenderReceivesAttack(attacker, defender, 0.1f, 0.05f);
-        FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.IDLE);
     }
     public IEnumerator PerformLowBlow(Fighter attacker, Fighter defender)
     {
@@ -66,7 +64,6 @@ public class Attack : MonoBehaviour
         yield return StartCoroutine(Combat.movementScript.MoveShuriken(shurikenInstance, shurikenStartPos, shurikenEndPos, 0.35f));
         Destroy(shurikenInstance);
         yield return DefenderReceivesAttack(attacker, defender, 0.25f, 0);
-        FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.IDLE);
     }
 
     private float GetShurikenEndPositionX(bool dodged, Fighter attacker, Vector3 shurikenEndPos)

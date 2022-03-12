@@ -24,6 +24,16 @@ public class Attack : MonoBehaviour
         FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.KICK);
         yield return DefenderReceivesAttack(attacker, defender, 0.1f, 0.05f);
     }
+    public IEnumerator PerformLowBlow(Fighter attacker, Fighter defender)
+    {
+        if (IsAttackDodged(defender))
+        {
+            yield return DefenderDodgesAttack(defender);
+            yield break;
+        }
+
+        yield return DefenderReceivesAttack(attacker, defender, 0.3f, 0);
+    }
     public IEnumerator PerformShurikenFury(Fighter attacker, Fighter defender)
     {
         bool dodged = IsAttackDodged(defender);

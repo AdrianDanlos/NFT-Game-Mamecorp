@@ -174,13 +174,15 @@ public class Combat : MonoBehaviour
 
     IEnumerator StartTurn(Fighter attacker, Fighter defender)
     {
-        if (WillUseSkillThisTurn())
-        {
-            //yield return CosmicKicks(attacker, defender);
-            yield return ShurikenFury(attacker, defender);
-            yield break;
-        }
-        yield return AttackWithoutSkills(attacker, defender);
+        yield return LowBlow(attacker, defender);
+        // if (WillUseSkillThisTurn())
+        // {
+        //     //yield return CosmicKicks(attacker, defender);
+        //     //yield return ShurikenFury(attacker, defender);
+        //     yield return LowBlow(attacker, defender);
+        //     yield break;
+        // }
+        // yield return AttackWithoutSkills(attacker, defender);
     }
 
     private bool WillUseSkillThisTurn()
@@ -189,6 +191,15 @@ public class Combat : MonoBehaviour
         return Probabilities.IsHappening(probabilityOfUsingSkillEachTurn);
     }
 
+    IEnumerator LowBlow(Fighter attacker, Fighter defender)
+    {
+        SetFightersDestinationPositions(1f);
+        FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.RUN);
+        yield return movementScript.MoveSliding(attacker, attacker.initialPosition, attacker.destinationPosition, movementScript.runningDurationInSeconds);
+        yield return StartCoroutine(attacktScript.PerformLowBlow(attacker, defender));
+        yield return MoveBackHandler(attacker);
+        SetFightersDestinationPositions(DefaultDistanceFromEachotherOnAttack);
+    }
     IEnumerator ShurikenFury(Fighter attacker, Fighter defender)
     {
         int nShurikens = UnityEngine.Random.Range(4, 9); // 4-8 shurikens

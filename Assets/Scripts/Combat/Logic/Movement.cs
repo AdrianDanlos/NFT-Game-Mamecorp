@@ -3,7 +3,7 @@ using UnityEngine;
 using System;
 public class Movement : MonoBehaviour
 {
-    private float runningDurationInSeconds = 0.6f;
+    public float runningDurationInSeconds = 0.6f;
     public double dodgeDurationInSeconds = 0.15;
 
     //FIXME: This value is not correct + Is it possible to get this value automatically from the canvas?
@@ -34,12 +34,25 @@ public class Movement : MonoBehaviour
 
     //FIXME: Find a way to reuse this. Spoiler: Its not easy to have a function that accepts a param of different types (Fighter and Gameobject)
     public IEnumerator MoveShuriken(GameObject shuriken, Vector3 startingPosition, Vector3 targetPosition, double duration)
-    {        
+    {
         float elapsedTime = 0;
 
         while (elapsedTime < duration)
         {
             shuriken.transform.position = Vector3.Lerp(startingPosition, targetPosition, (float)(elapsedTime / duration));
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+    }
+
+    public IEnumerator MoveSliding(Fighter fighter, Vector3 startingPosition, Vector3 targetPosition, double duration)
+    {
+        float elapsedTime = 0;
+
+        while (elapsedTime < duration)
+        {
+            if (elapsedTime >= duration / 2) FighterAnimations.ChangeAnimation(fighter, FighterAnimations.AnimationNames.SLIDE);
+            fighter.transform.position = Vector3.Lerp(startingPosition, targetPosition, (float)(elapsedTime / duration));
             elapsedTime += Time.deltaTime;
             yield return null;
         }

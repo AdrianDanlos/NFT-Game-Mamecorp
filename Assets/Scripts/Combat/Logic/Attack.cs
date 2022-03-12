@@ -40,21 +40,27 @@ public class Attack : MonoBehaviour
         yield return new WaitForSeconds(.1f);
 
         GameObject shurikenInstance = Instantiate(shuriken, shurikenStartPos, Quaternion.identity);
-
+        
         if (dodged)
         {
-            StartCoroutine(Combat.movementScript.MoveShuriken(shurikenInstance, shurikenStartPos, shurikenEndPos, 0.25f));
+            StartCoroutine(Combat.movementScript.RotateObject(shurikenInstance, new Vector3(0, 0, 3000), 0.7f));
+            //We dont yield here so we can jump mid animation
+            StartCoroutine(Combat.movementScript.MoveShuriken(shurikenInstance, shurikenStartPos, shurikenEndPos, 0.7f));
             //Wait for the shuriken to approach before jumping
-            yield return new WaitForSeconds(.1f);
+            yield return new WaitForSeconds(.2f);
             yield return DefenderDodgesAttack(defender);
+            //Wait for the shuriken to be in its final position before destroying it (This could be avoided with colliders)
+            yield return new WaitForSeconds(.2f);
             Destroy(shurikenInstance);
             yield break;
         }
 
-        yield return StartCoroutine(Combat.movementScript.MoveShuriken(shurikenInstance, shurikenStartPos, shurikenEndPos, 0.25f));
+        StartCoroutine(Combat.movementScript.RotateObject(shurikenInstance, new Vector3(0, 0, 2000), 0.45f));
+        yield return StartCoroutine(Combat.movementScript.MoveShuriken(shurikenInstance, shurikenStartPos, shurikenEndPos, 0.45f));
         Destroy(shurikenInstance);
         yield return DefenderReceivesAttack(attacker, defender, 0.25f);
     }
+    
 
     IEnumerator DefenderDodgesAttack(Fighter defender)
     {

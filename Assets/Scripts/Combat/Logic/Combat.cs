@@ -27,7 +27,7 @@ public class Combat : MonoBehaviour
     // Positions data
     static Vector3 playerStartingPosition = new Vector3(-6, -0.7f, 0);
     static Vector3 botStartingPosition = new Vector3(6, -0.7f, 0);
-    public static float distanceAwayFromEachotherOnAttack = 1.5f;
+    public const float DefaultDistanceFromEachotherOnAttack = 2.3f;
 
     // Game status data
     public static bool isGameOver;
@@ -92,15 +92,21 @@ public class Combat : MonoBehaviour
         botGameObject.transform.position = botStartingPosition;
 
         //Set Objects
+        player.initialPosition = playerStartingPosition;
+        bot.initialPosition = botStartingPosition;
+
+        SetFightersDestinationPositions(DefaultDistanceFromEachotherOnAttack);
+    }
+
+    private void SetFightersDestinationPositions(float distanceAwayFromEachOtherOnAttack)
+    {
         Vector3 playerDestinationPosition = botStartingPosition;
         Vector3 botDestinationPosition = playerStartingPosition;
 
-        player.initialPosition = playerStartingPosition;
-        playerDestinationPosition.x -= distanceAwayFromEachotherOnAttack;
+        playerDestinationPosition.x -= distanceAwayFromEachOtherOnAttack;
         player.destinationPosition = playerDestinationPosition;
 
-        bot.initialPosition = botStartingPosition;
-        botDestinationPosition.x += distanceAwayFromEachotherOnAttack;
+        botDestinationPosition.x += distanceAwayFromEachOtherOnAttack;
         bot.destinationPosition = botDestinationPosition;
     }
 
@@ -167,9 +173,10 @@ public class Combat : MonoBehaviour
 
     IEnumerator StartTurn(Fighter attacker, Fighter defender)
     {
-        if(WillUseSkillThisTurn()){
+        if (WillUseSkillThisTurn())
+        {
             //yield return CosmicKicks(attacker, defender);
-            yield return ShurikenFury(attacker, defender);
+            //yield return ShurikenFury(attacker, defender);
             yield break;
         }
         yield return AttackWithoutSkills(attacker, defender);
@@ -193,6 +200,7 @@ public class Combat : MonoBehaviour
 
     IEnumerator CosmicKicks(Fighter attacker, Fighter defender)
     {
+        SetFightersDestinationPositions(1.5f);
         yield return MoveForwardHandler(attacker);
 
         int nKicks = UnityEngine.Random.Range(4, 9); // 4-8 kicks
@@ -203,6 +211,7 @@ public class Combat : MonoBehaviour
         }
 
         yield return MoveBackHandler(attacker);
+        SetFightersDestinationPositions(DefaultDistanceFromEachotherOnAttack);
     }
 
     IEnumerator AttackWithoutSkills(Fighter attacker, Fighter defender)

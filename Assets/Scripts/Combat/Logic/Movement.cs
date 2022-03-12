@@ -96,12 +96,12 @@ public class Movement : MonoBehaviour
     private bool IsAtMeleeRange()
     {
         double currentDistanceAwayFromEachOther = ToSingleDecimal(Combat.player.transform.position.x - Combat.bot.transform.position.x);
-        return System.Math.Abs(currentDistanceAwayFromEachOther) <= Combat.distanceAwayFromEachotherOnAttack;
+        return System.Math.Abs(currentDistanceAwayFromEachOther) <= Combat.DefaultDistanceFromEachotherOnAttack;
     }
 
     private bool HasSpaceToKeepPushing(bool isPlayerAttacking, float attackerXPosition)
     {
-        return isPlayerAttacking && attackerXPosition <= screenEdgeX - Combat.distanceAwayFromEachotherOnAttack || !isPlayerAttacking && attackerXPosition >= -screenEdgeX + Combat.distanceAwayFromEachotherOnAttack;
+        return isPlayerAttacking && attackerXPosition <= screenEdgeX - Combat.DefaultDistanceFromEachotherOnAttack || !isPlayerAttacking && attackerXPosition >= -screenEdgeX + Combat.DefaultDistanceFromEachotherOnAttack;
     }
 
     public bool FighterShouldAdvanceToAttack(Fighter attacker)

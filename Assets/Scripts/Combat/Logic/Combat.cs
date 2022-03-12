@@ -131,13 +131,14 @@ public class Combat : MonoBehaviour
         string botName = MatchMaking.FetchBotRandomName();
         botElo = MatchMaking.GenerateBotElo(User.Instance.elo);
 
-        // Get all the existing skills and add them to the list of skills of the fighter
-        List<OrderedDictionary> skillCollection = SkillCollection.skills;
         List<Skill> botSkills = new List<Skill>();
 
-        foreach (OrderedDictionary skill in skillCollection)
+        //ADD ALL SKILLS
+        foreach (OrderedDictionary skill in SkillCollection.skills)
         {
-            Skill skillInstance = new Skill((string)skill["skillName"], (int)skill["mana"], (string)skill["text"], (string)skill["rarity"], (string)skill["type"]);
+            Skill skillInstance = new Skill(skill["name"].ToString(), skill["description"].ToString(),
+                skill["rarity"].ToString(), skill["category"].ToString(), skill["icon"].ToString());
+
             botSkills.Add(skillInstance);
         }
 
@@ -173,13 +174,15 @@ public class Combat : MonoBehaviour
 
     IEnumerator StartTurn(Fighter attacker, Fighter defender)
     {
-        if (WillUseSkillThisTurn())
-        {
-            yield return CosmicKicks(attacker, defender);
-            //yield return ShurikenFury(attacker, defender);
-            yield break;
-        }
-        yield return AttackWithoutSkills(attacker, defender);
+        yield return LowBlow(attacker, defender);
+        // if (WillUseSkillThisTurn())
+        // {
+        //     //yield return CosmicKicks(attacker, defender);
+        //     //yield return ShurikenFury(attacker, defender);
+        //     yield return LowBlow(attacker, defender);
+        //     yield break;
+        // }
+        // yield return AttackWithoutSkills(attacker, defender);
     }
 
     private bool WillUseSkillThisTurn()
@@ -188,6 +191,15 @@ public class Combat : MonoBehaviour
         return Probabilities.IsHappening(probabilityOfUsingSkillEachTurn);
     }
 
+    IEnumerator LowBlow(Fighter attacker, Fighter defender)
+    {
+        SetFightersDestinationPositions(0.8f);
+        FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.RUN);
+        yield return movementScript.MoveSliding(attacker, attacker.initialPosition, attacker.destinationPosition, movementScript.runningDurationInSeconds);
+        yield return StartCoroutine(attacktScript.PerformLowBlow(attacker, defender));
+        yield return MoveBackHandler(attacker);        
+        SetFightersDestinationPositions(DefaultDistanceFromEachotherOnAttack);
+    }
     IEnumerator ShurikenFury(Fighter attacker, Fighter defender)
     {
         int nShurikens = UnityEngine.Random.Range(4, 9); // 4-8 shurikens
@@ -196,6 +208,8 @@ public class Combat : MonoBehaviour
         {
             yield return StartCoroutine(attacktScript.PerformShurikenFury(attacker, defender));
         }
+
+        if(!isGameOver) FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.IDLE);
     }
 
     IEnumerator CosmicKicks(Fighter attacker, Fighter defender)
@@ -209,6 +223,8 @@ public class Combat : MonoBehaviour
         {
             yield return StartCoroutine(attacktScript.PerformCosmicKicks(attacker, defender));
         }
+
+        if(!isGameOver) FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.IDLE);
 
         yield return MoveBackHandler(attacker);
         SetFightersDestinationPositions(DefaultDistanceFromEachotherOnAttack);
@@ -226,6 +242,8 @@ public class Combat : MonoBehaviour
             yield return StartCoroutine(attacktScript.PerformAttack(attacker, defender));
             attackCounter++;
         };
+
+        if(!isGameOver) FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.IDLE);
 
         yield return MoveBackHandler(attacker);
     }

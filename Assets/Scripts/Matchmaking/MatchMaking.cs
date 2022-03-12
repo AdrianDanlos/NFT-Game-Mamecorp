@@ -18,7 +18,8 @@ public static class MatchMaking
         int eloDifference = botElo - playerElo;
         int eloPonderance = eloDifference / 10;
         int absoluteEloChange = baseEloGain + eloPonderance;
-        int eloChange = isPlayerWinner ? absoluteEloChange : -absoluteEloChange;
+        int modifierToRankUpOverTime = 2;
+        int eloChange = isPlayerWinner ? absoluteEloChange : -absoluteEloChange + modifierToRankUpOverTime;
         if(playerElo + eloChange < 0) return -playerElo;
         return eloChange;
     }

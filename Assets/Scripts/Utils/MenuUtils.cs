@@ -25,7 +25,7 @@ public class MenuUtils
     {
         gemsGO.GetComponent<TextMeshProUGUI>().text = User.Instance.gems.ToString();
     }
-    public static void SetElo(GameObject playerEloGO)
+    public static void ShowElo(GameObject playerEloGO)
     {
         playerEloGO.GetComponent<TextMeshProUGUI>().text = User.Instance.elo.ToString();
     }

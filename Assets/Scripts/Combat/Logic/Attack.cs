@@ -24,6 +24,16 @@ public class Attack : MonoBehaviour
         FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.KICK);
         yield return DefenderReceivesAttack(attacker, defender, 0.1f, 0.05f);
     }
+    public IEnumerator PerformLowBlow(Fighter attacker, Fighter defender)
+    {
+        if (IsAttackDodged(defender))
+        {
+            yield return DefenderDodgesAttack(defender);
+            yield break;
+        }
+
+        yield return DefenderReceivesAttack(attacker, defender, 0, 0);
+    }
     public IEnumerator PerformShurikenFury(Fighter attacker, Fighter defender)
     {
         bool dodged = IsAttackDodged(defender);
@@ -41,8 +51,8 @@ public class Attack : MonoBehaviour
 
         if (dodged)
         {
-            StartCoroutine(Combat.movementScript.RotateObject(shurikenInstance, new Vector3(0, 0, 3000), 0.7f));
-            StartCoroutine(Combat.movementScript.MoveShuriken(shurikenInstance, shurikenStartPos, shurikenEndPos, 0.7f)); //We dont yield here so we can jump mid animation
+            StartCoroutine(Combat.movementScript.RotateObject(shurikenInstance, new Vector3(0, 0, 3000), 0.5f));
+            StartCoroutine(Combat.movementScript.MoveShuriken(shurikenInstance, shurikenStartPos, shurikenEndPos, 0.5f)); //We dont yield here so we can jump mid animation
             yield return new WaitForSeconds(.2f); //Wait for the shuriken to approach before jumping
             yield return DefenderDodgesAttack(defender);
             yield return new WaitForSeconds(.2f); //Wait for the shuriken to be in its final position before destroying it (This could be avoided with colliders)
@@ -50,8 +60,8 @@ public class Attack : MonoBehaviour
             yield break;
         }
 
-        StartCoroutine(Combat.movementScript.RotateObject(shurikenInstance, new Vector3(0, 0, 2000), 0.45f));
-        yield return StartCoroutine(Combat.movementScript.MoveShuriken(shurikenInstance, shurikenStartPos, shurikenEndPos, 0.45f));
+        StartCoroutine(Combat.movementScript.RotateObject(shurikenInstance, new Vector3(0, 0, 2000), 0.35f));
+        yield return StartCoroutine(Combat.movementScript.MoveShuriken(shurikenInstance, shurikenStartPos, shurikenEndPos, 0.35f));
         Destroy(shurikenInstance);
         yield return DefenderReceivesAttack(attacker, defender, 0.25f, 0);
     }
@@ -88,7 +98,6 @@ public class Attack : MonoBehaviour
             FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.HURT);
             yield return StartCoroutine(ReceiveDamageAnimation(defender, secondsUntilHitMarker));
             yield return new WaitForSeconds(secondsToWaitForHurtAnim);
-            FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.IDLE);
         }
     }
 

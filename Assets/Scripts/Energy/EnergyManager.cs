@@ -5,6 +5,7 @@ public static class EnergyManager
     public static void SubtractOneEnergyPoint()
     {
         if (User.Instance.energy == PlayerUtils.maxEnergy) StartCountdown();
+        if (User.Instance.energy == 0) Debug.Log("ERROR, THE USER ENERGY IS ALREADY 0!"); //FIXME: Fix this bug
         User.Instance.energy--;
     }
 

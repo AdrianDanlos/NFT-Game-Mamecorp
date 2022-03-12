@@ -19,7 +19,7 @@ public class MainMenu : MonoBehaviour
 
         MenuUtils.SetName(playerNameGO);
         MenuUtils.SetLevelSlider(playerLevelGO, playerExpGO, playerLevelSlider, player.level, player.experiencePoints);
-        MenuUtils.SetElo(playerEloGO);
+        MenuUtils.ShowElo(playerEloGO);
         
         battleButtonGO.GetComponent<Button>().interactable = User.Instance.energy > 0;
     }

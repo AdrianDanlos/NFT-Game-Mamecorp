@@ -17,12 +17,14 @@ public class Attack : MonoBehaviour
         }
 
         yield return DefenderReceivesAttack(attacker, defender, 0.25f, 0.05f);
+        FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.IDLE);
     }
 
     public IEnumerator PerformCosmicKicks(Fighter attacker, Fighter defender)
     {
         FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.KICK);
         yield return DefenderReceivesAttack(attacker, defender, 0.1f, 0.05f);
+        FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.IDLE);
     }
     public IEnumerator PerformLowBlow(Fighter attacker, Fighter defender)
     {
@@ -32,7 +34,7 @@ public class Attack : MonoBehaviour
             yield break;
         }
 
-        yield return DefenderReceivesAttack(attacker, defender, 0.3f, 0);
+        yield return DefenderReceivesAttack(attacker, defender, 0, 0);
     }
     public IEnumerator PerformShurikenFury(Fighter attacker, Fighter defender)
     {
@@ -64,6 +66,7 @@ public class Attack : MonoBehaviour
         yield return StartCoroutine(Combat.movementScript.MoveShuriken(shurikenInstance, shurikenStartPos, shurikenEndPos, 0.35f));
         Destroy(shurikenInstance);
         yield return DefenderReceivesAttack(attacker, defender, 0.25f, 0);
+        FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.IDLE);
     }
 
     private float GetShurikenEndPositionX(bool dodged, Fighter attacker, Vector3 shurikenEndPos)
@@ -98,7 +101,6 @@ public class Attack : MonoBehaviour
             FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.HURT);
             yield return StartCoroutine(ReceiveDamageAnimation(defender, secondsUntilHitMarker));
             yield return new WaitForSeconds(secondsToWaitForHurtAnim);
-            FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.IDLE);
         }
     }
 

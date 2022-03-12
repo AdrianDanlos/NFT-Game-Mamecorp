@@ -193,11 +193,11 @@ public class Combat : MonoBehaviour
 
     IEnumerator LowBlow(Fighter attacker, Fighter defender)
     {
-        SetFightersDestinationPositions(1f);
+        SetFightersDestinationPositions(0.8f);
         FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.RUN);
         yield return movementScript.MoveSliding(attacker, attacker.initialPosition, attacker.destinationPosition, movementScript.runningDurationInSeconds);
         yield return StartCoroutine(attacktScript.PerformLowBlow(attacker, defender));
-        yield return MoveBackHandler(attacker);
+        yield return MoveBackHandler(attacker);        
         SetFightersDestinationPositions(DefaultDistanceFromEachotherOnAttack);
     }
     IEnumerator ShurikenFury(Fighter attacker, Fighter defender)

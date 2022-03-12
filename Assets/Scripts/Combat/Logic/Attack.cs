@@ -16,13 +16,13 @@ public class Attack : MonoBehaviour
             yield break;
         }
 
-        yield return DefenderReceivesAttack(attacker, defender, 0.25f, 0.5f);
+        yield return DefenderReceivesAttack(attacker, defender, 0.25f, 0.05f);
     }
 
     public IEnumerator PerformCosmicKicks(Fighter attacker, Fighter defender)
     {
         FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.KICK);
-        yield return DefenderReceivesAttack(attacker, defender, 0.1f, 0.5f);
+        yield return DefenderReceivesAttack(attacker, defender, 0.1f, 0.05f);
     }
     public IEnumerator PerformShurikenFury(Fighter attacker, Fighter defender)
     {

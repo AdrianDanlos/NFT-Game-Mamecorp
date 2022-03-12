@@ -46,6 +46,14 @@ public static class SkillCollection
             {"rarity", Rarity.RARE.ToString()},
             {"category", SkillType.SUPERS.ToString()},
             {"icon", "5" }
+        },
+        new OrderedDictionary
+        {
+            {"name", "Omaewa mo shindeiru"},
+            {"description", "Jumps towards the opponent to execute a sequence of lightning fast attacks."},
+            {"rarity", Rarity.RARE.ToString()},
+            {"category", SkillType.SUPERS.ToString()},
+            {"icon", "5" }
         }
     };
 }

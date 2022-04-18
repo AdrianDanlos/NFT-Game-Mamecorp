@@ -192,6 +192,7 @@ public class Combat : MonoBehaviour
         return Probabilities.IsHappening(probabilityOfUsingSkillEachTurn);
     }
 
+    //TODO: Move this functions to a different file that handles skills logic
     IEnumerator LowBlow(Fighter attacker, Fighter defender)
     {
         SetFightersDestinationPositions(0.8f);

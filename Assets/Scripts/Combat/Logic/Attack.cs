@@ -57,7 +57,7 @@ public class Attack : MonoBehaviour
 
         if (dodged)
         {
-            StartCoroutine(Combat.movementScript.RotateObject(shurikenInstance, new Vector3(0, 0, 3000), 0.5f));
+            StartCoroutine(Combat.movementScript.RotateObjectOverTime(shurikenInstance, new Vector3(0, 0, 3000), 0.5f));
             StartCoroutine(Combat.movementScript.MoveShuriken(shurikenInstance, shurikenStartPos, shurikenEndPos, 0.5f)); //We dont yield here so we can jump mid animation
             yield return new WaitForSeconds(.2f); //Wait for the shuriken to approach before jumping
             yield return DefenderDodgesAttack(defender);
@@ -66,7 +66,7 @@ public class Attack : MonoBehaviour
             yield break;
         }
 
-        StartCoroutine(Combat.movementScript.RotateObject(shurikenInstance, new Vector3(0, 0, 2000), 0.35f));
+        StartCoroutine(Combat.movementScript.RotateObjectOverTime(shurikenInstance, new Vector3(0, 0, 2000), 0.35f));
         yield return StartCoroutine(Combat.movementScript.MoveShuriken(shurikenInstance, shurikenStartPos, shurikenEndPos, 0.35f));
         Destroy(shurikenInstance);
         yield return DefenderReceivesAttack(attacker, defender, 0.25f, 0);

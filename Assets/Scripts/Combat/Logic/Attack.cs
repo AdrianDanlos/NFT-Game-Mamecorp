@@ -34,6 +34,12 @@ public class Attack : MonoBehaviour
 
         yield return DefenderReceivesAttack(attacker, defender, 0, 0);
     }
+    public IEnumerator PerformJumpStrike(Fighter attacker, Fighter defender)
+    {
+        //TODO: This attack should be marked as undodgable on the skill description
+        FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.AIR_ATTACK);
+        yield return DefenderReceivesAttack(attacker, defender, 0.15f, 0.05f);
+    }
     public IEnumerator PerformShurikenFury(Fighter attacker, Fighter defender)
     {
         bool dodged = IsAttackDodged(defender);

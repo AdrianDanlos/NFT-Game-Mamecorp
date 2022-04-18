@@ -156,6 +156,7 @@ public class Movement : MonoBehaviour
         yield return StartCoroutine(Move(attacker, attacker.transform.position, newDestinationPosition, runningDurationInSeconds * 0.2f));
     }
 
+    //FIXME: Move this to utils file
     private double ToSingleDecimal(double number)
     {
         string numberAsString = number.ToString();

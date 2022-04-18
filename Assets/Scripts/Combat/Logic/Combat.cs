@@ -174,20 +174,20 @@ public class Combat : MonoBehaviour
 
     IEnumerator StartTurn(Fighter attacker, Fighter defender)
     {
-        yield return LowBlow(attacker, defender);
-        // if (WillUseSkillThisTurn())
-        // {
-        //     yield return CosmicKicks(attacker, defender);
-        //     yield return ShurikenFury(attacker, defender);
-        //     yield return LowBlow(attacker, defender);
-        //     yield break;
-        // }
-        // yield return AttackWithoutSkills(attacker, defender);
+        //yield return JumpStrike(attacker, defender);
+        if (WillUseSkillThisTurn())
+        {
+            yield return CosmicKicks(attacker, defender);
+            yield return ShurikenFury(attacker, defender);
+            yield return LowBlow(attacker, defender);
+            yield break;
+        }
+        yield return AttackWithoutSkills(attacker, defender);
     }
 
     private bool WillUseSkillThisTurn()
     {
-        int probabilityOfUsingSkillEachTurn = 40;
+        int probabilityOfUsingSkillEachTurn = 70;
         return Probabilities.IsHappening(probabilityOfUsingSkillEachTurn);
     }
 
@@ -195,10 +195,22 @@ public class Combat : MonoBehaviour
     {
         SetFightersDestinationPositions(0.8f);
         FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.RUN);
-        yield return movementScript.MoveSliding(attacker, attacker.initialPosition, attacker.destinationPosition, movementScript.runningDurationInSeconds);
+        yield return movementScript.MoveSlide(attacker);
         yield return StartCoroutine(attacktScript.PerformLowBlow(attacker, defender));
-        yield return MoveBackHandler(attacker);        
+        yield return MoveBackHandler(attacker);
         SetFightersDestinationPositions(DefaultDistanceFromEachotherOnAttack);
+    }
+    IEnumerator JumpStrike(Fighter attacker, Fighter defender)
+    {
+        SetFightersDestinationPositions(2f);
+        FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.RUN);
+
+        yield return movementScript.MoveJumpStrike(attacker);
+        yield return new WaitForSeconds(1f);
+        // yield return StartCoroutine(attacktScript.PerformJumpStrike(attacker, defender));
+        // //Go back to the ground
+        // yield return MoveBackHandler(attacker);
+        // SetFightersDestinationPositions(DefaultDistanceFromEachotherOnAttack);
     }
     IEnumerator ShurikenFury(Fighter attacker, Fighter defender)
     {
@@ -209,7 +221,7 @@ public class Combat : MonoBehaviour
             yield return StartCoroutine(attacktScript.PerformShurikenFury(attacker, defender));
         }
 
-        if(!isGameOver) FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.IDLE);
+        if (!isGameOver) FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.IDLE);
     }
 
     IEnumerator CosmicKicks(Fighter attacker, Fighter defender)
@@ -224,7 +236,7 @@ public class Combat : MonoBehaviour
             yield return StartCoroutine(attacktScript.PerformCosmicKicks(attacker, defender));
         }
 
-        if(!isGameOver) FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.IDLE);
+        if (!isGameOver) FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.IDLE);
 
         yield return MoveBackHandler(attacker);
         SetFightersDestinationPositions(DefaultDistanceFromEachotherOnAttack);
@@ -243,7 +255,7 @@ public class Combat : MonoBehaviour
             attackCounter++;
         };
 
-        if(!isGameOver) FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.IDLE);
+        if (!isGameOver) FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.IDLE);
 
         yield return MoveBackHandler(attacker);
     }

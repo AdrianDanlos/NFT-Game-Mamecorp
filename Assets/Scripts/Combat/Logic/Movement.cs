@@ -45,14 +45,34 @@ public class Movement : MonoBehaviour
         }
     }
 
-    public IEnumerator MoveSliding(Fighter fighter, Vector3 startingPosition, Vector3 targetPosition, double duration)
+    public IEnumerator MoveSlide(Fighter fighter)
     {
         float elapsedTime = 0;
 
-        while (elapsedTime < duration)
+        while (elapsedTime < runningDurationInSeconds)
         {
-            if (elapsedTime >= duration / 2) FighterAnimations.ChangeAnimation(fighter, FighterAnimations.AnimationNames.SLIDE);
-            fighter.transform.position = Vector3.Lerp(startingPosition, targetPosition, (float)(elapsedTime / duration));
+            if (elapsedTime >= runningDurationInSeconds / 2) FighterAnimations.ChangeAnimation(fighter, FighterAnimations.AnimationNames.SLIDE);
+            fighter.transform.position = Vector3.Lerp(fighter.initialPosition, fighter.destinationPosition, (float)(elapsedTime / runningDurationInSeconds));
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+    }
+
+    public IEnumerator MoveJumpStrike(Fighter fighter)
+    {
+        float elapsedTime = 0;
+
+        Vector3 destinationPosition = fighter.destinationPosition;
+
+        while (elapsedTime < runningDurationInSeconds)
+        {
+            if (elapsedTime >= runningDurationInSeconds / 1.5)
+            {
+                //FIXME: How to avoid callling this on each frame
+                FighterAnimations.ChangeAnimation(fighter, FighterAnimations.AnimationNames.JUMP);
+                destinationPosition.y += .03f;
+            }
+            fighter.transform.position = Vector3.Lerp(fighter.initialPosition, destinationPosition, (float)(elapsedTime / runningDurationInSeconds));
             elapsedTime += Time.deltaTime;
             yield return null;
         }

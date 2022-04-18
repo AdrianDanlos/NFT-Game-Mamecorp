@@ -46,6 +46,14 @@ public static class SkillCollection
             {"rarity", Rarity.RARE.ToString()},
             {"category", SkillType.SUPERS.ToString()},
             {"icon", "5" }
+        },
+        new OrderedDictionary
+        {
+            {"name", "Jump strike"},
+            {"description", "Jump towards the opponent to execute a sequence of lightning fast attacks."},
+            {"rarity", Rarity.RARE.ToString()},
+            {"category", SkillType.SUPERS.ToString()},
+            {"icon", "5" }
         }
     };
 }

@@ -174,15 +174,16 @@ public class Combat : MonoBehaviour
 
     IEnumerator StartTurn(Fighter attacker, Fighter defender)
     {
-        if (WillUseSkillThisTurn())
-        {
-            yield return JumpStrike(attacker, defender);
-            yield return CosmicKicks(attacker, defender);
-            yield return ShurikenFury(attacker, defender);
-            yield return LowBlow(attacker, defender);
-            yield break;
-        }
-        yield return AttackWithoutSkills(attacker, defender);
+        yield return JumpStrike(attacker, defender);
+        // if (WillUseSkillThisTurn())
+        // {
+        //     yield return JumpStrike(attacker, defender);
+        //     yield return CosmicKicks(attacker, defender);
+        //     yield return ShurikenFury(attacker, defender);
+        //     yield return LowBlow(attacker, defender);
+        //     yield break;
+        // }
+        // yield return AttackWithoutSkills(attacker, defender);
     }
 
     private bool WillUseSkillThisTurn()
@@ -203,22 +204,23 @@ public class Combat : MonoBehaviour
     }
     IEnumerator JumpStrike(Fighter attacker, Fighter defender)
     {
-        SetFightersDestinationPositions(2f);
+        SetFightersDestinationPositions(1f);
         FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.RUN);
 
-        yield return movementScript.MoveJumpStrike(attacker);        
+        yield return movementScript.MoveJumpStrike(attacker);
 
         int nStrikes = UnityEngine.Random.Range(4, 9); // 4-8 attacks
 
         for (int i = 0; i < nStrikes && !isGameOver; i++)
         {
-           yield return StartCoroutine(attacktScript.PerformJumpStrike(attacker, defender));
+            yield return StartCoroutine(attacktScript.PerformJumpStrike(attacker, defender));
         }
 
         if (!isGameOver) FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.IDLE);
 
         //Go back to the ground
         yield return StartCoroutine(movementScript.Move(attacker, attacker.transform.position, attacker.destinationPosition, 0.1f));
+        movementScript.ResetRotation(attacker);
 
         yield return MoveBackHandler(attacker);
         SetFightersDestinationPositions(DefaultDistanceFromEachotherOnAttack);

@@ -68,9 +68,11 @@ public class Movement : MonoBehaviour
         {
             if (elapsedTime >= runningDurationInSeconds / 1.5)
             {
-                //FIXME: How to avoid callling this on each frame
+                //FIXME: How to avoid callling ChangeAnimation on each frame
                 FighterAnimations.ChangeAnimation(fighter, FighterAnimations.AnimationNames.JUMP);
                 destinationPosition.y += .03f;
+                float rotation = fighter == Combat.player ? -0.75f : 0.75f;
+                fighter.transform.Rotate(0f, 0f, rotation, 0f);
             }
             fighter.transform.position = Vector3.Lerp(fighter.initialPosition, destinationPosition, (float)(elapsedTime / runningDurationInSeconds));
             elapsedTime += Time.deltaTime;
@@ -164,5 +166,10 @@ public class Movement : MonoBehaviour
 
         string trimmedString = numberAsString.Remove(startingPositionToTrim, numberAsString.Length - startingPositionToTrim);
         return Convert.ToDouble(trimmedString);
+    }
+
+    public void ResetRotation(Fighter fighter){
+        Vector3 eulerRotation = transform.rotation.eulerAngles;
+        fighter.transform.rotation = Quaternion.Euler(eulerRotation.x, eulerRotation.y, 0);
     }
 }

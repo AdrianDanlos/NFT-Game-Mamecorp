@@ -71,8 +71,6 @@ public class Movement : MonoBehaviour
                 //FIXME: How to avoid callling ChangeAnimation on each frame
                 FighterAnimations.ChangeAnimation(fighter, FighterAnimations.AnimationNames.JUMP);
                 destinationPosition.y += .03f;
-                float rotation = fighter == Combat.player ? -0.75f : 0.75f;
-                fighter.transform.Rotate(0f, 0f, rotation, 0f);
             }
             fighter.transform.position = Vector3.Lerp(fighter.initialPosition, destinationPosition, (float)(elapsedTime / runningDurationInSeconds));
             elapsedTime += Time.deltaTime;
@@ -168,6 +166,9 @@ public class Movement : MonoBehaviour
         return Convert.ToDouble(trimmedString);
     }
 
+    public void Rotate(Fighter fighter, float rotationDegrees){
+        fighter.transform.Rotate(0f, 0f, rotationDegrees, 0f);
+    }
     public void ResetRotation(Fighter fighter){
         Vector3 eulerRotation = transform.rotation.eulerAngles;
         fighter.transform.rotation = Quaternion.Euler(eulerRotation.x, eulerRotation.y, 0);

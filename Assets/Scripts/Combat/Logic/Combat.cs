@@ -209,6 +209,9 @@ public class Combat : MonoBehaviour
 
         yield return movementScript.MoveJumpStrike(attacker);
 
+        float rotationDegrees = attacker == player ? -35f : 35f;
+        movementScript.Rotate(attacker, rotationDegrees);
+
         int nStrikes = UnityEngine.Random.Range(4, 9); // 4-8 attacks
 
         for (int i = 0; i < nStrikes && !isGameOver; i++)

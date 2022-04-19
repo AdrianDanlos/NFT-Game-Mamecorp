@@ -174,15 +174,16 @@ public class Combat : MonoBehaviour
 
     IEnumerator StartTurn(Fighter attacker, Fighter defender)
     {
-        //yield return JumpStrike(attacker, defender);
-        if (WillUseSkillThisTurn())
-        {
-            yield return CosmicKicks(attacker, defender);
-            yield return ShurikenFury(attacker, defender);
-            yield return LowBlow(attacker, defender);
-            yield break;
-        }
-        yield return AttackWithoutSkills(attacker, defender);
+        yield return JumpStrike(attacker, defender);
+        // if (WillUseSkillThisTurn())
+        // {
+        //     yield return JumpStrike(attacker, defender);
+        //     yield return CosmicKicks(attacker, defender);
+        //     yield return ShurikenFury(attacker, defender);
+        //     yield return LowBlow(attacker, defender);
+        //     yield break;
+        // }
+        // yield return AttackWithoutSkills(attacker, defender);
     }
 
     private bool WillUseSkillThisTurn()
@@ -191,6 +192,7 @@ public class Combat : MonoBehaviour
         return Probabilities.IsHappening(probabilityOfUsingSkillEachTurn);
     }
 
+    //TODO: Move this functions to a different file that handles skills logic
     IEnumerator LowBlow(Fighter attacker, Fighter defender)
     {
         SetFightersDestinationPositions(0.8f);
@@ -198,19 +200,34 @@ public class Combat : MonoBehaviour
         yield return movementScript.MoveSlide(attacker);
         yield return StartCoroutine(attacktScript.PerformLowBlow(attacker, defender));
         yield return MoveBackHandler(attacker);
+        //FIXME: Create a helper called reset destination positions
         SetFightersDestinationPositions(DefaultDistanceFromEachotherOnAttack);
     }
     IEnumerator JumpStrike(Fighter attacker, Fighter defender)
     {
-        SetFightersDestinationPositions(2f);
+        SetFightersDestinationPositions(1f);
         FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.RUN);
 
         yield return movementScript.MoveJumpStrike(attacker);
-        yield return new WaitForSeconds(1f);
-        // yield return StartCoroutine(attacktScript.PerformJumpStrike(attacker, defender));
-        // //Go back to the ground
-        // yield return MoveBackHandler(attacker);
-        // SetFightersDestinationPositions(DefaultDistanceFromEachotherOnAttack);
+
+        float rotationDegrees = attacker == player ? -35f : 35f;
+        movementScript.Rotate(attacker, rotationDegrees);
+
+        int nStrikes = UnityEngine.Random.Range(4, 9); // 4-8 attacks
+
+        for (int i = 0; i < nStrikes && !isGameOver; i++)
+        {
+            yield return StartCoroutine(attacktScript.PerformJumpStrike(attacker, defender));
+        }
+
+        if (!isGameOver) FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.IDLE);
+
+        //Go back to the ground
+        yield return StartCoroutine(movementScript.Move(attacker, attacker.transform.position, attacker.destinationPosition, 0.1f));
+        movementScript.ResetRotation(attacker);
+
+        yield return MoveBackHandler(attacker);
+        SetFightersDestinationPositions(DefaultDistanceFromEachotherOnAttack);
     }
     IEnumerator ShurikenFury(Fighter attacker, Fighter defender)
     {

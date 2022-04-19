@@ -32,7 +32,7 @@ public class Movement : MonoBehaviour
         }
     }
 
-    //FIXME: Find a way to reuse this. Spoiler: Its not easy to have a function that accepts a param of different types (Fighter and Gameobject)
+
     public IEnumerator MoveShuriken(GameObject shuriken, Vector3 startingPosition, Vector3 targetPosition, double duration)
     {
         float elapsedTime = 0;
@@ -45,6 +45,8 @@ public class Movement : MonoBehaviour
         }
     }
 
+    //FIXME: Reuse MoveSlide and MoveJumpStrike (future moves could also be reused then).
+    // Its not easy to reuse MoveShuriken as its complicated to have a function that accepts a param of different types (Fighter and Gameobject)
     public IEnumerator MoveSlide(Fighter fighter)
     {
         float elapsedTime = 0;
@@ -68,7 +70,7 @@ public class Movement : MonoBehaviour
         {
             if (elapsedTime >= runningDurationInSeconds / 1.5)
             {
-                //FIXME: How to avoid callling this on each frame
+                //FIXME: How to avoid callling ChangeAnimation on each frame
                 FighterAnimations.ChangeAnimation(fighter, FighterAnimations.AnimationNames.JUMP);
                 destinationPosition.y += .03f;
             }
@@ -78,7 +80,7 @@ public class Movement : MonoBehaviour
         }
     }
 
-    public IEnumerator RotateObject(GameObject gameObjectToMove, Vector3 eulerAngles, float duration)
+    public IEnumerator RotateObjectOverTime(GameObject gameObjectToMove, Vector3 eulerAngles, float duration)
     {
         Vector3 newRot = gameObjectToMove.transform.eulerAngles + eulerAngles;
 
@@ -156,6 +158,7 @@ public class Movement : MonoBehaviour
         yield return StartCoroutine(Move(attacker, attacker.transform.position, newDestinationPosition, runningDurationInSeconds * 0.2f));
     }
 
+    //FIXME: Move this to utils file
     private double ToSingleDecimal(double number)
     {
         string numberAsString = number.ToString();
@@ -163,5 +166,15 @@ public class Movement : MonoBehaviour
 
         string trimmedString = numberAsString.Remove(startingPositionToTrim, numberAsString.Length - startingPositionToTrim);
         return Convert.ToDouble(trimmedString);
+    }
+
+    public void Rotate(Fighter fighter, float rotationDegrees)
+    {
+        fighter.transform.Rotate(0f, 0f, rotationDegrees, 0f);
+    }
+    public void ResetRotation(Fighter fighter)
+    {
+        Vector3 eulerRotation = transform.rotation.eulerAngles;
+        fighter.transform.rotation = Quaternion.Euler(eulerRotation.x, eulerRotation.y, 0);
     }
 }

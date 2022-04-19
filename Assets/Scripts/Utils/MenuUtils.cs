@@ -1,6 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using System;
 using TMPro;
 using UnityEngine.UI;
 public class MenuUtils
@@ -34,12 +33,19 @@ public class MenuUtils
     {
         energyGO.GetComponent<TextMeshProUGUI>().text = $"{User.Instance.energy.ToString()}/{PlayerUtils.maxEnergy}";
     }
-    public static void DisplayEnergyCountdown()
+    public static void DisplayEnergyCountdown(GameObject timerContainerGO, GameObject timerGO)
     {
-        if (!EnergyManager.UserHasMaxEnergy())
+        DateTime countdownEndTime = EnergyManager.GetCountdownEndTime();
+        var timeUntilCountDownEnds = countdownEndTime - DateTime.Now;
+
+        if (!EnergyManager.UserHasMaxEnergy() && timeUntilCountDownEnds.Seconds > 0)
         {
-            //FIXME: Display Energy Countdown
+            timerContainerGO.SetActive(true);
+            timerGO.GetComponent<TextMeshProUGUI>().text = $"{timeUntilCountDownEnds.Hours.ToString()}h {timeUntilCountDownEnds.Minutes.ToString()}m";
+            return;
         }
+        
+        timerContainerGO.SetActive(false);
     }
 
 }

@@ -19,13 +19,18 @@ public static class EnergyManager
 
     public static bool IsCountdownOver()
     {
-        long tempEndTime = Convert.ToInt64(PlayerPrefs.GetString("countdownEndTime"));
-        DateTime countdownEndTime = DateTime.FromBinary(tempEndTime);
+        DateTime countdownEndTime = GetCountdownEndTime();
         return DateTime.Now.CompareTo(countdownEndTime) > 0;
     }
 
     public static bool UserHasMaxEnergy()
     {
         return User.Instance.energy == PlayerUtils.maxEnergy;
+    }
+
+    public static DateTime GetCountdownEndTime()
+    {
+        long tempEndTime = Convert.ToInt64(PlayerPrefs.GetString("countdownEndTime"));
+        return DateTime.FromBinary(tempEndTime);
     }
 }

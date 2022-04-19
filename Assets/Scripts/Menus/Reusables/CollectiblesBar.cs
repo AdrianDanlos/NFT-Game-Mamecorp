@@ -12,18 +12,8 @@ public class CollectiblesBar : MonoBehaviour
     {
         MenuUtils.SetGold(gold);
         MenuUtils.SetGems(gems);
-        UpdateUserEnergyBasedOnCountdown();
+        EnergyManager.RefreshEnergyBasedOnCountdown();
         MenuUtils.SetEnergy(energy);
         MenuUtils.DisplayEnergyCountdown(timerContainer, timer);
-    }
-
-    private void UpdateUserEnergyBasedOnCountdown()
-    {
-        if (!EnergyManager.UserHasMaxEnergy()
-            && EnergyManager.IsCountdownOver())
-        {
-            User.Instance.energy++;
-            if (!EnergyManager.UserHasMaxEnergy()) EnergyManager.StartCountdown();
-        }
     }
 }

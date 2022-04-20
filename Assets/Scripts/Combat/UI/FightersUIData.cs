@@ -19,7 +19,8 @@ public class FightersUIData : MonoBehaviour
     public GameObject playerLevelSliderGO;
     public GameObject playerExpGainTextGO;
     public GameObject levelUpIcon;
-    public TextMeshProUGUI resultsBanner;
+    public GameObject victoryBanner;
+    public GameObject defeatBanner;
     public GameObject goldRewardGO;
     public GameObject gemsRewardGO;
     public GameObject chestRewardGO;
@@ -88,7 +89,8 @@ public class FightersUIData : MonoBehaviour
     }
     public void SetResultsBanner(bool isPlayerWinner)
     {
-        resultsBanner.GetComponent<TextMeshProUGUI>().text = isPlayerWinner ? "VICTORY" : "DEFEAT";
+        victoryBanner.SetActive(isPlayerWinner);
+        defeatBanner.SetActive(!isPlayerWinner);
     }
 
     public void ShowRewards(int goldReward, int gemsReward, bool isLevelUp)

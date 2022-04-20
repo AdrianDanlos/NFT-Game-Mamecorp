@@ -2,22 +2,29 @@ using System.IO;
 using UnityEngine;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
+using System.Collections;
 
 
 public class EntryPoint : MonoBehaviour
 {
     public static GameObject fighterGameObject;
-    private void Awake()
+    IEnumerator Start()
     {
         HideFighter();
 
-        if (File.Exists(JsonDataManager.getFilePath(JsonDataManager.UserFileName)) &&
-         File.Exists(JsonDataManager.getFilePath(JsonDataManager.FighterFileName)))
+        //Display Mamecorp credits
+        yield return new WaitForSeconds(2.6f);
+
+        bool saveFilesFound = File.Exists(JsonDataManager.getFilePath(JsonDataManager.UserFileName)) &&
+            File.Exists(JsonDataManager.getFilePath(JsonDataManager.FighterFileName));
+
+        if (saveFilesFound)
         {
             ReadUserFile();
             ReadFighterFile();
             UnityEngine.SceneManagement.SceneManager.LoadScene(SceneNames.MainMenu.ToString());
         }
+
         else UnityEngine.SceneManagement.SceneManager.LoadScene(SceneNames.UserFirstStart.ToString());
     }
 

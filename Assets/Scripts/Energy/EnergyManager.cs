@@ -2,7 +2,7 @@ using UnityEngine;
 using System;
 public static class EnergyManager
 {
-    public static int defaultTimeOfRefreshInHours = 4;
+    public static int defaultEnergyRefreshTimeInMinutes = 5;
     public static void SubtractOneEnergyPoint()
     {
         if (User.Instance.energy == PlayerUtils.maxEnergy) StartCountdown();
@@ -12,10 +12,8 @@ public static class EnergyManager
 
     public static void StartCountdown()
     {
-        DateTime countdownEndTime = DateTime.Now.AddHours(defaultTimeOfRefreshInHours);
-
-        //Save the countdownEndTime to player prefs so they can be recovered after closing the game
-        PlayerPrefs.SetString("countdownEndTime", countdownEndTime.ToBinary().ToString());
+        //Save the countdownStartTime to player prefs so they can be recovered after closing the game
+        PlayerPrefs.SetString("countdownStartTime", DateTime.Now.ToBinary().ToString());
     }
 
     public static bool UserHasMaxEnergy()
@@ -23,25 +21,52 @@ public static class EnergyManager
         return User.Instance.energy == PlayerUtils.maxEnergy;
     }
 
-    public static TimeSpan GetTimeUntilCountDownEnds()
+    public static long GetCountDownStartTime()
     {
-        long tempEndTime = Convert.ToInt64(PlayerPrefs.GetString("countdownEndTime"));
-        return DateTime.FromBinary(tempEndTime) - DateTime.Now;
+        bool countdownPlayerPrefExists = PlayerPrefs.GetString("countdownStartTime") != "";
+        return countdownPlayerPrefExists ? Convert.ToInt64(PlayerPrefs.GetString("countdownStartTime")) : 0;
+    }
+
+    public static TimeSpan GetTimeSinceCountdownStart()
+    {
+        return DateTime.Now - DateTime.FromBinary(GetCountDownStartTime());
     }
 
     public static void RefreshEnergyBasedOnCountdown()
     {
-        Debug.Log("Hours");
-        Debug.Log(GetTimeUntilCountDownEnds().Hours);
-        Debug.Log("Minutes");
-        Debug.Log(GetTimeUntilCountDownEnds().Minutes);
-        Debug.Log("Seconds");
-        Debug.Log(GetTimeUntilCountDownEnds().Seconds);
+        //DebugCountdownHelper();
 
         if (!UserHasMaxEnergy())
         {
-            //Rrefresh 0-n energy
-            User.Instance.energy += (int)Mathf.Floor(GetTimeUntilCountDownEnds().Hours / defaultTimeOfRefreshInHours);
+            //Refresh 0-n energy. 
+            int energyToAdd = (int)Mathf.Floor(GetTimeSinceCountdownStart().Minutes / defaultEnergyRefreshTimeInMinutes);
+            int updatedEnergy = User.Instance.energy + energyToAdd;
+            User.Instance.energy = updatedEnergy > PlayerUtils.maxEnergy ? PlayerUtils.maxEnergy : updatedEnergy;
+
+            UpdateCountdown();
         }
+    }
+
+    public static void UpdateCountdown()
+    {
+        double minutesPassed = GetTimeSinceCountdownStart().TotalMinutes;
+        double minutesLeftOnCurrentCountdown = minutesPassed % defaultEnergyRefreshTimeInMinutes;
+        double minutesToAddToPreviousCountdown = minutesPassed - minutesLeftOnCurrentCountdown;
+
+        DateTime newCountdown = DateTime.FromBinary(GetCountDownStartTime()).AddMinutes(minutesToAddToPreviousCountdown);
+        PlayerPrefs.SetString("countdownStartTime", newCountdown.ToBinary().ToString());
+    }
+
+    private static void DebugCountdownHelper(){
+        Debug.Log("GetTimeSinceCountdownStart");
+        Debug.Log(GetTimeSinceCountdownStart());
+        Debug.Log("Hours");
+        Debug.Log(GetTimeSinceCountdownStart().Hours);
+        Debug.Log("Minutes");
+        Debug.Log(GetTimeSinceCountdownStart().Minutes);
+        Debug.Log("Seconds");
+        Debug.Log(GetTimeSinceCountdownStart().Seconds);
+        Debug.Log("Energies refreshed");
+        Debug.Log((int)Mathf.Floor(GetTimeSinceCountdownStart().Minutes / defaultEnergyRefreshTimeInMinutes));
     }
 }

@@ -35,16 +35,18 @@ public class MenuUtils
     }
     public static void DisplayEnergyCountdown(GameObject timerContainerGO, GameObject timerGO)
     {
-        DateTime countdownEndTime = EnergyManager.GetCountdownEndTime();
-        var timeUntilCountDownEnds = countdownEndTime - DateTime.Now;
-
-        if (!EnergyManager.UserHasMaxEnergy() && timeUntilCountDownEnds.Seconds > 0)
+        if (!EnergyManager.UserHasMaxEnergy())
         {
+            var timeSinceCountdownStart = EnergyManager.GetTimeSinceCountdownStart();
+            int minutesPassedOfCurrentCountdown = Math.Abs(timeSinceCountdownStart.Minutes % EnergyManager.defaultEnergyRefreshTimeInMinutes);
+            string minutesUntilCountdownEnd = (EnergyManager.defaultEnergyRefreshTimeInMinutes - minutesPassedOfCurrentCountdown - 1).ToString();
+            string secondsUntilCountdownEnd = (60 - timeSinceCountdownStart.Seconds).ToString();
+
             timerContainerGO.SetActive(true);
-            timerGO.GetComponent<TextMeshProUGUI>().text = $"{timeUntilCountDownEnds.Hours.ToString()}h {timeUntilCountDownEnds.Minutes.ToString()}m";
+            timerGO.GetComponent<TextMeshProUGUI>().text = $"{minutesUntilCountdownEnd}m {secondsUntilCountdownEnd}s";
             return;
         }
-        
+
         timerContainerGO.SetActive(false);
     }
 

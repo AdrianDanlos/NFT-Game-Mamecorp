@@ -50,9 +50,9 @@ public class FightersUIData : MonoBehaviour
         this.botMaxHealth = botMaxHealth;
     }
 
-    public void ModifyHealthBar(Fighter fighter, bool isPlayer)
+    public void ModifyHealthBar(Fighter fighter, bool isPlayerTargetOfHealthChange)
     {
-        if (isPlayer)
+        if (isPlayerTargetOfHealthChange)
         {
             SetHealthBarValue(playerHealthBarGO, fighter, playerMaxHealth);
             return;

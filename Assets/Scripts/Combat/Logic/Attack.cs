@@ -16,13 +16,13 @@ public class Attack : MonoBehaviour
             yield break;
         }
 
-        yield return DefenderReceivesAttack(attacker, defender, 0.25f, 0.05f);
+        yield return DefenderReceivesAttack(attacker, defender, attacker.damage, 0.25f, 0.05f);
     }
 
     public IEnumerator PerformCosmicKicks(Fighter attacker, Fighter defender)
     {
         FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.KICK);
-        yield return DefenderReceivesAttack(attacker, defender, 0.1f, 0.05f);
+        yield return DefenderReceivesAttack(attacker, defender, attacker.damage, 0.1f, 0.05f);
     }
     public IEnumerator PerformLowBlow(Fighter attacker, Fighter defender)
     {
@@ -32,13 +32,14 @@ public class Attack : MonoBehaviour
             yield break;
         }
 
-        yield return DefenderReceivesAttack(attacker, defender, 0, 0);
+        yield return DefenderReceivesAttack(attacker, defender, attacker.damage, 0, 0);
     }
     public IEnumerator PerformJumpStrike(Fighter attacker, Fighter defender)
     {
-        //TODO: This attack should be marked as undodgable on the skill description
         FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.AIR_ATTACK);
-        yield return DefenderReceivesAttack(attacker, defender, 0.15f, 0.05f);
+        yield return DefenderReceivesAttack(attacker, defender, attacker.damage, 0.15f, 0.05f);
+        LifeSteal(attacker, 5);
+        Combat.fightersUIDataScript.ModifyHealthBar(attacker, Combat.player == attacker);
     }
     public IEnumerator PerformShurikenFury(Fighter attacker, Fighter defender)
     {
@@ -69,7 +70,7 @@ public class Attack : MonoBehaviour
         StartCoroutine(Combat.movementScript.RotateObjectOverTime(shurikenInstance, new Vector3(0, 0, 2000), 0.35f));
         yield return StartCoroutine(Combat.movementScript.MoveShuriken(shurikenInstance, shurikenStartPos, shurikenEndPos, 0.35f));
         Destroy(shurikenInstance);
-        yield return DefenderReceivesAttack(attacker, defender, 0.25f, 0);
+        yield return DefenderReceivesAttack(attacker, defender, attacker.damage, 0.25f, 0);
     }
 
     private float GetShurikenEndPositionX(bool dodged, Fighter attacker, Vector3 shurikenEndPos)
@@ -87,9 +88,10 @@ public class Attack : MonoBehaviour
         FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.IDLE);
     }
 
-    IEnumerator DefenderReceivesAttack(Fighter attacker, Fighter defender, float secondsToWaitForHurtAnim, float secondsUntilHitMarker)
+    IEnumerator DefenderReceivesAttack(Fighter attacker, Fighter defender, float damagePerHit, float secondsToWaitForHurtAnim, float secondsUntilHitMarker)
     {
-        DealDamage(attacker, defender);
+
+        DealDamage(attacker, defender, damagePerHit);
 
         Combat.isGameOver = defender.hp <= 0 ? true : false;
 
@@ -107,11 +109,27 @@ public class Attack : MonoBehaviour
         }
     }
 
-    private void DealDamage(Fighter attacker, Fighter defender)
+    private void DealDamage(Fighter attacker, Fighter defender, float damagePerHit)
     {
-        var attackerDamageForNextHit = IsAttackCritical(attacker) ? attacker.damage * 2 : attacker.damage;
+        var attackerDamageForNextHit = IsAttackCritical(attacker) ? damagePerHit * 2 : damagePerHit;
         defender.hp -= attackerDamageForNextHit;
         Combat.fightersUIDataScript.ModifyHealthBar(defender, Combat.player == defender);
+    }
+
+    //Restores x % of missing health
+    private void LifeSteal(Fighter attacker, int percentage)
+    {
+        bool isPlayerAttacking = Combat.player == attacker;
+        float maxHp = isPlayerAttacking ? Combat.playerMaxHp : Combat.botMaxHp;
+        float hpToRestore = percentage * maxHp / 100;
+        float hpAfterLifesteal = attacker.hp + hpToRestore;
+        attacker.hp = hpAfterLifesteal > maxHp ? maxHp : hpAfterLifesteal;
+        Debug.Log("isPlayerAttacking");
+        Debug.Log(isPlayerAttacking);
+        Debug.Log("attacker.hp");
+        Debug.Log(attacker.hp);
+        Debug.Log("Player HP");
+        Debug.Log(Combat.player.hp);
     }
 
     IEnumerator ReceiveDamageAnimation(Fighter defender, float secondsUntilHitMarker)

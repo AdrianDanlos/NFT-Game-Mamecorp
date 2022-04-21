@@ -32,7 +32,8 @@ public class Combat : MonoBehaviour
     // Game status data
     public static bool isGameOver;
     List<Fighter> fightersOrderOfAttack = new List<Fighter> { };
-    private float playerMaxHp;
+    public static float playerMaxHp;
+    public static float botMaxHp;
 
     private void Awake()
     {
@@ -55,9 +56,15 @@ public class Combat : MonoBehaviour
         FighterSkin.SetFightersSkin(player, bot);
         FighterAnimations.ResetToDefaultAnimation(player);
         fightersUIDataScript.SetFightersUIInfo(player, bot, botElo);
-        playerMaxHp = player.hp;
-
+        SetMaxHpValues();
+        
         StartCoroutine(InitiateCombat());
+    }
+
+    private void SetMaxHpValues()
+    {
+        playerMaxHp = player.hp;
+        botMaxHp = bot.hp;
     }
 
     private void GetFighterScriptComponents()

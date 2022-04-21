@@ -36,8 +36,8 @@ public class Combat : MonoBehaviour
     public static float botMaxHp;
 
     private void Awake()
-    {
-        //Show matchmaking loading screen
+    {        
+        GameObject.FindGameObjectWithTag("CombatLoadingScreen").SetActive(true);
 
         // From the current gameobject (this) access the movement component which is a script.
         movementScript = this.GetComponent<Movement>();
@@ -57,9 +57,10 @@ public class Combat : MonoBehaviour
         SetMaxHpValues();
     }
 
-    void Start()
+    IEnumerator Start()
     {
-        //Set a waiter for the loading screen before initiating the combat
+        yield return new WaitForSeconds(5);
+        GameObject.FindGameObjectWithTag("CombatLoadingScreen").SetActive(false);
         StartCoroutine(InitiateCombat());
     }
 

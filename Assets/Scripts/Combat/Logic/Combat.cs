@@ -334,7 +334,7 @@ public class Combat : MonoBehaviour
         //UI
         fightersUIDataScript.SetResultsBanner(isPlayerWinner);
         fightersUIDataScript.SetResultsEloChange(eloChange);
-        fightersUIDataScript.SetResultsLevelSlider(player.level, player.experiencePoints);
+        fightersUIDataScript.SetResultsLevel(player.level, player.experiencePoints);
         fightersUIDataScript.SetResultsExpGainText(isPlayerWinner);
         fightersUIDataScript.ShowLevelUpIcon(isLevelUp);
         fightersUIDataScript.ShowRewards(goldReward, gemsReward, isLevelUp);

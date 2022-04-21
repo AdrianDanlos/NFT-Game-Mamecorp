@@ -8,10 +8,9 @@ public class MenuUtils
     {
         playerNameGO.GetComponent<TextMeshProUGUI>().text = User.Instance.userName;
     }
-    public static void SetLevelSlider(GameObject playerLevelGO, GameObject playerExpGO, GameObject playerLevelSliderGO, int playerLevel, int playerExp)
+    public static void SetLevelSlider(GameObject playerExpGO, GameObject playerLevelSliderGO, int playerLevel, int playerExp)
     {
         int maxExp = Levels.MaxXpOfCurrentLevel(playerLevel);
-        playerLevelGO.GetComponent<TextMeshProUGUI>().text = playerLevel.ToString();
         playerExpGO.GetComponent<TextMeshProUGUI>().text = $"{playerExp.ToString()}/{maxExp}";
         playerLevelSliderGO.GetComponent<Slider>().value = (float)playerExp / (float)maxExp;
     }
@@ -50,4 +49,15 @@ public class MenuUtils
         timerContainerGO.SetActive(false);
     }
 
+    public static void SetLevelIcon(int playerLevel)
+    {
+        float levelsUntilIconUpgrade = 3;
+        double nIcon = Mathf.Ceil(playerLevel / levelsUntilIconUpgrade);
+        Image iconGO = GameObject.Find($"Level_Icon_{nIcon}").GetComponent<Image>();
+        iconGO.enabled = true;
+        iconGO.transform.Find("Text").GetComponent<TextMeshProUGUI>().text = playerLevel.ToString();
+
+        //hide previous icon if any
+        if (GameObject.Find($"Level_Icon_{nIcon - 1}")) GameObject.Find($"Level_Icon_{nIcon - 1}").SetActive(false);
+    }
 }

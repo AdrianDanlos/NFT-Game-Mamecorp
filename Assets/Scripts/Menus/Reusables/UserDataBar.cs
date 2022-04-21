@@ -1,4 +1,5 @@
 using UnityEngine;
+using TMPro;
 
 public class UserDataBar : MonoBehaviour
 {
@@ -22,6 +23,7 @@ public class UserDataBar : MonoBehaviour
         MenuUtils.SetEnergy(energy);
         MenuUtils.DisplayEnergyCountdown(timerContainer, timer);
         MenuUtils.SetName(playerNameGO);
-        MenuUtils.SetLevelSlider(playerLevelGO, playerExpGO, playerLevelSlider, player.level, player.experiencePoints);
+        MenuUtils.SetLevelSlider(playerExpGO, playerLevelSlider, player.level, player.experiencePoints);
+        MenuUtils.SetLevelIcon(player.level);    
     }
 }

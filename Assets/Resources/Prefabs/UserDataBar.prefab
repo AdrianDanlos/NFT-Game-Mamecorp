@@ -435,7 +435,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0.508
+  m_Value: 0.501
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1940,9 +1940,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2949423655071839563}
-  - component: {fileID: 2949423655071839562}
+  - component: {fileID: 918332962}
   m_Layer: 5
-  m_Name: CollectiblesBar
+  m_Name: UserDataBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1972,7 +1972,7 @@ RectTransform:
   m_AnchoredPosition: {x: 417, y: 466.5}
   m_SizeDelta: {x: 1000, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &2949423655071839562
+--- !u!114 &918332962
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1981,7 +1981,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2949423655071839560}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6cfefdb9629decf4da777894e988551f, type: 3}
+  m_Script: {fileID: 11500000, guid: a5385ef88e38d0d42b3b4805b2caa8d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   gold: {fileID: 2949423656835495993}
@@ -1989,6 +1989,10 @@ MonoBehaviour:
   energy: {fileID: 2949423655654923064}
   timerContainer: {fileID: 3054504358181235467}
   timer: {fileID: 3157367920992332306}
+  playerNameGO: {fileID: 63365446}
+  playerLevelGO: {fileID: 1868639873}
+  playerExpGO: {fileID: 2045412056}
+  playerLevelSlider: {fileID: 385165061}
 --- !u!1 &2949423655333545822
 GameObject:
   m_ObjectHideFlags: 0

@@ -105,6 +105,10 @@ public class Combat : MonoBehaviour
         SetFightersDestinationPositions(DefaultDistanceFromEachotherOnAttack);
     }
 
+    private void ResetFightersDestinationPosition(){
+        SetFightersDestinationPositions(DefaultDistanceFromEachotherOnAttack);
+    }
+
     private void SetFightersDestinationPositions(float distanceAwayFromEachOtherOnAttack)
     {
         Vector3 playerDestinationPosition = botStartingPosition;
@@ -206,8 +210,7 @@ public class Combat : MonoBehaviour
         yield return movementScript.MoveSlide(attacker);
         yield return StartCoroutine(attacktScript.PerformLowBlow(attacker, defender));
         yield return MoveBackHandler(attacker);
-        //FIXME: Create a helper called reset destination positions
-        SetFightersDestinationPositions(DefaultDistanceFromEachotherOnAttack);
+        ResetFightersDestinationPosition();
     }
     IEnumerator JumpStrike(Fighter attacker, Fighter defender)
     {
@@ -233,7 +236,7 @@ public class Combat : MonoBehaviour
         movementScript.ResetRotation(attacker);
 
         yield return MoveBackHandler(attacker);
-        SetFightersDestinationPositions(DefaultDistanceFromEachotherOnAttack);
+        ResetFightersDestinationPosition();
     }
     IEnumerator ShurikenFury(Fighter attacker, Fighter defender)
     {
@@ -262,7 +265,7 @@ public class Combat : MonoBehaviour
         if (!isGameOver) FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.IDLE);
 
         yield return MoveBackHandler(attacker);
-        SetFightersDestinationPositions(DefaultDistanceFromEachotherOnAttack);
+        ResetFightersDestinationPosition();
     }
 
     IEnumerator AttackWithoutSkills(Fighter attacker, Fighter defender)

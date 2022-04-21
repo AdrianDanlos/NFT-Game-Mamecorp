@@ -10,6 +10,12 @@ public class Attack : MonoBehaviour
 
         FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.ATTACK);
 
+        if (IsAttackShielded())
+        {
+            yield return StartCoroutine(ShieldAttack(defender));
+            yield break;
+        }
+
         if (IsAttackDodged(defender))
         {
             yield return DefenderDodgesAttack(defender);
@@ -19,6 +25,22 @@ public class Attack : MonoBehaviour
         yield return DefenderReceivesAttack(attacker, defender, attacker.damage, 0.25f, 0.05f);
     }
 
+    IEnumerator ShieldAttack(Fighter defender, float secondsToWaitForAttackAnim = 0.35f)
+    {
+        FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.JUMP);
+        Transform shield = defender.transform.Find("Shield");
+        SpriteRenderer shieldSprite = shield.GetComponent<SpriteRenderer>();
+        float xShieldDisplacement = Combat.player == defender ? 0.8f : -0.8f;
+        Vector3 shieldDisplacement = new Vector3(xShieldDisplacement, -0.7f, 0);
+
+        shield.transform.position = defender.transform.position;
+        shield.transform.position += shieldDisplacement;
+        shieldSprite.enabled = true;
+        yield return new WaitForSeconds(secondsToWaitForAttackAnim);
+        shieldSprite.enabled = false;
+        FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.IDLE);
+    }
+
     public IEnumerator PerformCosmicKicks(Fighter attacker, Fighter defender)
     {
         FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.KICK);
@@ -26,6 +48,12 @@ public class Attack : MonoBehaviour
     }
     public IEnumerator PerformLowBlow(Fighter attacker, Fighter defender)
     {
+        if (IsAttackShielded())
+        {
+            yield return StartCoroutine(ShieldAttack(defender, 0.22f));
+            yield break;
+        }
+
         if (IsAttackDodged(defender))
         {
             yield return DefenderDodgesAttack(defender);
@@ -37,8 +65,15 @@ public class Attack : MonoBehaviour
     public IEnumerator PerformJumpStrike(Fighter attacker, Fighter defender)
     {
         FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.AIR_ATTACK);
+
+        if (IsAttackShielded())
+        {
+            yield return StartCoroutine(ShieldAttack(defender));
+            yield break;
+        }
+
         yield return DefenderReceivesAttack(attacker, defender, attacker.damage, 0.15f, 0.05f);
-        LifeSteal(attacker, 5);
+        LifeSteal(attacker, 3);
         Combat.fightersUIDataScript.ModifyHealthBar(attacker, Combat.player == attacker);
     }
     public IEnumerator PerformShurikenFury(Fighter attacker, Fighter defender)
@@ -70,6 +105,13 @@ public class Attack : MonoBehaviour
         StartCoroutine(Combat.movementScript.RotateObjectOverTime(shurikenInstance, new Vector3(0, 0, 2000), 0.35f));
         yield return StartCoroutine(Combat.movementScript.MoveShuriken(shurikenInstance, shurikenStartPos, shurikenEndPos, 0.35f));
         Destroy(shurikenInstance);
+
+        if (IsAttackShielded())
+        {
+            yield return StartCoroutine(ShieldAttack(defender));
+            yield break;
+        }
+
         yield return DefenderReceivesAttack(attacker, defender, attacker.damage, 0.25f, 0);
     }
 
@@ -133,6 +175,13 @@ public class Attack : MonoBehaviour
         defenderRenderer.material.color = new Color(255, 1, 1);
         yield return new WaitForSeconds(.08f);
         defenderRenderer.material.color = new Color(1, 1, 1);
+    }
+
+    //FIXME: Only allow this if the fighter has the skill to perform it
+    public bool IsAttackShielded()
+    {
+        int probabilityOfShielding = 100;
+        return Probabilities.IsHappening(probabilityOfShielding);
     }
 
     public bool IsAttackRepeated(Fighter attacker)

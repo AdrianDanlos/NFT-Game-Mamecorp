@@ -57,7 +57,7 @@ public class Combat : MonoBehaviour
         FighterAnimations.ResetToDefaultAnimation(player);
         fightersUIDataScript.SetFightersUIInfo(player, bot, botElo);
         SetMaxHpValues();
-        
+
         StartCoroutine(InitiateCombat());
     }
 
@@ -181,7 +181,6 @@ public class Combat : MonoBehaviour
 
     IEnumerator StartTurn(Fighter attacker, Fighter defender)
     {
-        yield return JumpStrike(attacker, defender);
         // if (WillUseSkillThisTurn())
         // {
         //     yield return JumpStrike(attacker, defender);
@@ -190,7 +189,7 @@ public class Combat : MonoBehaviour
         //     yield return LowBlow(attacker, defender);
         //     yield break;
         // }
-        // yield return AttackWithoutSkills(attacker, defender);
+        yield return AttackWithoutSkills(attacker, defender);
     }
 
     private bool WillUseSkillThisTurn()

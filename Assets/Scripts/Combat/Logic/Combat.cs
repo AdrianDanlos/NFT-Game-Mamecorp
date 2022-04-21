@@ -37,15 +37,13 @@ public class Combat : MonoBehaviour
 
     private void Awake()
     {
+        //Show matchmaking loading screen
+
         // From the current gameobject (this) access the movement component which is a script.
         movementScript = this.GetComponent<Movement>();
         fightersUIDataScript = this.GetComponent<FightersUIData>();
         skillsLogicScript = this.GetComponent<SkillsLogicInCombat>();
         isGameOver = false;
-    }
-
-    void Start()
-    {
         FindGameObjects();
         SetVisibilityOfGameObjects();
         GetFighterScriptComponents();
@@ -57,7 +55,11 @@ public class Combat : MonoBehaviour
         FighterAnimations.ResetToDefaultAnimation(player);
         fightersUIDataScript.SetFightersUIInfo(player, bot, botElo);
         SetMaxHpValues();
+    }
 
+    void Start()
+    {
+        //Set a waiter for the loading screen before initiating the combat
         StartCoroutine(InitiateCombat());
     }
 

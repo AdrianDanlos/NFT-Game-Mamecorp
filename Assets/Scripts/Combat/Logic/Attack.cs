@@ -180,7 +180,7 @@ public class Attack : MonoBehaviour
     //FIXME: Only allow this if the fighter has the skill to perform it
     public bool IsAttackShielded()
     {
-        int probabilityOfShielding = 100;
+        int probabilityOfShielding = 10;
         return Probabilities.IsHappening(probabilityOfShielding);
     }
 

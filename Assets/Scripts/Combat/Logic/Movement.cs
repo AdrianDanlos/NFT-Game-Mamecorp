@@ -1,6 +1,6 @@
 using System.Collections;
 using UnityEngine;
-using System;
+
 public class Movement : MonoBehaviour
 {
     public float runningDurationInSeconds = 0.6f;
@@ -130,7 +130,7 @@ public class Movement : MonoBehaviour
 
     private bool IsAtMeleeRange()
     {
-        double currentDistanceAwayFromEachOther = ToSingleDecimal(Combat.player.transform.position.x - Combat.bot.transform.position.x);
+        double currentDistanceAwayFromEachOther = GeneralUtils.ToSingleDecimal(Combat.player.transform.position.x - Combat.bot.transform.position.x);
         return System.Math.Abs(currentDistanceAwayFromEachOther) <= Combat.DefaultDistanceFromEachotherOnAttack;
     }
 
@@ -156,17 +156,7 @@ public class Movement : MonoBehaviour
 
         FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.RUN);
         yield return StartCoroutine(Move(attacker, attacker.transform.position, newDestinationPosition, runningDurationInSeconds * 0.2f));
-    }
-
-    //FIXME: Move this to utils file
-    private double ToSingleDecimal(double number)
-    {
-        string numberAsString = number.ToString();
-        int startingPositionToTrim = 3;
-
-        string trimmedString = numberAsString.Remove(startingPositionToTrim, numberAsString.Length - startingPositionToTrim);
-        return Convert.ToDouble(trimmedString);
-    }
+    }    
 
     public void Rotate(Fighter fighter, float rotationDegrees)
     {

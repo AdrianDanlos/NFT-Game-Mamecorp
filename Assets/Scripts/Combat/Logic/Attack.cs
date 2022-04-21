@@ -177,7 +177,6 @@ public class Attack : MonoBehaviour
         defenderRenderer.material.color = new Color(1, 1, 1);
     }
 
-    //FIXME: Only allow this if the fighter has the skill to perform it
     public bool IsAttackShielded()
     {
         int probabilityOfShielding = 10;

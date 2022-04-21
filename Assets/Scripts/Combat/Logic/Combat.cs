@@ -32,7 +32,8 @@ public class Combat : MonoBehaviour
     // Game status data
     public static bool isGameOver;
     List<Fighter> fightersOrderOfAttack = new List<Fighter> { };
-    private float playerMaxHp;
+    public static float playerMaxHp;
+    public static float botMaxHp;
 
     private void Awake()
     {
@@ -55,9 +56,15 @@ public class Combat : MonoBehaviour
         FighterSkin.SetFightersSkin(player, bot);
         FighterAnimations.ResetToDefaultAnimation(player);
         fightersUIDataScript.SetFightersUIInfo(player, bot, botElo);
-        playerMaxHp = player.hp;
+        SetMaxHpValues();
 
         StartCoroutine(InitiateCombat());
+    }
+
+    private void SetMaxHpValues()
+    {
+        playerMaxHp = player.hp;
+        botMaxHp = bot.hp;
     }
 
     private void GetFighterScriptComponents()
@@ -174,7 +181,6 @@ public class Combat : MonoBehaviour
 
     IEnumerator StartTurn(Fighter attacker, Fighter defender)
     {
-        yield return JumpStrike(attacker, defender);
         // if (WillUseSkillThisTurn())
         // {
         //     yield return JumpStrike(attacker, defender);
@@ -183,7 +189,7 @@ public class Combat : MonoBehaviour
         //     yield return LowBlow(attacker, defender);
         //     yield break;
         // }
-        // yield return AttackWithoutSkills(attacker, defender);
+        yield return AttackWithoutSkills(attacker, defender);
     }
 
     private bool WillUseSkillThisTurn()

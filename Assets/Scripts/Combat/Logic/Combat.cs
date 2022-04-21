@@ -21,7 +21,6 @@ public class Combat : MonoBehaviour
 
     // Script references
     public static Movement movementScript;
-    Attack attacktScript;
     public static FightersUIData fightersUIDataScript;
     SkillsLogicInCombat skillsLogicScript;
 
@@ -40,7 +39,6 @@ public class Combat : MonoBehaviour
     {
         // From the current gameobject (this) access the movement component which is a script.
         movementScript = this.GetComponent<Movement>();
-        attacktScript = this.GetComponent<Attack>();
         fightersUIDataScript = this.GetComponent<FightersUIData>();
         skillsLogicScript = this.GetComponent<SkillsLogicInCombat>();
         isGameOver = false;

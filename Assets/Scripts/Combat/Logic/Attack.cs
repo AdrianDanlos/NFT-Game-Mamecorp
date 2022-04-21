@@ -124,12 +124,6 @@ public class Attack : MonoBehaviour
         float hpToRestore = percentage * maxHp / 100;
         float hpAfterLifesteal = attacker.hp + hpToRestore;
         attacker.hp = hpAfterLifesteal > maxHp ? maxHp : hpAfterLifesteal;
-        Debug.Log("isPlayerAttacking");
-        Debug.Log(isPlayerAttacking);
-        Debug.Log("attacker.hp");
-        Debug.Log(attacker.hp);
-        Debug.Log("Player HP");
-        Debug.Log(Combat.player.hp);
     }
 
     IEnumerator ReceiveDamageAnimation(Fighter defender, float secondsUntilHitMarker)

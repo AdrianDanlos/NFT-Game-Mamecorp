@@ -5725,6 +5725,7 @@ GameObject:
   - component: {fileID: 1570540185}
   - component: {fileID: 1570540184}
   - component: {fileID: 1570540187}
+  - component: {fileID: 1570540188}
   m_Layer: 0
   m_Name: CombatManager
   m_TagString: Untagged
@@ -5833,6 +5834,18 @@ MonoBehaviour:
   goldRewardGO: {fileID: 1251270548}
   gemsRewardGO: {fileID: 884243762}
   chestRewardGO: {fileID: 1754684}
+--- !u!114 &1570540188
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1570540181}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d16a073cb8a1a448a24da2dbccdbfe7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1581309672
 GameObject:
   m_ObjectHideFlags: 0

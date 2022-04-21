@@ -4,9 +4,9 @@ using TMPro;
 using UnityEngine.UI;
 public class MenuUtils
 {
-    public static void SetName(GameObject playerNameGO)
+    public static void SetName(GameObject playerNameGO, string fighterName)
     {
-        playerNameGO.GetComponent<TextMeshProUGUI>().text = User.Instance.userName;
+        playerNameGO.GetComponent<TextMeshProUGUI>().text = fighterName;
     }
     public static void SetLevelSlider(GameObject playerExpGO, GameObject playerLevelSliderGO, int playerLevel, int playerExp)
     {

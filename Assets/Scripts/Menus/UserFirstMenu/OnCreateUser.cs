@@ -1,20 +1,13 @@
 using UnityEngine;
 using Newtonsoft.Json.Linq;
-using UnityEngine.UI;
-using TMPro;
 
 public class OnCreateUser : MonoBehaviour
 {
-    public GameObject nickNameInput;
-    public void onClickContinue()
+    // public GameObject nickNameInput;
+    public void CreateUserFile()
     {
-        CreateUserFile();
-        UnityEngine.SceneManagement.SceneManager.LoadScene(SceneNames.ChooseFirstFighter.ToString());
-
-    }
-    private void CreateUserFile()
-    {
-        string userName = nickNameInput.GetComponent<TextMeshProUGUI>().text;
+        //string userName = nickNameInput.GetComponent<TextMeshProUGUI>().text;
+        string userName = "unknown"; //We dont have a userName concept anymore
         UserFactory.CreateUserInstance(userName, PlayerUtils.maxEnergy);
         JObject user = JObject.FromObject(User.Instance);
         JsonDataManager.SaveData(user, JsonDataManager.UserFileName);

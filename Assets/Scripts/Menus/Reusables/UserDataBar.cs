@@ -22,7 +22,7 @@ public class UserDataBar : MonoBehaviour
         EnergyManager.RefreshEnergyBasedOnCountdown();
         MenuUtils.SetEnergy(energy);
         MenuUtils.DisplayEnergyCountdown(timerContainer, timer);
-        MenuUtils.SetName(playerNameGO);
+        MenuUtils.SetName(playerNameGO, player.fighterName);
         MenuUtils.SetLevelSlider(playerExpGO, playerLevelSlider, player.level, player.experiencePoints);
         MenuUtils.SetLevelIcon(player.level);    
     }

@@ -45,7 +45,7 @@ public class Movement : MonoBehaviour
         }
     }
 
-    //FIXME: Reuse MoveSlide and MoveJumpStrike (future moves could also be reused then).
+    //FIXME: Is there a way to reuse the "Move" functions that belong to each attack? Or do we need to do very specific things on each one?
     // Its not easy to reuse MoveShuriken as its complicated to have a function that accepts a param of different types (Fighter and Gameobject)
     public IEnumerator MoveSlide(Fighter fighter)
     {
@@ -70,7 +70,6 @@ public class Movement : MonoBehaviour
         {
             if (elapsedTime >= runningDurationInSeconds / 1.5)
             {
-                //FIXME: How to avoid callling ChangeAnimation on each frame
                 FighterAnimations.ChangeAnimation(fighter, FighterAnimations.AnimationNames.JUMP);
                 destinationPosition.y += .03f;
             }

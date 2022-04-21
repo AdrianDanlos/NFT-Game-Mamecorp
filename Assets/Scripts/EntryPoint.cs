@@ -2,23 +2,30 @@ using System.IO;
 using UnityEngine;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
+using System.Collections;
 
 
 public class EntryPoint : MonoBehaviour
 {
     public static GameObject fighterGameObject;
-    private void Awake()
+    IEnumerator Start()
     {
         HideFighter();
 
-        if (File.Exists(JsonDataManager.getFilePath(JsonDataManager.UserFileName)) &&
-         File.Exists(JsonDataManager.getFilePath(JsonDataManager.FighterFileName)))
+        //TODO: Set the time of loading screen
+        yield return new WaitForSeconds(0f);
+
+        bool saveFilesFound = File.Exists(JsonDataManager.getFilePath(JsonDataManager.UserFileName)) &&
+            File.Exists(JsonDataManager.getFilePath(JsonDataManager.FighterFileName));
+
+        if (saveFilesFound)
         {
             ReadUserFile();
             ReadFighterFile();
             UnityEngine.SceneManagement.SceneManager.LoadScene(SceneNames.MainMenu.ToString());
         }
-        else UnityEngine.SceneManagement.SceneManager.LoadScene(SceneNames.UserFirstStart.ToString());
+
+        else UnityEngine.SceneManagement.SceneManager.LoadScene(SceneNames.ChooseFirstFighter.ToString());
     }
 
     private void ReadUserFile()

@@ -19,7 +19,8 @@ public class FightersUIData : MonoBehaviour
     public GameObject playerLevelSliderGO;
     public GameObject playerExpGainTextGO;
     public GameObject levelUpIcon;
-    public TextMeshProUGUI resultsBanner;
+    public GameObject victoryBanner;
+    public GameObject defeatBanner;
     public GameObject goldRewardGO;
     public GameObject gemsRewardGO;
     public GameObject chestRewardGO;
@@ -69,9 +70,10 @@ public class FightersUIData : MonoBehaviour
     {
         resultsEloChange.GetComponent<TextMeshProUGUI>().text = eloChange > 0 ? $"+{eloChange.ToString()}" : eloChange.ToString();
     }
-    public void SetResultsLevelSlider(int playerLevel, int playerExp)
+    public void SetResultsLevel(int playerLevel, int playerExp)
     {
-        MenuUtils.SetLevelSlider(playerLevelGO, playerExpGO, playerLevelSliderGO, playerLevel, playerExp);
+        MenuUtils.SetLevelSlider(playerExpGO, playerLevelSliderGO, playerLevel, playerExp);
+        MenuUtils.SetLevelIcon(playerLevel);
     }
     public void SetResultsExpGainText(bool isPlayerWinner)
     {
@@ -88,7 +90,8 @@ public class FightersUIData : MonoBehaviour
     }
     public void SetResultsBanner(bool isPlayerWinner)
     {
-        resultsBanner.GetComponent<TextMeshProUGUI>().text = isPlayerWinner ? "VICTORY" : "DEFEAT";
+        victoryBanner.SetActive(isPlayerWinner);
+        defeatBanner.SetActive(!isPlayerWinner);
     }
 
     public void ShowRewards(int goldReward, int gemsReward, bool isLevelUp)
@@ -97,6 +100,6 @@ public class FightersUIData : MonoBehaviour
         chestRewardGO.SetActive(isLevelUp);
 
         goldRewardGO.transform.Find("TextValue").gameObject.GetComponent<TextMeshProUGUI>().text = goldReward.ToString();
-        if(Convert.ToBoolean(gemsReward)) gemsRewardGO.transform.Find("TextValue").gameObject.GetComponent<TextMeshProUGUI>().text = gemsReward.ToString();
+        if (Convert.ToBoolean(gemsReward)) gemsRewardGO.transform.Find("TextValue").gameObject.GetComponent<TextMeshProUGUI>().text = gemsReward.ToString();
     }
 }

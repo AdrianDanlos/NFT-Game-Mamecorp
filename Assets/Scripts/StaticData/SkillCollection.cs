@@ -50,7 +50,7 @@ public static class SkillCollection
         new OrderedDictionary
         {
             {"name", "Jump strike"},
-            {"description", "Jump towards the opponent to execute a sequence of lightning fast attacks."},
+            {"description", "Jump towards the opponent to execute a sequence of lightning fast attacks that can't be dodged."},
             {"rarity", Rarity.RARE.ToString()},
             {"category", SkillType.SUPERS.ToString()},
             {"icon", "5" }

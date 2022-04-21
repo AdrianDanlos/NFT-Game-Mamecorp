@@ -5,5 +5,5 @@ enum SceneNames
     UserFirstStart,
     MainMenu,
     ChooseFirstFighter,
-    Shop
+    Shop,
 }

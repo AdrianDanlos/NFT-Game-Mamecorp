@@ -12,8 +12,8 @@ public class EntryPoint : MonoBehaviour
     {
         HideFighter();
 
-        //Display Mamecorp credits
-        yield return new WaitForSeconds(2.6f);
+        //TODO: Set the time of loading screen
+        yield return new WaitForSeconds(0f);
 
         bool saveFilesFound = File.Exists(JsonDataManager.getFilePath(JsonDataManager.UserFileName)) &&
             File.Exists(JsonDataManager.getFilePath(JsonDataManager.FighterFileName));

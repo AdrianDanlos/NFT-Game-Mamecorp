@@ -11,6 +11,10 @@ TagManager:
   - GoldRewardInResults
   - GemsRewardInResults
   - ChestRewardInResults
+  - FighterBot
+  - CombatUI
+  - CombatLoadingScreenSprites
+  - CombatLoadingScreenUI
   layers:
   - Default
   - TransparentFX
@@ -53,4 +57,7 @@ TagManager:
     locked: 0
   - name: Fighter
     uniqueID: 3308405281
+    locked: 0
+  - name: CombatLoadingScreen
+    uniqueID: 2011910689
     locked: 0

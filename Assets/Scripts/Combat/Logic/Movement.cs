@@ -1,6 +1,6 @@
 using System.Collections;
 using UnityEngine;
-using System;
+
 public class Movement : MonoBehaviour
 {
     public float runningDurationInSeconds = 0.6f;
@@ -45,7 +45,7 @@ public class Movement : MonoBehaviour
         }
     }
 
-    //FIXME: Reuse MoveSlide and MoveJumpStrike (future moves could also be reused then).
+    //FIXME: Is there a way to reuse the "Move" functions that belong to each attack? Or do we need to do very specific things on each one?
     // Its not easy to reuse MoveShuriken as its complicated to have a function that accepts a param of different types (Fighter and Gameobject)
     public IEnumerator MoveSlide(Fighter fighter)
     {
@@ -70,7 +70,6 @@ public class Movement : MonoBehaviour
         {
             if (elapsedTime >= runningDurationInSeconds / 1.5)
             {
-                //FIXME: How to avoid callling ChangeAnimation on each frame
                 FighterAnimations.ChangeAnimation(fighter, FighterAnimations.AnimationNames.JUMP);
                 destinationPosition.y += .03f;
             }
@@ -130,7 +129,7 @@ public class Movement : MonoBehaviour
 
     private bool IsAtMeleeRange()
     {
-        double currentDistanceAwayFromEachOther = ToSingleDecimal(Combat.player.transform.position.x - Combat.bot.transform.position.x);
+        double currentDistanceAwayFromEachOther = GeneralUtils.ToSingleDecimal(Combat.player.transform.position.x - Combat.bot.transform.position.x);
         return System.Math.Abs(currentDistanceAwayFromEachOther) <= Combat.DefaultDistanceFromEachotherOnAttack;
     }
 
@@ -156,17 +155,7 @@ public class Movement : MonoBehaviour
 
         FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.RUN);
         yield return StartCoroutine(Move(attacker, attacker.transform.position, newDestinationPosition, runningDurationInSeconds * 0.2f));
-    }
-
-    //FIXME: Move this to utils file
-    private double ToSingleDecimal(double number)
-    {
-        string numberAsString = number.ToString();
-        int startingPositionToTrim = 3;
-
-        string trimmedString = numberAsString.Remove(startingPositionToTrim, numberAsString.Length - startingPositionToTrim);
-        return Convert.ToDouble(trimmedString);
-    }
+    }    
 
     public void Rotate(Fighter fighter, float rotationDegrees)
     {

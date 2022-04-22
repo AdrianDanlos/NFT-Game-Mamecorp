@@ -18,11 +18,14 @@ public class Combat : MonoBehaviour
     public static GameObject botGameObject;
     public Canvas results;
     public SpriteRenderer arena;
+    public GameObject combatUI;
+    public GameObject combatLoadingScreenUI;
+    public GameObject combatLoadingScreenSprites;
 
     // Script references
     public static Movement movementScript;
-    Attack attacktScript;
     public static FightersUIData fightersUIDataScript;
+    SkillsLogicInCombat skillsLogicScript;
 
     // Positions data
     static Vector3 playerStartingPosition = new Vector3(-6, -0.7f, 0);
@@ -37,16 +40,14 @@ public class Combat : MonoBehaviour
 
     private void Awake()
     {
+        FindGameObjects();
+        ToggleLoadingScreenVisibility(true);
+
         // From the current gameobject (this) access the movement component which is a script.
         movementScript = this.GetComponent<Movement>();
-        attacktScript = this.GetComponent<Attack>();
         fightersUIDataScript = this.GetComponent<FightersUIData>();
+        skillsLogicScript = this.GetComponent<SkillsLogicInCombat>();
         isGameOver = false;
-    }
-
-    void Start()
-    {
-        FindGameObjects();
         SetVisibilityOfGameObjects();
         GetFighterScriptComponents();
         GenerateBotData();
@@ -57,8 +58,19 @@ public class Combat : MonoBehaviour
         FighterAnimations.ResetToDefaultAnimation(player);
         fightersUIDataScript.SetFightersUIInfo(player, bot, botElo);
         SetMaxHpValues();
+    }
 
+    IEnumerator Start()
+    {
+        yield return new WaitForSeconds(5);
+        ToggleLoadingScreenVisibility(false);
         StartCoroutine(InitiateCombat());
+    }
+
+    private void ToggleLoadingScreenVisibility(bool displayLoadingScreen)
+    {
+        combatLoadingScreenUI.SetActive(displayLoadingScreen);
+        combatLoadingScreenSprites.SetActive(displayLoadingScreen);
     }
 
     private void SetMaxHpValues()
@@ -87,9 +99,12 @@ public class Combat : MonoBehaviour
     {
         playerWrapper = GameObject.Find("FighterWrapper");
         playerGameObject = playerWrapper.transform.Find("Fighter").gameObject;
-        botGameObject = GameObject.Find("Bot");
+        botGameObject = GameObject.FindGameObjectWithTag("FighterBot");
         results = GameObject.FindGameObjectWithTag("Results").GetComponent<Canvas>();
         arena = GameObject.FindGameObjectWithTag("Arena").GetComponent<SpriteRenderer>();
+        combatUI = GameObject.FindGameObjectWithTag("CombatUI");
+        combatLoadingScreenUI = GameObject.FindGameObjectWithTag("CombatLoadingScreenUI");
+        combatLoadingScreenSprites = GameObject.FindGameObjectWithTag("CombatLoadingScreenSprites");
     }
 
     private void SetFighterPositions()
@@ -105,7 +120,12 @@ public class Combat : MonoBehaviour
         SetFightersDestinationPositions(DefaultDistanceFromEachotherOnAttack);
     }
 
-    private void SetFightersDestinationPositions(float distanceAwayFromEachOtherOnAttack)
+    public void ResetFightersDestinationPosition()
+    {
+        SetFightersDestinationPositions(DefaultDistanceFromEachotherOnAttack);
+    }
+
+    public void SetFightersDestinationPositions(float distanceAwayFromEachOtherOnAttack)
     {
         Vector3 playerDestinationPosition = botStartingPosition;
         Vector3 botDestinationPosition = playerStartingPosition;
@@ -181,15 +201,15 @@ public class Combat : MonoBehaviour
 
     IEnumerator StartTurn(Fighter attacker, Fighter defender)
     {
-        // if (WillUseSkillThisTurn())
-        // {
-        //     yield return JumpStrike(attacker, defender);
-        //     yield return CosmicKicks(attacker, defender);
-        //     yield return ShurikenFury(attacker, defender);
-        //     yield return LowBlow(attacker, defender);
-        //     yield break;
-        // }
-        yield return AttackWithoutSkills(attacker, defender);
+        if (WillUseSkillThisTurn())
+        {
+            yield return skillsLogicScript.JumpStrike(attacker, defender);
+            yield return skillsLogicScript.CosmicKicks(attacker, defender);
+            yield return skillsLogicScript.ShurikenFury(attacker, defender);
+            yield return skillsLogicScript.LowBlow(attacker, defender);
+            yield break;
+        }
+        yield return skillsLogicScript.AttackWithoutSkills(attacker, defender);
     }
 
     private bool WillUseSkillThisTurn()
@@ -198,98 +218,13 @@ public class Combat : MonoBehaviour
         return Probabilities.IsHappening(probabilityOfUsingSkillEachTurn);
     }
 
-    //TODO: Move this functions to a different file that handles skills logic
-    IEnumerator LowBlow(Fighter attacker, Fighter defender)
-    {
-        SetFightersDestinationPositions(0.8f);
-        FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.RUN);
-        yield return movementScript.MoveSlide(attacker);
-        yield return StartCoroutine(attacktScript.PerformLowBlow(attacker, defender));
-        yield return MoveBackHandler(attacker);
-        //FIXME: Create a helper called reset destination positions
-        SetFightersDestinationPositions(DefaultDistanceFromEachotherOnAttack);
-    }
-    IEnumerator JumpStrike(Fighter attacker, Fighter defender)
-    {
-        SetFightersDestinationPositions(1f);
-        FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.RUN);
-
-        yield return movementScript.MoveJumpStrike(attacker);
-
-        float rotationDegrees = attacker == player ? -35f : 35f;
-        movementScript.Rotate(attacker, rotationDegrees);
-
-        int nStrikes = UnityEngine.Random.Range(4, 9); // 4-8 attacks
-
-        for (int i = 0; i < nStrikes && !isGameOver; i++)
-        {
-            yield return StartCoroutine(attacktScript.PerformJumpStrike(attacker, defender));
-        }
-
-        if (!isGameOver) FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.IDLE);
-
-        //Go back to the ground
-        yield return StartCoroutine(movementScript.Move(attacker, attacker.transform.position, attacker.destinationPosition, 0.1f));
-        movementScript.ResetRotation(attacker);
-
-        yield return MoveBackHandler(attacker);
-        SetFightersDestinationPositions(DefaultDistanceFromEachotherOnAttack);
-    }
-    IEnumerator ShurikenFury(Fighter attacker, Fighter defender)
-    {
-        int nShurikens = UnityEngine.Random.Range(4, 9); // 4-8 shurikens
-
-        for (int i = 0; i < nShurikens && !isGameOver; i++)
-        {
-            yield return StartCoroutine(attacktScript.PerformShurikenFury(attacker, defender));
-        }
-
-        if (!isGameOver) FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.IDLE);
-    }
-
-    IEnumerator CosmicKicks(Fighter attacker, Fighter defender)
-    {
-        SetFightersDestinationPositions(1.5f);
-        yield return MoveForwardHandler(attacker);
-
-        int nKicks = UnityEngine.Random.Range(4, 9); // 4-8 kicks
-
-        for (int i = 0; i < nKicks && !isGameOver; i++)
-        {
-            yield return StartCoroutine(attacktScript.PerformCosmicKicks(attacker, defender));
-        }
-
-        if (!isGameOver) FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.IDLE);
-
-        yield return MoveBackHandler(attacker);
-        SetFightersDestinationPositions(DefaultDistanceFromEachotherOnAttack);
-    }
-
-    IEnumerator AttackWithoutSkills(Fighter attacker, Fighter defender)
-    {
-        yield return MoveForwardHandler(attacker);
-
-        // Attack
-        int attackCounter = 0;
-
-        while (!isGameOver && (attackCounter == 0 || attacktScript.IsAttackRepeated(attacker)))
-        {
-            yield return StartCoroutine(attacktScript.PerformAttack(attacker, defender));
-            attackCounter++;
-        };
-
-        if (!isGameOver) FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.IDLE);
-
-        yield return MoveBackHandler(attacker);
-    }
-
-    IEnumerator MoveForwardHandler(Fighter attacker)
+    public IEnumerator MoveForwardHandler(Fighter attacker)
     {
         FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.RUN);
         yield return StartCoroutine(movementScript.MoveForward(attacker, attacker.destinationPosition));
     }
 
-    IEnumerator MoveBackHandler(Fighter attacker)
+    public IEnumerator MoveBackHandler(Fighter attacker)
     {
         FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.RUN);
         FighterSkin.SwitchFighterOrientation(attacker.GetComponent<SpriteRenderer>());

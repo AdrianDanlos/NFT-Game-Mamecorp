@@ -58,7 +58,6 @@ public static class SkillCollection
         new OrderedDictionary
         {
             {"name", "Glorious shield"},
-            //TODO: If the shield is underpowered we could also consider blocking a whole turn of attacks by saving on a global variable if the user has dodged that turn.
             {"description", "Whenever your opponent attacks you have a chance of invoking a shield that will block the attack."},
             {"rarity", Rarity.COMMON.ToString()},
             {"category", SkillType.SUPERS.ToString()},

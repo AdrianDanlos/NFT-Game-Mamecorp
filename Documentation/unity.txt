@@ -22,6 +22,9 @@ UNITY and C# info:
 
 - Link through the inspector vs GameObject.FindGameObjectWithTag() -> Prioritise GameObject.FindGameObjectWithTag as it will reduce bugs and errors and performance wise it is very similar.
 
+- Good practices of Awake and Start:
+    Awake: Here you setup the component you are on right now (the "this" object)
+    Start: Here you setup things that depend on other components.
 
 DATA STRUCTURES WE NEED TO ACCESS GLOBALLY IN THE GAME
 

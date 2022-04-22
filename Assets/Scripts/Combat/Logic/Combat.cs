@@ -203,13 +203,33 @@ public class Combat : MonoBehaviour
     {
         if (WillUseSkillThisTurn())
         {
-            yield return skillsLogicScript.JumpStrike(attacker, defender);
-            yield return skillsLogicScript.CosmicKicks(attacker, defender);
-            yield return skillsLogicScript.ShurikenFury(attacker, defender);
-            yield return skillsLogicScript.LowBlow(attacker, defender);
+            yield return StartCoroutine(UseRandomSkill(attacker, defender));
             yield break;
         }
         yield return skillsLogicScript.AttackWithoutSkills(attacker, defender);
+    }
+
+    //TODO: Once a skill has been used remove it from the skills array so it is not repeated during the combat
+    IEnumerator UseRandomSkill(Fighter attacker, Fighter defender)
+    {
+        //FIXME: numberOfSkills should come from the array
+        int numberOfSkills = 4;
+        int randomNumber = UnityEngine.Random.Range(0, numberOfSkills) + 1;
+        switch (randomNumber)
+        {
+            case 1:
+                yield return skillsLogicScript.JumpStrike(attacker, defender);
+                break;
+            case 2:
+                 yield return skillsLogicScript.CosmicKicks(attacker, defender);
+                break;
+            case 3:
+                yield return skillsLogicScript.ShurikenFury(attacker, defender);
+                break;
+            case 4:
+                 yield return skillsLogicScript.LowBlow(attacker, defender);
+                break;
+        }
     }
 
     private bool WillUseSkillThisTurn()

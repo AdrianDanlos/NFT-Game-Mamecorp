@@ -11,9 +11,9 @@ public class SetFighterAnimations : MonoBehaviour
         string skinName;
         fighterAnimator = this.GetComponent<Animator>();
 
-        if (IsMainMenu()) skinName = PlayerUtils.FindInactiveFighter().skin;
-        //For ChooseFirstFighter Menu
-        else skinName = this.GetComponent<FighterSkinData>().skinName;
+        if (IsChooseFirstFighterMenu()) skinName = this.GetComponent<FighterSkinData>().skinName;
+        //For Main menu, loading screen...
+        else skinName = PlayerUtils.FindInactiveFighter().skin;
 
         AnimationClip idleAnimation = Resources.Load<AnimationClip>("Animations/Characters/" + skinName + "/01_idle");
         SetAnimationClipToAnimator(fighterAnimator, idleAnimation);
@@ -30,8 +30,8 @@ public class SetFighterAnimations : MonoBehaviour
         animator.runtimeAnimatorController = aoc;
     }
 
-    private bool IsMainMenu()
+    private bool IsChooseFirstFighterMenu()
     {
-        return SceneManager.GetActiveScene().name == SceneNames.MainMenu.ToString();
+        return SceneManager.GetActiveScene().name == SceneNames.ChooseFirstFighter.ToString();
     }
 }

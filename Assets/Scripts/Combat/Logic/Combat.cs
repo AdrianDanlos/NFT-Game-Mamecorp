@@ -18,6 +18,9 @@ public class Combat : MonoBehaviour
     public static GameObject botGameObject;
     public Canvas results;
     public SpriteRenderer arena;
+    public GameObject combatUI;
+    public GameObject combatLoadingScreenUI;
+    public GameObject combatLoadingScreenSprites;
 
     // Script references
     public static Movement movementScript;
@@ -36,15 +39,15 @@ public class Combat : MonoBehaviour
     public static float botMaxHp;
 
     private void Awake()
-    {        
-        GameObject.FindGameObjectWithTag("CombatLoadingScreen").SetActive(true);
+    {
+        FindGameObjects();
+        ToggleLoadingScreenVisibility(true);
 
         // From the current gameobject (this) access the movement component which is a script.
         movementScript = this.GetComponent<Movement>();
         fightersUIDataScript = this.GetComponent<FightersUIData>();
         skillsLogicScript = this.GetComponent<SkillsLogicInCombat>();
         isGameOver = false;
-        FindGameObjects();
         SetVisibilityOfGameObjects();
         GetFighterScriptComponents();
         GenerateBotData();
@@ -60,8 +63,14 @@ public class Combat : MonoBehaviour
     IEnumerator Start()
     {
         yield return new WaitForSeconds(5);
-        GameObject.FindGameObjectWithTag("CombatLoadingScreen").SetActive(false);
+        ToggleLoadingScreenVisibility(false);
         StartCoroutine(InitiateCombat());
+    }
+
+    private void ToggleLoadingScreenVisibility(bool displayLoadingScreen)
+    {
+        combatLoadingScreenUI.SetActive(displayLoadingScreen);
+        combatLoadingScreenSprites.SetActive(displayLoadingScreen);
     }
 
     private void SetMaxHpValues()
@@ -90,9 +99,12 @@ public class Combat : MonoBehaviour
     {
         playerWrapper = GameObject.Find("FighterWrapper");
         playerGameObject = playerWrapper.transform.Find("Fighter").gameObject;
-        botGameObject = GameObject.Find("Bot");
+        botGameObject = GameObject.FindGameObjectWithTag("FighterBot");
         results = GameObject.FindGameObjectWithTag("Results").GetComponent<Canvas>();
         arena = GameObject.FindGameObjectWithTag("Arena").GetComponent<SpriteRenderer>();
+        combatUI = GameObject.FindGameObjectWithTag("CombatUI");
+        combatLoadingScreenUI = GameObject.FindGameObjectWithTag("CombatLoadingScreenUI");
+        combatLoadingScreenSprites = GameObject.FindGameObjectWithTag("CombatLoadingScreenSprites");
     }
 
     private void SetFighterPositions()
@@ -108,7 +120,8 @@ public class Combat : MonoBehaviour
         SetFightersDestinationPositions(DefaultDistanceFromEachotherOnAttack);
     }
 
-    public void ResetFightersDestinationPosition(){
+    public void ResetFightersDestinationPosition()
+    {
         SetFightersDestinationPositions(DefaultDistanceFromEachotherOnAttack);
     }
 
@@ -188,14 +201,14 @@ public class Combat : MonoBehaviour
 
     IEnumerator StartTurn(Fighter attacker, Fighter defender)
     {
-        // if (WillUseSkillThisTurn())
-        // {
-        //     yield return skillsLogicScript.JumpStrike(attacker, defender);
-        //     yield return skillsLogicScript.CosmicKicks(attacker, defender);
-        //     yield return skillsLogicScript.ShurikenFury(attacker, defender);
-        //     yield return skillsLogicScript.LowBlow(attacker, defender);
-        //     yield break;
-        // }
+        if (WillUseSkillThisTurn())
+        {
+            yield return skillsLogicScript.JumpStrike(attacker, defender);
+            yield return skillsLogicScript.CosmicKicks(attacker, defender);
+            yield return skillsLogicScript.ShurikenFury(attacker, defender);
+            yield return skillsLogicScript.LowBlow(attacker, defender);
+            yield break;
+        }
         yield return skillsLogicScript.AttackWithoutSkills(attacker, defender);
     }
 
@@ -203,7 +216,7 @@ public class Combat : MonoBehaviour
     {
         int probabilityOfUsingSkillEachTurn = 70;
         return Probabilities.IsHappening(probabilityOfUsingSkillEachTurn);
-    }    
+    }
 
     public IEnumerator MoveForwardHandler(Fighter attacker)
     {

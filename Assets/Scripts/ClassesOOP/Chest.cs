@@ -10,7 +10,6 @@ public enum ChestTypes
     Mythic
 }
 
-
 public class Chest 
 {
     // need to copy popup chest ui to combat after fight results
@@ -22,4 +21,5 @@ public class Chest
             {"gold", 80}}
         }
     };
+
 }

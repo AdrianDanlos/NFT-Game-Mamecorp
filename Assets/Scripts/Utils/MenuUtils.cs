@@ -49,15 +49,32 @@ public class MenuUtils
         timerContainerGO.SetActive(false);
     }
 
-    public static void SetLevelIcon(int playerLevel)
+    public static void DisplayLevelIcon(int fighterLevel, GameObject iconsContainer)
     {
-        float levelsUntilIconUpgrade = 3;
-        double nIcon = Mathf.Ceil(playerLevel / levelsUntilIconUpgrade);
-        Image iconGO = GameObject.Find($"Level_Icon_{nIcon}").GetComponent<Image>();
-        iconGO.enabled = true;
-        iconGO.transform.Find("Text").GetComponent<TextMeshProUGUI>().text = playerLevel.ToString();
+        Image icon = GetLevelIconImage(fighterLevel, iconsContainer);
+        SetLevelIcon(fighterLevel, icon);
+        HidePreviousIconImage(GetIconNumber(fighterLevel));
+    }
 
-        //hide previous icon if any
-        if (GameObject.Find($"Level_Icon_{nIcon - 1}")) GameObject.Find($"Level_Icon_{nIcon - 1}").SetActive(false);
+    private static void SetLevelIcon(int fighterLevel, Image iconGO)
+    {
+        iconGO.enabled = true;
+        iconGO.transform.Find("Text").GetComponent<TextMeshProUGUI>().text = fighterLevel.ToString();
+    }
+
+    private static Image GetLevelIconImage(int fighterLevel, GameObject iconsContainer)
+    {
+        double nIcon = GetIconNumber(fighterLevel);
+        return iconsContainer.transform.Find($"Level_Icon_{nIcon}").GetComponent<Image>();
+    }
+
+    private static double GetIconNumber(int fighterLevel)
+    {
+        return Mathf.Ceil(fighterLevel / Levels.levelsUntilIconUpgrade);
+    }
+
+    private static void HidePreviousIconImage(double nIcon)
+    {
+        if (GameObject.Find($"Level_Icon_{nIcon - 1}")) GameObject.Find($"Level_Icon_{nIcon - 1}").GetComponent<Image>().enabled = false;
     }
 }

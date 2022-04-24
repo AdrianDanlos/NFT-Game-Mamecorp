@@ -4,6 +4,7 @@ using System.Reflection;
 using System.Collections.Generic;
 public static class Levels
 {
+    public static float levelsUntilIconUpgrade = 3;
     //This constant is used to calculate the total xp of each level. Formula: Level x LevelMultiplier.
     const int LevelMultiplier = 15;
     public static int MaxXpOfCurrentLevel(int playerLevel)

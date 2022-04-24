@@ -73,7 +73,7 @@ public class FightersUIData : MonoBehaviour
     public void SetResultsLevel(int playerLevel, int playerExp)
     {
         MenuUtils.SetLevelSlider(playerExpGO, playerLevelSliderGO, playerLevel, playerExp);
-        MenuUtils.SetLevelIcon(playerLevel);
+        MenuUtils.DisplayLevelIcon(playerLevel, GameObject.FindGameObjectWithTag("ResultsLevelIcons"));
     }
     public void SetResultsExpGainText(bool isPlayerWinner)
     {

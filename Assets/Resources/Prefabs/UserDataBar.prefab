@@ -355,7 +355,7 @@ GameObject:
   - component: {fileID: 385165062}
   - component: {fileID: 385165063}
   m_Layer: 5
-  m_Name: Slider_IconType05
+  m_Name: Levels
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -946,7 +946,7 @@ GameObject:
   m_Component:
   - component: {fileID: 919058701}
   m_Layer: 5
-  m_Name: Stats_User_Info
+  m_Name: Stats_Level
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

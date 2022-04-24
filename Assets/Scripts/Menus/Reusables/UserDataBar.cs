@@ -24,6 +24,6 @@ public class UserDataBar : MonoBehaviour
         MenuUtils.DisplayEnergyCountdown(timerContainer, timer);
         MenuUtils.SetName(playerNameGO, player.fighterName);
         MenuUtils.SetLevelSlider(playerExpGO, playerLevelSlider, player.level, player.experiencePoints);
-        MenuUtils.SetLevelIcon(player.level);    
+        MenuUtils.DisplayLevelIcon(player.level, GameObject.Find("Levels"));    
     }
 }

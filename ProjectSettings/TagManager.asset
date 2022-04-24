@@ -15,6 +15,7 @@ TagManager:
   - CombatUI
   - CombatLoadingScreenSprites
   - CombatLoadingScreenUI
+  - ResultsLevelIcons
   layers:
   - Default
   - TransparentFX

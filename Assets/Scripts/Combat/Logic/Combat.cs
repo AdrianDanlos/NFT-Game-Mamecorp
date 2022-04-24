@@ -26,6 +26,7 @@ public class Combat : MonoBehaviour
     public static Movement movementScript;
     public static FightersUIData fightersUIDataScript;
     SkillsLogicInCombat skillsLogicScript;
+    LoadingScreen loadingScreen;
 
     // Positions data
     static Vector3 playerStartingPosition = new Vector3(-6, -0.7f, 0);
@@ -41,16 +42,16 @@ public class Combat : MonoBehaviour
     private void Awake()
     {
         FindGameObjects();
+        GetComponentReferences();
+        GenerateBotData();
+
+        // LoadingScreen
+        loadingScreen.SetLoadingScreenData(player, bot);
         ToggleLoadingScreenVisibility(true);
 
-        // From the current gameobject (this) access the movement component which is a script.
-        movementScript = this.GetComponent<Movement>();
-        fightersUIDataScript = this.GetComponent<FightersUIData>();
-        skillsLogicScript = this.GetComponent<SkillsLogicInCombat>();
-        isGameOver = false;
+        //Load everything needed for the combat
         SetVisibilityOfGameObjects();
-        GetFighterScriptComponents();
-        GenerateBotData();
+        isGameOver = false;
         SetFighterPositions();
         SetOrderOfAttacks();
         GetRandomArena();
@@ -67,6 +68,17 @@ public class Combat : MonoBehaviour
         StartCoroutine(InitiateCombat());
     }
 
+    private void GetComponentReferences()
+    {
+        // From the current gameobject (this) access the movement component which is a script.
+        movementScript = this.GetComponent<Movement>();
+        fightersUIDataScript = this.GetComponent<FightersUIData>();
+        skillsLogicScript = this.GetComponent<SkillsLogicInCombat>();
+        loadingScreen = this.GetComponent<LoadingScreen>();
+        player = playerGameObject.GetComponent<Fighter>();
+        bot = botGameObject.GetComponent<Fighter>();
+    }
+
     private void ToggleLoadingScreenVisibility(bool displayLoadingScreen)
     {
         combatLoadingScreenUI.SetActive(displayLoadingScreen);
@@ -77,12 +89,6 @@ public class Combat : MonoBehaviour
     {
         playerMaxHp = player.hp;
         botMaxHp = bot.hp;
-    }
-
-    private void GetFighterScriptComponents()
-    {
-        player = playerGameObject.GetComponent<Fighter>();
-        bot = botGameObject.GetComponent<Fighter>();
     }
     private void GetRandomArena()
     {
@@ -221,13 +227,13 @@ public class Combat : MonoBehaviour
                 yield return skillsLogicScript.JumpStrike(attacker, defender);
                 break;
             case 2:
-                 yield return skillsLogicScript.CosmicKicks(attacker, defender);
+                yield return skillsLogicScript.CosmicKicks(attacker, defender);
                 break;
             case 3:
                 yield return skillsLogicScript.ShurikenFury(attacker, defender);
                 break;
             case 4:
-                 yield return skillsLogicScript.LowBlow(attacker, defender);
+                yield return skillsLogicScript.LowBlow(attacker, defender);
                 break;
         }
     }

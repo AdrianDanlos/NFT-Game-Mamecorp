@@ -165,8 +165,9 @@ public class Combat : MonoBehaviour
     private void GenerateBotData()
     {
         string botName = MatchMaking.FetchBotRandomName();
+        int botLevel = MatchMaking.GenerateBotLevel(player.level);
         botElo = MatchMaking.GenerateBotElo(User.Instance.elo);
-
+        
         List<Skill> botSkills = new List<Skill>();
 
         //ADD ALL SKILLS
@@ -183,7 +184,7 @@ public class Combat : MonoBehaviour
         Dictionary<string, float> botStats = GenerateBotRandomStats(randomSpecies);
 
         bot.FighterConstructor(botName, botStats["hp"], botStats["damage"], botStats["speed"],
-            randomSpecies.ToString(), randomSpecies.ToString(), 1, 0, botSkills);
+            randomSpecies.ToString(), randomSpecies.ToString(), botLevel, 0, botSkills);
 
         //FIXME: We should remove the skin concept from the fighters and use the species name for the skin.
     }

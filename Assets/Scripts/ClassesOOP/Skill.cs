@@ -1,5 +1,5 @@
 using UnityEngine;
-//Unused atm
+//Unused enum atm
 enum SkillTypes
 {
     Basic,

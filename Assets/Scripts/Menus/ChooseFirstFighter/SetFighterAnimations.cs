@@ -8,16 +8,22 @@ public class SetFighterAnimations : MonoBehaviour
     public Animator fighterAnimator;
     private void Start()
     {
-        string skinName;
+        string skinName = GetSkinNameDependingOnScene();
         fighterAnimator = this.GetComponent<Animator>();
-
-        if (IsChooseFirstFighterMenu()) skinName = this.GetComponent<FighterSkinData>().skinName;
-        //For Main menu, loading screen...
-        else skinName = PlayerUtils.FindInactiveFighter().skin;
 
         //TODO: This script only sets the idle animation. Change it to be more flexible
         AnimationClip idleAnimation = Resources.Load<AnimationClip>("Animations/Characters/" + skinName + "/01_idle");
         SetAnimationClipToAnimator(fighterAnimator, idleAnimation);
+    }
+
+    private string GetSkinNameDependingOnScene()
+    {
+        string currrentScene = SceneManager.GetActiveScene().name;
+
+        if (currrentScene == SceneNames.ChooseFirstFighter.ToString()) return this.GetComponent<FighterSkinData>().skinName;
+        if (currrentScene == SceneNames.MainMenu.ToString()) return PlayerUtils.FindInactiveFighter().skin;
+        //Combat
+        return this.tag == "LoadingScreenBot" ? Combat.bot.skin : Combat.player.skin;
     }
 
     private static void SetAnimationClipToAnimator(Animator animator, AnimationClip idleAnimation)
@@ -29,10 +35,5 @@ public class SetFighterAnimations : MonoBehaviour
         anims.Add(new KeyValuePair<AnimationClip, AnimationClip>(defaultIdleClip, idleAnimation));
         aoc.ApplyOverrides(anims);
         animator.runtimeAnimatorController = aoc;
-    }
-
-    private bool IsChooseFirstFighterMenu()
-    {
-        return SceneManager.GetActiveScene().name == SceneNames.ChooseFirstFighter.ToString();
     }
 }

@@ -48,24 +48,6 @@ public class MenuUtils
 
         timerContainerGO.SetActive(false);
     }
-    //FIXME: REMOVE
-    // public static void SetLevelIcon(int playerLevel)
-    // {
-    //     float levelsUntilIconUpgrade = 3;
-    //     double nIcon = Mathf.Ceil(playerLevel / levelsUntilIconUpgrade);
-    //     Image iconGO = GameObject.Find($"Level_Icon_{nIcon}").GetComponent<Image>();
-
-    //     var test = GameObject.Find($"Levels").transform.Find($"Level_Icon_{nIcon}").GetComponent<Image>();
-    //     test.enabled = true;
-    //     Debug.Log(test);
-    //     Debug.Log(test.enabled);
-
-    //     iconGO.enabled = true;
-    //     iconGO.transform.Find("Text").GetComponent<TextMeshProUGUI>().text = playerLevel.ToString();
-
-    //     //hide previous icon if any
-    //     if (GameObject.Find($"Level_Icon_{nIcon - 1}")) GameObject.Find($"Level_Icon_{nIcon - 1}").GetComponent<Image>().enabled = false;
-    // }
 
     public static void DisplayLevelIcon(int fighterLevel, GameObject iconsContainer)
     {

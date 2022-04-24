@@ -15,6 +15,7 @@ public class SetFighterAnimations : MonoBehaviour
         //For Main menu, loading screen...
         else skinName = PlayerUtils.FindInactiveFighter().skin;
 
+        //TODO: This script only sets the idle animation. Change it to be more flexible
         AnimationClip idleAnimation = Resources.Load<AnimationClip>("Animations/Characters/" + skinName + "/01_idle");
         SetAnimationClipToAnimator(fighterAnimator, idleAnimation);
     }

@@ -46,7 +46,8 @@ public class Combat : MonoBehaviour
         GenerateBotData();
 
         // LoadingScreen
-        loadingScreen.SetLoadingScreenData(player, bot);
+        loadingScreen.SetPlayerLoadingScreenData(player);
+        loadingScreen.DisplayLoaderForEnemy();
         ToggleLoadingScreenVisibility(true);
 
         //Load everything needed for the combat
@@ -63,7 +64,9 @@ public class Combat : MonoBehaviour
 
     IEnumerator Start()
     {
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(3);
+        loadingScreen.SetBotLoadingScreenData(bot);
+        yield return new WaitForSeconds(3);
         ToggleLoadingScreenVisibility(false);
         StartCoroutine(InitiateCombat());
     }

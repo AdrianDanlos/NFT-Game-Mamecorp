@@ -6,5 +6,5 @@ enum SceneNames
     MainMenu,
     ChooseFirstFighter,
     Shop,
-    Cards,
+    Inventory,
 }

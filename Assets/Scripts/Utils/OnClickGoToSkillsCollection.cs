@@ -6,7 +6,7 @@ public class OnClickGoToSkillsCollection : MonoBehaviour
 {
     public void GoToSkillsCollection()
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene(SceneNames.Cards.ToString());
+        UnityEngine.SceneManagement.SceneManager.LoadScene(SceneNames.Inventory.ToString());
     }
 }
 

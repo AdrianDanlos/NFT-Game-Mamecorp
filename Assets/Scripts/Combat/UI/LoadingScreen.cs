@@ -5,14 +5,44 @@ public class LoadingScreen : MonoBehaviour
 {
     public GameObject playerName;
     public GameObject botName;
-    
-    //Player should have only idle skin (choose correct one. We already have code that does this e.g. main menu)
-    //Enemy should display either a sequence of the 3 skins on black or a loader. After x time show everything
+    public GameObject botSprite;
+    public GameObject botData;
+    public GameObject botLevels;
+    public GameObject spinner;
 
-    public void SetLoadingScreenData(Fighter player, Fighter bot){
+    public void SetPlayerLoadingScreenData(Fighter player)
+    {
         playerName.GetComponent<TextMeshProUGUI>().text = player.fighterName;
-        botName.GetComponent<TextMeshProUGUI>().text = bot.fighterName;
         MenuUtils.DisplayLevelIcon(player.level, GameObject.Find("PlayerLoadingScreenLevels"));
-        MenuUtils.DisplayLevelIcon(player.level, GameObject.Find("BotLoadingScreenLevels"));
     }
+
+    public void DisplayLoaderForEnemy()
+    {
+        GetGameObjects();
+        ToggleSpinnerAndBotData(false, true);
+    }
+
+    public void SetBotLoadingScreenData(Fighter bot)
+    {
+        botName.GetComponent<TextMeshProUGUI>().text = bot.fighterName;
+        MenuUtils.DisplayLevelIcon(bot.level, botLevels);
+        ToggleSpinnerAndBotData(true, false);
+    }
+
+    public void ToggleSpinnerAndBotData(bool showBot, bool showSpinner)
+    {
+        botSprite.SetActive(showBot);
+        botData.SetActive(showBot);
+        spinner.SetActive(showSpinner);
+    }
+
+    private void GetGameObjects()
+    {
+        botSprite = GameObject.FindGameObjectWithTag("LoadingScreenBot");
+        botData = GameObject.FindGameObjectWithTag("CombatLoadingScreenBotData");
+        botLevels = GameObject.Find("BotLoadingScreenLevels");
+        spinner = GameObject.FindGameObjectWithTag("CombatLoadingScreenSpinner");
+    }
+
+
 }

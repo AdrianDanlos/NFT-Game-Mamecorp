@@ -16,6 +16,9 @@ TagManager:
   - CombatLoadingScreenSprites
   - CombatLoadingScreenUI
   - ResultsLevelIcons
+  - LoadingScreenBot
+  - CombatLoadingScreenSpinner
+  - CombatLoadingScreenBotData
   layers:
   - Default
   - TransparentFX

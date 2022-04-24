@@ -97,6 +97,8 @@ public class FightersUIData : MonoBehaviour
     public void ShowRewards(int goldReward, int gemsReward, bool isLevelUp)
     {
         gemsRewardGO.SetActive(Convert.ToBoolean(gemsReward));
+        // generate chess here and set active correct chest 
+        // atm there is an static image
         chestRewardGO.SetActive(isLevelUp);
 
         goldRewardGO.transform.Find("TextValue").gameObject.GetComponent<TextMeshProUGUI>().text = goldReward.ToString();

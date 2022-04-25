@@ -17,10 +17,11 @@ public enum ShopChestTypes
 {
     REGULAR,
     MAGIC,
-    VOID
+    VOID,
+    LEGENDARY
 }
 
-public class Chest 
+public static class Chest 
 {
 
     // TODO: need to copy popup chest ui to combat after fight results
@@ -56,7 +57,7 @@ public class Chest
                 {Rarity.COMMON.ToString(), 60},
                 {Rarity.RARE.ToString(), 34},
                 {Rarity.EPIC.ToString(), 5},
-                {Rarity.LEGENDARY.ToString(), 1},
+                {Rarity.LEGENDARY.ToString(), 1}
             }
         }
     };
@@ -65,7 +66,7 @@ public class Chest
     new Dictionary<ShopChestTypes, Dictionary<string, float>>
     {
         {
-            ShopChestTypes.REGULAR, new Dictionary<string, float>
+            ShopChestTypes.LEGENDARY, new Dictionary<string, float>
             {
                 // chances of skill rarity
                 {Rarity.COMMON.ToString(), 0},

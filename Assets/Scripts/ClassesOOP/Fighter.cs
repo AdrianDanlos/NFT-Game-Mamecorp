@@ -16,9 +16,9 @@ public class Fighter : MonoBehaviour
     private List<Skill> _skills;
     private Vector2 _initialPosition;
     private Vector2 _destinationPosition;
-    private int _repeatAttackChance = 10;
-    private int _dodgeChance = 10;
-    private int _criticalChance = 10;
+    private float _repeatAttackChance = 10;
+    private float _dodgeChance = 10;
+    private float _criticalChance = 10;
 
     //Set to true if instance in a saveable state (The fighter instance has already been created and it is not a bot)
     private bool _saveEnabled = false;
@@ -105,17 +105,20 @@ public class Fighter : MonoBehaviour
     }
     public Vector2 initialPosition { get => _initialPosition; set => _initialPosition = value; }
     public Vector2 destinationPosition { get => _destinationPosition; set => _destinationPosition = value; }
-    public int repeatAttackChance
+    public float repeatAttackChance
     {
         get => _repeatAttackChance;
+        set => _repeatAttackChance = value;
     }
-    public int dodgeChance
+    public float dodgeChance
     {
         get => _dodgeChance;
+        set => _dodgeChance = value;
     }
-    public int criticalChance
+    public float criticalChance
     {
         get => _criticalChance;
+        set => _criticalChance = value;
     }
 
 

@@ -153,8 +153,8 @@ public class Attack : MonoBehaviour
 
     private void DealDamage(Fighter attacker, Fighter defender, float damagePerHit)
     {
-        var attackerDamageForNextHit = IsAttackCritical(attacker) ? damagePerHit * 2 : damagePerHit;
-        defender.hp -= attackerDamageForNextHit;
+        if (IsAttackCritical(attacker)) damagePerHit = damagePerHit * 1.5f;
+        defender.hp -= damagePerHit;
         Combat.fightersUIDataScript.ModifyHealthBar(defender, Combat.player == defender);
     }
 

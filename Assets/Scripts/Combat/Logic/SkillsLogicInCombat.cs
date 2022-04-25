@@ -1,13 +1,14 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-// PLEASE READ: This file is the entrypoint for every skill used in the combat. Here is where the logic of a skill in combat starts. 
-// The combat script will invoke one of the skills that live in this file on each turn.
+
 public class SkillsLogicInCombat : MonoBehaviour
 {
     private Combat combatScript;
     private Movement movementScript;
     private Attack attackScript;
-    private void Awake(){
+    private void Awake()
+    {
         combatScript = this.GetComponent<Combat>();
         movementScript = this.GetComponent<Movement>();
         attackScript = this.GetComponent<Attack>();
@@ -94,5 +95,14 @@ public class SkillsLogicInCombat : MonoBehaviour
 
         yield return combatScript.MoveBackHandler(attacker);
         combatScript.ResetFightersDestinationPosition();
+    }
+
+    public static bool HasSkill(List<Skill> skills, string skillToFind)
+    {
+        foreach (Skill skill in skills)
+        {
+            if(skill.skillName == skillToFind) return true;
+        }
+        return false;
     }
 }

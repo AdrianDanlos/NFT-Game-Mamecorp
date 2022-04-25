@@ -17,7 +17,7 @@ public enum Rarity
     LEGENDARY
 }
 
-struct SkillNames
+public struct SkillNames
 {
     public const string DangerousStrength = "Dangerous Strength";
     public const string Heavyweight = "Heavyweight";

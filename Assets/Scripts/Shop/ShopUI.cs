@@ -36,6 +36,8 @@ public class ShopUI : MonoBehaviour
         chestPopUp.SetActive(false);
         buyConfirmation.SetActive(false);
         chestRewards.SetActive(false);
+        chestPopUpChest.SetActive(false);
+        nextButton.SetActive(false);
     }
 
     public void AbortPurchase()
@@ -80,7 +82,7 @@ public class ShopUI : MonoBehaviour
 
     public void OpenChest()
     {
-        chestPopUpChest.SetActive(false);
-        nextButton.SetActive(false);
+        chestPopUpChest.SetActive(true);
+        nextButton.SetActive(true);
     }
 }

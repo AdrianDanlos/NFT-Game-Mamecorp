@@ -4,10 +4,8 @@ using UnityEngine;
 
 public class ChestLogic : MonoBehaviour
 {
-
-
-    void GetChest(string rarity)
+    public void OpenChest(string chestType, string chestRarity)
     {
-        
+
     }
 }

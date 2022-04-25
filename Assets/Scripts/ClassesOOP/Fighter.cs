@@ -19,6 +19,9 @@ public class Fighter : MonoBehaviour
     private float _repeatAttackChance = 10;
     private float _dodgeChance = 10;
     private float _criticalChance = 10;
+    private float _reversalChance = 10;
+    private float _counterAttackChance = 10;
+    private bool _hasAttackedThisCombat { get; set; } = false;
 
     //Set to true if instance in a saveable state (The fighter instance has already been created and it is not a bot)
     private bool _saveEnabled = false;
@@ -33,7 +36,7 @@ public class Fighter : MonoBehaviour
 
     public string fighterName
     {
-        get => _fighterName; set
+        get => _fighterName;set
         {
             _fighterName = value;
         }
@@ -120,6 +123,27 @@ public class Fighter : MonoBehaviour
         get => _criticalChance;
         set => _criticalChance = value;
     }
+
+    public float reversalChance
+    {
+        get => _reversalChance;
+        set => _reversalChance = value;
+    }
+
+    public float counterAttackChance
+    {
+        get => _counterAttackChance;
+        set => _counterAttackChance = value;
+    }
+
+    public bool hasAttackedThisCombat
+    {
+        get => _hasAttackedThisCombat; set
+        {
+            _hasAttackedThisCombat = value;
+        }
+    }
+
 
 
     // When a class is attached to a gameobject (Monobehaviour) it is not possible to use the default constructor for the class because the "new" keyword can't be used.

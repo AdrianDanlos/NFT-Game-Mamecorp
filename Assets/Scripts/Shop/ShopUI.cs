@@ -1,8 +1,8 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using TMPro;
 
 public enum Transactions
 {
@@ -21,6 +21,10 @@ public class ShopUI : MonoBehaviour
     GameObject nextButton;
     GameObject inventoryButton;
     GameObject backToShopButton;
+    GameObject noCurrencyButton;
+    GameObject abortButton;
+    GameObject confirmButton;
+    TextMeshProUGUI messageText;
 
     // shop flow
     string chestButtonPressed;
@@ -39,7 +43,11 @@ public class ShopUI : MonoBehaviour
         nextButton = GameObject.Find("Button_Next");
         inventoryButton = GameObject.Find("Button_Inventory");
         backToShopButton = GameObject.Find("Button_BackToShop");
+        noCurrencyButton = GameObject.Find("Button_NoCurrency");
+        abortButton = GameObject.Find("Button_Abort");
+        confirmButton = GameObject.Find("Button_Confirm");
         chestLogic = GameObject.Find("ChestManager").GetComponent<ChestLogic>();
+        messageText = GameObject.Find("Message_Text").GetComponent<TextMeshProUGUI>();
 
         // hide UI
         chestPopUp.SetActive(false);
@@ -50,14 +58,9 @@ public class ShopUI : MonoBehaviour
         chestRewards.SetActive(false);
         inventoryButton.SetActive(false);
         backToShopButton.SetActive(false);
-    }
-
-    public void ClosePurchase()
-    {
-        buyConfirmation.SetActive(false);
-        chestPopUp.SetActive(false);
-        inventoryButton.SetActive(false);
-        backToShopButton.SetActive(false);
+        noCurrencyButton.SetActive(false);
+        abortButton.SetActive(false);
+        confirmButton.SetActive(false);
     }
 
     public void ConfirmPurchase()
@@ -75,28 +78,50 @@ public class ShopUI : MonoBehaviour
         }
     }
 
+    public void ClosePurchase()
+    {
+        buyConfirmation.SetActive(false);
+        noCurrencyButton.SetActive(false);
+        chestPopUp.SetActive(false);
+        inventoryButton.SetActive(false);
+        backToShopButton.SetActive(false);
+    }
+
     public void BuyChest()
     {
         // handle which chest was opened to change icon after
-        chestButtonPressed = EventSystem.current.currentSelectedGameObject.name;
-        Debug.Log(chestButtonPressed);
-        buyConfirmation.SetActive(true);
+        if (CurrencyHandler.instance.hasEnoughGems(30))
+        {
+            chestButtonPressed = EventSystem.current.currentSelectedGameObject.name;
+            buyConfirmation.SetActive(true);
+            abortButton.SetActive(true);
+            confirmButton.SetActive(true);
+        }
+        else
+        {
+            buyConfirmation.SetActive(true);
+            abortButton.SetActive(false);
+            confirmButton.SetActive(false);
+            noCurrencyButton.SetActive(true);
+            messageText.text = "Not enough gems!";
+        }
+
     }
 
     public void HandleChestPopUp()
     {
+        CurrencyHandler.instance.SubstractGems(30);
         buyConfirmation.SetActive(false);
+        abortButton.SetActive(false);
+        confirmButton.SetActive(false);
 
-        // handle gems - test 
+        // TODO: create chest object prefab and chest values static class 
         // TODO: update userdatabars in real time
-        Debug.Log(User.Instance.gems);
-        User.Instance.gems -= 30;
-        Debug.Log(User.Instance.gems);
-
-        previousTransaction = (int) Transactions.CHEST; 
+        previousTransaction = (int)Transactions.CHEST;
         chestPopUp.SetActive(true);
         nextButton.SetActive(true);
         chestPopUpChest.SetActive(true);
+        messageText.text = "Are you sure about buying this item ?";
     }
 
     public void HandleEnergyPopUp()
@@ -112,28 +137,6 @@ public class ShopUI : MonoBehaviour
         inventoryButton.SetActive(true);
         backToShopButton.SetActive(true);
 
-        int x = 0;
-        int y = 0;
-        int z = 0;
-
-        // dice roll test
-        for (int i = 0; i < 10000; i++)
-        {
-            switch (chestLogic.OpenChest(chestButtonPressed))
-            {
-                case "RARE":
-                    x++;
-                    break;
-                case "EPIC":
-                    y++;
-                    break;
-                case "LEGENDARY":
-                    z++;
-                    break;
-            }
-        }
-
-        Debug.Log("rare: " + x + " | epic: " + y + " | legendary: " + z);
 
         // reward mockup
         switch (chestLogic.OpenChest(chestButtonPressed))

@@ -132,6 +132,11 @@ public class Attack : MonoBehaviour
 
     IEnumerator DefenderReceivesAttack(Fighter attacker, Fighter defender, float damagePerHit, float secondsToWaitForHurtAnim, float secondsUntilHitMarker)
     {
+        //TODO: Add VFX to show that the attack missed
+        bool isBalletShoesActivated = !attacker.hasAttackedThisCombat &&
+            SkillsLogicInCombat.HasSkill(defender.skills, SkillNames.BalletShoes.ToString());
+        attacker.hasAttackedThisCombat = true;
+        if (isBalletShoesActivated) yield break;
 
         DealDamage(attacker, defender, damagePerHit);
 
@@ -155,6 +160,8 @@ public class Attack : MonoBehaviour
     {
         if (IsAttackCritical(attacker)) damagePerHit = damagePerHit * 1.5f;
         defender.hp -= damagePerHit;
+
+        if (defender.hp <= 0 && SkillsLogicInCombat.HasSkill(defender.skills, SkillNames.Survival.ToString())) defender.hp = 1;
         Combat.fightersUIDataScript.ModifyHealthBar(defender, Combat.player == defender);
     }
 
@@ -196,5 +203,15 @@ public class Attack : MonoBehaviour
     private bool IsAttackCritical(Fighter attacker)
     {
         return Probabilities.IsHappening(attacker.criticalChance);
+    }
+
+    private bool IsReversalAttack(Fighter defender)
+    {
+        return Probabilities.IsHappening(defender.reversalChance);
+    }
+
+    private bool IsCounterAttack(Fighter defender)
+    {
+        return Probabilities.IsHappening(defender.counterAttackChance);
     }
 }

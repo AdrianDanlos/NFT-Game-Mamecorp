@@ -4,8 +4,13 @@ using UnityEngine;
 
 public class ChestLogic : MonoBehaviour
 {
+    // UI
+
+
     public void OpenChest(string chestType, string chestRarity)
     {
 
     }
+
+
 }

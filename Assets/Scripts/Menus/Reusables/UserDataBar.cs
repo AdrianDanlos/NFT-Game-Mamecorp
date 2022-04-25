@@ -25,6 +25,7 @@ public class UserDataBar : MonoBehaviour
         MenuUtils.SetEnergy(energy);
         MenuUtils.DisplayEnergyCountdown(timerContainer, timer);
         MenuUtils.SetName(playerNameGO, player.fighterName);
+        MenuUtils.DisplayLevelIcon(player.level, GameObject.Find("Levels"));
 
         if (showLevel)
         {

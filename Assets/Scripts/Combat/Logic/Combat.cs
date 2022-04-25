@@ -76,16 +76,14 @@ public class Combat : MonoBehaviour
     {
         const float Modifier = 1.05f;
 
-        if(player.skills != null)
-        {
-            //FIXME: Make this check for the bot too + make this less verbose
-            if (SkillsLogicInCombat.HasSkill(player.skills, SkillNames.DangerousStrength.ToString())) player.damage *= Modifier;
-            if (SkillsLogicInCombat.HasSkill(player.skills, SkillNames.Heavyweight.ToString())) player.hp *= Modifier;
-            if (SkillsLogicInCombat.HasSkill(player.skills, SkillNames.Lightning.ToString())) player.speed *= Modifier;
-            if (SkillsLogicInCombat.HasSkill(player.skills, SkillNames.Persistant.ToString())) player.repeatAttackChance *= Modifier;
-            if (SkillsLogicInCombat.HasSkill(player.skills, SkillNames.FelineAgility.ToString())) player.dodgeChance *= Modifier;
-            if (SkillsLogicInCombat.HasSkill(player.skills, SkillNames.CriticalBleeding.ToString())) player.criticalChance *= Modifier;
-        }
+        //FIXME: Make this check for the bot too + make this less verbose
+        if (SkillsLogicInCombat.HasSkill(player.skills, SkillNames.DangerousStrength.ToString())) player.damage *= Modifier;
+        if (SkillsLogicInCombat.HasSkill(player.skills, SkillNames.Heavyweight.ToString())) player.hp *= Modifier;
+        if (SkillsLogicInCombat.HasSkill(player.skills, SkillNames.Lightning.ToString())) player.speed *= Modifier;
+        if (SkillsLogicInCombat.HasSkill(player.skills, SkillNames.Persistant.ToString())) player.repeatAttackChance *= Modifier;
+        if (SkillsLogicInCombat.HasSkill(player.skills, SkillNames.FelineAgility.ToString())) player.dodgeChance *= Modifier;
+        if (SkillsLogicInCombat.HasSkill(player.skills, SkillNames.CriticalBleeding.ToString())) player.criticalChance *= Modifier;
+
     }
 
     private void GetComponentReferences()
@@ -239,8 +237,9 @@ public class Combat : MonoBehaviour
     //TODO: Once a skill has been used remove it from the skills array so it is not repeated during the combat
     IEnumerator UseRandomSkill(Fighter attacker, Fighter defender)
     {
-        int numberOfSkills = attacker.skills != null ? attacker.skills.Count : 4;
-        
+        //FIXME: numberOfSkills should come from the array
+        int numberOfSkills = 4;
+
         int randomNumber = UnityEngine.Random.Range(0, numberOfSkills) + 1;
         switch (randomNumber)
         {

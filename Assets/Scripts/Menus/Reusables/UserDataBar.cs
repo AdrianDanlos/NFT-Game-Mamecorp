@@ -16,6 +16,8 @@ public class UserDataBar : MonoBehaviour
     void Start()
     {
         Fighter player = PlayerUtils.FindInactiveFighter();
+        GameObject levelIcons = GameObject.Find("Levels");
+        bool showLevel = levelIcons != null;
 
         MenuUtils.SetGold(gold);
         MenuUtils.SetGems(gems);
@@ -23,6 +25,11 @@ public class UserDataBar : MonoBehaviour
         MenuUtils.SetEnergy(energy);
         MenuUtils.DisplayEnergyCountdown(timerContainer, timer);
         MenuUtils.SetName(playerNameGO, player.fighterName);
-        MenuUtils.SetLevelSlider(playerExpGO, playerLevelSlider, player.level, player.experiencePoints);  
+
+        if (showLevel)
+        {
+            MenuUtils.SetLevelSlider(playerExpGO, playerLevelSlider, player.level, player.experiencePoints);
+            MenuUtils.DisplayLevelIcon(player.level, levelIcons);
+        }
     }
 }

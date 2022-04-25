@@ -76,16 +76,17 @@ public class Combat : MonoBehaviour
     {
         const float Modifier = 1.05f;
 
-        if(player.skills != null)
-        {
-            //FIXME: Make this check for the bot too + make this less verbose
-            if (SkillsLogicInCombat.HasSkill(player.skills, SkillNames.DangerousStrength.ToString())) player.damage *= Modifier;
-            if (SkillsLogicInCombat.HasSkill(player.skills, SkillNames.Heavyweight.ToString())) player.hp *= Modifier;
-            if (SkillsLogicInCombat.HasSkill(player.skills, SkillNames.Lightning.ToString())) player.speed *= Modifier;
-            if (SkillsLogicInCombat.HasSkill(player.skills, SkillNames.Persistant.ToString())) player.repeatAttackChance *= Modifier;
-            if (SkillsLogicInCombat.HasSkill(player.skills, SkillNames.FelineAgility.ToString())) player.dodgeChance *= Modifier;
-            if (SkillsLogicInCombat.HasSkill(player.skills, SkillNames.CriticalBleeding.ToString())) player.criticalChance *= Modifier;
-        }
+        //FIXME: Potential bug: Everytime we run a combat we boost the stats and then we saved them after the combat. x1.05 each combat
+        //FIXME: Make this check for the bot too + make this less verbose + do we really need to pass player.skills?
+        //It would be a better idea to have this method on the fighter class as in the previous project
+        if (SkillsLogicInCombat.HasSkill(player.skills, SkillNames.DangerousStrength.ToString())) player.damage *= Modifier;
+        if (SkillsLogicInCombat.HasSkill(player.skills, SkillNames.Heavyweight.ToString())) player.hp *= Modifier;
+        if (SkillsLogicInCombat.HasSkill(player.skills, SkillNames.Lightning.ToString())) player.speed *= Modifier;
+        if (SkillsLogicInCombat.HasSkill(player.skills, SkillNames.Persistant.ToString())) player.repeatAttackChance *= Modifier;
+        if (SkillsLogicInCombat.HasSkill(player.skills, SkillNames.FelineAgility.ToString())) player.dodgeChance *= Modifier;
+        if (SkillsLogicInCombat.HasSkill(player.skills, SkillNames.CriticalBleeding.ToString())) player.criticalChance *= Modifier;
+        if (SkillsLogicInCombat.HasSkill(player.skills, SkillNames.Reversal.ToString())) player.reversalChance *= Modifier;
+        if (SkillsLogicInCombat.HasSkill(player.skills, SkillNames.CounterAttack.ToString())) player.counterAttackChance *= Modifier;
     }
 
     private void GetComponentReferences()
@@ -239,8 +240,9 @@ public class Combat : MonoBehaviour
     //TODO: Once a skill has been used remove it from the skills array so it is not repeated during the combat
     IEnumerator UseRandomSkill(Fighter attacker, Fighter defender)
     {
-        int numberOfSkills = attacker.skills != null ? attacker.skills.Count : 4;
-        
+        //FIXME: numberOfSkills should come from the array
+        int numberOfSkills = 4;
+
         int randomNumber = UnityEngine.Random.Range(0, numberOfSkills) + 1;
         switch (randomNumber)
         {

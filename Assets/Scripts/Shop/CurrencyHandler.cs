@@ -4,7 +4,6 @@ public class CurrencyHandler : MonoBehaviour
 {
     public static CurrencyHandler instance;
     
-
     private void Awake()
     {
         if (instance == null)

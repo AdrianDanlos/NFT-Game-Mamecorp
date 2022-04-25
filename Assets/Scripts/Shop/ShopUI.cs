@@ -28,7 +28,6 @@ public class ShopUI : MonoBehaviour
 
     // shop flow
     string chestButtonPressed;
-    ChestLogic chestLogic;
 
     // test
     [SerializeField] private List<GameObject> frameColors = new List<GameObject>();
@@ -46,7 +45,6 @@ public class ShopUI : MonoBehaviour
         noCurrencyButton = GameObject.Find("Button_NoCurrency");
         abortButton = GameObject.Find("Button_Abort");
         confirmButton = GameObject.Find("Button_Confirm");
-        chestLogic = GameObject.Find("ChestManager").GetComponent<ChestLogic>();
         messageText = GameObject.Find("Message_Text").GetComponent<TextMeshProUGUI>();
 
         // hide UI
@@ -105,7 +103,6 @@ public class ShopUI : MonoBehaviour
             noCurrencyButton.SetActive(true);
             messageText.text = "Not enough gems!";
         }
-
     }
 
     public void HandleChestPopUp()
@@ -139,7 +136,7 @@ public class ShopUI : MonoBehaviour
 
 
         // reward mockup
-        switch (chestLogic.OpenChest(chestButtonPressed))
+        switch (Chest.OpenChest(chestButtonPressed))
         {
             case "RARE":
                 chestRewards.transform.GetChild(1).GetChild(0).GetComponent<Image>().sprite = frameColors[1].GetComponent<SpriteRenderer>().sprite;

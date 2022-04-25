@@ -153,9 +153,7 @@ public class Attack : MonoBehaviour
 
     private void DealDamage(Fighter attacker, Fighter defender, float damagePerHit)
     {
-        if (SkillsLogicInCombat.HasSkill(attacker.skills, SkillNames.DangerousStrength.ToString())) damagePerHit = damagePerHit * 1.05f;
         if (IsAttackCritical(attacker)) damagePerHit = damagePerHit * 1.5f;
-
         defender.hp -= damagePerHit;
         Combat.fightersUIDataScript.ModifyHealthBar(defender, Combat.player == defender);
     }

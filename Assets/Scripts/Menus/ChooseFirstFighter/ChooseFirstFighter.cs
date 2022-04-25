@@ -2,8 +2,8 @@ using UnityEngine;
 using Newtonsoft.Json.Linq;
 using TMPro;
 using System;
-using System.Reflection;
-using System.Linq;
+using System.Collections.Generic;
+
 
 public class ChooseFirstFighter : MonoBehaviour
 {
@@ -33,7 +33,8 @@ public class ChooseFirstFighter : MonoBehaviour
             fighterName, skinName, species,
             Species.defaultStats[speciesEnumMember]["hp"],
             Species.defaultStats[speciesEnumMember]["damage"],
-            Species.defaultStats[speciesEnumMember]["speed"])));
+            Species.defaultStats[speciesEnumMember]["speed"],
+            new List<Skill>())));
         JsonDataManager.SaveData(serializableFighter, JsonDataManager.FighterFileName);
     }
 }

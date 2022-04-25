@@ -37,8 +37,8 @@ public class EntryPoint : MonoBehaviour
     {
         JObject fighterData = JsonDataManager.ReadData(JsonDataManager.FighterFileName);
         FighterFactory.CreatePlayerFighterInstance((string)fighterData["fighterName"], (string)fighterData["skin"], (string)fighterData["species"],
-            (float)fighterData["hp"], (float)fighterData["damage"], (float)fighterData["speed"], (int)fighterData["level"],
-            (int)fighterData["experiencePoints"], fighterData["skills"].ToObject<List<Skill>>());
+            (float)fighterData["hp"], (float)fighterData["damage"], (float)fighterData["speed"], fighterData["skills"].ToObject<List<Skill>>(),
+            (int)fighterData["level"], (int)fighterData["experiencePoints"]);
     }
 
     private void HideFighter()

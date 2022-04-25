@@ -51,6 +51,7 @@ public class Combat : MonoBehaviour
         ToggleLoadingScreenVisibility(true);
 
         //Load everything needed for the combat
+        ModifyStatsBasedOnPassiveSkills();
         SetVisibilityOfGameObjects();
         isGameOver = false;
         SetFighterPositions();
@@ -69,6 +70,19 @@ public class Combat : MonoBehaviour
         yield return new WaitForSeconds(3);
         ToggleLoadingScreenVisibility(false);
         StartCoroutine(InitiateCombat());
+    }
+
+    private void ModifyStatsBasedOnPassiveSkills()
+    {
+        const float Modifier = 1.05f;
+
+        //FIXME: Make this check for the bot too + make this less verbose
+        if (SkillsLogicInCombat.HasSkill(player.skills, SkillNames.DangerousStrength.ToString())) player.damage *= Modifier;
+        if (SkillsLogicInCombat.HasSkill(player.skills, SkillNames.Heavyweight.ToString())) player.hp *= Modifier;
+        if (SkillsLogicInCombat.HasSkill(player.skills, SkillNames.Lightning.ToString())) player.speed *= Modifier;
+        if (SkillsLogicInCombat.HasSkill(player.skills, SkillNames.Persistant.ToString())) player.repeatAttackChance *= Modifier;
+        if (SkillsLogicInCombat.HasSkill(player.skills, SkillNames.FelineAgility.ToString())) player.dodgeChance *= Modifier;
+        if (SkillsLogicInCombat.HasSkill(player.skills, SkillNames.CriticalBleeding.ToString())) player.criticalChance *= Modifier;
     }
 
     private void GetComponentReferences()
@@ -167,7 +181,7 @@ public class Combat : MonoBehaviour
         string botName = MatchMaking.FetchBotRandomName();
         int botLevel = MatchMaking.GenerateBotLevel(player.level);
         botElo = MatchMaking.GenerateBotElo(User.Instance.elo);
-        
+
         List<Skill> botSkills = new List<Skill>();
 
         //ADD ALL SKILLS

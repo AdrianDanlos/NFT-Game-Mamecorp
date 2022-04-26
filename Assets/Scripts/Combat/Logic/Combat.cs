@@ -41,6 +41,8 @@ public class Combat : MonoBehaviour
 
     private void Awake()
     {
+        isGameOver = false;
+
         FindGameObjects();
         GetComponentReferences();
         GenerateBotData();
@@ -52,9 +54,8 @@ public class Combat : MonoBehaviour
 
         //Load everything needed for the combat
         GenerateSkillsFixturesForPlayer();
-        ModifyStatsBasedOnPassiveSkills();
+        BoostStatsBasedOnPassiveSkills();
         SetVisibilityOfGameObjects();
-        isGameOver = false;
         SetFighterPositions();
         SetOrderOfAttacks();
         GetRandomArena();
@@ -73,21 +74,27 @@ public class Combat : MonoBehaviour
         StartCoroutine(InitiateCombat());
     }
 
-    private void ModifyStatsBasedOnPassiveSkills()
+    private void BoostStatsBasedOnPassiveSkills()
     {
-        const float Modifier = 1.05f;
-
-        //FIXME: Potential bug: Everytime we run a combat we boost the stats and then we saved them after the combat. x1.05 each combat
-        //FIXME: Make this check for the bot too + make this less verbose
-        if (player.HasSkill(SkillNames.DangerousStrength)) player.damage *= Modifier;
-        if (player.HasSkill(SkillNames.Heavyweight)) player.hp *= Modifier;
-        if (player.HasSkill(SkillNames.Lightning)) player.speed *= Modifier;
-        if (player.HasSkill(SkillNames.Persistant)) player.repeatAttackChance *= Modifier;
-        if (player.HasSkill(SkillNames.FelineAgility)) player.dodgeChance *= Modifier;
-        if (player.HasSkill(SkillNames.CriticalBleeding)) player.criticalChance *= Modifier;
-        if (player.HasSkill(SkillNames.Reversal)) player.reversalChance *= Modifier;
-        if (player.HasSkill(SkillNames.CounterAttack)) player.counterAttackChance *= Modifier;
+        ModifyStatsAffectedByPassiveSkills(player);
+        ModifyStatsAffectedByPassiveSkills(bot);
     }
+
+    private void ModifyStatsAffectedByPassiveSkills(Fighter fighter)
+    {
+        if (fighter.HasSkill(SkillNames.DangerousStrength)) fighter.damage = GetModifiedStat(fighter.damage);
+        if (fighter.HasSkill(SkillNames.Heavyweight)) fighter.hp = GetModifiedStat(fighter.hp);
+        if (fighter.HasSkill(SkillNames.Lightning)) fighter.speed = GetModifiedStat(fighter.speed);
+        if (fighter.HasSkill(SkillNames.Persistant)) fighter.repeatAttackChance = GetModifiedStat(fighter.repeatAttackChance);
+        if (fighter.HasSkill(SkillNames.FelineAgility)) fighter.dodgeChance = GetModifiedStat(fighter.dodgeChance);
+        if (fighter.HasSkill(SkillNames.CriticalBleeding)) fighter.criticalChance = GetModifiedStat(fighter.criticalChance);
+        if (fighter.HasSkill(SkillNames.Reversal)) fighter.reversalChance = GetModifiedStat(fighter.reversalChance);
+        if (fighter.HasSkill(SkillNames.CounterAttack)) fighter.counterAttackChance = GetModifiedStat(fighter.counterAttackChance);
+    }
+
+    //Boosts stats based on passives at the start of the combat. Resets stats at the end of the combat.
+    public static Func<float, float> GetModifiedStat = stat =>
+        isGameOver ? stat /= SkillsLogicInCombat.PassiveSkillsModifier : stat *= SkillsLogicInCombat.PassiveSkillsModifier;
 
     private void GetComponentReferences()
     {
@@ -330,6 +337,9 @@ public class Combat : MonoBehaviour
 
     private void StartPostGameActions()
     {
+        //Reset stats boosted by Passive skills
+        ModifyStatsAffectedByPassiveSkills(player);
+
         bool isPlayerWinner = PostGameActions.HasPlayerWon(player);
         int eloChange = MatchMaking.CalculateEloChange(User.Instance.elo, botElo, isPlayerWinner);
         int playerUpdatedExperience = player.experiencePoints + Levels.GetXpGain(isPlayerWinner);

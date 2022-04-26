@@ -127,7 +127,7 @@ public static class SkillCollection
         new OrderedDictionary
         {
             {"name", SkillNames.Initiator},
-            {"description", "You start attacking first every game."},
+            {"description", "You attack first every game."},
             {"rarity", Rarity.RARE.ToString()},
             {"category", SkillType.PASSIVES.ToString()},
             {"icon", "5" }

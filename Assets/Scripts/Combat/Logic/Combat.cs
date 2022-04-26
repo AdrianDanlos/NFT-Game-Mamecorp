@@ -251,10 +251,10 @@ public class Combat : MonoBehaviour
         yield return skillsLogicScript.AttackWithoutSkills(attacker, defender);
     }
 
-    //TODO: Once a skill has been used remove it from the skills array so it is not repeated during the combat
     IEnumerator UseRandomSkill(Fighter attacker, Fighter defender)
     {
-        //FIXME: numberOfSkills should come from the array
+        //TODO FUTURE REFACTOR: Each skill should have each own class with its own skill implementation. (methods, attributes, etc...)
+        // Then we can instantiate a random class here to use a random SUPER skill this turn
         int numberOfSkills = 4;
 
         int randomNumber = UnityEngine.Random.Range(0, numberOfSkills) + 1;
@@ -262,15 +262,19 @@ public class Combat : MonoBehaviour
         {
             case 1:
                 yield return skillsLogicScript.JumpStrike(attacker, defender);
+                attacker.removeUsedSkill(SkillNames.JumpStrike);
                 break;
             case 2:
                 yield return skillsLogicScript.CosmicKicks(attacker, defender);
+                attacker.removeUsedSkill(SkillNames.CosmicKicks);
                 break;
             case 3:
                 yield return skillsLogicScript.ShurikenFury(attacker, defender);
+                attacker.removeUsedSkill(SkillNames.ShurikenFury);
                 break;
             case 4:
                 yield return skillsLogicScript.LowBlow(attacker, defender);
+                attacker.removeUsedSkill(SkillNames.LowBlow);
                 break;
         }
     }

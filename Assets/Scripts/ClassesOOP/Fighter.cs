@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Newtonsoft.Json.Linq;
+using System;
 
 // MonoBehaviours are scripts that are attached to an object in the scene, and run in the scene as long as the object they are attached to is active.
 public class Fighter : MonoBehaviour
@@ -21,7 +22,6 @@ public class Fighter : MonoBehaviour
     private float _criticalChance = 10;
     private float _reversalChance = 10;
     private float _counterAttackChance = 10;
-    private bool _hasAttackedThisCombat { get; set; } = false;
 
     //Set to true if instance in a saveable state (The fighter instance has already been created and it is not a bot)
     private bool _saveEnabled = false;
@@ -36,7 +36,7 @@ public class Fighter : MonoBehaviour
 
     public string fighterName
     {
-        get => _fighterName;set
+        get => _fighterName; set
         {
             _fighterName = value;
         }
@@ -136,14 +136,6 @@ public class Fighter : MonoBehaviour
         set => _counterAttackChance = value;
     }
 
-    public bool hasAttackedThisCombat
-    {
-        get => _hasAttackedThisCombat; set
-        {
-            _hasAttackedThisCombat = value;
-        }
-    }
-
 
 
     // When a class is attached to a gameobject (Monobehaviour) it is not possible to use the default constructor for the class because the "new" keyword can't be used.
@@ -182,8 +174,13 @@ public class Fighter : MonoBehaviour
     {
         foreach (Skill skill in this.skills)
         {
-            if(skill.skillName == skillToFind) return true;
+            if (skill.skillName == skillToFind) return true;
         }
         return false;
+    }
+
+    public void removeUsedSkill(string skillToRemove)
+    {
+        this.skills.RemoveAll(skill => skill.skillName == skillToRemove);
     }
 }

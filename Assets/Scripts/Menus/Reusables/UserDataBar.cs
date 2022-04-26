@@ -26,6 +26,7 @@ public class UserDataBar : MonoBehaviour
         MenuUtils.DisplayEnergyCountdown(timerContainer, timer);
         MenuUtils.SetName(playerNameGO, player.fighterName);
 
+        //FIXME: This should be outside of the prefab. It is only called on the main menu
         if (showLevel)
         {
             MenuUtils.SetLevelSlider(playerExpGO, playerLevelSlider, player.level, player.experiencePoints);

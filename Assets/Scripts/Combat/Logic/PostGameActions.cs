@@ -32,8 +32,8 @@ public class PostGameActions
 
     public static void SetCurrencies(int goldReward, int gemsReward)
     {
-        User.Instance.gold += goldReward;
-        User.Instance.gems += gemsReward;
+        CurrencyHandler.instance.AddGold(goldReward);
+        CurrencyHandler.instance.AddGems(gemsReward);
     }
     public static Action<Fighter> Save = (player) => player.SaveFighter();
 

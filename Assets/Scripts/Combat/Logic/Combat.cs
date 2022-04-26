@@ -198,9 +198,8 @@ public class Combat : MonoBehaviour
         //ADD ALL SKILLS
         foreach (OrderedDictionary skill in SkillCollection.skills)
         {
-            //FIXME: SkillRarity should not be uppercase
             Skill skillInstance = new Skill(skill["name"].ToString(), skill["description"].ToString(),
-                skill["SkillRarity"].ToString(), skill["category"].ToString(), skill["icon"].ToString());
+                skill["skillRarity"].ToString(), skill["category"].ToString(), skill["icon"].ToString());
 
             botSkills.Add(skillInstance);
         }

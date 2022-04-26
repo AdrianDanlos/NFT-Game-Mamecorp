@@ -41,6 +41,8 @@ public class Combat : MonoBehaviour
 
     private void Awake()
     {
+        isGameOver = false;
+
         FindGameObjects();
         GetComponentReferences();
         GenerateBotData();
@@ -54,7 +56,6 @@ public class Combat : MonoBehaviour
         GenerateSkillsFixturesForPlayer();
         BoostStatsBasedOnPassiveSkills();
         SetVisibilityOfGameObjects();
-        isGameOver = false;
         SetFighterPositions();
         SetOrderOfAttacks();
         GetRandomArena();
@@ -336,6 +337,7 @@ public class Combat : MonoBehaviour
 
     private void StartPostGameActions()
     {
+        //Reset stats boosted by Passive skills
         ModifyStatsAffectedByPassiveSkills(player);
 
         bool isPlayerWinner = PostGameActions.HasPlayerWon(player);

@@ -26,6 +26,8 @@ public class EntryPoint : MonoBehaviour
         }
 
         else UnityEngine.SceneManagement.SceneManager.LoadScene(SceneNames.ChooseFirstFighter.ToString());
+
+        ChestTest();
     }
 
     private void ReadUserFile()
@@ -45,5 +47,35 @@ public class EntryPoint : MonoBehaviour
     {
         fighterGameObject = GameObject.Find("Fighter");
         fighterGameObject.SetActive(false);
+    }
+
+    private void ChestTest()
+    {
+        int x = 0;
+        int y = 0;
+        int z = 0;
+        int q = 0;
+
+        for(int i=0; i < 10000; i++)
+        {
+            // reward mockup
+            switch (Chest.GetBattleChestSkillReward(Chest.GetRandomBattleChest().ToString()).ToString())
+            {
+                case "COMMON":
+                    x++;
+                    break;
+                case "UNCOMMON":
+                    y++;
+                    break;
+                case "RARE":
+                    z++;
+                    break;
+                case "EPIC":
+                    q++;
+                    break;
+            }
+        }
+
+        Debug.Log("COMMON: " + x + "| UNCOMMON: " + y + " | RARE: " + z + " | EPIC: " + q);
     }
 }

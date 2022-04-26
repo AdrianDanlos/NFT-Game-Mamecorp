@@ -217,11 +217,11 @@ public class Combat : MonoBehaviour
     //TODO: Remove this on production
     private void GenerateSkillsFixturesForPlayer()
     {
-        //GIVE ALL SKILLS TO THE PLAYER
+        //GIVE ALL SKILLS TO THE PLAYEER
         foreach (OrderedDictionary skill in SkillCollection.skills)
         {
             Skill skillInstance = new Skill(skill["name"].ToString(), skill["description"].ToString(),
-                skill["SkillRarity"].ToString(), skill["category"].ToString(), skill["icon"].ToString());
+                skill["skillRarity"].ToString(), skill["category"].ToString(), skill["icon"].ToString());
 
             player.skills.Add(skillInstance);
         }

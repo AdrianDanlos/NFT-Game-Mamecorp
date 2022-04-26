@@ -1588,6 +1588,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 135198657}
     m_Modifications:
+    - target: {fileID: 385165063, guid: 196c680460a219441afb82276ab0d1b9, type: 3}
+      propertyPath: m_Value
+      value: 0.508
+      objectReference: {fileID: 0}
     - target: {fileID: 1706904787, guid: 196c680460a219441afb82276ab0d1b9, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -1689,6 +1693,16 @@ PrefabInstance:
 --- !u!224 &918332951 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2949423655071839563, guid: 196c680460a219441afb82276ab0d1b9, type: 3}
+  m_PrefabInstance: {fileID: 918332950}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &918332952 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 385165061, guid: 196c680460a219441afb82276ab0d1b9, type: 3}
+  m_PrefabInstance: {fileID: 918332950}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &918332953 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2045412056, guid: 196c680460a219441afb82276ab0d1b9, type: 3}
   m_PrefabInstance: {fileID: 918332950}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &972574105
@@ -2148,6 +2162,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerEloGO: {fileID: 440907227}
   battleButtonGO: {fileID: 1535745167}
+  playerExpGO: {fileID: 918332953}
+  playerLevelSlider: {fileID: 918332952}
 --- !u!1 &1203680082
 GameObject:
   m_ObjectHideFlags: 0

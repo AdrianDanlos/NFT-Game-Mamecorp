@@ -41,6 +41,8 @@ public class Combat : MonoBehaviour
 
     private void Awake()
     {
+        isGameOver = false;
+
         FindGameObjects();
         GetComponentReferences();
         GenerateBotData();
@@ -51,9 +53,9 @@ public class Combat : MonoBehaviour
         ToggleLoadingScreenVisibility(true);
 
         //Load everything needed for the combat
-        ModifyStatsBasedOnPassiveSkills();
+        GenerateSkillsFixturesForPlayer();
+        BoostStatsBasedOnPassiveSkills();
         SetVisibilityOfGameObjects();
-        isGameOver = false;
         SetFighterPositions();
         SetOrderOfAttacks();
         GetRandomArena();
@@ -65,29 +67,34 @@ public class Combat : MonoBehaviour
 
     IEnumerator Start()
     {
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(0);
         loadingScreen.SetBotLoadingScreenData(bot);
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(0);
         ToggleLoadingScreenVisibility(false);
         StartCoroutine(InitiateCombat());
     }
 
-    private void ModifyStatsBasedOnPassiveSkills()
+    private void BoostStatsBasedOnPassiveSkills()
     {
-        const float Modifier = 1.05f;
-
-        //FIXME: Potential bug: Everytime we run a combat we boost the stats and then we saved them after the combat. x1.05 each combat
-        //FIXME: Make this check for the bot too + make this less verbose + do we really need to pass player.skills?
-        //It would be a better idea to have this method on the fighter class as in the previous project
-        if (SkillsLogicInCombat.HasSkill(player.skills, SkillNames.DangerousStrength.ToString())) player.damage *= Modifier;
-        if (SkillsLogicInCombat.HasSkill(player.skills, SkillNames.Heavyweight.ToString())) player.hp *= Modifier;
-        if (SkillsLogicInCombat.HasSkill(player.skills, SkillNames.Lightning.ToString())) player.speed *= Modifier;
-        if (SkillsLogicInCombat.HasSkill(player.skills, SkillNames.Persistant.ToString())) player.repeatAttackChance *= Modifier;
-        if (SkillsLogicInCombat.HasSkill(player.skills, SkillNames.FelineAgility.ToString())) player.dodgeChance *= Modifier;
-        if (SkillsLogicInCombat.HasSkill(player.skills, SkillNames.CriticalBleeding.ToString())) player.criticalChance *= Modifier;
-        if (SkillsLogicInCombat.HasSkill(player.skills, SkillNames.Reversal.ToString())) player.reversalChance *= Modifier;
-        if (SkillsLogicInCombat.HasSkill(player.skills, SkillNames.CounterAttack.ToString())) player.counterAttackChance *= Modifier;
+        ModifyStatsAffectedByPassiveSkills(player);
+        ModifyStatsAffectedByPassiveSkills(bot);
     }
+
+    private void ModifyStatsAffectedByPassiveSkills(Fighter fighter)
+    {
+        if (fighter.HasSkill(SkillNames.DangerousStrength)) fighter.damage = GetModifiedStat(fighter.damage);
+        if (fighter.HasSkill(SkillNames.Heavyweight)) fighter.hp = GetModifiedStat(fighter.hp);
+        if (fighter.HasSkill(SkillNames.Lightning)) fighter.speed = GetModifiedStat(fighter.speed);
+        if (fighter.HasSkill(SkillNames.Persistant)) fighter.repeatAttackChance = GetModifiedStat(fighter.repeatAttackChance);
+        if (fighter.HasSkill(SkillNames.FelineAgility)) fighter.dodgeChance = GetModifiedStat(fighter.dodgeChance);
+        if (fighter.HasSkill(SkillNames.CriticalBleeding)) fighter.criticalChance = GetModifiedStat(fighter.criticalChance);
+        if (fighter.HasSkill(SkillNames.Reversal)) fighter.reversalChance = GetModifiedStat(fighter.reversalChance);
+        if (fighter.HasSkill(SkillNames.CounterAttack)) fighter.counterAttackChance = GetModifiedStat(fighter.counterAttackChance);
+    }
+
+    //Boosts stats based on passives at the start of the combat. Resets stats at the end of the combat.
+    public static Func<float, float> GetModifiedStat = stat =>
+        isGameOver ? stat /= SkillsLogicInCombat.PassiveSkillsModifier : stat *= SkillsLogicInCombat.PassiveSkillsModifier;
 
     private void GetComponentReferences()
     {
@@ -192,7 +199,7 @@ public class Combat : MonoBehaviour
         foreach (OrderedDictionary skill in SkillCollection.skills)
         {
             Skill skillInstance = new Skill(skill["name"].ToString(), skill["description"].ToString(),
-                skill["rarity"].ToString(), skill["category"].ToString(), skill["icon"].ToString());
+                skill["skillRarity"].ToString(), skill["category"].ToString(), skill["icon"].ToString());
 
             botSkills.Add(skillInstance);
         }
@@ -205,6 +212,19 @@ public class Combat : MonoBehaviour
             randomSpecies.ToString(), randomSpecies.ToString(), botLevel, 0, botSkills);
 
         //FIXME: We should remove the skin concept from the fighters and use the species name for the skin.
+    }
+
+    //TODO: Remove this on production
+    private void GenerateSkillsFixturesForPlayer()
+    {
+        //GIVE ALL SKILLS TO THE PLAYEER
+        foreach (OrderedDictionary skill in SkillCollection.skills)
+        {
+            Skill skillInstance = new Skill(skill["name"].ToString(), skill["description"].ToString(),
+                skill["skillRarity"].ToString(), skill["category"].ToString(), skill["icon"].ToString());
+
+            player.skills.Add(skillInstance);
+        }
     }
 
     private Dictionary<string, float> GenerateBotRandomStats(SpeciesNames randomSpecies)
@@ -237,10 +257,10 @@ public class Combat : MonoBehaviour
         yield return skillsLogicScript.AttackWithoutSkills(attacker, defender);
     }
 
-    //TODO: Once a skill has been used remove it from the skills array so it is not repeated during the combat
     IEnumerator UseRandomSkill(Fighter attacker, Fighter defender)
     {
-        //FIXME: numberOfSkills should come from the array
+        //TODO FUTURE REFACTOR: Each skill should have each own class with its own skill implementation. (methods, attributes, etc...)
+        // Then we can instantiate a random class here to use a random SUPER skill this turn
         int numberOfSkills = 4;
 
         int randomNumber = UnityEngine.Random.Range(0, numberOfSkills) + 1;
@@ -248,22 +268,26 @@ public class Combat : MonoBehaviour
         {
             case 1:
                 yield return skillsLogicScript.JumpStrike(attacker, defender);
+                attacker.removeUsedSkill(SkillNames.JumpStrike);
                 break;
             case 2:
                 yield return skillsLogicScript.CosmicKicks(attacker, defender);
+                attacker.removeUsedSkill(SkillNames.CosmicKicks);
                 break;
             case 3:
                 yield return skillsLogicScript.ShurikenFury(attacker, defender);
+                attacker.removeUsedSkill(SkillNames.ShurikenFury);
                 break;
             case 4:
                 yield return skillsLogicScript.LowBlow(attacker, defender);
+                attacker.removeUsedSkill(SkillNames.LowBlow);
                 break;
         }
     }
 
     private bool WillUseSkillThisTurn()
     {
-        int probabilityOfUsingSkillEachTurn = 70;
+        int probabilityOfUsingSkillEachTurn = 50;
         return Probabilities.IsHappening(probabilityOfUsingSkillEachTurn);
     }
 
@@ -285,7 +309,7 @@ public class Combat : MonoBehaviour
     //The attack order is determined by the Initiator skill. If no players have it it is determined by the speed.
     private void SetOrderOfAttacks()
     {
-        if (SkillsLogicInCombat.HasSkill(player.skills, SkillNames.Initiator.ToString()))
+        if (player.HasSkill(SkillNames.Initiator))
         {
             fightersOrderOfAttack.Add(player);
             fightersOrderOfAttack.Add(bot);
@@ -312,6 +336,9 @@ public class Combat : MonoBehaviour
 
     private void StartPostGameActions()
     {
+        //Reset stats boosted by Passive skills
+        ModifyStatsAffectedByPassiveSkills(player);
+
         bool isPlayerWinner = PostGameActions.HasPlayerWon(player);
         int eloChange = MatchMaking.CalculateEloChange(User.Instance.elo, botElo, isPlayerWinner);
         int playerUpdatedExperience = player.experiencePoints + Levels.GetXpGain(isPlayerWinner);

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class SkillsLogicInCombat : MonoBehaviour
 {
+    //TODO: This should be encapsulated on a class whenever we have a class for each skill
+    public const float PassiveSkillsModifier = 1.05f;
     private Combat combatScript;
     private Movement movementScript;
     private Attack attackScript;
@@ -95,16 +97,5 @@ public class SkillsLogicInCombat : MonoBehaviour
 
         yield return combatScript.MoveBackHandler(attacker);
         combatScript.ResetFightersDestinationPosition();
-    }
-
-    public static bool HasSkill(List<Skill> skills, string skillToFind)
-    {
-        //Skills should never be null. Skills should be an empty list. If skills are null we have a bug that needs to be fixed.
-        //Skills are set to an empty list when the fighter is created
-        foreach (Skill skill in skills)
-        {
-            if(skill.skillName == skillToFind) return true;
-        }
-        return false;
     }
 }

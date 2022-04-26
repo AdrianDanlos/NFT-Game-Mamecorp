@@ -30,8 +30,8 @@ public static class SkillCollection
 {
     enum SkillType
     {
-        PASSIVES,
-        SUPERS, //Generally can only be used once per combat
+        PASSIVES, //Stats granted at the start of the combat and remain for the rest of the combat
+        SUPERS, //Can only be used once per combat and are removed from the fighter skills list once used
     }
     public enum SkillRarity
     {
@@ -113,26 +113,34 @@ public static class SkillCollection
         },
         new OrderedDictionary
         {
-            {"name", SkillNames.Survival},
-            {"description", "Whenever you take lethal damage you survive with 1 health point."},
-            {"skillRarity", SkillRarity.EPIC.ToString()},
+            {"name", SkillNames.Initiator},
+            {"description", "You attack first every game."},
+            {"skillRarity", SkillRarity.RARE.ToString()},
+            {"category", SkillType.PASSIVES.ToString()},
+            {"icon", "5" }
+        },
+        new OrderedDictionary
+        {
+            {"name", SkillNames.GloriousShield},
+            {"description", "Whenever your opponent attacks you have a chance of invoking a shield that will block the attack."},
+            {"skillRarity", SkillRarity.RARE.ToString()},
             {"category", SkillType.PASSIVES.ToString()},
             {"icon", "5" }
         },
         new OrderedDictionary
         {
             {"name", SkillNames.BalletShoes},
-            {"description", "Make the opponent first attack miss."},
-            {"skillRarity", SkillRarity.RARE.ToString()},
-            {"category", SkillType.PASSIVES.ToString()},
+            {"description", "The opponent has a very high chance of missing it's first attack."},
+            {"skillRarity", SkillRarity.COMMON.ToString()},
+            {"category", SkillType.SUPERS.ToString()},
             {"icon", "5" }
         },
         new OrderedDictionary
         {
-            {"name", SkillNames.Initiator},
-            {"description", "You attack first every game."},
-            {"skillRarity", SkillRarity.RARE.ToString()},
-            {"category", SkillType.PASSIVES.ToString()},
+            {"name", SkillNames.Survival},
+            {"description", "Whenever you take lethal damage you survive with 1 health point."},
+            {"skillRarity", SkillRarity.EPIC.ToString()},
+            {"category", SkillType.SUPERS.ToString()},
             {"icon", "5" }
         },
         new OrderedDictionary
@@ -166,14 +174,6 @@ public static class SkillCollection
             {"skillRarity", SkillRarity.EPIC.ToString()},
             {"category", SkillType.SUPERS.ToString()},
             {"icon", "5" }
-        },
-        new OrderedDictionary
-        {
-            {"name", SkillNames.GloriousShield},
-            {"description", "Whenever your opponent attacks you have a chance of invoking a shield that will block the attack."},
-            {"skillRarity", SkillRarity.RARE.ToString()},
-            {"category", SkillType.SUPERS.ToString()},
-            {"icon", "5" }
         }
     };
 
@@ -194,7 +194,7 @@ public static class SkillCollection
         int epic = 0;
         int legendary = 0;
 
-        foreach(OrderedDictionary skill in skills)
+        foreach (OrderedDictionary skill in skills)
         {
 
             switch (skill["skillRarity"])

@@ -51,6 +51,7 @@ public class Combat : MonoBehaviour
         ToggleLoadingScreenVisibility(true);
 
         //Load everything needed for the combat
+        GenerateSkillsFixturesForPlayer();
         ModifyStatsBasedOnPassiveSkills();
         SetVisibilityOfGameObjects();
         isGameOver = false;
@@ -65,9 +66,9 @@ public class Combat : MonoBehaviour
 
     IEnumerator Start()
     {
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(0);
         loadingScreen.SetBotLoadingScreenData(bot);
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(0);
         ToggleLoadingScreenVisibility(false);
         StartCoroutine(InitiateCombat());
     }
@@ -77,16 +78,15 @@ public class Combat : MonoBehaviour
         const float Modifier = 1.05f;
 
         //FIXME: Potential bug: Everytime we run a combat we boost the stats and then we saved them after the combat. x1.05 each combat
-        //FIXME: Make this check for the bot too + make this less verbose + do we really need to pass player.skills?
-        //It would be a better idea to have this method on the fighter class as in the previous project
-        if (SkillsLogicInCombat.HasSkill(player.skills, SkillNames.DangerousStrength.ToString())) player.damage *= Modifier;
-        if (SkillsLogicInCombat.HasSkill(player.skills, SkillNames.Heavyweight.ToString())) player.hp *= Modifier;
-        if (SkillsLogicInCombat.HasSkill(player.skills, SkillNames.Lightning.ToString())) player.speed *= Modifier;
-        if (SkillsLogicInCombat.HasSkill(player.skills, SkillNames.Persistant.ToString())) player.repeatAttackChance *= Modifier;
-        if (SkillsLogicInCombat.HasSkill(player.skills, SkillNames.FelineAgility.ToString())) player.dodgeChance *= Modifier;
-        if (SkillsLogicInCombat.HasSkill(player.skills, SkillNames.CriticalBleeding.ToString())) player.criticalChance *= Modifier;
-        if (SkillsLogicInCombat.HasSkill(player.skills, SkillNames.Reversal.ToString())) player.reversalChance *= Modifier;
-        if (SkillsLogicInCombat.HasSkill(player.skills, SkillNames.CounterAttack.ToString())) player.counterAttackChance *= Modifier;
+        //FIXME: Make this check for the bot too + make this less verbose
+        if (player.HasSkill(SkillNames.DangerousStrength)) player.damage *= Modifier;
+        if (player.HasSkill(SkillNames.Heavyweight)) player.hp *= Modifier;
+        if (player.HasSkill(SkillNames.Lightning)) player.speed *= Modifier;
+        if (player.HasSkill(SkillNames.Persistant)) player.repeatAttackChance *= Modifier;
+        if (player.HasSkill(SkillNames.FelineAgility)) player.dodgeChance *= Modifier;
+        if (player.HasSkill(SkillNames.CriticalBleeding)) player.criticalChance *= Modifier;
+        if (player.HasSkill(SkillNames.Reversal)) player.reversalChance *= Modifier;
+        if (player.HasSkill(SkillNames.CounterAttack)) player.counterAttackChance *= Modifier;
     }
 
     private void GetComponentReferences()
@@ -208,6 +208,19 @@ public class Combat : MonoBehaviour
         //FIXME: We should remove the skin concept from the fighters and use the species name for the skin.
     }
 
+    //TODO: Remove this on production
+    private void GenerateSkillsFixturesForPlayer()
+    {
+        //GIVE ALL SKILLS TO THE PLAYER
+        foreach (OrderedDictionary skill in SkillCollection.skills)
+        {
+            Skill skillInstance = new Skill(skill["name"].ToString(), skill["description"].ToString(),
+                skill["SkillRarity"].ToString(), skill["category"].ToString(), skill["icon"].ToString());
+
+            player.skills.Add(skillInstance);
+        }
+    }
+
     private Dictionary<string, float> GenerateBotRandomStats(SpeciesNames randomSpecies)
     {
         float hp = Species.defaultStats[randomSpecies]["hp"] + (Species.statsPerLevel[randomSpecies]["hp"] * player.level);
@@ -264,7 +277,7 @@ public class Combat : MonoBehaviour
 
     private bool WillUseSkillThisTurn()
     {
-        int probabilityOfUsingSkillEachTurn = 70;
+        int probabilityOfUsingSkillEachTurn = 50;
         return Probabilities.IsHappening(probabilityOfUsingSkillEachTurn);
     }
 
@@ -286,7 +299,7 @@ public class Combat : MonoBehaviour
     //The attack order is determined by the Initiator skill. If no players have it it is determined by the speed.
     private void SetOrderOfAttacks()
     {
-        if (SkillsLogicInCombat.HasSkill(player.skills, SkillNames.Initiator.ToString()))
+        if (player.HasSkill(SkillNames.Initiator))
         {
             fightersOrderOfAttack.Add(player);
             fightersOrderOfAttack.Add(bot);

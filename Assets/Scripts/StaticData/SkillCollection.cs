@@ -123,7 +123,7 @@ public static class SkillCollection
         new OrderedDictionary
         {
             {"name", SkillNames.BalletShoes},
-            {"description", "Make the opponent first attack miss."},
+            {"description", "The opponent has a very high chance of missing it's first attack."},
             {"SkillRarity", SkillRarity.RARE.ToString()},
             {"category", SkillType.PASSIVES.ToString()},
             {"icon", "5" }

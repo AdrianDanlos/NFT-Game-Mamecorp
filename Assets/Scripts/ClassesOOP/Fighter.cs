@@ -177,4 +177,13 @@ public class Fighter : MonoBehaviour
             JsonDataManager.SaveData(serializableFighter, JsonDataManager.FighterFileName);
         }
     }
+
+    public bool HasSkill(string skillToFind)
+    {
+        foreach (Skill skill in this.skills)
+        {
+            if(skill.skillName == skillToFind) return true;
+        }
+        return false;
+    }
 }

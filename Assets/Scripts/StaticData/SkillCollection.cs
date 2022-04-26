@@ -5,8 +5,8 @@ using System.Collections.Specialized;
 
 enum SkillType
 {
-    PASSIVES,
-    SUPERS, //Generally can only be used once per combat
+    PASSIVES, //Stats granted at the start of the combat and remain for the rest of the combat
+    SUPERS, //Can only be used once per combat and are removed from the fighter skills list once used
 }
 
 
@@ -44,7 +44,7 @@ public static class SkillCollection
         EPIC,
         LEGENDARY
     }
-
+    
     public static List<OrderedDictionary> skills =
     new List<OrderedDictionary>
     {
@@ -114,26 +114,34 @@ public static class SkillCollection
         },
         new OrderedDictionary
         {
-            {"name", SkillNames.Survival},
-            {"description", "Whenever you take lethal damage you survive with 1 health point."},
-            {"SkillRarity", SkillRarity.EPIC.ToString()},
+            {"name", SkillNames.Initiator},
+            {"description", "You attack first every game."},
+            {"SkillRarity", SkillRarity.RARE.ToString()},
+            {"category", SkillType.PASSIVES.ToString()},
+            {"icon", "5" }
+        },
+        new OrderedDictionary
+        {
+            {"name", SkillNames.GloriousShield},
+            {"description", "Whenever your opponent attacks you have a chance of invoking a shield that will block the attack."},
+            {"SkillRarity", SkillRarity.RARE.ToString()},
             {"category", SkillType.PASSIVES.ToString()},
             {"icon", "5" }
         },
         new OrderedDictionary
         {
             {"name", SkillNames.BalletShoes},
-            {"description", "Make the opponent first attack miss."},
-            {"SkillRarity", SkillRarity.RARE.ToString()},
-            {"category", SkillType.PASSIVES.ToString()},
+            {"description", "The opponent has a very high chance of missing it's first attack."},
+            {"SkillRarity", SkillRarity.COMMON.ToString()},
+            {"category", SkillType.SUPERS.ToString()},
             {"icon", "5" }
         },
         new OrderedDictionary
         {
-            {"name", SkillNames.Initiator},
-            {"description", "You attack first every game."},
-            {"SkillRarity", SkillRarity.RARE.ToString()},
-            {"category", SkillType.PASSIVES.ToString()},
+            {"name", SkillNames.Survival},
+            {"description", "Whenever you take lethal damage you survive with 1 health point."},
+            {"SkillRarity", SkillRarity.EPIC.ToString()},
+            {"category", SkillType.SUPERS.ToString()},
             {"icon", "5" }
         },
         new OrderedDictionary
@@ -165,14 +173,6 @@ public static class SkillCollection
             {"name", SkillNames.JumpStrike},
             {"description", "Jump towards the opponent to execute a sequence of lightning fast attacks that grant lifesteal and can't be dodged."},
             {"SkillRarity", SkillRarity.EPIC.ToString()},
-            {"category", SkillType.SUPERS.ToString()},
-            {"icon", "5" }
-        },
-        new OrderedDictionary
-        {
-            {"name", SkillNames.GloriousShield},
-            {"description", "Whenever your opponent attacks you have a chance of invoking a shield that will block the attack."},
-            {"SkillRarity", SkillRarity.RARE.ToString()},
             {"category", SkillType.SUPERS.ToString()},
             {"icon", "5" }
         }

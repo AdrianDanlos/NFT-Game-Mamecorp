@@ -29,6 +29,9 @@ public class ShopUI : MonoBehaviour
     // shop flow
     string chestButtonPressed;
 
+    // data
+    Fighter fighterData;
+
     // test
     [SerializeField] private List<GameObject> frameColors = new List<GameObject>();
 
@@ -46,6 +49,7 @@ public class ShopUI : MonoBehaviour
         abortButton = GameObject.Find("Button_Abort");
         confirmButton = GameObject.Find("Button_Confirm");
         messageText = GameObject.Find("Message_Text").GetComponent<TextMeshProUGUI>();
+        fighterData = GameObject.Find("FighterWrapper").gameObject.transform.GetChild(0).GetComponent<Fighter>();
 
         // hide UI
         chestPopUp.SetActive(false);
@@ -59,6 +63,8 @@ public class ShopUI : MonoBehaviour
         noCurrencyButton.SetActive(false);
         abortButton.SetActive(false);
         confirmButton.SetActive(false);
+
+        SkillCollection.GetSkillsNameData(fighterData.skills);
     }
 
     public void ConfirmPurchase()
@@ -153,5 +159,11 @@ public class ShopUI : MonoBehaviour
     public void GoToInventory()
     {
         UnityEngine.SceneManagement.SceneManager.LoadScene(SceneNames.Inventory.ToString());
+    }
+
+    // fighter call from skillcollection
+    public void GetFighterSkills()
+    {
+        SkillCollection.GetFighterSkillsData(fighterData.skills);
     }
 }

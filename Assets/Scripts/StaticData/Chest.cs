@@ -22,9 +22,8 @@ public enum BattleChestRarities
 
 public enum ShopChestTypes
 {
-    REGULAR,
-    MAGIC,
-    VOID,
+    NORMAL,
+    EPIC,
     LEGENDARY
 }
 
@@ -42,7 +41,7 @@ public static class Chest
 
     // TODO: need to copy popup chest ui to combat after fight results
     // chests loot 
-    public static readonly Dictionary<BattleChestRarities, Dictionary<string, int>> battleChests =
+    public static readonly Dictionary<BattleChestRarities, Dictionary<string, int>> battleChestsRewards =
     new Dictionary<BattleChestRarities, Dictionary<string, int>>
     {
         {
@@ -58,10 +57,28 @@ public static class Chest
         {
             BattleChestRarities.UNCOMMON, new Dictionary<string, int>
             {
-                {"minGold", 30},
-                {"maxGold", 101},
+                {"minGold", 40},
+                {"maxGold", 81},
                 {"minGems", 1},
                 {"maxGems", 6},
+            }
+        },
+        {
+            BattleChestRarities.RARE, new Dictionary<string, int>
+            {
+                {"minGold", 80},
+                {"maxGold", 141},
+                {"minGems", 10},
+                {"maxGems", 16},
+            }
+        },
+        {
+            BattleChestRarities.EPIC, new Dictionary<string, int>
+            {
+                {"minGold", 500},
+                {"maxGold", 601},
+                {"minGems", 50},
+                {"maxGems", 101},
             }
         }
     };
@@ -89,6 +106,26 @@ public static class Chest
                     {SkillCollection.SkillRarity.EPIC.ToString(), 5},
                     {SkillCollection.SkillRarity.LEGENDARY.ToString(), 1}
                 }
+            },
+            {
+                BattleChestRarities.RARE, new Dictionary<string, float>
+                {
+                    // chances of SkillRarity
+                    {SkillCollection.SkillRarity.COMMON.ToString(), 50},
+                    {SkillCollection.SkillRarity.RARE.ToString(), 40},
+                    {SkillCollection.SkillRarity.EPIC.ToString(), 9},
+                    {SkillCollection.SkillRarity.LEGENDARY.ToString(), 1}
+                }
+            },
+            {
+                BattleChestRarities.EPIC, new Dictionary<string, float>
+                {
+                    // chances of SkillRarity
+                    {SkillCollection.SkillRarity.COMMON.ToString(), 30},
+                    {SkillCollection.SkillRarity.RARE.ToString(), 53},
+                    {SkillCollection.SkillRarity.EPIC.ToString(), 16},
+                    {SkillCollection.SkillRarity.LEGENDARY.ToString(), 1}
+                }
             }
     };
 
@@ -96,15 +133,35 @@ public static class Chest
     new Dictionary<ShopChestTypes, Dictionary<string, float>>
     {
         {
-            ShopChestTypes.LEGENDARY, new Dictionary<string, float>
+            ShopChestTypes.NORMAL, new Dictionary<string, float>
             {
                 // chances of SkillRarity
                 {SkillCollection.SkillRarity.COMMON.ToString(), 0},
                 {SkillCollection.SkillRarity.RARE.ToString(), 94},
                 {SkillCollection.SkillRarity.EPIC.ToString(), 5},
-                {SkillCollection.SkillRarity.LEGENDARY.ToString(), 1},
+                {SkillCollection.SkillRarity.LEGENDARY.ToString(), 1}
+            } 
+        },
+        {
+            ShopChestTypes.EPIC, new Dictionary<string, float>
+            {
+                // chances of SkillRarity
+                {SkillCollection.SkillRarity.COMMON.ToString(), 0},
+                {SkillCollection.SkillRarity.RARE.ToString(), 0},
+                {SkillCollection.SkillRarity.EPIC.ToString(), 95},
+                {SkillCollection.SkillRarity.LEGENDARY.ToString(), 5}
             }
-        }
+        },
+        {
+            ShopChestTypes.LEGENDARY, new Dictionary<string, float>
+            {
+                // chances of SkillRarity
+                {SkillCollection.SkillRarity.COMMON.ToString(), 0},
+                {SkillCollection.SkillRarity.RARE.ToString(), 0},
+                {SkillCollection.SkillRarity.EPIC.ToString(), 0},
+                {SkillCollection.SkillRarity.LEGENDARY.ToString(), 100}
+            }
+        },
     };
 
     public static string OpenChest(string chestType)
@@ -148,26 +205,27 @@ public static class Chest
     {
         battleChest = battleChest.ToUpper();
         return Random.Range(
-            battleChests[(BattleChestRarities)System.Enum.Parse(typeof(BattleChestRarities), battleChest)]["minGold"],
-            battleChests[(BattleChestRarities)System.Enum.Parse(typeof(BattleChestRarities), battleChest)]["maxGold"]);
+            battleChestsRewards[(BattleChestRarities)System.Enum.Parse(typeof(BattleChestRarities), battleChest)]["minGold"],
+            battleChestsRewards[(BattleChestRarities)System.Enum.Parse(typeof(BattleChestRarities), battleChest)]["maxGold"]);
     }
 
     public static int GetBattleChestGems(string battleChest)
     {
         battleChest = battleChest.ToUpper();
         return Random.Range(
-                    battleChests[(BattleChestRarities)System.Enum.Parse(typeof(BattleChestRarities), battleChest)]["minGems"],
-                    battleChests[(BattleChestRarities)System.Enum.Parse(typeof(BattleChestRarities), battleChest)]["maxGems"]);
+                    battleChestsRewards[(BattleChestRarities)System.Enum.Parse(typeof(BattleChestRarities), battleChest)]["minGems"],
+                    battleChestsRewards[(BattleChestRarities)System.Enum.Parse(typeof(BattleChestRarities), battleChest)]["maxGems"]);
     }
 
     public static SkillCollection.SkillRarity GetBattleChestSkillReward(string battleChest)
-    { 
+    {
+        battleChest.ToUpper();
         float totalWeight = 100f;
         float diceRoll = Random.Range(0f, totalWeight);
 
         foreach (KeyValuePair<string, float> raity in
         Chest.battleChestsSkillProbabilities
-        [(BattleChestRarities)System.Enum.Parse(typeof(BattleChestRarities), battleChest.ToUpper())])
+        [(BattleChestRarities)System.Enum.Parse(typeof(BattleChestRarities), battleChest)])
         {
             if (raity.Value >= diceRoll)
                 return (SkillCollection.SkillRarity)System.Enum.Parse(typeof(SkillCollection.SkillRarity), raity.Key);

@@ -27,7 +27,6 @@ public class EntryPoint : MonoBehaviour
 
         else UnityEngine.SceneManagement.SceneManager.LoadScene(SceneNames.ChooseFirstFighter.ToString());
 
-        // chest tests
         ChestTest();
     }
 
@@ -60,23 +59,23 @@ public class EntryPoint : MonoBehaviour
         for(int i=0; i < 10000; i++)
         {
             // reward mockup
-            switch (Chest.GetBattleChestSkillReward("common").ToString())
+            switch (Chest.GetBattleChestSkillReward(Chest.GetRandomBattleChest().ToString()).ToString())
             {
                 case "COMMON":
                     x++;
                     break;
-                case "RARE":
+                case "UNCOMMON":
                     y++;
                     break;
-                case "EPIC":
+                case "RARE":
                     z++;
                     break;
-                case "LEGENDARY":
+                case "EPIC":
                     q++;
                     break;
             }
         }
 
-        Debug.Log("Common: " + x +  "| Rare: " + y + " | Epic: " + z + " | Legendary: " + q);
+        Debug.Log("COMMON: " + x + "| UNCOMMON: " + y + " | RARE: " + z + " | EPIC: " + q);
     }
 }

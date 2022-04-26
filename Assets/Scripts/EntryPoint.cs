@@ -27,7 +27,8 @@ public class EntryPoint : MonoBehaviour
 
         else UnityEngine.SceneManagement.SceneManager.LoadScene(SceneNames.ChooseFirstFighter.ToString());
 
-        ChestTest();
+        // tests
+        SkillCollection.GetAllRaritySkillCount();
     }
 
     private void ReadUserFile()

@@ -2,13 +2,7 @@
 
 using System.Collections.Generic;
 using System.Collections.Specialized;
-
-enum SkillType
-{
-    PASSIVES, //Stats granted at the start of the combat and remain for the rest of the combat
-    SUPERS, //Can only be used once per combat and are removed from the fighter skills list once used
-}
-
+using UnityEngine;
 
 public struct SkillNames
 {
@@ -34,6 +28,11 @@ public struct SkillNames
 
 public static class SkillCollection
 {
+    enum SkillType
+    {
+        PASSIVES, //Stats granted at the start of the combat and remain for the rest of the combat
+        SUPERS, //Can only be used once per combat and are removed from the fighter skills list once used
+    }
     public enum SkillRarity
     {
         // standard practice for enums that cannot be null by having the FIRST value in the enum
@@ -44,7 +43,7 @@ public static class SkillCollection
         EPIC,
         LEGENDARY
     }
-    
+
     public static List<OrderedDictionary> skills =
     new List<OrderedDictionary>
     {
@@ -52,7 +51,7 @@ public static class SkillCollection
         {
             {"name", SkillNames.DangerousStrength},
             {"description", "Increase the attack damage by 5%"},
-            {"SkillRarity", SkillRarity.COMMON.ToString()},
+            {"skillRarity", SkillRarity.COMMON.ToString()},
             {"category", SkillType.PASSIVES.ToString()},
             {"icon", "5" }
         },
@@ -60,7 +59,7 @@ public static class SkillCollection
         {
             {"name", SkillNames.Heavyweight},
             {"description", "Increase the health by 5%"},
-            {"SkillRarity", SkillRarity.COMMON.ToString()},
+            {"skillRarity", SkillRarity.COMMON.ToString()},
             {"category", SkillType.PASSIVES.ToString()},
             {"icon", "5" }
         },
@@ -68,7 +67,7 @@ public static class SkillCollection
         {
             {"name", SkillNames.Lightning},
             {"description", "Increase the speed by 5%"},
-            {"SkillRarity", SkillRarity.COMMON.ToString()},
+            {"skillRarity", SkillRarity.COMMON.ToString()},
             {"category", SkillType.PASSIVES.ToString()},
             {"icon", "5" }
         },
@@ -76,7 +75,7 @@ public static class SkillCollection
         {
             {"name", SkillNames.Persistant},
             {"description", "Increase the chances of attacking multiple times by 5%"},
-            {"SkillRarity", SkillRarity.COMMON.ToString()},
+            {"skillRarity", SkillRarity.COMMON.ToString()},
             {"category", SkillType.PASSIVES.ToString()},
             {"icon", "5" }
         },
@@ -84,7 +83,7 @@ public static class SkillCollection
         {
             {"name", SkillNames.FelineAgility},
             {"description", "Increase the chance of dodging attacks by 5%"},
-            {"SkillRarity", SkillRarity.COMMON.ToString()},
+            {"skillRarity", SkillRarity.COMMON.ToString()},
             {"category", SkillType.PASSIVES.ToString()},
             {"icon", "5" }
         },
@@ -92,7 +91,7 @@ public static class SkillCollection
         {
             {"name", SkillNames.CriticalBleeding},
             {"description", "Increase the chance of landing a critical hit by 5%"},
-            {"SkillRarity", SkillRarity.COMMON.ToString()},
+            {"skillRarity", SkillRarity.COMMON.ToString()},
             {"category", SkillType.PASSIVES.ToString()},
             {"icon", "5" }
         },
@@ -100,7 +99,7 @@ public static class SkillCollection
         {
             {"name", SkillNames.Reversal},
             {"description", "Increase the chance of attacking your opponent before he has finished his turn by 5%"},
-            {"SkillRarity", SkillRarity.RARE.ToString()},
+            {"skillRarity", SkillRarity.RARE.ToString()},
             {"category", SkillType.PASSIVES.ToString()},
             {"icon", "5" }
         },
@@ -108,7 +107,7 @@ public static class SkillCollection
         {
             {"name", SkillNames.CounterAttack},
             {"description", "Increase the chance of hitting the opponent before it hits you by 5%"},
-            {"SkillRarity", SkillRarity.RARE.ToString()},
+            {"skillRarity", SkillRarity.RARE.ToString()},
             {"category", SkillType.PASSIVES.ToString()},
             {"icon", "5" }
         },
@@ -116,7 +115,7 @@ public static class SkillCollection
         {
             {"name", SkillNames.Initiator},
             {"description", "You attack first every game."},
-            {"SkillRarity", SkillRarity.RARE.ToString()},
+            {"skillRarity", SkillRarity.RARE.ToString()},
             {"category", SkillType.PASSIVES.ToString()},
             {"icon", "5" }
         },
@@ -124,7 +123,7 @@ public static class SkillCollection
         {
             {"name", SkillNames.GloriousShield},
             {"description", "Whenever your opponent attacks you have a chance of invoking a shield that will block the attack."},
-            {"SkillRarity", SkillRarity.RARE.ToString()},
+            {"skillRarity", SkillRarity.RARE.ToString()},
             {"category", SkillType.PASSIVES.ToString()},
             {"icon", "5" }
         },
@@ -132,7 +131,7 @@ public static class SkillCollection
         {
             {"name", SkillNames.BalletShoes},
             {"description", "The opponent has a very high chance of missing it's first attack."},
-            {"SkillRarity", SkillRarity.COMMON.ToString()},
+            {"skillRarity", SkillRarity.COMMON.ToString()},
             {"category", SkillType.SUPERS.ToString()},
             {"icon", "5" }
         },
@@ -140,7 +139,7 @@ public static class SkillCollection
         {
             {"name", SkillNames.Survival},
             {"description", "Whenever you take lethal damage you survive with 1 health point."},
-            {"SkillRarity", SkillRarity.EPIC.ToString()},
+            {"skillRarity", SkillRarity.EPIC.ToString()},
             {"category", SkillType.SUPERS.ToString()},
             {"icon", "5" }
         },
@@ -148,7 +147,7 @@ public static class SkillCollection
         {
             {"name", SkillNames.CosmicKicks},
             {"description", "Land between 4 and 8 deadly kicks that can't be dodged."},
-            {"SkillRarity", SkillRarity.RARE.ToString()},
+            {"skillRarity", SkillRarity.RARE.ToString()},
             {"category", SkillType.SUPERS.ToString()},
             {"icon", "5" }
         },
@@ -156,7 +155,7 @@ public static class SkillCollection
         {
             {"name", SkillNames.ShurikenFury},
             {"description", "Throw between 4 and 8 ninja shurikens at high speed to your opponent."},
-            {"SkillRarity", SkillRarity.EPIC.ToString()},
+            {"skillRarity", SkillRarity.EPIC.ToString()},
             {"category", SkillType.SUPERS.ToString()},
             {"icon", "5" }
         },
@@ -164,7 +163,7 @@ public static class SkillCollection
         {
             {"name", SkillNames.LowBlow},
             {"description", "Run and slide towards your opponent to hit a low blow that deals critical damage."},
-            {"SkillRarity", SkillRarity.RARE.ToString()},
+            {"skillRarity", SkillRarity.RARE.ToString()},
             {"category", SkillType.SUPERS.ToString()},
             {"icon", "5" }
         },
@@ -172,11 +171,52 @@ public static class SkillCollection
         {
             {"name", SkillNames.JumpStrike},
             {"description", "Jump towards the opponent to execute a sequence of lightning fast attacks that grant lifesteal and can't be dodged."},
-            {"SkillRarity", SkillRarity.EPIC.ToString()},
+            {"skillRarity", SkillRarity.EPIC.ToString()},
             {"category", SkillType.SUPERS.ToString()},
             {"icon", "5" }
         }
     };
+
+    public static void GetFighterSkillsData(List<Skill> fighterSkills)
+    {
+        //Skills should never be null. Skills should be an empty list. If skills are null we have a bug that needs to be fixed.
+        //Skills are set to an empty list when the fighter is created
+        foreach (Skill skill in fighterSkills)
+        {
+            // 
+        }
+    }
+
+    public static void GetAllRaritySkillCount()
+    {
+        int common = 0;
+        int rare = 0;
+        int epic = 0;
+        int legendary = 0;
+
+        foreach (OrderedDictionary skill in skills)
+        {
+
+            switch (skill["skillRarity"])
+            {
+                case "COMMON":
+                    common++;
+                    break;
+                case "RARE":
+                    rare++;
+                    break;
+                case "EPIC":
+                    epic++;
+                    break;
+                case "LEGENDARY":
+                    legendary++;
+                    break;
+            }
+        }
+
+
+        Debug.Log("COMMON: " + common + "| RARE: " + rare + " | EPIC: " + epic + " | LEGENDARY: " + legendary);
+    }
 }
 
 

@@ -27,6 +27,7 @@ public class UserDataBar : MonoBehaviour
         MenuUtils.SetName(playerNameGO, player.fighterName);
         MenuUtils.DisplayLevelIcon(player.level, GameObject.Find("Levels"));
 
+        //FIXME: This should be outside of the prefab. It is only called on the main menu
         if (showLevel)
         {
             MenuUtils.SetLevelSlider(playerExpGO, playerLevelSlider, player.level, player.experiencePoints);

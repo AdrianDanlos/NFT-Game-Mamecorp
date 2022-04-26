@@ -99,14 +99,12 @@ public class SkillsLogicInCombat : MonoBehaviour
 
     public static bool HasSkill(List<Skill> skills, string skillToFind)
     {
-        if(skills != null)
+        //Skills should never be null. Skills should be an empty list. If skills are null we have a bug that needs to be fixed.
+        //Skills are set to an empty list when the fighter is created
+        foreach (Skill skill in skills)
         {
-            foreach (Skill skill in skills)
-            {
-                if (skill.skillName == skillToFind) return true;
-            }
+            if(skill.skillName == skillToFind) return true;
         }
-
         return false;
     }
 }

@@ -282,10 +282,18 @@ public class Combat : MonoBehaviour
         FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.IDLE);
     }
 
-    // This method creates a dictionary with the Fighter class objects sorted by their speeds to get the order of attack.
-    // Higher speeds will get sorted first
+    //The attack order is determined by the Initiator skill. If no players have it it is determined by the speed.
     private void SetOrderOfAttacks()
     {
+        if (SkillsLogicInCombat.HasSkill(player.skills, SkillNames.Initiator.ToString()))
+        {
+            fightersOrderOfAttack.Add(player);
+            fightersOrderOfAttack.Add(bot);
+            return;
+        }
+
+        // Creates a dictionary with the Fighter class objects sorted by their speeds to get the order of attack.
+        // Higher speeds will get sorted first
         OrderedDictionary fighterDictWithSpeed = new OrderedDictionary
         {
             {player, player.speed},

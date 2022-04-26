@@ -99,10 +99,14 @@ public class SkillsLogicInCombat : MonoBehaviour
 
     public static bool HasSkill(List<Skill> skills, string skillToFind)
     {
-        foreach (Skill skill in skills)
+        if(skills != null)
         {
-            if(skill.skillName == skillToFind) return true;
+            foreach (Skill skill in skills)
+            {
+                if (skill.skillName == skillToFind) return true;
+            }
         }
+
         return false;
     }
 }

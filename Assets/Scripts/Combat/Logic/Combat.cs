@@ -252,13 +252,13 @@ public class Combat : MonoBehaviour
         //Test
         yield return StartCoroutine(skillsLogicScript.ExplosiveBomb(attacker, defender));
         yield break;
-
-        if (WillUseSkillThisTurn())
-        {
-            yield return StartCoroutine(UseRandomSkill(attacker, defender));
-            yield break;
-        }
-        yield return skillsLogicScript.AttackWithoutSkills(attacker, defender);
+        
+        // if (WillUseSkillThisTurn())
+        // {
+        //     yield return StartCoroutine(UseRandomSkill(attacker, defender));
+        //     yield break;
+        // }
+        //yield return skillsLogicScript.AttackWithoutSkills(attacker, defender);
     }
 
     IEnumerator UseRandomSkill(Fighter attacker, Fighter defender)
@@ -291,6 +291,8 @@ public class Combat : MonoBehaviour
                 attacker.removeUsedSkill(SkillNames.ExplosiveBomb);
                 break;
         }
+        
+        FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.IDLE);
     }
 
     private bool WillUseSkillThisTurn()
@@ -311,7 +313,6 @@ public class Combat : MonoBehaviour
         FighterSkin.SwitchFighterOrientation(attacker.GetComponent<SpriteRenderer>());
         yield return StartCoroutine(movementScript.MoveBack(attacker, attacker.initialPosition));
         FighterSkin.SwitchFighterOrientation(attacker.GetComponent<SpriteRenderer>());
-        FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.IDLE);
     }
 
     //The attack order is determined by the Initiator skill. If no players have it it is determined by the speed.

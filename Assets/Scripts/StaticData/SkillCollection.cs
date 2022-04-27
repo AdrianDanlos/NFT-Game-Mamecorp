@@ -128,14 +128,14 @@ public static class SkillCollection
             {"category", SkillType.PASSIVES.ToString()},
             {"icon", "5" }
         },
-        new OrderedDictionary
-        {
-            {"name", SkillNames.BalletShoes},
-            {"description", "The opponent has a very high chance of missing it's first attack."},
-            {"skillRarity", SkillRarity.COMMON.ToString()},
-            {"category", SkillType.SUPERS.ToString()},
-            {"icon", "5" }
-        },
+        // new OrderedDictionary
+        // {
+        //     {"name", SkillNames.BalletShoes},
+        //     {"description", "The opponent has a very high chance of missing it's first attack."},
+        //     {"skillRarity", SkillRarity.COMMON.ToString()},
+        //     {"category", SkillType.SUPERS.ToString()},
+        //     {"icon", "5" }
+        // },
         new OrderedDictionary
         {
             {"name", SkillNames.Survival},

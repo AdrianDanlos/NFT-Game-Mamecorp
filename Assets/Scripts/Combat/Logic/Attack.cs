@@ -119,19 +119,16 @@ public class Attack : MonoBehaviour
     public IEnumerator PerformExplosiveBomb(Fighter attacker, Fighter defender)
     {
         Vector3 bombStartPos = attacker.transform.position;
-        Vector3 bombEndPos = defender.transform.position;
-        //bombStartPos.y -= 0.7f;
-        //bombEndPos.y -= 0.7f;
-        //bombEndPos.x = GetShurikenEndPositionX(dodged, attacker, shurikenEndPos);
 
         FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.THROW);
         yield return new WaitForSeconds(.1f); //Throw the bomb when the fighter arm is already up
 
         GameObject bombInstance = Instantiate(bomb, bombStartPos, Quaternion.identity);
         bombInstance.AddComponent(Type.GetType("BombAnimation"));
-        
-        //REMOVE
-        yield return new WaitForSeconds(2f);
+        bombInstance.GetComponent<BombAnimation>().targetPos = defender.initialPosition;
+
+        //Wait bomb travel time
+        yield return new WaitForSeconds(.6f);
 
         if (IsAttackDodged(defender))
         {

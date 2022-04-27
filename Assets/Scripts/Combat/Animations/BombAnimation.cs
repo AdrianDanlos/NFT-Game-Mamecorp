@@ -2,16 +2,9 @@ using UnityEngine;
 
 public class BombAnimation : MonoBehaviour
 {
-    [Tooltip("Position we want to hit")]
-    public Vector3 targetPos = new Vector3(6, -0.7f, 0);
-
-    [Tooltip("Horizontal speed, in units/sec")]
-    public float speed = 20;
-
-    [Tooltip("How high the arc should be, in units")]
-    public float arcHeight = 1;
-
-
+    public Vector3 targetPos; //Accesed from PerformExplosiveBomb method
+    private float speed = 20;
+    private float arcHeight = 1.25f;
     Vector3 startPos;
 
     void Start()

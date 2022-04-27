@@ -99,6 +99,6 @@ public class SkillsLogicInCombat : MonoBehaviour
     public IEnumerator ExplosiveBomb(Fighter attacker, Fighter defender)
     {
         yield return StartCoroutine(attackScript.PerformExplosiveBomb(attacker, defender));
-        //if (!Combat.isGameOver) FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.IDLE);
+        if (!Combat.isGameOver) FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.IDLE);
     }
 }

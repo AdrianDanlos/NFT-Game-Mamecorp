@@ -127,11 +127,11 @@ public class Attack : MonoBehaviour
         FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.THROW);
         yield return new WaitForSeconds(.1f); //Throw the bomb when the fighter arm is already up
 
-        GameObject shurikenInstance = Instantiate(bomb, bombStartPos, Quaternion.identity);
-        //Attach script with logic of movement
-        Debug.Log(this);
-        Debug.Log(gameObject.name);
-        gameObject.AddComponent(Type.GetType("BombAnimation"));
+        GameObject bombInstance = Instantiate(bomb, bombStartPos, Quaternion.identity);
+        bombInstance.AddComponent(Type.GetType("BombAnimation"));
+        
+        //REMOVE
+        yield return new WaitForSeconds(2f);
 
         if (IsAttackDodged(defender))
         {

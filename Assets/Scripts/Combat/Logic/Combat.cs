@@ -71,9 +71,6 @@ public class Combat : MonoBehaviour
 
     IEnumerator Start()
     {
-        //test
-        Debug.Log(player.skills.Count());
-
         yield return new WaitForSeconds(0);
         loadingScreen.SetBotLoadingScreenData(bot);
         yield return new WaitForSeconds(0);
@@ -252,10 +249,13 @@ public class Combat : MonoBehaviour
 
     IEnumerator StartTurn(Fighter attacker, Fighter defender)
     {
+        //Test
+        yield return StartCoroutine(skillsLogicScript.ExplosiveBomb(attacker, defender));
+        yield break;
+
         if (WillUseSkillThisTurn())
         {
-            yield return StartCoroutine(skillsLogicScript.ExplosiveBomb(attacker, defender));
-            //yield return StartCoroutine(UseRandomSkill(attacker, defender));
+            yield return StartCoroutine(UseRandomSkill(attacker, defender));
             yield break;
         }
         yield return skillsLogicScript.AttackWithoutSkills(attacker, defender);

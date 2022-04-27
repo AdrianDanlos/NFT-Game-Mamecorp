@@ -4,6 +4,7 @@ using UnityEngine;
 public class Attack : MonoBehaviour
 {
     public GameObject shuriken;
+    public GameObject bomb;
     public IEnumerator PerformAttack(Fighter attacker, Fighter defender)
     {
         if (Combat.movementScript.FighterShouldAdvanceToAttack(attacker)) yield return StartCoroutine(Combat.movementScript.MoveToMeleeRangeAgain(attacker, defender));

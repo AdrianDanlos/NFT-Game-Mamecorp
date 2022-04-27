@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class SkillsLogicInCombat : MonoBehaviour
 {
-    //TODO: This should be encapsulated on a class whenever we have a class for each skill
-    public const float PassiveSkillsModifier = 1.05f;
     private Combat combatScript;
     private Movement movementScript;
     private Attack attackScript;

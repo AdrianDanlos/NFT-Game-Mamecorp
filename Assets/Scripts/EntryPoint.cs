@@ -1,7 +1,5 @@
 using System.IO;
 using UnityEngine;
-using Newtonsoft.Json.Linq;
-using System.Collections.Generic;
 using System.Collections;
 
 
@@ -20,8 +18,8 @@ public class EntryPoint : MonoBehaviour
 
         if (saveFilesFound)
         {
-            ReadUserFile();
-            ReadFighterFile();
+            JsonDataManager.ReadUserFile();
+            JsonDataManager.ReadFighterFile();
             UnityEngine.SceneManagement.SceneManager.LoadScene(SceneNames.MainMenu.ToString());
         }
 
@@ -29,19 +27,6 @@ public class EntryPoint : MonoBehaviour
 
         // tests
         // SkillCollection.GetAllRaritySkillCount();
-    }
-
-    private void ReadUserFile()
-    {
-        JObject userData = JsonDataManager.ReadData(JsonDataManager.UserFileName);
-        UserFactory.CreateUserInstance((string)userData["userName"], (int)userData["energy"], (int)userData["wins"], (int)userData["loses"], (int)userData["elo"], (int)userData["gold"], (int)userData["gems"]);
-    }
-    private void ReadFighterFile()
-    {
-        JObject fighterData = JsonDataManager.ReadData(JsonDataManager.FighterFileName);
-        FighterFactory.CreatePlayerFighterInstance((string)fighterData["fighterName"], (string)fighterData["skin"], (string)fighterData["species"],
-            (float)fighterData["hp"], (float)fighterData["damage"], (float)fighterData["speed"], fighterData["skills"].ToObject<List<Skill>>(),
-            (int)fighterData["level"], (int)fighterData["experiencePoints"]);
     }
 
     private void HideFighter()

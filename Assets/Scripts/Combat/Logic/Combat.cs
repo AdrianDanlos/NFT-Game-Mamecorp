@@ -39,6 +39,10 @@ public class Combat : MonoBehaviour
     public static float playerMaxHp;
     public static float botMaxHp;
 
+    //Balance constants
+    //TODO: This should be encapsulated on a class whenever we have a class for each skill
+    private const float PassiveSkillsModifier = 1.05f;
+
     private void Awake()
     {
         isGameOver = false;
@@ -46,6 +50,7 @@ public class Combat : MonoBehaviour
         FindGameObjects();
         GetComponentReferences();
         GenerateBotData();
+        SetMaxHpValues();
 
         // LoadingScreen
         loadingScreen.SetPlayerLoadingScreenData(player);
@@ -54,7 +59,7 @@ public class Combat : MonoBehaviour
 
         //Load everything needed for the combat
         GenerateSkillsFixturesForPlayer();
-        BoostStatsBasedOnPassiveSkills();
+        BoostFightersStatsBasedOnPassiveSkills();
         SetVisibilityOfGameObjects();
         SetFighterPositions();
         SetOrderOfAttacks();
@@ -62,11 +67,13 @@ public class Combat : MonoBehaviour
         FighterSkin.SetFightersSkin(player, bot);
         FighterAnimations.ResetToDefaultAnimation(player);
         fightersUIDataScript.SetFightersUIInfo(player, bot, botElo);
-        SetMaxHpValues();
     }
 
     IEnumerator Start()
     {
+        //test
+        Debug.Log(player.skills.Count());
+
         yield return new WaitForSeconds(0);
         loadingScreen.SetBotLoadingScreenData(bot);
         yield return new WaitForSeconds(0);
@@ -74,27 +81,23 @@ public class Combat : MonoBehaviour
         StartCoroutine(InitiateCombat());
     }
 
-    private void BoostStatsBasedOnPassiveSkills()
+    private void BoostFightersStatsBasedOnPassiveSkills()
     {
-        ModifyStatsAffectedByPassiveSkills(player);
-        ModifyStatsAffectedByPassiveSkills(bot);
+        BoostStatsBasedOnPassiveSkills(player);
+        BoostStatsBasedOnPassiveSkills(bot);
     }
 
-    private void ModifyStatsAffectedByPassiveSkills(Fighter fighter)
+    private void BoostStatsBasedOnPassiveSkills(Fighter fighter)
     {
-        if (fighter.HasSkill(SkillNames.DangerousStrength)) fighter.damage = GetModifiedStat(fighter.damage);
-        if (fighter.HasSkill(SkillNames.Heavyweight)) fighter.hp = GetModifiedStat(fighter.hp);
-        if (fighter.HasSkill(SkillNames.Lightning)) fighter.speed = GetModifiedStat(fighter.speed);
-        if (fighter.HasSkill(SkillNames.Persistant)) fighter.repeatAttackChance = GetModifiedStat(fighter.repeatAttackChance);
-        if (fighter.HasSkill(SkillNames.FelineAgility)) fighter.dodgeChance = GetModifiedStat(fighter.dodgeChance);
-        if (fighter.HasSkill(SkillNames.CriticalBleeding)) fighter.criticalChance = GetModifiedStat(fighter.criticalChance);
-        if (fighter.HasSkill(SkillNames.Reversal)) fighter.reversalChance = GetModifiedStat(fighter.reversalChance);
-        if (fighter.HasSkill(SkillNames.CounterAttack)) fighter.counterAttackChance = GetModifiedStat(fighter.counterAttackChance);
+        if (fighter.HasSkill(SkillNames.DangerousStrength)) fighter.damage *= PassiveSkillsModifier;
+        if (fighter.HasSkill(SkillNames.Heavyweight)) fighter.hp *= PassiveSkillsModifier;
+        if (fighter.HasSkill(SkillNames.Lightning)) fighter.speed *= PassiveSkillsModifier;
+        if (fighter.HasSkill(SkillNames.Persistant)) fighter.repeatAttackChance *= PassiveSkillsModifier;
+        if (fighter.HasSkill(SkillNames.FelineAgility)) fighter.dodgeChance *= PassiveSkillsModifier;
+        if (fighter.HasSkill(SkillNames.CriticalBleeding)) fighter.criticalChance *= PassiveSkillsModifier;
+        if (fighter.HasSkill(SkillNames.Reversal)) fighter.reversalChance *= PassiveSkillsModifier;
+        if (fighter.HasSkill(SkillNames.CounterAttack)) fighter.counterAttackChance *= PassiveSkillsModifier;
     }
-
-    //Boosts stats based on passives at the start of the combat. Resets stats at the end of the combat.
-    public static Func<float, float> GetModifiedStat = stat =>
-        isGameOver ? stat /= SkillsLogicInCombat.PassiveSkillsModifier : stat *= SkillsLogicInCombat.PassiveSkillsModifier;
 
     private void GetComponentReferences()
     {
@@ -217,7 +220,7 @@ public class Combat : MonoBehaviour
     //TODO: Remove this on production
     private void GenerateSkillsFixturesForPlayer()
     {
-        //GIVE ALL SKILLS TO THE PLAYEER
+        //GIVE ALL SKILLS TO THE PLAYER FOR THE COMBAT
         foreach (OrderedDictionary skill in SkillCollection.skills)
         {
             Skill skillInstance = new Skill(skill["name"].ToString(), skill["description"].ToString(),
@@ -336,8 +339,7 @@ public class Combat : MonoBehaviour
 
     private void StartPostGameActions()
     {
-        //Reset stats boosted by Passive skills
-        ModifyStatsAffectedByPassiveSkills(player);
+        ResetPlayerObject();
 
         bool isPlayerWinner = PostGameActions.HasPlayerWon(player);
         int eloChange = MatchMaking.CalculateEloChange(User.Instance.elo, botElo, isPlayerWinner);
@@ -366,7 +368,9 @@ public class Combat : MonoBehaviour
         fightersUIDataScript.EnableResults(results);
 
         //Save
-        PostGameActions.ResetPlayerHp(playerMaxHp);
         PostGameActions.Save(player);
     }
+
+    //During the combat the player object experiences a lot of changes so we need to set it back to its default state after the combat.
+    private Action ResetPlayerObject = () => player = JsonDataManager.ReadFighterFile();
 }

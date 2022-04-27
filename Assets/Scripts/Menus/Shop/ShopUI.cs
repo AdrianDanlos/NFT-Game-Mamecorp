@@ -93,10 +93,20 @@ public class ShopUI : MonoBehaviour
 
     public void BuyChest()
     {
+        float gemsValue;
+        chestButtonPressed = EventSystem.current.currentSelectedGameObject.name;
+
+        switch (chestButtonPressed)
+        {
+            case "LEGENDARY":
+                gemsValue = 30;
+                break;
+        }
+
         // handle which chest was opened to change icon after
         if (CurrencyHandler.instance.hasEnoughGems(30))
         {
-            chestButtonPressed = EventSystem.current.currentSelectedGameObject.name;
+            
             buyConfirmation.SetActive(true);
             abortButton.SetActive(true);
             confirmButton.SetActive(true);
@@ -142,7 +152,7 @@ public class ShopUI : MonoBehaviour
 
 
         // reward mockup
-        switch (Chest.OpenChest(chestButtonPressed))
+        switch (ChestManager.OpenChest(chestButtonPressed))
         {
             case "RARE":
                 chestRewards.transform.GetChild(1).GetChild(0).GetComponent<Image>().sprite = frameColors[1].GetComponent<SpriteRenderer>().sprite;

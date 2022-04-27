@@ -45,7 +45,7 @@ public class EntryPoint : MonoBehaviour
         for(int i=0; i < 10000; i++)
         {
             // reward mockup
-            switch (Chest.GetBattleChestSkillReward(Chest.GetRandomBattleChest().ToString()).ToString())
+            switch (ChestManager.GetBattleChestSkillReward(ChestManager.GetRandomBattleChest().ToString()).ToString())
             {
                 case "COMMON":
                     x++;

@@ -4,7 +4,7 @@ public class BombAnimation : MonoBehaviour
 {
     public Vector3 targetPos; //Accesed from PerformExplosiveBomb method
     private float speed = 20;
-    private float arcHeight = 1.25f;
+    private float arcHeight = 1.5f;
     Vector3 startPos;
 
     void Start()

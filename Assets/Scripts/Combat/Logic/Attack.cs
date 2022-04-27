@@ -127,20 +127,17 @@ public class Attack : MonoBehaviour
         bombInstance.AddComponent(Type.GetType("BombAnimation"));
         bombInstance.GetComponent<BombAnimation>().targetPos = defender.initialPosition;
 
-        //Wait bomb travel time
-        yield return new WaitForSeconds(.6f);
-
-        if (IsAttackDodged(defender))
-        {
-            yield return StartCoroutine(DefenderDodgesAttack(defender));
-            yield break;
-        }
-
         if (IsAttackShielded())
         {
+            //Cast shield when bomb is mid air
+            yield return new WaitForSeconds(.4f);
             yield return StartCoroutine(ShieldAttack(defender));
+            yield return new WaitForSeconds(.2f);
             yield break;
         }
+
+        //Wait bomb travel time
+        yield return new WaitForSeconds(.6f);
 
         yield return DefenderReceivesAttack(attacker, defender, attacker.damage, 0.25f, 0);
     }

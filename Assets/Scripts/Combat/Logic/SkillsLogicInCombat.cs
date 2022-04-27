@@ -1,5 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public class SkillsLogicInCombat : MonoBehaviour
@@ -103,13 +103,22 @@ public class SkillsLogicInCombat : MonoBehaviour
     }
     public IEnumerator InterdimensionalTravel(Fighter attacker, Fighter defender)
     {
-        //blink?
         FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.IDLE_BLINKING);
-        yield return new WaitForSeconds(1f);
-        //go invisible //if it looks weird try to go invisible fading
+        //Wait for blinking animation to finish
+        yield return new WaitForSeconds(1.2f);
+        attacker.GetComponent<Renderer>().material.color = GetFighterColorWithCustomOpacity(attacker, 0);
         yield return combatScript.MoveForwardHandler(attacker);
-        //yield return StartCoroutine(attackScript.PerformInterdimensionalTravel(attacker, defender));
+        attacker.GetComponent<Renderer>().material.color = GetFighterColorWithCustomOpacity(attacker, 1);
+        yield return StartCoroutine(attackScript.PerformAttack(attacker, defender));
         if (!Combat.isGameOver) FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.IDLE);
         yield return combatScript.MoveBackHandler(attacker);
+    }
+    private Func<Fighter, Color> GetFighterColor = attacker => attacker.GetComponent<Renderer>().material.color;
+
+    private Color GetFighterColorWithCustomOpacity(Fighter fighter, float opacity)
+    {
+        Color fighterColor = fighter.GetComponent<Renderer>().material.color;
+        fighterColor.a = opacity;
+        return fighterColor;
     }
 }

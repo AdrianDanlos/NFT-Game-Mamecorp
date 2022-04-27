@@ -28,6 +28,7 @@ public class ShopUI : MonoBehaviour
 
     // shop flow
     string chestButtonPressed;
+    int gemsValue = 0;
 
     // data
     Fighter fighterData;
@@ -93,20 +94,25 @@ public class ShopUI : MonoBehaviour
 
     public void BuyChest()
     {
-        float gemsValue;
         chestButtonPressed = EventSystem.current.currentSelectedGameObject.name;
 
-        switch (chestButtonPressed)
+        switch ((Chest.ShopChestTypes)System.Enum.Parse
+            (typeof(Chest.ShopChestTypes), chestButtonPressed.ToUpper()))
         {
-            case "LEGENDARY":
-                gemsValue = 30;
+            case Chest.ShopChestTypes.NORMAL:
+                gemsValue = Chest.shopChestsValue[Chest.ShopChestTypes.NORMAL]["gems"];
+                break;
+            case Chest.ShopChestTypes.EPIC:
+                gemsValue = Chest.shopChestsValue[Chest.ShopChestTypes.EPIC]["gems"];
+                break;
+            case Chest.ShopChestTypes.LEGENDARY:
+                gemsValue = Chest.shopChestsValue[Chest.ShopChestTypes.LEGENDARY]["gems"];
                 break;
         }
 
         // handle which chest was opened to change icon after
-        if (CurrencyHandler.instance.hasEnoughGems(30))
+        if (CurrencyHandler.instance.hasEnoughGems(gemsValue))
         {
-            
             buyConfirmation.SetActive(true);
             abortButton.SetActive(true);
             confirmButton.SetActive(true);
@@ -123,7 +129,7 @@ public class ShopUI : MonoBehaviour
 
     public void HandleChestPopUp()
     {
-        CurrencyHandler.instance.SubstractGems(30);
+        CurrencyHandler.instance.SubstractGems(gemsValue);
         buyConfirmation.SetActive(false);
         abortButton.SetActive(false);
         confirmButton.SetActive(false);

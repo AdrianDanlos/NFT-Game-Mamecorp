@@ -158,23 +158,23 @@ public static class Chest
             },
         };
 
-    public static readonly Dictionary<ShopChestTypes, Dictionary<string, float>> shopChestsValue =
-        new Dictionary<ShopChestTypes, Dictionary<string, float>>
+    public static readonly Dictionary<ShopChestTypes, Dictionary<string, int>> shopChestsValue =
+        new Dictionary<ShopChestTypes, Dictionary<string, int>>
         {
                 {
-                    ShopChestTypes.NORMAL, new Dictionary<string, float>
+                    ShopChestTypes.NORMAL, new Dictionary<string, int>
                     {
                         {"gems", 7},
                     }
                 },
                 {
-                    ShopChestTypes.EPIC, new Dictionary<string, float>
+                    ShopChestTypes.EPIC, new Dictionary<string, int>
                     {
                         {"gems", 15},
                     }
                 },
                 {
-                    ShopChestTypes.LEGENDARY, new Dictionary<string, float>
+                    ShopChestTypes.LEGENDARY, new Dictionary<string, int>
                     {
                         {"gems", 30},
                     }

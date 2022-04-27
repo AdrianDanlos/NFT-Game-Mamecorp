@@ -1,9 +1,10 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using System;
 public class Attack : MonoBehaviour
 {
     public GameObject shuriken;
+    public GameObject bomb;
     public IEnumerator PerformAttack(Fighter attacker, Fighter defender)
     {
         if (Combat.movementScript.FighterShouldAdvanceToAttack(attacker)) yield return StartCoroutine(Combat.movementScript.MoveToMeleeRangeAgain(attacker, defender));
@@ -105,6 +106,38 @@ public class Attack : MonoBehaviour
         StartCoroutine(Combat.movementScript.RotateObjectOverTime(shurikenInstance, new Vector3(0, 0, 2000), 0.35f));
         yield return StartCoroutine(Combat.movementScript.MoveShuriken(shurikenInstance, shurikenStartPos, shurikenEndPos, 0.35f));
         Destroy(shurikenInstance);
+
+        if (IsAttackShielded())
+        {
+            yield return StartCoroutine(ShieldAttack(defender));
+            yield break;
+        }
+
+        yield return DefenderReceivesAttack(attacker, defender, attacker.damage, 0.25f, 0);
+    }
+
+    public IEnumerator PerformExplosiveBomb(Fighter attacker, Fighter defender)
+    {
+        Vector3 bombStartPos = attacker.transform.position;
+        Vector3 bombEndPos = defender.transform.position;
+        //bombStartPos.y -= 0.7f;
+        //bombEndPos.y -= 0.7f;
+        //bombEndPos.x = GetShurikenEndPositionX(dodged, attacker, shurikenEndPos);
+
+        FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.THROW);
+        yield return new WaitForSeconds(.1f); //Throw the bomb when the fighter arm is already up
+
+        GameObject shurikenInstance = Instantiate(bomb, bombStartPos, Quaternion.identity);
+        //Attach script with logic of movement
+        Debug.Log(this);
+        Debug.Log(gameObject.name);
+        gameObject.AddComponent(Type.GetType("BombAnimation"));
+
+        if (IsAttackDodged(defender))
+        {
+            yield return StartCoroutine(DefenderDodgesAttack(defender));
+            yield break;
+        }
 
         if (IsAttackShielded())
         {

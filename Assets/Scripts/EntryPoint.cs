@@ -1,17 +1,31 @@
 using System.IO;
 using UnityEngine;
 using System.Collections;
-
+using TMPro;
+using UnityEngine.UI;
 
 public class EntryPoint : MonoBehaviour
 {
+    // UI 
+    GameObject loadingBarGO;
+    TextMeshProUGUI loadingText;
+    Slider loadingBar;
+
+    private void Awake()
+    {
+        loadingBarGO = GameObject.Find("Slider_LoadingBar");
+        loadingText = loadingBarGO.GetComponentInChildren<TextMeshProUGUI>();
+        loadingBar = loadingBarGO.GetComponent<Slider>();
+    }
+
     public static GameObject fighterGameObject;
     IEnumerator Start()
     {
         HideFighter();
 
         //TODO: Set the time of loading screen
-        yield return new WaitForSeconds(0f);
+        StartCoroutine(FakeDelay());
+        yield return new WaitForSeconds(3.5f);
 
         bool saveFilesFound = File.Exists(JsonDataManager.getFilePath(JsonDataManager.UserFileName)) &&
             File.Exists(JsonDataManager.getFilePath(JsonDataManager.FighterFileName));
@@ -24,44 +38,30 @@ public class EntryPoint : MonoBehaviour
         }
 
         else UnityEngine.SceneManagement.SceneManager.LoadScene(SceneNames.ChooseFirstFighter.ToString());
+    }
 
-        // tests
-        // SkillCollection.GetAllRaritySkillCount();
+    IEnumerator FakeDelay()
+    {
+        loadingText.text = "0%";
+        loadingBar.value = 0f;
+        yield return new WaitForSeconds(1f);
+
+        loadingText.text = "30%";
+        loadingBar.value = 0.3f;
+        yield return new WaitForSeconds(1f);
+
+        loadingText.text = "70%";
+        loadingBar.value = 0.7f;
+        yield return new WaitForSeconds(0.5f);
+
+        loadingText.text = "100%";
+        loadingBar.value = 1f;
+        yield return new WaitForSeconds(1f);
     }
 
     private void HideFighter()
     {
         fighterGameObject = GameObject.Find("Fighter");
         fighterGameObject.SetActive(false);
-    }
-
-    private void ChestTest()
-    {
-        int x = 0;
-        int y = 0;
-        int z = 0;
-        int q = 0;
-
-        for(int i=0; i < 10000; i++)
-        {
-            // reward mockup
-            switch (ChestManager.GetBattleChestSkillReward(ChestManager.GetRandomBattleChest().ToString()).ToString())
-            {
-                case "COMMON":
-                    x++;
-                    break;
-                case "UNCOMMON":
-                    y++;
-                    break;
-                case "RARE":
-                    z++;
-                    break;
-                case "EPIC":
-                    q++;
-                    break;
-            }
-        }
-
-        Debug.Log("COMMON: " + x + "| UNCOMMON: " + y + " | RARE: " + z + " | EPIC: " + q);
     }
 }

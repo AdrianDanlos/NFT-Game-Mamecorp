@@ -64,8 +64,6 @@ public class ShopUI : MonoBehaviour
         noCurrencyButton.SetActive(false);
         abortButton.SetActive(false);
         confirmButton.SetActive(false);
-
-        SkillCollection.GetSkillsNameData(fighterData.skills);
     }
 
     public void ConfirmPurchase()
@@ -95,20 +93,7 @@ public class ShopUI : MonoBehaviour
     public void BuyChest()
     {
         chestButtonPressed = EventSystem.current.currentSelectedGameObject.name;
-
-        switch ((Chest.ShopChestTypes)System.Enum.Parse
-            (typeof(Chest.ShopChestTypes), chestButtonPressed.ToUpper()))
-        {
-            case Chest.ShopChestTypes.NORMAL:
-                gemsValue = Chest.shopChestsValue[Chest.ShopChestTypes.NORMAL]["gems"];
-                break;
-            case Chest.ShopChestTypes.EPIC:
-                gemsValue = Chest.shopChestsValue[Chest.ShopChestTypes.EPIC]["gems"];
-                break;
-            case Chest.ShopChestTypes.LEGENDARY:
-                gemsValue = Chest.shopChestsValue[Chest.ShopChestTypes.LEGENDARY]["gems"];
-                break;
-        }
+        GetChestValueFromType(chestButtonPressed);
 
         // handle which chest was opened to change icon after
         if (CurrencyHandler.instance.hasEnoughGems(gemsValue))
@@ -180,6 +165,23 @@ public class ShopUI : MonoBehaviour
     // fighter call from skillcollection
     public void GetFighterSkills()
     {
-        SkillCollection.GetFighterSkillsData(fighterData.skills);
+        Inventory.GetFighterSkillsData(fighterData.skills);
+    }
+
+    public void GetChestValueFromType(string chestType)
+    {
+        switch ((Chest.ShopChestTypes)System.Enum.Parse
+            (typeof(Chest.ShopChestTypes), chestType.ToUpper()))
+        {
+            case Chest.ShopChestTypes.NORMAL:
+                gemsValue = Chest.shopChestsValue[Chest.ShopChestTypes.NORMAL]["gems"];
+                break;
+            case Chest.ShopChestTypes.EPIC:
+                gemsValue = Chest.shopChestsValue[Chest.ShopChestTypes.EPIC]["gems"];
+                break;
+            case Chest.ShopChestTypes.LEGENDARY:
+                gemsValue = Chest.shopChestsValue[Chest.ShopChestTypes.LEGENDARY]["gems"];
+                break;
+        }
     }
 }

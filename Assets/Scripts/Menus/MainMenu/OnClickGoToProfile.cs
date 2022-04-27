@@ -1,18 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class OnClickGoToProfile : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public GameObject profile;
 
-    // Update is called once per frame
-    void Update()
+    public void ShowProfile()
     {
-        
+        profile.SetActive(true);
     }
 }

@@ -10,22 +10,27 @@ public class EntryPoint : MonoBehaviour
     GameObject loadingBarGO;
     TextMeshProUGUI loadingText;
     Slider loadingBar;
+    TextMeshProUGUI tipText;
 
     private void Awake()
     {
         loadingBarGO = GameObject.Find("Slider_LoadingBar");
         loadingText = loadingBarGO.GetComponentInChildren<TextMeshProUGUI>();
         loadingBar = loadingBarGO.GetComponent<Slider>();
+        tipText = GameObject.Find("TipText").GetComponentInChildren<TextMeshProUGUI>();
     }
 
     public static GameObject fighterGameObject;
     IEnumerator Start()
     {
         HideFighter();
+        GenerateTip();
 
         //TODO: Set the time of loading screen
-        StartCoroutine(FakeDelay());
-        yield return new WaitForSeconds(3.5f);
+        // --- Enable this for loading effect ---
+        // StartCoroutine(FakeDelay());
+        // yield return new WaitForSeconds(3.5f);
+        yield return new WaitForSeconds(0f);
 
         bool saveFilesFound = File.Exists(JsonDataManager.getFilePath(JsonDataManager.UserFileName)) &&
             File.Exists(JsonDataManager.getFilePath(JsonDataManager.FighterFileName));
@@ -63,5 +68,10 @@ public class EntryPoint : MonoBehaviour
     {
         fighterGameObject = GameObject.Find("Fighter");
         fighterGameObject.SetActive(false);
+    }
+
+    private void GenerateTip()
+    {
+        tipText.text = Tips.tips[Random.Range(0, Tips.tips.Count)];
     }
 }

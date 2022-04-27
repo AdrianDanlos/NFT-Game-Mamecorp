@@ -113,8 +113,6 @@ public class SkillsLogicInCombat : MonoBehaviour
         if (!Combat.isGameOver) FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.IDLE);
         yield return combatScript.MoveBackHandler(attacker);
     }
-    private Func<Fighter, Color> GetFighterColor = attacker => attacker.GetComponent<Renderer>().material.color;
-
     private Color GetFighterColorWithCustomOpacity(Fighter fighter, float opacity)
     {
         Color fighterColor = fighter.GetComponent<Renderer>().material.color;

@@ -23,6 +23,7 @@ public struct SkillNames
     public const string JumpStrike = "Jump Strike";
     public const string GloriousShield = "Glorious Shield";
     public const string ExplosiveBomb = "Explosive Bomb";
+    public const string InterdimensionalTravel = "Interdimensional Travel";
 
 }
 
@@ -183,6 +184,14 @@ public static class SkillCollection
             {"skillRarity", SkillRarity.RARE.ToString()},
             {"category", SkillType.SUPERS.ToString()},
             {"icon", "5" }
+        },
+        new OrderedDictionary
+        {
+            {"name", SkillNames.InterdimensionalTravel},
+            {"description", "Briefly disappears from combat to reappear in front of the opponent catching it by surprise and dealing extra damage."},
+            {"skillRarity", SkillRarity.RARE.ToString()},
+            {"category", SkillType.SUPERS.ToString()},
+            {"icon", "5" }
         }
     };
 
@@ -273,9 +282,9 @@ public static class SkillCollection
             }
         }
 
-        Debug.Log("COMMON: " + skillsByRarityCount["COMMON"] + 
-            " | RARE: " + skillsByRarityCount["RARE"] + 
-            " | EPIC: " + skillsByRarityCount["EPIC"] + 
+        Debug.Log("COMMON: " + skillsByRarityCount["COMMON"] +
+            " | RARE: " + skillsByRarityCount["RARE"] +
+            " | EPIC: " + skillsByRarityCount["EPIC"] +
             " | LEGENDARY: " + skillsByRarityCount["LEGENDARY"]);
 
         return skillsByRarityCount;

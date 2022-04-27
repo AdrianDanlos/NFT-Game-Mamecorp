@@ -101,4 +101,15 @@ public class SkillsLogicInCombat : MonoBehaviour
         yield return StartCoroutine(attackScript.PerformExplosiveBomb(attacker, defender));
         if (!Combat.isGameOver) FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.IDLE);
     }
+    public IEnumerator InterdimensionalTravel(Fighter attacker, Fighter defender)
+    {
+        //blink?
+        FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.IDLE_BLINKING);
+        yield return new WaitForSeconds(1f);
+        //go invisible //if it looks weird try to go invisible fading
+        yield return combatScript.MoveForwardHandler(attacker);
+        //yield return StartCoroutine(attackScript.PerformInterdimensionalTravel(attacker, defender));
+        if (!Combat.isGameOver) FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.IDLE);
+        yield return combatScript.MoveBackHandler(attacker);
+    }
 }

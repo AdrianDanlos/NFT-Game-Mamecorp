@@ -71,9 +71,6 @@ public class Combat : MonoBehaviour
 
     IEnumerator Start()
     {
-        //test
-        Debug.Log(player.skills.Count());
-
         yield return new WaitForSeconds(0);
         loadingScreen.SetBotLoadingScreenData(bot);
         yield return new WaitForSeconds(0);
@@ -252,20 +249,24 @@ public class Combat : MonoBehaviour
 
     IEnumerator StartTurn(Fighter attacker, Fighter defender)
     {
-        if (WillUseSkillThisTurn())
-        {
-            yield return StartCoroutine(skillsLogicScript.ExplosiveBomb(attacker, defender));
-            //yield return StartCoroutine(UseRandomSkill(attacker, defender));
-            yield break;
-        }
-        yield return skillsLogicScript.AttackWithoutSkills(attacker, defender);
+        //Test
+        yield return StartCoroutine(skillsLogicScript.InterdimensionalTravel(attacker, defender));
+        FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.IDLE);
+        yield break;
+
+        // if (WillUseSkillThisTurn())
+        // {
+        //     yield return StartCoroutine(UseRandomSkill(attacker, defender));
+        //     yield break;
+        // }
+        //yield return skillsLogicScript.AttackWithoutSkills(attacker, defender);
     }
 
     IEnumerator UseRandomSkill(Fighter attacker, Fighter defender)
     {
         //TODO FUTURE REFACTOR: Each skill should have each own class with its own skill implementation. (methods, attributes, etc...)
         // Then we can instantiate a random class here to use a random SUPER skill this turn
-        int numberOfSkills = 5;
+        int numberOfSkills = 6;
 
         int randomNumber = UnityEngine.Random.Range(0, numberOfSkills) + 1;
         switch (randomNumber)
@@ -290,7 +291,13 @@ public class Combat : MonoBehaviour
                 yield return skillsLogicScript.ExplosiveBomb(attacker, defender);
                 attacker.removeUsedSkill(SkillNames.ExplosiveBomb);
                 break;
+            case 6:
+                yield return skillsLogicScript.InterdimensionalTravel(attacker, defender);
+                attacker.removeUsedSkill(SkillNames.InterdimensionalTravel);
+                break;
         }
+
+        FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.IDLE);
     }
 
     private bool WillUseSkillThisTurn()
@@ -311,7 +318,6 @@ public class Combat : MonoBehaviour
         FighterSkin.SwitchFighterOrientation(attacker.GetComponent<SpriteRenderer>());
         yield return StartCoroutine(movementScript.MoveBack(attacker, attacker.initialPosition));
         FighterSkin.SwitchFighterOrientation(attacker.GetComponent<SpriteRenderer>());
-        FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.IDLE);
     }
 
     //The attack order is determined by the Initiator skill. If no players have it it is determined by the speed.

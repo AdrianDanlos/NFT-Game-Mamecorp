@@ -17,6 +17,7 @@ public class FighterAnimations : MonoBehaviour
         THROW,
         SLIDE,
         AIR_ATTACK,
+        IDLE_BLINKING,
     }
 
     public static void ChangeAnimation(Fighter fighter, AnimationNames newAnimation)

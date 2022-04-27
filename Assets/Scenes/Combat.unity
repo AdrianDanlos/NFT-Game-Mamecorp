@@ -1793,7 +1793,7 @@ Transform:
   - {fileID: 1342729861}
   - {fileID: 1493600185}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &344010302
 GameObject:
@@ -9196,6 +9196,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shuriken: {fileID: 2740522032071986697, guid: af825e92cbe4f9a4f93acde4817b7146, type: 3}
+  bomb: {fileID: 5283297816773594384, guid: cd76a86c145015c4a981128f2474dc26, type: 3}
 --- !u!4 &1570540183
 Transform:
   m_ObjectHideFlags: 0
@@ -9315,6 +9316,7 @@ MonoBehaviour:
   botName: {fileID: 1037328736}
   botSprite: {fileID: 0}
   botData: {fileID: 0}
+  botLevels: {fileID: 0}
   spinner: {fileID: 0}
 --- !u!1 &1581309672
 GameObject:

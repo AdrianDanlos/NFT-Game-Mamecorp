@@ -96,4 +96,9 @@ public class SkillsLogicInCombat : MonoBehaviour
         yield return combatScript.MoveBackHandler(attacker);
         combatScript.ResetFightersDestinationPosition();
     }
+    public IEnumerator ExplosiveBomb(Fighter attacker, Fighter defender)
+    {
+        yield return StartCoroutine(attackScript.PerformExplosiveBomb(attacker, defender));
+        //if (!Combat.isGameOver) FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.IDLE);
+    }
 }

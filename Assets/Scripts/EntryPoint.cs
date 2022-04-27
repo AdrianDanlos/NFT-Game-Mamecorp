@@ -28,8 +28,8 @@ public class EntryPoint : MonoBehaviour
 
         //TODO: Set the time of loading screen
         // --- Enable this for loading effect ---
-        // StartCoroutine(FakeDelay());
-        // yield return new WaitForSeconds(3.5f);
+        StartCoroutine(FakeDelay());
+        yield return new WaitForSeconds(3.5f);
         yield return new WaitForSeconds(0f);
 
         bool saveFilesFound = File.Exists(JsonDataManager.getFilePath(JsonDataManager.UserFileName)) &&

@@ -22,6 +22,7 @@ public struct SkillNames
     public const string LowBlow = "Low Blow";
     public const string JumpStrike = "Jump Strike";
     public const string GloriousShield = "Glorious Shield";
+    public const string ExplosiveBomb = "Explosive Bomb";
 
 }
 
@@ -172,6 +173,14 @@ public static class SkillCollection
             {"name", SkillNames.JumpStrike},
             {"description", "Jump towards the opponent to execute a sequence of lightning fast attacks that grant lifesteal and can't be dodged."},
             {"skillRarity", SkillRarity.EPIC.ToString()},
+            {"category", SkillType.SUPERS.ToString()},
+            {"icon", "5" }
+        },
+        new OrderedDictionary
+        {
+            {"name", SkillNames.ExplosiveBomb},
+            {"description", "Throw an explosive bomb towards your opponent that instantly detonates to inflict severe damage."},
+            {"skillRarity", SkillRarity.RARE.ToString()},
             {"category", SkillType.SUPERS.ToString()},
             {"icon", "5" }
         }

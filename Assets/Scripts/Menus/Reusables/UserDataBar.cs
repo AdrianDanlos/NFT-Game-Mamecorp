@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class UserDataBar : MonoBehaviour
 {
@@ -9,14 +10,28 @@ public class UserDataBar : MonoBehaviour
     public GameObject timer;
     public GameObject playerNameGO;
 
-    void Start()
+    IEnumerator Start()
     {
         Fighter player = PlayerUtils.FindInactiveFighter();
         MenuUtils.SetGold(gold);
         MenuUtils.SetGems(gems);
         EnergyManager.RefreshEnergyBasedOnCountdown();
         MenuUtils.SetEnergy(energy);
-        MenuUtils.DisplayEnergyCountdown(timerContainer, timer);
         MenuUtils.SetName(playerNameGO, player.fighterName);
+
+        //Update timer each second
+        while (!EnergyManager.UserHasMaxEnergy())
+        {
+            MenuUtils.DisplayEnergyCountdown(timerContainer, timer);
+            yield return new WaitForSeconds(1f);
+        }
+
+        timerContainer.SetActive(false);
     }
+
+    void OutputTime()
+    {
+        Debug.Log(Time.time);
+    }
+
 }

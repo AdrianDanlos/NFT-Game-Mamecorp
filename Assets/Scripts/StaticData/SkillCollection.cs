@@ -58,7 +58,7 @@ public static class SkillCollection
             {"description", "Increase the attack damage by 5%"},
             {"skillRarity", SkillRarity.COMMON.ToString()},
             {"category", SkillType.PASSIVES.ToString()},
-            {"icon", "5" }
+            {"icon", "1" }
         },
         new OrderedDictionary
         {
@@ -66,7 +66,7 @@ public static class SkillCollection
             {"description", "Increase the health by 5%"},
             {"skillRarity", SkillRarity.COMMON.ToString()},
             {"category", SkillType.PASSIVES.ToString()},
-            {"icon", "5" }
+            {"icon", "2" }
         },
         new OrderedDictionary
         {
@@ -74,7 +74,7 @@ public static class SkillCollection
             {"description", "Increase the speed by 5%"},
             {"skillRarity", SkillRarity.COMMON.ToString()},
             {"category", SkillType.PASSIVES.ToString()},
-            {"icon", "5" }
+            {"icon", "3" }
         },
         new OrderedDictionary
         {
@@ -82,7 +82,7 @@ public static class SkillCollection
             {"description", "Increase the chances of attacking multiple times by 5%"},
             {"skillRarity", SkillRarity.COMMON.ToString()},
             {"category", SkillType.PASSIVES.ToString()},
-            {"icon", "5" }
+            {"icon", "4" }
         },
         new OrderedDictionary
         {
@@ -98,7 +98,7 @@ public static class SkillCollection
             {"description", "Increase the chance of landing a critical hit by 5%"},
             {"skillRarity", SkillRarity.COMMON.ToString()},
             {"category", SkillType.PASSIVES.ToString()},
-            {"icon", "5" }
+            {"icon", "6" }
         },
         new OrderedDictionary
         {
@@ -106,7 +106,7 @@ public static class SkillCollection
             {"description", "Increase the chance of attacking your opponent before he has finished his turn by 5%"},
             {"skillRarity", SkillRarity.RARE.ToString()},
             {"category", SkillType.PASSIVES.ToString()},
-            {"icon", "5" }
+            {"icon", "7" }
         },
         new OrderedDictionary
         {
@@ -114,7 +114,7 @@ public static class SkillCollection
             {"description", "Increase the chance of hitting the opponent before it hits you by 5%"},
             {"skillRarity", SkillRarity.RARE.ToString()},
             {"category", SkillType.PASSIVES.ToString()},
-            {"icon", "5" }
+            {"icon", "8" }
         },
         new OrderedDictionary
         {
@@ -122,7 +122,7 @@ public static class SkillCollection
             {"description", "You attack first every game."},
             {"skillRarity", SkillRarity.RARE.ToString()},
             {"category", SkillType.SPONTANEOUS.ToString()},
-            {"icon", "5" }
+            {"icon", "9" }
         },
         new OrderedDictionary
         {
@@ -130,7 +130,7 @@ public static class SkillCollection
             {"description", "Whenever your opponent attacks you have a chance of invoking a shield that will block the attack."},
             {"skillRarity", SkillRarity.RARE.ToString()},
             {"category", SkillType.SPONTANEOUS.ToString()},
-            {"icon", "5" }
+            {"icon", "10" }
         },
         // new OrderedDictionary
         // {
@@ -138,7 +138,7 @@ public static class SkillCollection
         //     {"description", "The opponent has a very high chance of missing it's first attack."},
         //     {"skillRarity", SkillRarity.COMMON.ToString()},
         //     {"category", SkillType.SPONTANEOUS.ToString()},
-        //     {"icon", "5" }
+        //     {"icon", "11" }
         // },
         new OrderedDictionary
         {
@@ -146,7 +146,7 @@ public static class SkillCollection
             {"description", "Whenever you take lethal damage you survive with 1 health point."},
             {"skillRarity", SkillRarity.EPIC.ToString()},
             {"category", SkillType.SPONTANEOUS.ToString()},
-            {"icon", "5" }
+            {"icon", "12" }
         },
         new OrderedDictionary
         {
@@ -154,7 +154,7 @@ public static class SkillCollection
             {"description", "Land between 4 and 8 deadly kicks that can't be dodged."},
             {"skillRarity", SkillRarity.RARE.ToString()},
             {"category", SkillType.SUPERS.ToString()},
-            {"icon", "5" }
+            {"icon", "13" }
         },
         new OrderedDictionary
         {
@@ -162,7 +162,7 @@ public static class SkillCollection
             {"description", "Throw between 4 and 8 ninja shurikens at high speed to your opponent."},
             {"skillRarity", SkillRarity.EPIC.ToString()},
             {"category", SkillType.SUPERS.ToString()},
-            {"icon", "5" }
+            {"icon", "14" }
         },
         new OrderedDictionary
         {
@@ -170,7 +170,7 @@ public static class SkillCollection
             {"description", "Run and slide towards your opponent to hit a low blow that deals critical damage."},
             {"skillRarity", SkillRarity.RARE.ToString()},
             {"category", SkillType.SUPERS.ToString()},
-            {"icon", "5" }
+            {"icon", "15" }
         },
         new OrderedDictionary
         {
@@ -178,7 +178,7 @@ public static class SkillCollection
             {"description", "Jump towards the opponent to execute a sequence of lightning fast attacks that grant lifesteal and can't be dodged."},
             {"skillRarity", SkillRarity.EPIC.ToString()},
             {"category", SkillType.SUPERS.ToString()},
-            {"icon", "5" }
+            {"icon", "16" }
         },
         new OrderedDictionary
         {
@@ -186,7 +186,7 @@ public static class SkillCollection
             {"description", "Throw an explosive bomb towards your opponent that instantly detonates to inflict severe damage."},
             {"skillRarity", SkillRarity.RARE.ToString()},
             {"category", SkillType.SUPERS.ToString()},
-            {"icon", "5" }
+            {"icon", "17" }
         },
         new OrderedDictionary
         {
@@ -194,7 +194,7 @@ public static class SkillCollection
             {"description", "Become invisble for a brief time to catch your opponent by surprise and deal extra damage."},
             {"skillRarity", SkillRarity.RARE.ToString()},
             {"category", SkillType.SUPERS.ToString()},
-            {"icon", "5" }
+            {"icon", "18" }
         },
         new OrderedDictionary
         {
@@ -202,16 +202,15 @@ public static class SkillCollection
             {"description", "Use a magic potion that heals a 30% of the maximum health."},
             {"skillRarity", SkillRarity.RARE.ToString()},
             {"category", SkillType.SUPERS.ToString()},
-            {"icon", "5" }
-        }
-        ,
+            {"icon", "19" }
+        },
         new OrderedDictionary
         {
             {"name", SkillNames.ViciousTheft},
             {"description", "Steal one of the opponent skills and use it immediately."},
             {"skillRarity", SkillRarity.RARE.ToString()},
             {"category", SkillType.SUPERS.ToString()},
-            {"icon", "5" }
+            {"icon", "20" }
         }
     };
 

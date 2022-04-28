@@ -149,11 +149,11 @@ public class Attack : MonoBehaviour
         Vector3 potionPosition = attacker.transform.position;
         potionPosition.y += 2.5f;
         GameObject potionInstance = Instantiate(potion, potionPosition, Quaternion.identity);
-        attacker.GetComponent<SpriteRenderer>().color = new Color32(147,255,86,255);
+        attacker.GetComponent<SpriteRenderer>().color = new Color32(147, 255, 86, 255);
         RestoreLife(attacker, 30);
         Combat.fightersUIDataScript.ModifyHealthBar(attacker, Combat.player == attacker);
         yield return new WaitForSeconds(1.5f);
-        attacker.GetComponent<SpriteRenderer>().color = new Color32(255,255,255, 255);
+        attacker.GetComponent<SpriteRenderer>().color = new Color32(255, 255, 255, 255);
         Destroy(potionInstance);
     }
 
@@ -240,7 +240,7 @@ public class Attack : MonoBehaviour
         return Probabilities.IsHappening(probabilityOfShielding);
     }
 
-    public bool IsAttackRepeated(Fighter attacker)
+    public bool IsBasicAttackRepeated(Fighter attacker)
     {
         return Probabilities.IsHappening(attacker.repeatAttackChance);
     }
@@ -263,5 +263,9 @@ public class Attack : MonoBehaviour
     private bool IsCounterAttack(Fighter defender)
     {
         return Probabilities.IsHappening(defender.counterAttackChance);
+    }
+    public bool IsExtraTurn(Fighter attacker)
+    {
+        return Probabilities.IsHappening(attacker.speed);
     }
 }

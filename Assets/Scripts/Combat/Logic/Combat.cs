@@ -10,7 +10,7 @@ public class Combat : MonoBehaviour
     // Data Objects
     public static Fighter player;
     public static Fighter bot;
-    public int botElo;
+    public static int botElo;
 
     // GameObjects
     public static GameObject playerGameObject;
@@ -26,6 +26,7 @@ public class Combat : MonoBehaviour
     public static Movement movementScript;
     public static FightersUIData fightersUIDataScript;
     SkillsLogicInCombat skillsLogicScript;
+    Attack attackScript;
     LoadingScreen loadingScreen;
 
     // Positions data
@@ -40,8 +41,7 @@ public class Combat : MonoBehaviour
     public static float botMaxHp;
 
     //Balance constants
-    //TODO: This should be encapsulated on a class whenever we have a class for each skill
-    private const float PassiveSkillsModifier = 1.05f;
+    private const int ProbabilityOfUsingSkillEachTurn = 50;
 
     private void Awake()
     {
@@ -49,7 +49,7 @@ public class Combat : MonoBehaviour
 
         FindGameObjects();
         GetComponentReferences();
-        GenerateBotData();
+        MatchMaking.GenerateBotData(player, bot);
         SetMaxHpValues();
 
         // LoadingScreen
@@ -71,9 +71,6 @@ public class Combat : MonoBehaviour
 
     IEnumerator Start()
     {
-        //test
-        Debug.Log(player.skills.Count());
-
         yield return new WaitForSeconds(0);
         loadingScreen.SetBotLoadingScreenData(bot);
         yield return new WaitForSeconds(0);
@@ -83,20 +80,8 @@ public class Combat : MonoBehaviour
 
     private void BoostFightersStatsBasedOnPassiveSkills()
     {
-        BoostStatsBasedOnPassiveSkills(player);
-        BoostStatsBasedOnPassiveSkills(bot);
-    }
-
-    private void BoostStatsBasedOnPassiveSkills(Fighter fighter)
-    {
-        if (fighter.HasSkill(SkillNames.DangerousStrength)) fighter.damage *= PassiveSkillsModifier;
-        if (fighter.HasSkill(SkillNames.Heavyweight)) fighter.hp *= PassiveSkillsModifier;
-        if (fighter.HasSkill(SkillNames.Lightning)) fighter.speed *= PassiveSkillsModifier;
-        if (fighter.HasSkill(SkillNames.Persistant)) fighter.repeatAttackChance *= PassiveSkillsModifier;
-        if (fighter.HasSkill(SkillNames.FelineAgility)) fighter.dodgeChance *= PassiveSkillsModifier;
-        if (fighter.HasSkill(SkillNames.CriticalBleeding)) fighter.criticalChance *= PassiveSkillsModifier;
-        if (fighter.HasSkill(SkillNames.Reversal)) fighter.reversalChance *= PassiveSkillsModifier;
-        if (fighter.HasSkill(SkillNames.CounterAttack)) fighter.counterAttackChance *= PassiveSkillsModifier;
+        skillsLogicScript.BoostStatsBasedOnPassiveSkills(player);
+        skillsLogicScript.BoostStatsBasedOnPassiveSkills(bot);
     }
 
     private void GetComponentReferences()
@@ -105,6 +90,7 @@ public class Combat : MonoBehaviour
         movementScript = this.GetComponent<Movement>();
         fightersUIDataScript = this.GetComponent<FightersUIData>();
         skillsLogicScript = this.GetComponent<SkillsLogicInCombat>();
+        attackScript = this.GetComponent<Attack>();
         loadingScreen = this.GetComponent<LoadingScreen>();
         player = playerGameObject.GetComponent<Fighter>();
         bot = botGameObject.GetComponent<Fighter>();
@@ -184,37 +170,12 @@ public class Combat : MonoBehaviour
         {
             // The StartTurn method should handle all the actions of a player for that turn. E.G. Move, Attack, Throw skill....
             yield return StartCoroutine(StartTurn(firstAttacker, secondAttacker));
+            while (!isGameOver && attackScript.IsExtraTurn(firstAttacker)) yield return StartCoroutine(StartTurn(firstAttacker, secondAttacker));
             if (isGameOver) break;
             yield return StartCoroutine(StartTurn(secondAttacker, firstAttacker));
+            while (!isGameOver && attackScript.IsExtraTurn(secondAttacker)) yield return StartCoroutine(StartTurn(secondAttacker, firstAttacker));
         }
         StartPostGameActions();
-    }
-
-    private void GenerateBotData()
-    {
-        string botName = MatchMaking.FetchBotRandomName();
-        int botLevel = MatchMaking.GenerateBotLevel(player.level);
-        botElo = MatchMaking.GenerateBotElo(User.Instance.elo);
-
-        List<Skill> botSkills = new List<Skill>();
-
-        //ADD ALL SKILLS
-        foreach (OrderedDictionary skill in SkillCollection.skills)
-        {
-            Skill skillInstance = new Skill(skill["name"].ToString(), skill["description"].ToString(),
-                skill["skillRarity"].ToString(), skill["category"].ToString(), skill["icon"].ToString());
-
-            botSkills.Add(skillInstance);
-        }
-
-        SpeciesNames randomSpecies = GetRandomSpecies();
-
-        Dictionary<string, float> botStats = GenerateBotRandomStats(randomSpecies);
-
-        bot.FighterConstructor(botName, botStats["hp"], botStats["damage"], botStats["speed"],
-            randomSpecies.ToString(), randomSpecies.ToString(), botLevel, 0, botSkills);
-
-        //FIXME: We should remove the skin concept from the fighters and use the species name for the skin.
     }
 
     //TODO: Remove this on production
@@ -230,74 +191,77 @@ public class Combat : MonoBehaviour
         }
     }
 
-    private Dictionary<string, float> GenerateBotRandomStats(SpeciesNames randomSpecies)
-    {
-        float hp = Species.defaultStats[randomSpecies]["hp"] + (Species.statsPerLevel[randomSpecies]["hp"] * player.level);
-        float damage = Species.defaultStats[randomSpecies]["damage"] + (Species.statsPerLevel[randomSpecies]["damage"] * player.level);
-        float speed = Species.defaultStats[randomSpecies]["speed"] + (Species.statsPerLevel[randomSpecies]["speed"] * player.level);
-
-        return new Dictionary<string, float>
-        {
-            {"hp", hp},
-            {"damage", damage},
-            {"speed", speed},
-        };
-    }
-    private SpeciesNames GetRandomSpecies()
-    {
-        System.Random random = new System.Random();
-        Array species = Enum.GetValues(typeof(SpeciesNames));
-        return (SpeciesNames)species.GetValue(random.Next(species.Length));
-    }
-
     IEnumerator StartTurn(Fighter attacker, Fighter defender)
     {
-        if (WillUseSkillThisTurn())
-        {
-            yield return StartCoroutine(skillsLogicScript.ExplosiveBomb(attacker, defender));
-            //yield return StartCoroutine(UseRandomSkill(attacker, defender));
-            yield break;
-        }
+        //Test
+        // yield return StartCoroutine(skillsLogicScript.InterdimensionalTravel(attacker, defender));
+        // FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.IDLE);
+        // yield break;
+        //Test end
+        ////////////////////
+
+        // if (WillUseSkillThisTurn(attacker))
+        // {
+        //     yield return StartCoroutine(UseRandomSkill(attacker, defender, attacker));
+        //     yield break;
+        // }
         yield return skillsLogicScript.AttackWithoutSkills(attacker, defender);
+        FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.IDLE);
     }
 
-    IEnumerator UseRandomSkill(Fighter attacker, Fighter defender)
+    //We create the fighterWeTakeTheSkillFrom param for the ViciousTheft skill as we take a skill from the opponent instead.
+    IEnumerator UseRandomSkill(Fighter attacker, Fighter defender, Fighter fighterWeTakeTheSkillFrom)
     {
         //TODO FUTURE REFACTOR: Each skill should have each own class with its own skill implementation. (methods, attributes, etc...)
         // Then we can instantiate a random class here to use a random SUPER skill this turn
-        int numberOfSkills = 5;
 
-        int randomNumber = UnityEngine.Random.Range(0, numberOfSkills) + 1;
-        switch (randomNumber)
+        List<string> skillNamesList = fighterWeTakeTheSkillFrom.skills.
+            Where(skill => skill.category == SkillCollection.SkillType.SUPERS.ToString()).
+            Select(skill => skill.skillName).ToList();
+
+        int randomSkillIndex = UnityEngine.Random.Range(0, skillNamesList.Count());
+
+        switch (skillNamesList[randomSkillIndex])
         {
-            case 1:
+            case SkillNames.JumpStrike:
                 yield return skillsLogicScript.JumpStrike(attacker, defender);
-                attacker.removeUsedSkill(SkillNames.JumpStrike);
+                fighterWeTakeTheSkillFrom.removeUsedSkill(SkillNames.JumpStrike);
                 break;
-            case 2:
+            case SkillNames.CosmicKicks:
                 yield return skillsLogicScript.CosmicKicks(attacker, defender);
-                attacker.removeUsedSkill(SkillNames.CosmicKicks);
+                fighterWeTakeTheSkillFrom.removeUsedSkill(SkillNames.CosmicKicks);
                 break;
-            case 3:
+            case SkillNames.ShurikenFury:
                 yield return skillsLogicScript.ShurikenFury(attacker, defender);
-                attacker.removeUsedSkill(SkillNames.ShurikenFury);
+                fighterWeTakeTheSkillFrom.removeUsedSkill(SkillNames.ShurikenFury);
                 break;
-            case 4:
+            case SkillNames.LowBlow:
                 yield return skillsLogicScript.LowBlow(attacker, defender);
-                attacker.removeUsedSkill(SkillNames.LowBlow);
+                fighterWeTakeTheSkillFrom.removeUsedSkill(SkillNames.LowBlow);
                 break;
-            case 5:
+            case SkillNames.ExplosiveBomb:
                 yield return skillsLogicScript.ExplosiveBomb(attacker, defender);
-                attacker.removeUsedSkill(SkillNames.ExplosiveBomb);
+                fighterWeTakeTheSkillFrom.removeUsedSkill(SkillNames.ExplosiveBomb);
+                break;
+            case SkillNames.InterdimensionalTravel:
+                yield return skillsLogicScript.InterdimensionalTravel(attacker, defender);
+                fighterWeTakeTheSkillFrom.removeUsedSkill(SkillNames.InterdimensionalTravel);
+                break;
+            case SkillNames.HealingPotion:
+                yield return skillsLogicScript.HealingPotion(attacker);
+                fighterWeTakeTheSkillFrom.removeUsedSkill(SkillNames.HealingPotion);
+                break;
+            case SkillNames.ViciousTheft:
+                fighterWeTakeTheSkillFrom.removeUsedSkill(SkillNames.ViciousTheft);
+                yield return UseRandomSkill(attacker, defender, defender);
                 break;
         }
+
+        FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.IDLE);
     }
 
-    private bool WillUseSkillThisTurn()
-    {
-        int probabilityOfUsingSkillEachTurn = 50;
-        return Probabilities.IsHappening(probabilityOfUsingSkillEachTurn);
-    }
+    public static Func<Fighter, bool> WillUseSkillThisTurn = attacker =>
+        attacker.skills.Count() > 0 && Probabilities.IsHappening(ProbabilityOfUsingSkillEachTurn);
 
     public IEnumerator MoveForwardHandler(Fighter attacker)
     {
@@ -311,7 +275,6 @@ public class Combat : MonoBehaviour
         FighterSkin.SwitchFighterOrientation(attacker.GetComponent<SpriteRenderer>());
         yield return StartCoroutine(movementScript.MoveBack(attacker, attacker.initialPosition));
         FighterSkin.SwitchFighterOrientation(attacker.GetComponent<SpriteRenderer>());
-        FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.IDLE);
     }
 
     //The attack order is determined by the Initiator skill. If no players have it it is determined by the speed.
@@ -364,13 +327,7 @@ public class Combat : MonoBehaviour
         PostGameActions.SetCurrencies(goldReward, gemsReward);
 
         //UI
-        fightersUIDataScript.SetResultsBanner(isPlayerWinner);
-        fightersUIDataScript.SetResultsEloChange(eloChange);
-        fightersUIDataScript.SetResultsLevel(player.level, player.experiencePoints);
-        fightersUIDataScript.SetResultsExpGainText(isPlayerWinner);
-        fightersUIDataScript.ShowLevelUpIcon(isLevelUp);
-        fightersUIDataScript.ShowRewards(goldReward, gemsReward, isLevelUp);
-        fightersUIDataScript.EnableResults(results);
+        fightersUIDataScript.ShowPostCombatInfo(player, isPlayerWinner, eloChange, isLevelUp, goldReward, gemsReward, results);
 
         //Save
         PostGameActions.Save(player);

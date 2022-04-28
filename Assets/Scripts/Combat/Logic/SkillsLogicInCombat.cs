@@ -1,5 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public class SkillsLogicInCombat : MonoBehaviour
@@ -7,6 +7,8 @@ public class SkillsLogicInCombat : MonoBehaviour
     private Combat combatScript;
     private Movement movementScript;
     private Attack attackScript;
+    //TODO: This should be encapsulated on a class whenever we have a class for each skill
+    private const float PassiveSkillsModifier = 1.05f;
     private void Awake()
     {
         combatScript = this.GetComponent<Combat>();
@@ -20,7 +22,7 @@ public class SkillsLogicInCombat : MonoBehaviour
         // Attack
         int attackCounter = 0;
 
-        while (!Combat.isGameOver && (attackCounter == 0 || attackScript.IsAttackRepeated(attacker)))
+        while (!Combat.isGameOver && (attackCounter == 0 || attackScript.IsBasicAttackRepeated(attacker)))
         {
             yield return StartCoroutine(attackScript.PerformAttack(attacker, defender));
             attackCounter++;
@@ -99,6 +101,57 @@ public class SkillsLogicInCombat : MonoBehaviour
     public IEnumerator ExplosiveBomb(Fighter attacker, Fighter defender)
     {
         yield return StartCoroutine(attackScript.PerformExplosiveBomb(attacker, defender));
-        //if (!Combat.isGameOver) FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.IDLE);
+        if (!Combat.isGameOver) FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.IDLE);
+    }
+    public IEnumerator InterdimensionalTravel(Fighter attacker, Fighter defender)
+    {
+        FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.IDLE_BLINKING);
+        //Wait for blinking animation to finish
+        yield return new WaitForSeconds(1.2f);
+        SetOpacityOfFighterAndShadow(attacker, 0.15f);
+        yield return combatScript.MoveForwardHandler(attacker);
+        SetOpacityOfFighterAndShadow(attacker, 1);
+        yield return StartCoroutine(attackScript.PerformAttack(attacker, defender));
+        if (!Combat.isGameOver) FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.IDLE);
+        yield return combatScript.MoveBackHandler(attacker);
+    }
+    public IEnumerator HealingPotion(Fighter attacker)
+    {
+        FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.IDLE_BLINKING);
+        yield return StartCoroutine(attackScript.PerformHealingPotion(attacker));
+    }
+    private void SetOpacityOfFighterAndShadow(Fighter attacker, float opacity)
+    {
+        attacker.GetComponent<Renderer>().material.color = GetFighterColorWithCustomOpacity(attacker, opacity);
+        GetFighterShadow(attacker).GetComponent<SpriteRenderer>().color = GetFighterShadowColorWithCustomOpacity(attacker, opacity);
+    }
+    private Color GetFighterShadowColorWithCustomOpacity(Fighter fighter, float opacity)
+    {
+        GameObject shadow = GetFighterShadow(fighter);
+        Color shadowColor = shadow.GetComponent<SpriteRenderer>().color;
+        shadowColor.a = opacity;
+        return shadowColor;
+    }
+    private GameObject GetFighterShadow(Fighter fighter)
+    {
+        return fighter == Combat.player ? GameObject.FindGameObjectWithTag("PlayerShadow") : GameObject.FindGameObjectWithTag("BotShadow");
+    }
+    private Color GetFighterColorWithCustomOpacity(Fighter fighter, float opacity)
+    {
+        Color fighterColor = fighter.GetComponent<Renderer>().material.color;
+        fighterColor.a = opacity;
+        return fighterColor;
+    }
+
+    public void BoostStatsBasedOnPassiveSkills(Fighter fighter)
+    {
+        if (fighter.HasSkill(SkillNames.DangerousStrength)) fighter.damage *= PassiveSkillsModifier;
+        if (fighter.HasSkill(SkillNames.Heavyweight)) fighter.hp *= PassiveSkillsModifier;
+        if (fighter.HasSkill(SkillNames.Lightning)) fighter.speed *= PassiveSkillsModifier;
+        if (fighter.HasSkill(SkillNames.Persistant)) fighter.repeatAttackChance *= PassiveSkillsModifier;
+        if (fighter.HasSkill(SkillNames.FelineAgility)) fighter.dodgeChance *= PassiveSkillsModifier;
+        if (fighter.HasSkill(SkillNames.CriticalBleeding)) fighter.criticalChance *= PassiveSkillsModifier;
+        if (fighter.HasSkill(SkillNames.Reversal)) fighter.reversalChance *= PassiveSkillsModifier;
+        if (fighter.HasSkill(SkillNames.CounterAttack)) fighter.counterAttackChance *= PassiveSkillsModifier;
     }
 }

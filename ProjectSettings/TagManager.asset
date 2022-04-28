@@ -19,6 +19,8 @@ TagManager:
   - LoadingScreenBot
   - CombatLoadingScreenSpinner
   - CombatLoadingScreenBotData
+  - PlayerShadow
+  - BotShadow
   layers:
   - Default
   - TransparentFX

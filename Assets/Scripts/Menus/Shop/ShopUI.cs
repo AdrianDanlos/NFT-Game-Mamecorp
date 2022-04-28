@@ -25,6 +25,12 @@ public class ShopUI : MonoBehaviour
     GameObject abortButton;
     GameObject confirmButton;
     TextMeshProUGUI messageText;
+    GameObject chestsTab;
+    GameObject energyTab;
+    GameObject goldTab;
+    GameObject chestsScrollrect;
+    GameObject energyScrollrect;
+    GameObject goldScrollrect;
 
     // shop flow
     string chestButtonPressed;
@@ -52,6 +58,16 @@ public class ShopUI : MonoBehaviour
         messageText = GameObject.Find("Message_Text").GetComponent<TextMeshProUGUI>();
         fighterData = GameObject.Find("FighterWrapper").gameObject.transform.GetChild(0).GetComponent<Fighter>();
 
+        // tabs
+        chestsTab = GameObject.Find("Button_Chests");
+        energyTab = GameObject.Find("Button_Energy");
+        goldTab = GameObject.Find("Button_Gold");
+
+        // scrollrects
+        chestsScrollrect = GameObject.Find("Group_Down_Chests");
+        energyScrollrect = GameObject.Find("Group_Down_Energy");
+        goldScrollrect = GameObject.Find("Group_Down_Gold");
+
         // hide UI
         chestPopUp.SetActive(false);
         buyConfirmation.SetActive(false);
@@ -64,6 +80,8 @@ public class ShopUI : MonoBehaviour
         noCurrencyButton.SetActive(false);
         abortButton.SetActive(false);
         confirmButton.SetActive(false);
+        energyScrollrect.SetActive(false);
+        goldScrollrect.SetActive(false);
     }
 
     public void ConfirmPurchase()
@@ -75,8 +93,6 @@ public class ShopUI : MonoBehaviour
                 break;
             case (int)Transactions.ENERGY:
                 HandleEnergyPopUp();
-                break;
-            default:
                 break;
         }
     }
@@ -126,6 +142,66 @@ public class ShopUI : MonoBehaviour
         nextButton.SetActive(true);
         chestPopUpChest.SetActive(true);
         messageText.text = "Are you sure about buying this item ?";
+    }
+
+    public void ShowTab()
+    {
+        string tabPressed = EventSystem.current.currentSelectedGameObject.name;
+
+        switch (tabPressed)
+        {
+            case "Button_Chests":
+                ShowChestsTab();
+                HideEnergyTab();
+                HideGoldTab();
+                break;
+            case "Button_Energy":
+                ShowEnergyTab();
+                HideChestsTab();
+                HideGoldTab();
+                break;
+            case "Button_Gold":
+                ShowGoldTab();
+                HideChestsTab();
+                HideEnergyTab();
+                break;
+        }
+    }
+
+    public void ShowChestsTab()
+    {
+        chestsTab.transform.Find("Focus").GetComponent<Image>().enabled = true;
+        chestsScrollrect.SetActive(true);
+    }
+
+    public void ShowEnergyTab()
+    {
+        energyTab.transform.Find("Focus").GetComponent<Image>().enabled = true;
+        energyScrollrect.SetActive(true);
+    }
+
+    public void ShowGoldTab()
+    {
+        goldTab.transform.Find("Focus").GetComponent<Image>().enabled = true;
+        goldScrollrect.SetActive(true);
+    }
+
+    public void HideChestsTab()
+    {
+        chestsTab.transform.Find("Focus").GetComponent<Image>().enabled = false;
+        chestsScrollrect.SetActive(false);
+    }
+
+    public void HideEnergyTab()
+    {
+        energyTab.transform.Find("Focus").GetComponent<Image>().enabled = false;
+        energyScrollrect.SetActive(false);
+    }
+
+    public void HideGoldTab()
+    {
+        goldTab.transform.Find("Focus").GetComponent<Image>().enabled = false;
+        goldScrollrect.SetActive(false);
     }
 
     public void HandleEnergyPopUp()

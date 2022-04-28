@@ -6,26 +6,26 @@ using UnityEngine;
 
 public struct SkillNames
 {
-    public const string DangerousStrength = "Dangerous Strength";
+    public const string DangerousStrength = "DangerousStrength";
     public const string Heavyweight = "Heavyweight";
     public const string Lightning = "Lightning";
     public const string Persistant = "Persistant";
-    public const string FelineAgility = "Feline Agility";
-    public const string CriticalBleeding = "Critical Bleeding";
+    public const string FelineAgility = "FelineAgility";
+    public const string CriticalBleeding = "CriticalBleeding";
     public const string Reversal = "Reversal";
-    public const string CounterAttack = "Counter Attack";
+    public const string CounterAttack = "CounterAttack";
     public const string Survival = "Survival";
-    public const string BalletShoes = "Ballet Shoes";
+    public const string BalletShoes = "BalletShoes";
     public const string Initiator = "Initiator";
-    public const string CosmicKicks = "Cosmic Kicks";
-    public const string ShurikenFury = "Shuriken Fury";
-    public const string LowBlow = "Low Blow";
-    public const string JumpStrike = "Jump Strike";
-    public const string GloriousShield = "Glorious Shield";
-    public const string ExplosiveBomb = "Explosive Bomb";
-    public const string InterdimensionalTravel = "Interdimensional Travel";
-    public const string HealingPotion = "Healing Potion";
-    public const string ViciousTheft = "Vicious Theft";
+    public const string CosmicKicks = "CosmicKicks";
+    public const string ShurikenFury = "ShurikenFury";
+    public const string LowBlow = "LowBlow";
+    public const string JumpStrike = "JumpStrike";
+    public const string GloriousShield = "GloriousShield";
+    public const string ExplosiveBomb = "ExplosiveBomb";
+    public const string InterdimensionalTravel = "InterdimensionalTravel";
+    public const string HealingPotion = "HealingPotion";
+    public const string ViciousTheft = "ViciousTheft";
 
 }
 
@@ -208,7 +208,7 @@ public static class SkillCollection
         {
             {"name", SkillNames.ViciousTheft},
             {"description", "Steal one of the opponent skills and use it immediately."},
-            {"skillRarity", SkillRarity.RARE.ToString()},
+            {"skillRarity", SkillRarity.LEGENDARY.ToString()},
             {"category", SkillType.SUPERS.ToString()},
             {"icon", "20" }
         }
@@ -307,5 +307,19 @@ public static class SkillCollection
             " | LEGENDARY: " + skillsByRarityCount["LEGENDARY"]);
 
         return skillsByRarityCount;
+    }
+
+    public static OrderedDictionary GetSkillByName(string skillname)
+    {
+        foreach(OrderedDictionary skill in skills)
+        {
+            if(skillname == (string)skill["name"])
+            {
+                return skill;
+            }
+        }
+
+        Debug.Log("Error");
+        return null;
     }
 }

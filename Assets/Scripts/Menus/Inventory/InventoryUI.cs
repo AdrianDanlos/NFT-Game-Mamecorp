@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Collections.Specialized;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -32,6 +34,7 @@ public class InventoryUI : MonoBehaviour
 
         // gather all gameobjects
         GetAllSkills();
+        ShowOwnedSkills();
     }
 
     private void GetAllSkills()
@@ -39,6 +42,21 @@ public class InventoryUI : MonoBehaviour
         foreach (Transform child in skillsContainer.transform)
         {
             skillsList.Add(child);
+        }
+    }
+
+    private void ShowOwnedSkills()
+    {
+        int i = 0;
+
+        foreach (Transform skill in skillsList)
+        {
+            if (skillsList[i].gameObject.name != (string) SkillCollection.skills[i]["name"])
+            {
+                HideSkill(skillsList[i].name);
+            }
+
+            i++;
         }
     }
 
@@ -54,10 +72,29 @@ public class InventoryUI : MonoBehaviour
         }
     }
 
+
+    public void ChangeSkillInfo(string skillname)
+    {
+        OrderedDictionary skillDictionary = SkillCollection.GetSkillByName(skillname);
+
+        foreach (Transform child in skillsList)
+        {
+            if (child.gameObject.name == skillname)
+            {
+                // skillIcon = GameObject.Find("SkillIcon");
+                // skillRarityFrame = GameObject.Find("SkillFrame");
+                skillName.GetComponent<TextMeshProUGUI>().text = skillDictionary["name"].ToString();
+                skillRarity.GetComponent<TextMeshProUGUI>().text = skillDictionary["skillRarity"].ToString();
+                skillDescription.GetComponent<TextMeshProUGUI>().text = skillDictionary["description"].ToString();
+                skillQuote.GetComponent<TextMeshProUGUI>().text = "none";
+            }
+        }
+    }
+
     public void GetSkillClicked()
     {
         lastButtonClicked =  EventSystem.current.currentSelectedGameObject.name;
-        HideSkill(lastButtonClicked);
+        ChangeSkillInfo(lastButtonClicked);
     }
 
 }

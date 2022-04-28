@@ -24,15 +24,22 @@ public struct SkillNames
     public const string GloriousShield = "Glorious Shield";
     public const string ExplosiveBomb = "Explosive Bomb";
     public const string InterdimensionalTravel = "Interdimensional Travel";
+    public const string HealingPotion = "Healing Potion";
+    public const string ViciousTheft = "Vicious Theft";
 
 }
 
 public static class SkillCollection
 {
-    enum SkillType
+    public enum SkillType
     {
-        PASSIVES, //Stats granted at the start of the combat and remain for the rest of the combat
-        SUPERS, //Can only be used once per combat and are removed from the fighter skills list once used
+        //Boost fighter stats by a % at the start of the combat and remain until the end of the combat.
+        PASSIVES, 
+        //These are casted at a specific time during the combat and can be used from 1 to n times. Unlike Supers they dont take a full turn as they are not the main attack but rather an IN-COMBAT like passive.
+        SPONTANEOUS, 
+        //These are a substitute for the default autoattack. 
+        //They take a full turn and can only be used once per combat and are removed from the fighter skills list once used.
+        SUPERS,
     }
     public enum SkillRarity
     {
@@ -114,7 +121,7 @@ public static class SkillCollection
             {"name", SkillNames.Initiator},
             {"description", "You attack first every game."},
             {"skillRarity", SkillRarity.RARE.ToString()},
-            {"category", SkillType.PASSIVES.ToString()},
+            {"category", SkillType.SPONTANEOUS.ToString()},
             {"icon", "5" }
         },
         new OrderedDictionary
@@ -122,7 +129,7 @@ public static class SkillCollection
             {"name", SkillNames.GloriousShield},
             {"description", "Whenever your opponent attacks you have a chance of invoking a shield that will block the attack."},
             {"skillRarity", SkillRarity.RARE.ToString()},
-            {"category", SkillType.PASSIVES.ToString()},
+            {"category", SkillType.SPONTANEOUS.ToString()},
             {"icon", "5" }
         },
         // new OrderedDictionary
@@ -130,7 +137,7 @@ public static class SkillCollection
         //     {"name", SkillNames.BalletShoes},
         //     {"description", "The opponent has a very high chance of missing it's first attack."},
         //     {"skillRarity", SkillRarity.COMMON.ToString()},
-        //     {"category", SkillType.SUPERS.ToString()},
+        //     {"category", SkillType.SPONTANEOUS.ToString()},
         //     {"icon", "5" }
         // },
         new OrderedDictionary
@@ -138,7 +145,7 @@ public static class SkillCollection
             {"name", SkillNames.Survival},
             {"description", "Whenever you take lethal damage you survive with 1 health point."},
             {"skillRarity", SkillRarity.EPIC.ToString()},
-            {"category", SkillType.SUPERS.ToString()},
+            {"category", SkillType.SPONTANEOUS.ToString()},
             {"icon", "5" }
         },
         new OrderedDictionary
@@ -184,7 +191,24 @@ public static class SkillCollection
         new OrderedDictionary
         {
             {"name", SkillNames.InterdimensionalTravel},
-            {"description", "Briefly disappears from combat to reappear in front of the opponent catching it by surprise and dealing extra damage."},
+            {"description", "Become invisble for a brief time to catch your opponent by surprise and deal extra damage."},
+            {"skillRarity", SkillRarity.RARE.ToString()},
+            {"category", SkillType.SUPERS.ToString()},
+            {"icon", "5" }
+        },
+        new OrderedDictionary
+        {
+            {"name", SkillNames.HealingPotion},
+            {"description", "Use a magic potion that heals a 30% of the maximum health."},
+            {"skillRarity", SkillRarity.RARE.ToString()},
+            {"category", SkillType.SUPERS.ToString()},
+            {"icon", "5" }
+        }
+        ,
+        new OrderedDictionary
+        {
+            {"name", SkillNames.ViciousTheft},
+            {"description", "Steal one of the opponent skills and use it immediately."},
             {"skillRarity", SkillRarity.RARE.ToString()},
             {"category", SkillType.SUPERS.ToString()},
             {"icon", "5" }

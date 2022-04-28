@@ -106,15 +106,34 @@ public class SkillsLogicInCombat : MonoBehaviour
         FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.IDLE_BLINKING);
         //Wait for blinking animation to finish
         yield return new WaitForSeconds(1.2f);
-        attacker.GetComponent<Renderer>().material.color = GetFighterColorWithCustomOpacity(attacker, 0);
+        SetOpacityOfFighterAndShadow(attacker, 0.15f);
         yield return combatScript.MoveForwardHandler(attacker);
-        attacker.GetComponent<Renderer>().material.color = GetFighterColorWithCustomOpacity(attacker, 1);
+        SetOpacityOfFighterAndShadow(attacker, 1);
         yield return StartCoroutine(attackScript.PerformAttack(attacker, defender));
         if (!Combat.isGameOver) FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.IDLE);
         yield return combatScript.MoveBackHandler(attacker);
     }
-    private Func<Fighter, Color> GetFighterColor = attacker => attacker.GetComponent<Renderer>().material.color;
-
+    public IEnumerator HealingPotion(Fighter attacker)
+    {
+        FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.IDLE_BLINKING);
+        yield return StartCoroutine(attackScript.PerformHealingPotion(attacker));
+    }
+    private void SetOpacityOfFighterAndShadow(Fighter attacker, float opacity)
+    {
+        attacker.GetComponent<Renderer>().material.color = GetFighterColorWithCustomOpacity(attacker, opacity);
+        GetFighterShadow(attacker).GetComponent<SpriteRenderer>().color = GetFighterShadowColorWithCustomOpacity(attacker, opacity);
+    }
+    private Color GetFighterShadowColorWithCustomOpacity(Fighter fighter, float opacity)
+    {
+        GameObject shadow = GetFighterShadow(fighter);
+        Color shadowColor = shadow.GetComponent<SpriteRenderer>().color;
+        shadowColor.a = opacity;
+        return shadowColor;
+    }
+    private GameObject GetFighterShadow(Fighter fighter)
+    {
+        return fighter == Combat.player ? GameObject.FindGameObjectWithTag("PlayerShadow") : GameObject.FindGameObjectWithTag("BotShadow");
+    }
     private Color GetFighterColorWithCustomOpacity(Fighter fighter, float opacity)
     {
         Color fighterColor = fighter.GetComponent<Renderer>().material.color;

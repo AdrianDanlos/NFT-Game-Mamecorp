@@ -1,5 +1,5 @@
 using UnityEngine;
-//Unused enum atm
+//Unused enum atm + we already have SkillTypes concept
 enum SkillTypes
 {
     Basic,

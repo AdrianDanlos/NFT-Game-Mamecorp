@@ -5,6 +5,7 @@ public class Attack : MonoBehaviour
 {
     public GameObject shuriken;
     public GameObject bomb;
+    public GameObject potion;
     public IEnumerator PerformAttack(Fighter attacker, Fighter defender)
     {
         //FIXME: Is this the solution to the bug?: https://trello.com/c/Hi2aaaoD/284-bug-dodge-shuriken-then-slide
@@ -75,7 +76,7 @@ public class Attack : MonoBehaviour
         }
 
         yield return DefenderReceivesAttack(attacker, defender, attacker.damage, 0.15f, 0.05f);
-        LifeSteal(attacker, 3);
+        RestoreLife(attacker, 3);
         Combat.fightersUIDataScript.ModifyHealthBar(attacker, Combat.player == attacker);
     }
     public IEnumerator PerformShurikenFury(Fighter attacker, Fighter defender)
@@ -143,6 +144,19 @@ public class Attack : MonoBehaviour
         yield return DefenderReceivesAttack(attacker, defender, attacker.damage, 0.25f, 0);
     }
 
+    public IEnumerator PerformHealingPotion(Fighter attacker)
+    {
+        Vector3 potionPosition = attacker.transform.position;
+        potionPosition.y += 2.5f;
+        GameObject potionInstance = Instantiate(potion, potionPosition, Quaternion.identity);
+        attacker.GetComponent<SpriteRenderer>().color = new Color32(147,255,86,255);
+        RestoreLife(attacker, 30);
+        Combat.fightersUIDataScript.ModifyHealthBar(attacker, Combat.player == attacker);
+        yield return new WaitForSeconds(1.5f);
+        attacker.GetComponent<SpriteRenderer>().color = new Color32(255,255,255, 255);
+        Destroy(potionInstance);
+    }
+
     private float GetShurikenEndPositionX(bool dodged, Fighter attacker, Vector3 shurikenEndPos)
     {
         if (dodged) return Combat.player == attacker ? shurikenEndPos.x + 10 : shurikenEndPos.x - 10;
@@ -202,14 +216,13 @@ public class Attack : MonoBehaviour
         Combat.fightersUIDataScript.ModifyHealthBar(defender, Combat.player == defender);
     }
 
-    //Restores x % of missing health
-    private void LifeSteal(Fighter attacker, int percentage)
+    //Restores x % of total health
+    private void RestoreLife(Fighter attacker, int percentage)
     {
-        bool isPlayerAttacking = Combat.player == attacker;
-        float maxHp = isPlayerAttacking ? Combat.playerMaxHp : Combat.botMaxHp;
+        float maxHp = Combat.player == attacker ? Combat.playerMaxHp : Combat.botMaxHp;
         float hpToRestore = percentage * maxHp / 100;
-        float hpAfterLifesteal = attacker.hp + hpToRestore;
-        attacker.hp = hpAfterLifesteal > maxHp ? maxHp : hpAfterLifesteal;
+        float hpAfterHeal = attacker.hp + hpToRestore;
+        attacker.hp = hpAfterHeal > maxHp ? maxHp : hpAfterHeal;
     }
 
     IEnumerator ReceiveDamageAnimation(Fighter defender, float secondsUntilHitMarker)

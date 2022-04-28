@@ -175,25 +175,25 @@ public static class Chest
                 {
                     ShopChestTypes.NORMAL, new Dictionary<string, int>
                     {
-                        {"gems", 7},
+                        {"gold", 1000},
                     }
                 },
                 {
                     ShopChestTypes.EPIC, new Dictionary<string, int>
                     {
-                        {"gems", 15},
+                        {"gold", 2500},
                     }
                 },
                 {
                     ShopChestTypes.LEGENDARY, new Dictionary<string, int>
                     {
-                        {"gems", 30},
+                        {"gold", 10000},
                     }
                 },
                 {
                     ShopChestTypes.SPECIAL, new Dictionary<string, int>
                     {
-                        {"gems", 20},
+                        {"gold", 7500},
                     }
                 },
         };

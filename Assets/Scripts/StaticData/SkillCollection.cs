@@ -27,7 +27,6 @@ public struct SkillNames
 
 }
 
-
 public static class SkillCollection
 {
     enum SkillType
@@ -37,9 +36,6 @@ public static class SkillCollection
     }
     public enum SkillRarity
     {
-        // standard practice for enums that cannot be null by having the FIRST value in the enum
-        // (aka 0) be the default value.
-        NONE,
         COMMON,
         RARE,
         EPIC,

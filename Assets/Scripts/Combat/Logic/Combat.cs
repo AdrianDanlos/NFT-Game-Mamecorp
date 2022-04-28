@@ -42,6 +42,7 @@ public class Combat : MonoBehaviour
     //Balance constants
     //TODO: This should be encapsulated on a class whenever we have a class for each skill
     private const float PassiveSkillsModifier = 1.05f;
+    private const int ProbabilityOfUsingSkillEachTurn = 50;
 
     private void Awake()
     {
@@ -250,66 +251,74 @@ public class Combat : MonoBehaviour
     IEnumerator StartTurn(Fighter attacker, Fighter defender)
     {
         //Test
-        attacker.hp = 1;
-        yield return StartCoroutine(skillsLogicScript.HealingPotion(attacker));
-        FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.IDLE);
-        yield break;
+        // yield return StartCoroutine(skillsLogicScript.ViciousTheft(attacker, defender));
+        // FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.IDLE);
+        // yield break;
+        //Test end
+        ////////////////////
 
-        // if (WillUseSkillThisTurn())
-        // {
-        //     yield return StartCoroutine(UseRandomSkill(attacker, defender));
-        //     yield break;
-        // }
-        //yield return skillsLogicScript.AttackWithoutSkills(attacker, defender);
+        if (WillUseSkillThisTurn(attacker))
+        {
+            yield return StartCoroutine(UseRandomSkill(attacker, defender, attacker));
+            yield break;
+        }
+        yield return skillsLogicScript.AttackWithoutSkills(attacker, defender);
+        FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.IDLE);
     }
 
-    IEnumerator UseRandomSkill(Fighter attacker, Fighter defender)
+    //We create the fighterWeTakeTheSkillFrom param for the ViciousTheft skill as we take a skill from the opponent instead.
+    IEnumerator UseRandomSkill(Fighter attacker, Fighter defender, Fighter fighterWeTakeTheSkillFrom)
     {
         //TODO FUTURE REFACTOR: Each skill should have each own class with its own skill implementation. (methods, attributes, etc...)
         // Then we can instantiate a random class here to use a random SUPER skill this turn
-        int numberOfSkills = 7;
 
-        int randomNumber = UnityEngine.Random.Range(0, numberOfSkills) + 1;
-        switch (randomNumber)
+        List<string> skillNamesList = fighterWeTakeTheSkillFrom.skills.
+            Where(skill => skill.category == SkillCollection.SkillType.SUPERS.ToString()).
+            Select(skill => skill.skillName).ToList();
+
+        int randomSkillIndex = UnityEngine.Random.Range(0, skillNamesList.Count());
+
+        switch (skillNamesList[randomSkillIndex])
         {
-            case 1:
+            case SkillNames.JumpStrike:
                 yield return skillsLogicScript.JumpStrike(attacker, defender);
-                attacker.removeUsedSkill(SkillNames.JumpStrike);
+                fighterWeTakeTheSkillFrom.removeUsedSkill(SkillNames.JumpStrike);
                 break;
-            case 2:
+            case SkillNames.CosmicKicks:
                 yield return skillsLogicScript.CosmicKicks(attacker, defender);
-                attacker.removeUsedSkill(SkillNames.CosmicKicks);
+                fighterWeTakeTheSkillFrom.removeUsedSkill(SkillNames.CosmicKicks);
                 break;
-            case 3:
+            case SkillNames.ShurikenFury:
                 yield return skillsLogicScript.ShurikenFury(attacker, defender);
-                attacker.removeUsedSkill(SkillNames.ShurikenFury);
+                fighterWeTakeTheSkillFrom.removeUsedSkill(SkillNames.ShurikenFury);
                 break;
-            case 4:
+            case SkillNames.LowBlow:
                 yield return skillsLogicScript.LowBlow(attacker, defender);
-                attacker.removeUsedSkill(SkillNames.LowBlow);
+                fighterWeTakeTheSkillFrom.removeUsedSkill(SkillNames.LowBlow);
                 break;
-            case 5:
+            case SkillNames.ExplosiveBomb:
                 yield return skillsLogicScript.ExplosiveBomb(attacker, defender);
-                attacker.removeUsedSkill(SkillNames.ExplosiveBomb);
+                fighterWeTakeTheSkillFrom.removeUsedSkill(SkillNames.ExplosiveBomb);
                 break;
-            case 6:
+            case SkillNames.InterdimensionalTravel:
                 yield return skillsLogicScript.InterdimensionalTravel(attacker, defender);
-                attacker.removeUsedSkill(SkillNames.InterdimensionalTravel);
+                fighterWeTakeTheSkillFrom.removeUsedSkill(SkillNames.InterdimensionalTravel);
                 break;
-            case 7:
+            case SkillNames.HealingPotion:
                 yield return skillsLogicScript.HealingPotion(attacker);
-                attacker.removeUsedSkill(SkillNames.HealingPotion);
+                fighterWeTakeTheSkillFrom.removeUsedSkill(SkillNames.HealingPotion);
+                break;
+            case SkillNames.ViciousTheft:
+                fighterWeTakeTheSkillFrom.removeUsedSkill(SkillNames.ViciousTheft);
+                yield return UseRandomSkill(attacker, defender, defender);
                 break;
         }
 
         FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.IDLE);
     }
 
-    private bool WillUseSkillThisTurn()
-    {
-        int probabilityOfUsingSkillEachTurn = 50;
-        return Probabilities.IsHappening(probabilityOfUsingSkillEachTurn);
-    }
+    public static Func<Fighter, bool> WillUseSkillThisTurn = attacker =>
+        attacker.skills.Count() > 0 && Probabilities.IsHappening(ProbabilityOfUsingSkillEachTurn);
 
     public IEnumerator MoveForwardHandler(Fighter attacker)
     {

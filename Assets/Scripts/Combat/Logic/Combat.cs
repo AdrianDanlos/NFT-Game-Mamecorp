@@ -250,7 +250,8 @@ public class Combat : MonoBehaviour
     IEnumerator StartTurn(Fighter attacker, Fighter defender)
     {
         //Test
-        yield return StartCoroutine(skillsLogicScript.HealingPotion(attacker, defender));
+        attacker.hp = 1;
+        yield return StartCoroutine(skillsLogicScript.HealingPotion(attacker));
         FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.IDLE);
         yield break;
 

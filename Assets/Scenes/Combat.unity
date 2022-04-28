@@ -9201,6 +9201,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shuriken: {fileID: 2740522032071986697, guid: af825e92cbe4f9a4f93acde4817b7146, type: 3}
   bomb: {fileID: 5283297816773594384, guid: cd76a86c145015c4a981128f2474dc26, type: 3}
+  potion: {fileID: 8001889608894133729, guid: 5a1956120ac9ab84fa6aff063b19b486, type: 3}
 --- !u!4 &1570540183
 Transform:
   m_ObjectHideFlags: 0

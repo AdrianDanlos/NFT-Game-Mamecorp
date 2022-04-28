@@ -34,19 +34,14 @@ public class MenuUtils
     }
     public static void DisplayEnergyCountdown(GameObject timerContainerGO, GameObject timerGO)
     {
-        if (!EnergyManager.UserHasMaxEnergy())
-        {
-            var timeSinceCountdownStart = EnergyManager.GetTimeSinceCountdownStart();
-            int minutesPassedOfCurrentCountdown = Math.Abs(timeSinceCountdownStart.Minutes % EnergyManager.defaultEnergyRefreshTimeInMinutes);
-            string minutesUntilCountdownEnd = (EnergyManager.defaultEnergyRefreshTimeInMinutes - minutesPassedOfCurrentCountdown - 1).ToString();
-            string secondsUntilCountdownEnd = (60 - timeSinceCountdownStart.Seconds).ToString();
+        var timeSinceCountdownStart = EnergyManager.GetTimeSinceCountdownStart();
+        int minutesPassedOfCurrentCountdown = Math.Abs(timeSinceCountdownStart.Minutes % EnergyManager.defaultEnergyRefreshTimeInMinutes);
+        string minutesUntilCountdownEnd = (EnergyManager.defaultEnergyRefreshTimeInMinutes - minutesPassedOfCurrentCountdown - 1).ToString();
+        string secondsUntilCountdownEnd = (60 - timeSinceCountdownStart.Seconds).ToString();
 
-            timerContainerGO.SetActive(true);
-            timerGO.GetComponent<TextMeshProUGUI>().text = $"{minutesUntilCountdownEnd}m {secondsUntilCountdownEnd}s";
-            return;
-        }
-
-        timerContainerGO.SetActive(false);
+        timerContainerGO.SetActive(true);
+        timerGO.GetComponent<TextMeshProUGUI>().text = $"{minutesUntilCountdownEnd}m {secondsUntilCountdownEnd}s";
+        return;
     }
 
     public static void DisplayLevelIcon(int fighterLevel, GameObject iconsContainer)

@@ -7,6 +7,8 @@ public class SkillsLogicInCombat : MonoBehaviour
     private Combat combatScript;
     private Movement movementScript;
     private Attack attackScript;
+    //TODO: This should be encapsulated on a class whenever we have a class for each skill
+    private const float PassiveSkillsModifier = 1.05f;
     private void Awake()
     {
         combatScript = this.GetComponent<Combat>();
@@ -139,5 +141,17 @@ public class SkillsLogicInCombat : MonoBehaviour
         Color fighterColor = fighter.GetComponent<Renderer>().material.color;
         fighterColor.a = opacity;
         return fighterColor;
+    }
+
+    public void BoostStatsBasedOnPassiveSkills(Fighter fighter)
+    {
+        if (fighter.HasSkill(SkillNames.DangerousStrength)) fighter.damage *= PassiveSkillsModifier;
+        if (fighter.HasSkill(SkillNames.Heavyweight)) fighter.hp *= PassiveSkillsModifier;
+        if (fighter.HasSkill(SkillNames.Lightning)) fighter.speed *= PassiveSkillsModifier;
+        if (fighter.HasSkill(SkillNames.Persistant)) fighter.repeatAttackChance *= PassiveSkillsModifier;
+        if (fighter.HasSkill(SkillNames.FelineAgility)) fighter.dodgeChance *= PassiveSkillsModifier;
+        if (fighter.HasSkill(SkillNames.CriticalBleeding)) fighter.criticalChance *= PassiveSkillsModifier;
+        if (fighter.HasSkill(SkillNames.Reversal)) fighter.reversalChance *= PassiveSkillsModifier;
+        if (fighter.HasSkill(SkillNames.CounterAttack)) fighter.counterAttackChance *= PassiveSkillsModifier;
     }
 }

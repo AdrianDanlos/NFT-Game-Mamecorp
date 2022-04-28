@@ -10,7 +10,7 @@ public class Combat : MonoBehaviour
     // Data Objects
     public static Fighter player;
     public static Fighter bot;
-    public int botElo;
+    public static int botElo;
 
     // GameObjects
     public static GameObject playerGameObject;
@@ -40,8 +40,6 @@ public class Combat : MonoBehaviour
     public static float botMaxHp;
 
     //Balance constants
-    //TODO: This should be encapsulated on a class whenever we have a class for each skill
-    private const float PassiveSkillsModifier = 1.05f;
     private const int ProbabilityOfUsingSkillEachTurn = 50;
 
     private void Awake()
@@ -50,7 +48,7 @@ public class Combat : MonoBehaviour
 
         FindGameObjects();
         GetComponentReferences();
-        GenerateBotData();
+        MatchMaking.GenerateBotData(player, bot);
         SetMaxHpValues();
 
         // LoadingScreen
@@ -81,20 +79,8 @@ public class Combat : MonoBehaviour
 
     private void BoostFightersStatsBasedOnPassiveSkills()
     {
-        BoostStatsBasedOnPassiveSkills(player);
-        BoostStatsBasedOnPassiveSkills(bot);
-    }
-
-    private void BoostStatsBasedOnPassiveSkills(Fighter fighter)
-    {
-        if (fighter.HasSkill(SkillNames.DangerousStrength)) fighter.damage *= PassiveSkillsModifier;
-        if (fighter.HasSkill(SkillNames.Heavyweight)) fighter.hp *= PassiveSkillsModifier;
-        if (fighter.HasSkill(SkillNames.Lightning)) fighter.speed *= PassiveSkillsModifier;
-        if (fighter.HasSkill(SkillNames.Persistant)) fighter.repeatAttackChance *= PassiveSkillsModifier;
-        if (fighter.HasSkill(SkillNames.FelineAgility)) fighter.dodgeChance *= PassiveSkillsModifier;
-        if (fighter.HasSkill(SkillNames.CriticalBleeding)) fighter.criticalChance *= PassiveSkillsModifier;
-        if (fighter.HasSkill(SkillNames.Reversal)) fighter.reversalChance *= PassiveSkillsModifier;
-        if (fighter.HasSkill(SkillNames.CounterAttack)) fighter.counterAttackChance *= PassiveSkillsModifier;
+        skillsLogicScript.BoostStatsBasedOnPassiveSkills(player);
+        skillsLogicScript.BoostStatsBasedOnPassiveSkills(bot);
     }
 
     private void GetComponentReferences()
@@ -188,33 +174,6 @@ public class Combat : MonoBehaviour
         StartPostGameActions();
     }
 
-    private void GenerateBotData()
-    {
-        string botName = MatchMaking.FetchBotRandomName();
-        int botLevel = MatchMaking.GenerateBotLevel(player.level);
-        botElo = MatchMaking.GenerateBotElo(User.Instance.elo);
-
-        List<Skill> botSkills = new List<Skill>();
-
-        //ADD ALL SKILLS
-        foreach (OrderedDictionary skill in SkillCollection.skills)
-        {
-            Skill skillInstance = new Skill(skill["name"].ToString(), skill["description"].ToString(),
-                skill["skillRarity"].ToString(), skill["category"].ToString(), skill["icon"].ToString());
-
-            botSkills.Add(skillInstance);
-        }
-
-        SpeciesNames randomSpecies = GetRandomSpecies();
-
-        Dictionary<string, float> botStats = GenerateBotRandomStats(randomSpecies);
-
-        bot.FighterConstructor(botName, botStats["hp"], botStats["damage"], botStats["speed"],
-            randomSpecies.ToString(), randomSpecies.ToString(), botLevel, 0, botSkills);
-
-        //FIXME: We should remove the skin concept from the fighters and use the species name for the skin.
-    }
-
     //TODO: Remove this on production
     private void GenerateSkillsFixturesForPlayer()
     {
@@ -226,34 +185,14 @@ public class Combat : MonoBehaviour
 
             player.skills.Add(skillInstance);
         }
-    }
-
-    private Dictionary<string, float> GenerateBotRandomStats(SpeciesNames randomSpecies)
-    {
-        float hp = Species.defaultStats[randomSpecies]["hp"] + (Species.statsPerLevel[randomSpecies]["hp"] * player.level);
-        float damage = Species.defaultStats[randomSpecies]["damage"] + (Species.statsPerLevel[randomSpecies]["damage"] * player.level);
-        float speed = Species.defaultStats[randomSpecies]["speed"] + (Species.statsPerLevel[randomSpecies]["speed"] * player.level);
-
-        return new Dictionary<string, float>
-        {
-            {"hp", hp},
-            {"damage", damage},
-            {"speed", speed},
-        };
-    }
-    private SpeciesNames GetRandomSpecies()
-    {
-        System.Random random = new System.Random();
-        Array species = Enum.GetValues(typeof(SpeciesNames));
-        return (SpeciesNames)species.GetValue(random.Next(species.Length));
-    }
+    }    
 
     IEnumerator StartTurn(Fighter attacker, Fighter defender)
     {
         //Test
-        // yield return StartCoroutine(skillsLogicScript.ViciousTheft(attacker, defender));
-        // FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.IDLE);
-        // yield break;
+        yield return StartCoroutine(skillsLogicScript.InterdimensionalTravel(attacker, defender));
+        FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.IDLE);
+        yield break;
         //Test end
         ////////////////////
 
@@ -384,13 +323,7 @@ public class Combat : MonoBehaviour
         PostGameActions.SetCurrencies(goldReward, gemsReward);
 
         //UI
-        fightersUIDataScript.SetResultsBanner(isPlayerWinner);
-        fightersUIDataScript.SetResultsEloChange(eloChange);
-        fightersUIDataScript.SetResultsLevel(player.level, player.experiencePoints);
-        fightersUIDataScript.SetResultsExpGainText(isPlayerWinner);
-        fightersUIDataScript.ShowLevelUpIcon(isLevelUp);
-        fightersUIDataScript.ShowRewards(goldReward, gemsReward, isLevelUp);
-        fightersUIDataScript.EnableResults(results);
+        fightersUIDataScript.ShowPostCombatInfo(player, isPlayerWinner ,eloChange, isLevelUp, goldReward, gemsReward, results);
 
         //Save
         PostGameActions.Save(player);

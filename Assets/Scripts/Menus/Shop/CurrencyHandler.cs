@@ -37,13 +37,23 @@ public class CurrencyHandler : MonoBehaviour
         User.Instance.gold -= gold;
     }
 
-    public bool hasEnoughGold(int gold)
+    public bool HasEnoughGold(int gold)
     {
         return User.Instance.gold >= gold;
     }
 
-    public bool hasEnoughGems(int gems)
+    public bool HasEnoughGems(int gems)
     {
         return User.Instance.gems >= gems;
+    }
+
+    public bool HasEnergySurplus(int energy)
+    {
+        return User.Instance.energy + energy > PlayerUtils.maxEnergy;
+    }
+
+    public void AddEnergy(int energy)
+    {
+        User.Instance.energy += energy;
     }
 }

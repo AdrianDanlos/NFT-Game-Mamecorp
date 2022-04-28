@@ -21,6 +21,7 @@ TagManager:
   - CombatLoadingScreenBotData
   - PlayerShadow
   - BotShadow
+  - SkillsContainer
   layers:
   - Default
   - TransparentFX

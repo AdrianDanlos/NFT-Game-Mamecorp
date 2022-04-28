@@ -16487,7 +16487,7 @@ GameObject:
   - component: {fileID: 2949423655016877134}
   - component: {fileID: 918332958}
   m_Layer: 5
-  m_Name: Button
+  m_Name: Button_Gold
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16766,7 +16766,7 @@ GameObject:
   - component: {fileID: 2949423655484915315}
   - component: {fileID: 2949423655484915316}
   m_Layer: 5
-  m_Name: Button
+  m_Name: Button_Energy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

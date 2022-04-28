@@ -59,9 +59,9 @@ public class ShopUI : MonoBehaviour
         fighterData = GameObject.Find("FighterWrapper").gameObject.transform.GetChild(0).GetComponent<Fighter>();
 
         // tabs
-        chestsTab = GameObject.Find("Button_Chests");
-        energyTab = GameObject.Find("Button_Energy");
-        goldTab = GameObject.Find("Button_Gold");
+        chestsTab = GameObject.Find("Button_Chests_Tab");
+        energyTab = GameObject.Find("Button_Energy_Tab");
+        goldTab = GameObject.Find("Button_Gold_Tab");
 
         // scrollrects
         chestsScrollrect = GameObject.Find("Group_Down_Chests");
@@ -82,6 +82,12 @@ public class ShopUI : MonoBehaviour
         confirmButton.SetActive(false);
         energyScrollrect.SetActive(false);
         goldScrollrect.SetActive(false);
+    }
+
+    private void Start()
+    {
+        // button pressed from main menu
+        ShowTab(ShopTab.GetTab());
     }
 
     public void ConfirmPurchase()
@@ -144,9 +150,18 @@ public class ShopUI : MonoBehaviour
         messageText.text = "Are you sure about buying this item ?";
     }
 
-    public void ShowTab()
+    public void ShowTab(string buttonPressed)
     {
-        string tabPressed = EventSystem.current.currentSelectedGameObject.name;
+        string tabPressed = "";
+
+        Debug.Log(buttonPressed + " " + tabPressed);
+
+        if (buttonPressed == null)
+            tabPressed = EventSystem.current.currentSelectedGameObject.name;
+        else
+            tabPressed = buttonPressed;
+
+
 
         switch (tabPressed)
         {
@@ -182,6 +197,7 @@ public class ShopUI : MonoBehaviour
 
     public void ShowGoldTab()
     {
+        Debug.Log(goldTab.transform.Find("Focus"));
         goldTab.transform.Find("Focus").GetComponent<Image>().enabled = true;
         goldScrollrect.SetActive(true);
     }

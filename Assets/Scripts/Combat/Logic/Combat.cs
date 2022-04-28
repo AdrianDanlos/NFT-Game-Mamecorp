@@ -26,6 +26,7 @@ public class Combat : MonoBehaviour
     public static Movement movementScript;
     public static FightersUIData fightersUIDataScript;
     SkillsLogicInCombat skillsLogicScript;
+    Attack attackScript;
     LoadingScreen loadingScreen;
 
     // Positions data
@@ -89,6 +90,7 @@ public class Combat : MonoBehaviour
         movementScript = this.GetComponent<Movement>();
         fightersUIDataScript = this.GetComponent<FightersUIData>();
         skillsLogicScript = this.GetComponent<SkillsLogicInCombat>();
+        attackScript = this.GetComponent<Attack>();
         loadingScreen = this.GetComponent<LoadingScreen>();
         player = playerGameObject.GetComponent<Fighter>();
         bot = botGameObject.GetComponent<Fighter>();
@@ -167,9 +169,9 @@ public class Combat : MonoBehaviour
         while (!isGameOver)
         {
             // The StartTurn method should handle all the actions of a player for that turn. E.G. Move, Attack, Throw skill....
-            yield return StartCoroutine(StartTurn(firstAttacker, secondAttacker));
+            while (!isGameOver && attackScript.IsExtraTurn(firstAttacker)) yield return StartCoroutine(StartTurn(firstAttacker, secondAttacker));
             if (isGameOver) break;
-            yield return StartCoroutine(StartTurn(secondAttacker, firstAttacker));
+            while (!isGameOver && attackScript.IsExtraTurn(secondAttacker)) yield return StartCoroutine(StartTurn(secondAttacker, firstAttacker));
         }
         StartPostGameActions();
     }
@@ -185,7 +187,7 @@ public class Combat : MonoBehaviour
 
             player.skills.Add(skillInstance);
         }
-    }    
+    }
 
     IEnumerator StartTurn(Fighter attacker, Fighter defender)
     {
@@ -323,7 +325,7 @@ public class Combat : MonoBehaviour
         PostGameActions.SetCurrencies(goldReward, gemsReward);
 
         //UI
-        fightersUIDataScript.ShowPostCombatInfo(player, isPlayerWinner ,eloChange, isLevelUp, goldReward, gemsReward, results);
+        fightersUIDataScript.ShowPostCombatInfo(player, isPlayerWinner, eloChange, isLevelUp, goldReward, gemsReward, results);
 
         //Save
         PostGameActions.Save(player);

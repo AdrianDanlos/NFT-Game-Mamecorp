@@ -22,7 +22,7 @@ public class SkillsLogicInCombat : MonoBehaviour
         // Attack
         int attackCounter = 0;
 
-        while (!Combat.isGameOver && (attackCounter == 0 || attackScript.IsAttackRepeated(attacker)))
+        while (!Combat.isGameOver && (attackCounter == 0 || attackScript.IsBasicAttackRepeated(attacker)))
         {
             yield return StartCoroutine(attackScript.PerformAttack(attacker, defender));
             attackCounter++;

@@ -7,4 +7,5 @@ enum SceneNames
     ChooseFirstFighter,
     Shop,
     Inventory,
+    LevelUp,
 }

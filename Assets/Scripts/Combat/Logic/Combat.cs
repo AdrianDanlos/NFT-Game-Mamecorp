@@ -169,8 +169,10 @@ public class Combat : MonoBehaviour
         while (!isGameOver)
         {
             // The StartTurn method should handle all the actions of a player for that turn. E.G. Move, Attack, Throw skill....
+            yield return StartCoroutine(StartTurn(firstAttacker, secondAttacker));
             while (!isGameOver && attackScript.IsExtraTurn(firstAttacker)) yield return StartCoroutine(StartTurn(firstAttacker, secondAttacker));
             if (isGameOver) break;
+            yield return StartCoroutine(StartTurn(secondAttacker, firstAttacker));
             while (!isGameOver && attackScript.IsExtraTurn(secondAttacker)) yield return StartCoroutine(StartTurn(secondAttacker, firstAttacker));
         }
         StartPostGameActions();
@@ -192,17 +194,17 @@ public class Combat : MonoBehaviour
     IEnumerator StartTurn(Fighter attacker, Fighter defender)
     {
         //Test
-        yield return StartCoroutine(skillsLogicScript.InterdimensionalTravel(attacker, defender));
-        FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.IDLE);
-        yield break;
+        // yield return StartCoroutine(skillsLogicScript.InterdimensionalTravel(attacker, defender));
+        // FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.IDLE);
+        // yield break;
         //Test end
         ////////////////////
 
-        if (WillUseSkillThisTurn(attacker))
-        {
-            yield return StartCoroutine(UseRandomSkill(attacker, defender, attacker));
-            yield break;
-        }
+        // if (WillUseSkillThisTurn(attacker))
+        // {
+        //     yield return StartCoroutine(UseRandomSkill(attacker, defender, attacker));
+        //     yield break;
+        // }
         yield return skillsLogicScript.AttackWithoutSkills(attacker, defender);
         FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.IDLE);
     }

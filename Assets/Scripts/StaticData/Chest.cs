@@ -20,7 +20,8 @@ public static class Chest
     {
         NORMAL,
         EPIC,
-        LEGENDARY
+        LEGENDARY,
+        SPECIAL
     }
 
     // Chance of gettin chest after level up
@@ -156,6 +157,16 @@ public static class Chest
                     {SkillCollection.SkillRarity.LEGENDARY.ToString(), 100}
                 }
             },
+            {
+                ShopChestTypes.SPECIAL, new Dictionary<string, float>
+                {
+                    // chances of SkillRarity
+                    {SkillCollection.SkillRarity.COMMON.ToString(), 0},
+                    {SkillCollection.SkillRarity.RARE.ToString(), 30},
+                    {SkillCollection.SkillRarity.EPIC.ToString(), 60},
+                    {SkillCollection.SkillRarity.LEGENDARY.ToString(), 10}
+                }
+            },
         };
 
     public static readonly Dictionary<ShopChestTypes, Dictionary<string, int>> shopChestsValue =
@@ -177,6 +188,12 @@ public static class Chest
                     ShopChestTypes.LEGENDARY, new Dictionary<string, int>
                     {
                         {"gems", 30},
+                    }
+                },
+                {
+                    ShopChestTypes.SPECIAL, new Dictionary<string, int>
+                    {
+                        {"gems", 20},
                     }
                 },
         };

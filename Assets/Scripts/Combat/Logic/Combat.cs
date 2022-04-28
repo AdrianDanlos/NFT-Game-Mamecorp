@@ -250,7 +250,7 @@ public class Combat : MonoBehaviour
     IEnumerator StartTurn(Fighter attacker, Fighter defender)
     {
         //Test
-        yield return StartCoroutine(skillsLogicScript.InterdimensionalTravel(attacker, defender));
+        yield return StartCoroutine(skillsLogicScript.HealingPotion(attacker, defender));
         FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.IDLE);
         yield break;
 
@@ -266,7 +266,7 @@ public class Combat : MonoBehaviour
     {
         //TODO FUTURE REFACTOR: Each skill should have each own class with its own skill implementation. (methods, attributes, etc...)
         // Then we can instantiate a random class here to use a random SUPER skill this turn
-        int numberOfSkills = 6;
+        int numberOfSkills = 7;
 
         int randomNumber = UnityEngine.Random.Range(0, numberOfSkills) + 1;
         switch (randomNumber)
@@ -294,6 +294,10 @@ public class Combat : MonoBehaviour
             case 6:
                 yield return skillsLogicScript.InterdimensionalTravel(attacker, defender);
                 attacker.removeUsedSkill(SkillNames.InterdimensionalTravel);
+                break;
+            case 7:
+                yield return skillsLogicScript.HealingPotion(attacker);
+                attacker.removeUsedSkill(SkillNames.HealingPotion);
                 break;
         }
 

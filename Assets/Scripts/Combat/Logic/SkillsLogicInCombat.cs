@@ -113,6 +113,11 @@ public class SkillsLogicInCombat : MonoBehaviour
         if (!Combat.isGameOver) FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.IDLE);
         yield return combatScript.MoveBackHandler(attacker);
     }
+    public IEnumerator HealingPotion(Fighter attacker)
+    {
+        FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.IDLE_BLINKING);
+        yield return StartCoroutine(attackScript.PerformHealingPotion(attacker));
+    }
     private void SetOpacityOfFighterAndShadow(Fighter attacker, float opacity)
     {
         attacker.GetComponent<Renderer>().material.color = GetFighterColorWithCustomOpacity(attacker, opacity);

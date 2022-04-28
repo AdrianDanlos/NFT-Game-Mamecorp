@@ -143,6 +143,13 @@ public class Attack : MonoBehaviour
         yield return DefenderReceivesAttack(attacker, defender, attacker.damage, 0.25f, 0);
     }
 
+    public IEnumerator PerformHealingPotion(Fighter attacker){
+        //Instantiate a potion on top of attacker
+        //fighter color to green
+        //update hp and hp bar
+        //remove color and potion go
+    }
+
     private float GetShurikenEndPositionX(bool dodged, Fighter attacker, Vector3 shurikenEndPos)
     {
         if (dodged) return Combat.player == attacker ? shurikenEndPos.x + 10 : shurikenEndPos.x - 10;

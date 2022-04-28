@@ -25,6 +25,17 @@ public class FightersUIData : MonoBehaviour
     public GameObject gemsRewardGO;
     public GameObject chestRewardGO;
 
+    public void ShowPostCombatInfo(Fighter player, bool isPlayerWinner, int eloChange, bool isLevelUp, int goldReward, int gemsReward, Canvas results)
+    {
+        SetResultsBanner(isPlayerWinner);
+        SetResultsEloChange(eloChange);
+        SetResultsLevel(player.level, player.experiencePoints);
+        SetResultsExpGainText(isPlayerWinner);
+        ShowLevelUpIcon(isLevelUp);
+        ShowRewards(goldReward, gemsReward, isLevelUp);
+        EnableResults(results);
+    }
+
     public void SetFightersUIInfo(Fighter player, Fighter bot, int botElo)
     {
         SetFightersElo(botElo);

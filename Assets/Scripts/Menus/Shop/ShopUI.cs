@@ -131,7 +131,7 @@ public class ShopUI : MonoBehaviour
                 HandleEnergyPopUp();
                 break;
             case (int)Transactions.GOLD:
-                HandleEnergyPopUp();
+                HandleGoldPopUp();
                 break;
         }
     }
@@ -373,7 +373,6 @@ public class ShopUI : MonoBehaviour
             (typeof(Energy.ShopEnergyBundles), energyBundle.ToUpper())]["energy"];
     }
 
-    // TODO
     public void GetGoldCostFromType(string goldBundle)
     {
         gemsValue = Gold.shopGoldBundlesCost[(Gold.ShopGoldBundles)System.Enum.Parse

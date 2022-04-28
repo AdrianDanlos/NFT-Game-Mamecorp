@@ -12,72 +12,72 @@ public static class Gold
     }
 
     public static readonly Dictionary<ShopGoldBundles, Dictionary<string, int>> shopGoldBundlesCost =
-    new Dictionary<ShopGoldBundles, Dictionary<string, int>>
-    {
+        new Dictionary<ShopGoldBundles, Dictionary<string, int>>
+        {
+            {
+                ShopGoldBundles.SMALLGOLD1, new Dictionary<string, int>
                 {
-                    ShopGoldBundles.SMALLGOLD1, new Dictionary<string, int>
-                    {
-                        {"gems", 100},
-                    }
-                },
-                {
-                    ShopGoldBundles.SMALLGOLD2, new Dictionary<string, int>
-                    {
-                        {"gems", 100},
-                    }
-                },
-                {
-                    ShopGoldBundles.MEDIUMGOLD1, new Dictionary<string, int>
-                    {
-                        {"gems", 60},
-                    }
-                },
-                {
-                    ShopGoldBundles.MEDIUMGOLD2, new Dictionary<string, int>
-                    {
-                        {"gems", 60},
-                    }
-                },
-                {
-                    ShopGoldBundles.BIGGOLD, new Dictionary<string, int>
-                    {
-                        {"gems", 15},
-                    }
+                    {"gems", 10},
                 }
-    };
+            },
+            {
+                ShopGoldBundles.SMALLGOLD2, new Dictionary<string, int>
+                {
+                    {"gems", 22},
+                }
+            },
+            {
+                ShopGoldBundles.MEDIUMGOLD1, new Dictionary<string, int>
+                {
+                    {"gems", 38},
+                }
+            },
+            {
+                ShopGoldBundles.MEDIUMGOLD2, new Dictionary<string, int>
+                {
+                    {"gems", 70},
+                }
+            },
+            {
+                ShopGoldBundles.BIGGOLD, new Dictionary<string, int>
+                {
+                    {"gems", 300},
+                }
+            }
+        };
 
     public static readonly Dictionary<ShopGoldBundles, Dictionary<string, int>> shopGoldBundlesValue =
         new Dictionary<ShopGoldBundles, Dictionary<string, int>>
         {
-{
-                    ShopGoldBundles.SMALLGOLD1, new Dictionary<string, int>
-                    {
-                        {"gold", 100},
-                    }
-                },
+            { 
+                ShopGoldBundles.SMALLGOLD1, new Dictionary<string, int>
                 {
-                    ShopGoldBundles.SMALLGOLD2, new Dictionary<string, int>
-                    {
-                        {"gold", 200},
-                    }
-                },
-                {
-                    ShopGoldBundles.MEDIUMGOLD1, new Dictionary<string, int>
-                    {
-                        {"gold", 500},
-                    }
-                },
-                {
-                    ShopGoldBundles.MEDIUMGOLD2, new Dictionary<string, int>
-                    {
-                        {"gold", 60},
-                    }
-                },
-                {
-                    ShopGoldBundles.BIGGOLD, new Dictionary<string, int>
-                    {
-                        {"gold", 15},
-                    }
+                    {"gold", 100},
                 }
+            },
+            {
+                ShopGoldBundles.SMALLGOLD2, new Dictionary<string, int>
+                {
+                    {"gold", 250},
+                }
+            },
+            {
+                ShopGoldBundles.MEDIUMGOLD1, new Dictionary<string, int>
+                {
+                    {"gold", 500},
+                }
+            },
+            {
+                ShopGoldBundles.MEDIUMGOLD2, new Dictionary<string, int>
+                {
+                    {"gold", 1000},
+                }
+            },
+            {
+                ShopGoldBundles.BIGGOLD, new Dictionary<string, int>
+                {
+                    {"gold", 5000},
+                }
+            }
         };
 }

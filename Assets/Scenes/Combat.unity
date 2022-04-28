@@ -8069,6 +8069,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: FighterShadow
       objectReference: {fileID: 0}
+    - target: {fileID: 50279819837839210, guid: 6648c8a2fc797b44392c792fe1537aa6, type: 3}
+      propertyPath: m_TagString
+      value: BotShadow
+      objectReference: {fileID: 0}
     - target: {fileID: 517976221957823082, guid: 6648c8a2fc797b44392c792fe1537aa6, type: 3}
       propertyPath: m_FlipY
       value: 0

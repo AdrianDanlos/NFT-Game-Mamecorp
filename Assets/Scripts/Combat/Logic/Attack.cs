@@ -149,11 +149,11 @@ public class Attack : MonoBehaviour
         Vector3 potionPosition = attacker.transform.position;
         potionPosition.y += 2.5f;
         GameObject potionInstance = Instantiate(potion, potionPosition, Quaternion.identity);
-        attacker.GetComponent<SpriteRenderer>().color = new Color(147,255,86);
+        attacker.GetComponent<SpriteRenderer>().color = new Color32(147,255,86,255);
         RestoreLife(attacker, 30);
         Combat.fightersUIDataScript.ModifyHealthBar(attacker, Combat.player == attacker);
-        yield return new WaitForSeconds(10);
-        attacker.GetComponent<SpriteRenderer>().color = new Color(255,255,255);
+        yield return new WaitForSeconds(1.5f);
+        attacker.GetComponent<SpriteRenderer>().color = new Color32(255,255,255, 255);
         Destroy(potionInstance);
     }
 

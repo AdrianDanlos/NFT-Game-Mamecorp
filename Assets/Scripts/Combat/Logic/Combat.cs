@@ -71,9 +71,9 @@ public class Combat : MonoBehaviour
 
     IEnumerator Start()
     {
-        yield return new WaitForSeconds(0);
+        yield return new WaitForSeconds(1);
         loadingScreen.SetBotLoadingScreenData(bot);
-        yield return new WaitForSeconds(0);
+        yield return new WaitForSeconds(1);
         ToggleLoadingScreenVisibility(false);
         StartCoroutine(InitiateCombat());
     }

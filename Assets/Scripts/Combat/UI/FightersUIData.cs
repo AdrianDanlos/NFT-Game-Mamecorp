@@ -24,15 +24,26 @@ public class FightersUIData : MonoBehaviour
     public GameObject goldRewardGO;
     public GameObject gemsRewardGO;
     public GameObject chestRewardGO;
+    public GameObject nextButtonGO;
+
+    private void AddListenerToNextBtn(bool isLevelUp) {
+        nextButtonGO.GetComponent<Button>().onClick.AddListener(() => OnClickNextHandler(isLevelUp));
+    }
+
+    private void OnClickNextHandler(bool isLevelUp){
+        if(isLevelUp) UnityEngine.SceneManagement.SceneManager.LoadScene(SceneNames.LevelUp.ToString());
+        else UnityEngine.SceneManagement.SceneManager.LoadScene(SceneNames.MainMenu.ToString());
+    }
 
     public void ShowPostCombatInfo(Fighter player, bool isPlayerWinner, int eloChange, bool isLevelUp, int goldReward, int gemsReward, Canvas results)
     {
+        AddListenerToNextBtn(isLevelUp);
         SetResultsBanner(isPlayerWinner);
         SetResultsEloChange(eloChange);
         SetResultsLevel(player.level, player.experiencePoints);
         SetResultsExpGainText(isPlayerWinner);
         ShowLevelUpIcon(isLevelUp);
-        ShowRewards(goldReward, gemsReward, isLevelUp);
+        ShowRewards(goldReward, gemsReward);
         EnableResults(results);
     }
 
@@ -105,13 +116,9 @@ public class FightersUIData : MonoBehaviour
         defeatBanner.SetActive(!isPlayerWinner);
     }
 
-    public void ShowRewards(int goldReward, int gemsReward, bool isLevelUp)
+    public void ShowRewards(int goldReward, int gemsReward)
     {
         gemsRewardGO.SetActive(Convert.ToBoolean(gemsReward));
-        // generate chess here and set active correct chest 
-        // atm there is an static image
-        chestRewardGO.SetActive(isLevelUp);
-
         goldRewardGO.transform.Find("TextValue").gameObject.GetComponent<TextMeshProUGUI>().text = goldReward.ToString();
         if (Convert.ToBoolean(gemsReward)) gemsRewardGO.transform.Find("TextValue").gameObject.GetComponent<TextMeshProUGUI>().text = gemsReward.ToString();
     }

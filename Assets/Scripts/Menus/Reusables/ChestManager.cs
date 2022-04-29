@@ -11,7 +11,7 @@ public static class ChestManager
         // TODO: make code reusable in post combat chest
 
         float diceRoll = Random.Range(0f, TOTALWEIGHT);
-
+        
         foreach (KeyValuePair<string, float> chest in
             Chest.shopChests[(Chest.ShopChestTypes)System.Enum.Parse(typeof(Chest.ShopChestTypes), chestType.ToUpper())])
         {

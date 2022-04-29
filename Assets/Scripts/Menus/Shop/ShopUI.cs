@@ -47,6 +47,7 @@ public class ShopUI : MonoBehaviour
     string energyButtonPressed;
     string goldButtonPressed;
     int gemsValue = 0;
+    int goldValue = 0;
     int previousTransaction;
 
     // data
@@ -156,7 +157,7 @@ public class ShopUI : MonoBehaviour
         previousTransaction = (int)Transactions.CHEST;
 
         // handle which chest was opened to change icon after
-        if (CurrencyHandler.instance.HasEnoughGems(gemsValue))
+        if (CurrencyHandler.instance.HasEnoughGold(goldValue))
         {
             buyConfirmation.SetActive(true);
             abortButton.SetActive(true);
@@ -169,13 +170,13 @@ public class ShopUI : MonoBehaviour
             abortButton.SetActive(false);
             confirmButton.SetActive(false);
             noCurrencyButton.SetActive(true);
-            messageText.text = "Not enough gems!";
+            messageText.text = "Not enough gold!";
         }
     }
 
     public void HandleChestPopUp()
     {
-        CurrencyHandler.instance.SubstractGems(gemsValue);
+        CurrencyHandler.instance.SubstractGold(goldValue);
         buyConfirmation.SetActive(false);
         abortButton.SetActive(false);
         confirmButton.SetActive(false);
@@ -357,8 +358,8 @@ public class ShopUI : MonoBehaviour
 
     public void GetChestValueFromType(string chestType)
     {
-        gemsValue = Chest.shopChestsValue[(Chest.ShopChestTypes)System.Enum.Parse
-            (typeof(Chest.ShopChestTypes), chestType.ToUpper())]["gems"];
+        goldValue = Chest.shopChestsValue[(Chest.ShopChestTypes)System.Enum.Parse
+            (typeof(Chest.ShopChestTypes), chestType.ToUpper())]["gold"];
     }
 
     public void GetEnergyCostFromType(string energyBundle)

@@ -1,16 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class Profile : MonoBehaviour
 {
     // UI
     GameObject levelBar;
-    GameObject levelFill;
-    GameObject levelIcon;
-    GameObject levelText;
     GameObject levelExp;
     GameObject trophiesText;
     GameObject cupsText;
@@ -27,9 +21,6 @@ public class Profile : MonoBehaviour
 
         // UI
         levelBar = GameObject.Find("LevelBar");
-        levelFill = GameObject.Find("Level_Fill");
-        levelIcon = GameObject.Find("Level_Icon");
-        levelText = GameObject.Find("Level_Text_Level");
         levelExp = GameObject.Find("Level_Text_Exp");
         trophiesText = GameObject.Find("Trophies_Text_Value");
         cupsText = GameObject.Find("Cups_Text_Value");

@@ -36,5 +36,12 @@ public class ChooseFirstFighter : MonoBehaviour
             Species.defaultStats[speciesEnumMember]["speed"],
             new List<Skill>())));
         JsonDataManager.SaveData(serializableFighter, JsonDataManager.FighterFileName);
+
+        ResetAllPrefs();
+    }
+
+    private void ResetAllPrefs()
+    {
+        PlayerPrefs.DeleteAll();
     }
 }

@@ -30,8 +30,9 @@ public class DailyGift : MonoBehaviour
         confirmGiftCanvas.SetActive(false);
         giftCollectedButton.GetComponent<Button>().onClick.AddListener(() => GoToMainMenu());
 
-        // load which one is collected and which one is not
-        // DisableButtonOnRewardCollected(day)
+        // ResetWeek();
+        DisableInteraction();
+        EnableCollectableGift();
         LoadUI();
     }
 
@@ -83,6 +84,14 @@ public class DailyGift : MonoBehaviour
         }
     }
 
+    private void DisableInteraction()
+    {
+        for (int i = 0; i < giftItems.Count; i++)
+        {
+            giftItems[i].GetComponent<Button>().interactable = false;
+        }
+    }
+
     public void ResetWeek()
     {
         for(int i = 0; i < giftItems.Count; i++)
@@ -100,8 +109,8 @@ public class DailyGift : MonoBehaviour
         return new Dictionary<string, string>
         {
             { 
-              DailyGiftDB.gifts[(DailyGiftDB.Days)System.Enum.Parse(typeof(DailyGiftDB.Days), day)]["reward"],
-              DailyGiftDB.gifts[(DailyGiftDB.Days)System.Enum.Parse(typeof(DailyGiftDB.Days), day)]["value"]
+              DailyGiftDB.gifts[(DailyGiftDB.Days)Enum.Parse(typeof(DailyGiftDB.Days), day)]["reward"],
+              DailyGiftDB.gifts[(DailyGiftDB.Days)Enum.Parse(typeof(DailyGiftDB.Days), day)]["value"]
             }
         };
     }
@@ -143,9 +152,16 @@ public class DailyGift : MonoBehaviour
             if(giftItems[i].name.ToUpper() == day)
             {
                 giftItems[i].transform.GetChild(4).gameObject.SetActive(true);
+                giftItems[i].transform.GetChild(5).gameObject.SetActive(false);
                 giftItems[i].GetComponent<Button>().interactable = false;
             }
         }
+    }
+
+    public void EnableCollectableGift()
+    {
+        giftItems[0].transform.GetChild(5).gameObject.SetActive(true);
+        giftItems[0].GetComponent<Button>().interactable = true;
     }
 
     public void DisableDailyGiftNotification()

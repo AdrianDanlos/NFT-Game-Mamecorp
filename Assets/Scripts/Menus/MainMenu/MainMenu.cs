@@ -14,13 +14,23 @@ public class MainMenu : MonoBehaviour
     public GameObject settings;
 
     // daily gift
+    GameObject dailyGiftCanvas;
     DailyGift dailyGift;
     GameObject dailyGiftsNotification;
+
+    // ranking 
+    GameObject rankingCanvas;
+
+    // profile
+    GameObject profileCanvas;
 
     void Awake()
     {
         settings = GameObject.Find("Settings");
-        dailyGift = GameObject.Find("DailyRewards").GetComponent<DailyGift>();
+        dailyGiftCanvas = GameObject.Find("DailyRewardsCanvas");
+        rankingCanvas = GameObject.Find("RankingCanvas");
+        profileCanvas = GameObject.Find("ProfileCanvas");
+        dailyGift = dailyGiftCanvas.GetComponent<DailyGift>();
         dailyGiftsNotification = GameObject.Find("DailyGiftsNotification");
 
         Fighter player = PlayerUtils.FindInactiveFighter();
@@ -36,6 +46,9 @@ public class MainMenu : MonoBehaviour
 
         // on open
         settings.SetActive(false);
+        dailyGiftCanvas.SetActive(false);
+        rankingCanvas.SetActive(false);
+        profileCanvas.SetActive(false);
         dailyGiftsNotification.SetActive(false);
     }
 

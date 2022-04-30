@@ -1,25 +1,38 @@
 using System.Collections.Generic;
 using UnityEngine;
-using System.Linq;
+using System;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class DailyGift : MonoBehaviour
 {
     // UI
     GameObject itemsContainer;
+    GameObject confirmGiftCanvas;
+    GameObject giftCollectedButton;
     List<GameObject> giftItems = new List<GameObject>();
-
 
     // Manager
     MainMenu mainMenu;
 
+    // variables
+    string lastButtonClicked = "";
+
     private void Awake()
     {
         itemsContainer = GameObject.Find("Group_Reward");
+        confirmGiftCanvas = GameObject.Find("Canvas_Gift_Collected");
+        giftCollectedButton = GameObject.Find("Button_BackToDailyGift");
         mainMenu = GameObject.Find("MainMenuManager").GetComponent<MainMenu>(); // notifications system
 
+        // on enable
         GetDailyItems();
+        confirmGiftCanvas.SetActive(false);
+        giftCollectedButton.GetComponent<Button>().onClick.AddListener(() => GoToMainMenu());
 
-        GiveReward(GetRewardType("day7"));
+        // load which one is collected and which one is not
+        // DisableButtonOnRewardCollected(day)
+        LoadUI();
     }
 
     /* Day items structure
@@ -37,7 +50,30 @@ public class DailyGift : MonoBehaviour
      * - 7 reward
      */
 
+    private void LoadUI()
+    {
+        // 0 - false
+        // 1 - true
+        float flag;
+        string day;
 
+        for (int i = 0; i < giftItems.Count; i++)
+        {
+            day = "DAY" + (i + 1);
+            flag = PlayerPrefs.GetFloat(day);
+
+            if(flag == 1)
+            {
+                DisableButtonOnRewardCollected(day);
+            }
+        }
+    }
+
+    private void SaveDay(string day)
+    {
+        PlayerPrefs.SetFloat(day, 1);
+        PlayerPrefs.Save();
+    }
 
     private void GetDailyItems()
     {
@@ -47,32 +83,14 @@ public class DailyGift : MonoBehaviour
         }
     }
 
-    private void CalculateDailyItem()
-    {
-        // Todo keep track of time
-    }
-
-    public void CollectGift(string day)
-    {
-        if (true)
-        {
-
-        }
-
-
-        // TODO if item is collectable collect and move focus to next one and date
-
-        mainMenu.DisableDailyGiftNotification();
-    }
-
     public void ResetWeek()
     {
-        // TODO reset gifts and enable first
-    }
+        for(int i = 0; i < giftItems.Count; i++)
+        {
+            PlayerPrefs.SetFloat("DAY" + (i + 1), 0);
+        }
 
-    public void BackToDailyGifts()
-    {
-        // reward collected popup
+        PlayerPrefs.Save();
     }
 
     private Dictionary<string, string> GetRewardType(string day)
@@ -92,15 +110,41 @@ public class DailyGift : MonoBehaviour
     {
         if (reward.ContainsKey("gold"))
         {
-            Debug.Log("gold");
+            CurrencyHandler.instance.AddGold(int.Parse(reward["gold"]));
+            Debug.Log(int.Parse(reward["gold"]));
         }
         if (reward.ContainsKey("gems"))
         {
-            Debug.Log("gems");
+            CurrencyHandler.instance.AddGems(int.Parse(reward["gems"]));
+            Debug.Log(int.Parse(reward["gems"]));
         }
         if (reward.ContainsKey("chest"))
         {
-            Debug.Log("chest");
+            // give chest here
+        }
+
+        // show confirm button + manage UI
+        confirmGiftCanvas.SetActive(true);
+    }
+
+    public void GiveRewardButton()
+    {
+        lastButtonClicked = EventSystem.current.currentSelectedGameObject.name.ToUpper();
+        GiveReward(GetRewardType(lastButtonClicked));
+        DisableButtonOnRewardCollected(lastButtonClicked);
+        SaveDay(lastButtonClicked);
+        mainMenu.DisableDailyGiftNotification();
+    }
+
+    public void DisableButtonOnRewardCollected(string day)
+    {
+        for(int i = 0; i < giftItems.Count; i++)
+        {
+            if(giftItems[i].name.ToUpper() == day)
+            {
+                giftItems[i].transform.GetChild(4).gameObject.SetActive(true);
+                giftItems[i].GetComponent<Button>().interactable = false;
+            }
         }
     }
 
@@ -112,5 +156,10 @@ public class DailyGift : MonoBehaviour
     public void EnableDailyGiftNotification()
     {
         mainMenu.EnableDailyGiftNotification();
+    }
+
+    public void GoToMainMenu()
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene(SceneNames.MainMenu.ToString());
     }
 }

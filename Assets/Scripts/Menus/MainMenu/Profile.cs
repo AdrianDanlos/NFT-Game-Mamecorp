@@ -42,9 +42,15 @@ public class Profile : MonoBehaviour
 
     private void LoadStats()
     {
-        // TODO fighter icon
+        // TODO fighter face
         MenuUtils.SetLevelSlider(levelExp, levelBar, player.level, player.experiencePoints);
         MenuUtils.DisplayLevelIcon(player.level, levelBar);
         MenuUtils.SetName(userName, player.fighterName);
+
+        // TODO CUPS
+        cupsText.GetComponent<TextMeshProUGUI>().text = PlayerPrefs.GetFloat("cups").ToString();
+        nCombatsText.GetComponent<TextMeshProUGUI>().text = PlayerPrefs.GetFloat("fights").ToString();
+        trophiesText.GetComponent<TextMeshProUGUI>().text = PlayerPrefs.GetFloat("maxTrophies").ToString();
+        highestEnemyText.GetComponent<TextMeshProUGUI>().text = PlayerPrefs.GetFloat("highestEnemy").ToString();
     }
 }

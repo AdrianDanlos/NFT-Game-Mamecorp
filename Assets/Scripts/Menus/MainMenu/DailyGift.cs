@@ -30,10 +30,17 @@ public class DailyGift : MonoBehaviour
         confirmGiftCanvas.SetActive(false);
         giftCollectedButton.GetComponent<Button>().onClick.AddListener(() => GoToMainMenu());
 
-        // ResetWeek();
         DisableInteraction();
         LoadUI();
         EnableNextReward();
+    }
+
+    private void Update()
+    {
+        if (IsGiftAvailable())
+            EnableNextReward();
+        if (IsOutOfRewards())
+            ResetWeek();
     }
 
     /* Day items structure
@@ -94,6 +101,16 @@ public class DailyGift : MonoBehaviour
         PlayerPrefs.Save();
     }
 
+    private bool IsOutOfRewards()
+    {
+        float counter = 0;
+
+        for (int i = 0; i < giftItems.Count; i++)
+             counter += PlayerPrefs.GetFloat("DAY" + (i + 1), 0);
+
+        return counter == 7;
+    }
+
     private Dictionary<string, string> GetRewardType(string day)
     {
         day = day.ToUpper();
@@ -135,6 +152,7 @@ public class DailyGift : MonoBehaviour
         DisableButtonOnRewardCollected(lastButtonClicked);
         SaveDay(lastButtonClicked);
         mainMenu.DisableDailyGiftNotification();
+        StartCountdown();
     }
 
     public void DisableButtonOnRewardCollected(string day)
@@ -150,16 +168,11 @@ public class DailyGift : MonoBehaviour
         }
     }
 
-    public void EnableCollectableGift()
-    {
-        giftItems[0].transform.GetChild(5).gameObject.SetActive(true);
-        giftItems[0].GetComponent<Button>().interactable = true;
-    }
     public void EnableNextReward()
     {
         for (int i = 0; i < giftItems.Count; i++)
         {
-            if (!giftItems[i].transform.GetChild(4).gameObject.activeSelf)
+            if (!giftItems[i].transform.GetChild(4).gameObject.activeSelf && IsGiftAvailable())
             {
                 giftItems[i].transform.GetChild(4).gameObject.SetActive(false);
                 giftItems[i].transform.GetChild(5).gameObject.SetActive(true);
@@ -168,6 +181,17 @@ public class DailyGift : MonoBehaviour
                 return;
             }
         }
+    }
+
+    public void StartCountdown()
+    {
+        PlayerPrefs.SetString("giftCountdown", DateTime.Now.AddDays(1).ToBinary().ToString());
+        PlayerPrefs.Save();
+    }
+
+    public bool IsGiftAvailable()
+    {
+        return DateTime.Compare(DateTime.FromBinary(Convert.ToInt64(PlayerPrefs.GetString("giftCountdown"))), DateTime.Now) <= 0;
     }
 
     public void DisableDailyGiftNotification()
@@ -183,5 +207,16 @@ public class DailyGift : MonoBehaviour
     public void GoToMainMenu()
     {
         UnityEngine.SceneManagement.SceneManager.LoadScene(SceneNames.MainMenu.ToString());
+    }
+
+    public bool IsFirstTime()
+    {
+        return PlayerPrefs.GetFloat("firstDailyGift") == 0;
+    }
+
+    public void SaveFirstTime(int flag)
+    {
+        PlayerPrefs.SetFloat("firstDailyGift", flag);
+        PlayerPrefs.Save();
     }
 }

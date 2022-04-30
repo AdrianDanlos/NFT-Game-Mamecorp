@@ -50,6 +50,8 @@ public class MainMenu : MonoBehaviour
         rankingCanvas.SetActive(false);
         profileCanvas.SetActive(false);
         dailyGiftsNotification.SetActive(false);
+        if (dailyGift.IsFirstTime())
+            dailyGiftsNotification.SetActive(true);
     }
 
     IEnumerator Start()
@@ -57,6 +59,12 @@ public class MainMenu : MonoBehaviour
         //If the user don't have any energy left check each its energy each second to activate the battle button once an energy point is given.
         while (User.Instance.energy == 0) yield return new WaitForSeconds(1f);
         battleButtonGO.GetComponent<Button>().interactable = true;
+    }
+
+    private void Update()
+    {
+        if (dailyGift.IsGiftAvailable())
+            dailyGiftsNotification.SetActive(true);
     }
 
     public void OpenSettings()

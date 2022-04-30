@@ -67,7 +67,7 @@ public class ShopUI : MonoBehaviour
 
         // Energy
         energyPopUp = GameObject.Find("Canvas_PopUp_Energy");
-        energyNextButton = GameObject.Find("Button_Energy");
+        energyNextButton = GameObject.Find("Button_Next_Energy");
 
         // Gold
         goldPopUp = GameObject.Find("Canvas_PopUp_Gold");

@@ -13,4 +13,8 @@ public class GeneralUtils
     public static SpeciesNames StringToSpeciesNamesEnum(string species){
         return (SpeciesNames)Enum.Parse(typeof(SpeciesNames), species);
     }
+
+    public static SkillCollection.SkillRarity StringToSkillRarityEnum(string rarity){
+        return (SkillCollection.SkillRarity)Enum.Parse(typeof(SkillCollection.SkillRarity), rarity);
+    }
 }

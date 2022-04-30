@@ -331,7 +331,7 @@ public class ShopUI : MonoBehaviour
         backToShopButton.SetActive(true);
 
         // reward mockup
-        switch (ChestManager.OpenChest(chestButtonPressed))
+        switch (ChestManager.GetRandomShopChestRarity(chestButtonPressed))
         {
             case "RARE":
                 chestRewards.transform.GetChild(1).GetChild(0).GetComponent<Image>().sprite = frameColors[1].GetComponent<SpriteRenderer>().sprite;

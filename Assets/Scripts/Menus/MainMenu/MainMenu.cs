@@ -74,7 +74,7 @@ public class MainMenu : MonoBehaviour
 
     private void Update()
     {
-        if (dailyGift.IsGiftAvailable())
+        if (dailyGift.IsGiftAvailable() || dailyGift.IsFirstTime())
             dailyGiftsNotification.SetActive(true);
     }
 

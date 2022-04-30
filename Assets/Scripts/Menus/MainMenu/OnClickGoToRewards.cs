@@ -13,6 +13,5 @@ public class OnClickGoToRewards : MonoBehaviour
     public void ShowDailyRewards()
     {
         dailyRewards.SetActive(true);
-        dailyGift.SaveFirstTime(1);
     }
 }

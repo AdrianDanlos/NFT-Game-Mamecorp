@@ -153,6 +153,8 @@ public class DailyGift : MonoBehaviour
 
     public void GiveRewardButton()
     {
+        if(PlayerPrefs.GetFloat("firstDailyGift") == 0)
+            SaveFirstTime(1);
         lastButtonClicked = EventSystem.current.currentSelectedGameObject.name.ToUpper();
         GiveReward(GetRewardType(lastButtonClicked));
         DisableButtonOnRewardCollected(lastButtonClicked);
@@ -197,7 +199,13 @@ public class DailyGift : MonoBehaviour
 
     public bool IsGiftAvailable()
     {
-        return DateTime.Compare(DateTime.FromBinary(Convert.ToInt64(PlayerPrefs.GetString("giftCountdown"))), DateTime.Now) <= 0;
+        if (PlayerPrefs.GetFloat("firstDailyGift") == 0)
+            return true;
+
+        if (PlayerPrefs.GetString("giftCountdown") != "")
+            return DateTime.Compare(DateTime.FromBinary(Convert.ToInt64(PlayerPrefs.GetString("giftCountdown"))), DateTime.Now) <= 0;
+
+        return false;
     }
 
     public void GoToMainMenu()
@@ -218,6 +226,8 @@ public class DailyGift : MonoBehaviour
 
     private TimeSpan UpdateTimer()
     {
-        return DateTime.FromBinary(Convert.ToInt64(PlayerPrefs.GetString("giftCountdown"))) - DateTime.Now;
+        if (PlayerPrefs.GetString("giftCountdown") != "")
+            return DateTime.FromBinary(Convert.ToInt64(PlayerPrefs.GetString("giftCountdown"))) - DateTime.Now;
+        return TimeSpan.Zero;
     }
 }

@@ -3,14 +3,16 @@ using UnityEngine;
 using System;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using TMPro;
 
 public class DailyGift : MonoBehaviour
 {
     // UI
-    GameObject itemsContainer;
     GameObject confirmGiftCanvas;
     GameObject giftCollectedButton;
     List<GameObject> giftItems = new List<GameObject>();
+    TextMeshProUGUI timer;
+    GameObject timerGO;
 
     // Manager
     MainMenu mainMenu;
@@ -20,16 +22,17 @@ public class DailyGift : MonoBehaviour
 
     private void Awake()
     {
-        itemsContainer = GameObject.Find("Group_Reward");
+        timer = GameObject.Find("Text_Daily_Time").GetComponent<TextMeshProUGUI>();
+        timerGO = GameObject.Find("Icon_Daily_Time");
         confirmGiftCanvas = GameObject.Find("Canvas_Gift_Collected");
         giftCollectedButton = GameObject.Find("Button_BackToDailyGift");
         mainMenu = GameObject.Find("MainMenuManager").GetComponent<MainMenu>(); // notifications system
 
         // on enable
-        GetDailyItems();
+        timerGO.SetActive(false);
         confirmGiftCanvas.SetActive(false);
+        GetDailyItems();
         giftCollectedButton.GetComponent<Button>().onClick.AddListener(() => GoToMainMenu());
-
         DisableInteraction();
         LoadUI();
         EnableNextReward();
@@ -41,6 +44,11 @@ public class DailyGift : MonoBehaviour
             EnableNextReward();
         if (IsOutOfRewards())
             ResetWeek();
+        if (UpdateTimer() >= TimeSpan.Zero)
+        {
+            timerGO.SetActive(true);
+            timer.text = UpdateTimer().ToString(@"hh\:mm\:ss");
+        }
     }
 
     /* Day items structure
@@ -129,12 +137,10 @@ public class DailyGift : MonoBehaviour
         if (reward.ContainsKey("gold"))
         {
             CurrencyHandler.instance.AddGold(int.Parse(reward["gold"]));
-            Debug.Log(int.Parse(reward["gold"]));
         }
         if (reward.ContainsKey("gems"))
         {
             CurrencyHandler.instance.AddGems(int.Parse(reward["gems"]));
-            Debug.Log(int.Parse(reward["gems"]));
         }
         if (reward.ContainsKey("chest"))
         {
@@ -155,7 +161,7 @@ public class DailyGift : MonoBehaviour
         StartCountdown();
     }
 
-    public void DisableButtonOnRewardCollected(string day)
+    private void DisableButtonOnRewardCollected(string day)
     {
         for(int i = 0; i < giftItems.Count; i++)
         {
@@ -168,7 +174,7 @@ public class DailyGift : MonoBehaviour
         }
     }
 
-    public void EnableNextReward()
+    private void EnableNextReward()
     {
         for (int i = 0; i < giftItems.Count; i++)
         {
@@ -183,7 +189,7 @@ public class DailyGift : MonoBehaviour
         }
     }
 
-    public void StartCountdown()
+    private void StartCountdown()
     {
         PlayerPrefs.SetString("giftCountdown", DateTime.Now.AddDays(1).ToBinary().ToString());
         PlayerPrefs.Save();
@@ -192,16 +198,6 @@ public class DailyGift : MonoBehaviour
     public bool IsGiftAvailable()
     {
         return DateTime.Compare(DateTime.FromBinary(Convert.ToInt64(PlayerPrefs.GetString("giftCountdown"))), DateTime.Now) <= 0;
-    }
-
-    public void DisableDailyGiftNotification()
-    {
-        mainMenu.DisableDailyGiftNotification();
-    }
-
-    public void EnableDailyGiftNotification()
-    {
-        mainMenu.EnableDailyGiftNotification();
     }
 
     public void GoToMainMenu()
@@ -218,5 +214,10 @@ public class DailyGift : MonoBehaviour
     {
         PlayerPrefs.SetFloat("firstDailyGift", flag);
         PlayerPrefs.Save();
+    }
+
+    private TimeSpan UpdateTimer()
+    {
+        return DateTime.FromBinary(Convert.ToInt64(PlayerPrefs.GetString("giftCountdown"))) - DateTime.Now;
     }
 }

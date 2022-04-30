@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using TMPro;
 
 public class MainMenu : MonoBehaviour
 {
@@ -12,9 +13,15 @@ public class MainMenu : MonoBehaviour
     public GameObject notifyCards;
     public GameObject settings;
 
+    // daily gift
+    DailyGift dailyGift;
+    GameObject dailyGiftsNotification;
+
     void Awake()
     {
         settings = GameObject.Find("Settings");
+        dailyGift = GameObject.Find("DailyRewards").GetComponent<DailyGift>();
+        dailyGiftsNotification = GameObject.Find("DailyGiftsNotification");
 
         Fighter player = PlayerUtils.FindInactiveFighter();
         PlayerUtils.FindInactiveFighterGameObject().SetActive(false);
@@ -29,6 +36,7 @@ public class MainMenu : MonoBehaviour
 
         // on open
         settings.SetActive(false);
+        dailyGiftsNotification.SetActive(false);
     }
 
     IEnumerator Start()
@@ -46,5 +54,16 @@ public class MainMenu : MonoBehaviour
     public void CloseSettings()
     {
         settings.SetActive(false);
+    }
+
+    public void EnableDailyGiftNotification()
+    {
+        dailyGiftsNotification.SetActive(true);
+        dailyGiftsNotification.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "1";
+    }
+
+    public void DisableDailyGiftNotification()
+    {
+        dailyGiftsNotification.SetActive(false);
     }
 }

@@ -32,8 +32,8 @@ public class DailyGift : MonoBehaviour
 
         // ResetWeek();
         DisableInteraction();
-        EnableCollectableGift();
         LoadUI();
+        EnableNextReward();
     }
 
     /* Day items structure
@@ -64,9 +64,7 @@ public class DailyGift : MonoBehaviour
             flag = PlayerPrefs.GetFloat(day);
 
             if(flag == 1)
-            {
                 DisableButtonOnRewardCollected(day);
-            }
         }
     }
 
@@ -79,25 +77,19 @@ public class DailyGift : MonoBehaviour
     private void GetDailyItems()
     {
         for(int i = 1; i <= 7; i++)
-        {
             giftItems.Add(GameObject.Find("Day" + i));
-        }
     }
 
     private void DisableInteraction()
     {
         for (int i = 0; i < giftItems.Count; i++)
-        {
             giftItems[i].GetComponent<Button>().interactable = false;
-        }
     }
 
     public void ResetWeek()
     {
         for(int i = 0; i < giftItems.Count; i++)
-        {
             PlayerPrefs.SetFloat("DAY" + (i + 1), 0);
-        }
 
         PlayerPrefs.Save();
     }
@@ -162,6 +154,20 @@ public class DailyGift : MonoBehaviour
     {
         giftItems[0].transform.GetChild(5).gameObject.SetActive(true);
         giftItems[0].GetComponent<Button>().interactable = true;
+    }
+    public void EnableNextReward()
+    {
+        for (int i = 0; i < giftItems.Count; i++)
+        {
+            if (!giftItems[i].transform.GetChild(4).gameObject.activeSelf)
+            {
+                giftItems[i].transform.GetChild(4).gameObject.SetActive(false);
+                giftItems[i].transform.GetChild(5).gameObject.SetActive(true);
+                giftItems[i].GetComponent<Button>().interactable = true;
+
+                return;
+            }
+        }
     }
 
     public void DisableDailyGiftNotification()

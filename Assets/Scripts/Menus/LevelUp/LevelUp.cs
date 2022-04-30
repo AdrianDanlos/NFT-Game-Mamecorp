@@ -13,6 +13,10 @@ public class LevelUp : MonoBehaviour
     public GameObject attackNumber;
     public GameObject healthNumber;
     public GameObject speedNumber;
+    public GameObject commonChest;
+    public GameObject rareChest;
+    public GameObject epicChest;
+    public GameObject legendaryChest;
     void Start()
     {
         AddListenerToButtons();
@@ -23,7 +27,8 @@ public class LevelUp : MonoBehaviour
         SetStatRewardValue(speedNumber, "speed");
     }
 
-    private void SetStatRewardValue(GameObject element, string stat){
+    private void SetStatRewardValue(GameObject element, string stat)
+    {
         SpeciesNames species = GeneralUtils.StringToSpeciesNamesEnum(Combat.player.species);
         element.GetComponent<TextMeshProUGUI>().text = Species.statsPerLevel[species][stat].ToString();
     }
@@ -35,6 +40,15 @@ public class LevelUp : MonoBehaviour
         buttonShowChest.SetActive(true);
         buttonOpenChest.SetActive(false);
         chestRewardPopUp.SetActive(false);
+        HideChests();
+    }
+
+    private void HideChests()
+    {
+        commonChest.SetActive(false);
+        rareChest.SetActive(false);
+        epicChest.SetActive(false);
+        legendaryChest.SetActive(false);
     }
 
     private void AddListenerToButtons()
@@ -49,7 +63,26 @@ public class LevelUp : MonoBehaviour
         RewardStats.SetActive(false);
         RewardItems.SetActive(true);
         buttonOpenChest.SetActive(true);
-        gameObject.SetActive(false);
+        buttonShowChest.SetActive(false);
+        ShowChest();
+    }
+    private void ShowChest()
+    {
+        switch (ChestManager.GetRandomBattleChest())
+        {
+            case Chest.BattleChestRarities.COMMON:
+                commonChest.SetActive(true);
+                break;
+            case Chest.BattleChestRarities.RARE:
+                rareChest.SetActive(true);
+                break;
+            case Chest.BattleChestRarities.EPIC:
+                epicChest.SetActive(true);
+                break;
+            case Chest.BattleChestRarities.LEGENDARY:
+                legendaryChest.SetActive(true);
+                break;
+        }
     }
     private void OnClickOpenChest()
     {

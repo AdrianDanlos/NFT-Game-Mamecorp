@@ -12,8 +12,7 @@ public static class ChestManager
 
         float diceRoll = Random.Range(0f, TOTALWEIGHT);
         
-        foreach (KeyValuePair<string, float> chest in
-            Chest.shopChests[(Chest.ShopChestTypes)System.Enum.Parse(typeof(Chest.ShopChestTypes), chestType.ToUpper())])
+        foreach (KeyValuePair<string, float> chest in Chest.shopChests[(Chest.ShopChestTypes)System.Enum.Parse(typeof(Chest.ShopChestTypes), chestType.ToUpper())])
         {
             if (chest.Value >= diceRoll)
                 return chest.Key;
@@ -38,42 +37,42 @@ public static class ChestManager
             diceRoll -= chest.Value;
         }
 
-        Debug.Log("chest error");
+        Debug.Log("ERROR. Something went wrong when getting a random chest");
         return Chest.BattleChestRarities.COMMON;
     }
 
-    public static int GetBattleChestGold(string battleChest)
-    {
-        battleChest = battleChest.ToUpper();
-        return Random.Range(
-            Chest.battleChestsRewards[(Chest.BattleChestRarities)System.Enum.Parse(typeof(Chest.BattleChestRarities), battleChest)]["minGold"],
-            Chest.battleChestsRewards[(Chest.BattleChestRarities)System.Enum.Parse(typeof(Chest.BattleChestRarities), battleChest)]["maxGold"]);
-    }
+    // public static int GetBattleChestGold(string battleChest)
+    // {
+    //     battleChest = battleChest.ToUpper();
+    //     return Random.Range(
+    //         Chest.battleChestsRewards[(Chest.BattleChestRarities)System.Enum.Parse(typeof(Chest.BattleChestRarities), battleChest)]["minGold"],
+    //         Chest.battleChestsRewards[(Chest.BattleChestRarities)System.Enum.Parse(typeof(Chest.BattleChestRarities), battleChest)]["maxGold"]);
+    // }
 
-    public static int GetBattleChestGems(string battleChest)
-    {
-        battleChest = battleChest.ToUpper();
-        return Random.Range(
-                    Chest.battleChestsRewards[(Chest.BattleChestRarities)System.Enum.Parse(typeof(Chest.BattleChestRarities), battleChest)]["minGems"],
-                    Chest.battleChestsRewards[(Chest.BattleChestRarities)System.Enum.Parse(typeof(Chest.BattleChestRarities), battleChest)]["maxGems"]);
-    }
+    // public static int GetBattleChestGems(string battleChest)
+    // {
+    //     battleChest = battleChest.ToUpper();
+    //     return Random.Range(
+    //                 Chest.battleChestsRewards[(Chest.BattleChestRarities)System.Enum.Parse(typeof(Chest.BattleChestRarities), battleChest)]["minGems"],
+    //                 Chest.battleChestsRewards[(Chest.BattleChestRarities)System.Enum.Parse(typeof(Chest.BattleChestRarities), battleChest)]["maxGems"]);
+    // }
 
-    public static SkillCollection.SkillRarity GetBattleChestSkillReward(string battleChest)
-    {
-        battleChest.ToUpper();
-        float diceRoll = Random.Range(0f, TOTALWEIGHT);
+    // public static SkillCollection.SkillRarity GetBattleChestSkillReward(string battleChest)
+    // {
+    //     battleChest.ToUpper();
+    //     float diceRoll = Random.Range(0f, TOTALWEIGHT);
 
-        foreach (KeyValuePair<string, float> raity in
-        Chest.battleChestsSkillProbabilities
-        [(Chest.BattleChestRarities)System.Enum.Parse(typeof(Chest.BattleChestRarities), battleChest)])
-        {
-            if (raity.Value >= diceRoll)
-                return (SkillCollection.SkillRarity)System.Enum.Parse(typeof(SkillCollection.SkillRarity), raity.Key);
+    //     foreach (KeyValuePair<string, float> raity in
+    //     Chest.battleChestsSkillProbabilities
+    //     [(Chest.BattleChestRarities)System.Enum.Parse(typeof(Chest.BattleChestRarities), battleChest)])
+    //     {
+    //         if (raity.Value >= diceRoll)
+    //             return (SkillCollection.SkillRarity)System.Enum.Parse(typeof(SkillCollection.SkillRarity), raity.Key);
 
-            diceRoll -= raity.Value;
-        }
+    //         diceRoll -= raity.Value;
+    //     }
 
-        Debug.Log("chest error");
-        return SkillCollection.SkillRarity.COMMON;
-    }
+    //     Debug.Log("chest error");
+    //     return SkillCollection.SkillRarity.COMMON;
+    // }
 }

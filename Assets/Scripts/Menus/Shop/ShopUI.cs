@@ -331,7 +331,7 @@ public class ShopUI : MonoBehaviour
         backToShopButton.SetActive(true);
 
         // reward mockup
-        switch (ChestManager.OpenChest(chestButtonPressed))
+        switch (ChestManager.GetRandomShopChestRarity(chestButtonPressed))
         {
             case "RARE":
                 chestRewards.transform.GetChild(1).GetChild(0).GetComponent<Image>().sprite = frameColors[1].GetComponent<SpriteRenderer>().sprite;
@@ -382,6 +382,7 @@ public class ShopUI : MonoBehaviour
 
     public int GetGoldValueFromType(string goldBundle)
     {
+        //FIXME: Create a helper function in general utils to reuse this string to enum conversion
         return Gold.shopGoldBundlesValue[(Gold.ShopGoldBundles)System.Enum.Parse
             (typeof(Gold.ShopGoldBundles), goldBundle.ToUpper())]["gold"];
     }

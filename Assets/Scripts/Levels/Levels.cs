@@ -1,4 +1,3 @@
-using UnityEngine;
 using System;
 using System.Reflection;
 using System.Collections.Generic;
@@ -47,7 +46,7 @@ public static class Levels
                 if (isCurrentSpecies)
                 {
                     //Convert species string to enumMember
-                    SpeciesNames speciesEnumMember = (SpeciesNames)Enum.Parse(typeof(SpeciesNames), player.species); //Orc, Golem, FallenAngel
+                    SpeciesNames speciesEnumMember = GeneralUtils.StringToSpeciesNamesEnum(player.species); //Orc, Golem, FallenAngel
                     player.hp += Species.statsPerLevel[speciesEnumMember]["hp"];
                     player.damage += Species.statsPerLevel[speciesEnumMember]["damage"];
                     player.speed += Species.statsPerLevel[speciesEnumMember]["speed"];

@@ -13,6 +13,11 @@ public class MainMenu : MonoBehaviour
     public GameObject notifyCards;
     public GameObject settings;
 
+    // stats
+    public TextMeshProUGUI attack;
+    public TextMeshProUGUI hp;
+    public TextMeshProUGUI speed;
+
     // daily gift
     GameObject dailyGiftCanvas;
     DailyGift dailyGift;
@@ -33,11 +38,17 @@ public class MainMenu : MonoBehaviour
         dailyGift = dailyGiftCanvas.GetComponent<DailyGift>();
         dailyGiftsNotification = GameObject.Find("DailyGiftsNotification");
 
+        // stats
+        attack = GameObject.Find("Attack_Value").GetComponent<TextMeshProUGUI>();
+        hp = GameObject.Find("Hp_Value").GetComponent<TextMeshProUGUI>();
+        speed = GameObject.Find("Speed_Value").GetComponent<TextMeshProUGUI>();
+
         Fighter player = PlayerUtils.FindInactiveFighter();
         PlayerUtils.FindInactiveFighterGameObject().SetActive(false);
         MenuUtils.ShowElo(playerEloGO);
         MenuUtils.SetLevelSlider(playerExpGO, playerLevelSlider, player.level, player.experiencePoints);
         MenuUtils.DisplayLevelIcon(player.level, GameObject.Find("Levels"));
+        MenuUtils.SetFighterStats(attack, hp, speed);
         battleButtonGO.GetComponent<Button>().interactable = User.Instance.energy > 0;
 
         // Notifications

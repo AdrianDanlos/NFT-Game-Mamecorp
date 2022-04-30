@@ -72,4 +72,12 @@ public class MenuUtils
     {
         if (GameObject.Find($"Level_Icon_{nIcon - 1}")) GameObject.Find($"Level_Icon_{nIcon - 1}").GetComponent<Image>().enabled = false;
     }
+
+    public static void SetFighterStats(TextMeshProUGUI attack, TextMeshProUGUI hp, TextMeshProUGUI speed)
+    {
+        Fighter player = PlayerUtils.FindInactiveFighter();
+        attack.text = player.damage.ToString();
+        hp.text = player.hp.ToString();
+        speed.text = player.speed.ToString();
+    }
 }

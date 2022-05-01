@@ -193,18 +193,11 @@ public class Combat : MonoBehaviour
 
     IEnumerator StartTurn(Fighter attacker, Fighter defender)
     {
-        //Test
-        // yield return StartCoroutine(skillsLogicScript.InterdimensionalTravel(attacker, defender));
-        // FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.IDLE);
-        // yield break;
-        //Test end
-        ////////////////////
-
-        // if (WillUseSkillThisTurn(attacker))
-        // {
-        //     yield return StartCoroutine(UseRandomSkill(attacker, defender, attacker));
-        //     yield break;
-        // }
+        if (WillUseSkillThisTurn(attacker))
+        {
+            yield return StartCoroutine(UseRandomSkill(attacker, defender, attacker));
+            yield break;
+        }
         yield return skillsLogicScript.AttackWithoutSkills(attacker, defender);
         FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.IDLE);
     }

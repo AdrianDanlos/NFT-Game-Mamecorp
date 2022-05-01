@@ -1,7 +1,6 @@
 using UnityEngine;
 using Newtonsoft.Json.Linq;
 using TMPro;
-using System;
 using System.Collections.Generic;
 
 
@@ -11,6 +10,7 @@ public class ChooseFirstFighter : MonoBehaviour
     private string fighterName;
     private static string skinName;
     private static string species;
+
     public void OnSelectFighter()
     {
         GameObject.FindGameObjectWithTag("FighterNamePopup").GetComponent<Canvas>().enabled = true;

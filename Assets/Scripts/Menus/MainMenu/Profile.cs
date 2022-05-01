@@ -15,7 +15,7 @@ public class Profile : MonoBehaviour
     // Components
     Fighter player;
 
-    private void Awake()
+    void Awake()
     {
         player = PlayerUtils.FindInactiveFighter();
 

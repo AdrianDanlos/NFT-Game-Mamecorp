@@ -2017,7 +2017,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1712357589}
   m_Layer: 0
-  m_Name: --- System ----------------------------------- (1)
+  m_Name: '--- System ----------------------------------- '
   m_TagString: EditorOnly
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

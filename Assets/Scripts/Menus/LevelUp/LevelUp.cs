@@ -74,7 +74,6 @@ public class LevelUp : MonoBehaviour
     {
         buttonShowChest.GetComponent<Button>().onClick.AddListener(() => OnClickShowChest());
         buttonOpenChest.GetComponent<Button>().onClick.AddListener(() => OnClickOpenChest());
-        buttonGoToMainMenu.GetComponent<Button>().onClick.AddListener(() => OnClickGoToMainMenu());
     }
 
     private void OnClickShowChest()
@@ -227,10 +226,5 @@ public class LevelUp : MonoBehaviour
         //Show icon
         Sprite icon = Resources.Load<Sprite>("Icons/IconsSkills/" + skill.icon);
         skillIcon.GetComponent<Image>().sprite = icon;
-    }
-    private void OnClickGoToMainMenu()
-    {
-        skillRewardPopUp.SetActive(false);
-        currenciesRewardPopUp.SetActive(false);
     }
 }

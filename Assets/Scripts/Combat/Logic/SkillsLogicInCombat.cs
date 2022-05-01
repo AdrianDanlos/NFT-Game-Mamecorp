@@ -19,7 +19,23 @@ public class SkillsLogicInCombat : MonoBehaviour
     {
         yield return combatScript.MoveForwardHandler(attacker);
 
+        //Counter attack
+        if (attackScript.IsCounterAttack(defender)) yield return BasicAttackLogic(defender, attacker);
+
         // Attack
+        yield return BasicAttackLogic(attacker, defender);
+
+        //Reversal attack
+        if (attackScript.IsReversalAttack(defender)) yield return BasicAttackLogic(defender, attacker);
+
+        if (!Combat.isGameOver)
+        {
+            FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.IDLE);
+            yield return combatScript.MoveBackHandler(attacker);
+        }
+    }
+    private IEnumerator BasicAttackLogic(Fighter attacker, Fighter defender)
+    {
         int attackCounter = 0;
 
         while (!Combat.isGameOver && (attackCounter == 0 || attackScript.IsBasicAttackRepeated(attacker)))
@@ -27,10 +43,6 @@ public class SkillsLogicInCombat : MonoBehaviour
             yield return StartCoroutine(attackScript.PerformAttack(attacker, defender));
             attackCounter++;
         };
-
-        if (!Combat.isGameOver) FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.IDLE);
-
-        yield return combatScript.MoveBackHandler(attacker);
     }
     public IEnumerator LowBlow(Fighter attacker, Fighter defender)
     {

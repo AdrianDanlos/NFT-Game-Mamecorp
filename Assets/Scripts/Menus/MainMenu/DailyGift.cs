@@ -139,7 +139,9 @@ public class DailyGift : MonoBehaviour
         if (reward.ContainsKey("gems"))
             CurrencyHandler.instance.AddGems(int.Parse(reward["gems"]));
         if (reward.ContainsKey("chest"))
+        {
             // give chest here
+        }
 
         // show confirm button + manage UI
         confirmGiftCanvas.SetActive(true);

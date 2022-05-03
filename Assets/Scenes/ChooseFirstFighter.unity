@@ -2660,8 +2660,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7663284216ff84c4582df009f19f8d8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skinName: FallenAngel
-  species: FallenAngel
+  skinName: FallenAngel1
+  species: FallenAngel1
 --- !u!1 &1117531193
 GameObject:
   m_ObjectHideFlags: 0
@@ -3090,8 +3090,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7663284216ff84c4582df009f19f8d8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skinName: Golem
-  species: Golem
+  skinName: Golem3
+  species: Golem3
 --- !u!1 &1246471893
 GameObject:
   m_ObjectHideFlags: 0

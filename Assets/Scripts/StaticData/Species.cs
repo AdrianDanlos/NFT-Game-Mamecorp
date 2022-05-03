@@ -33,7 +33,7 @@ public class Species
         // Angels
         {SpeciesNames.FallenAngel1, new Dictionary<string, float>{{"hp", 24},{"damage", 2f},{"speed", 3}}},
         {SpeciesNames.FallenAngel2, new Dictionary<string, float>{{"hp", 24},{"damage", 2f},{"speed", 3}}},
-        {SpeciesNames.FallenAngel2, new Dictionary<string, float>{{"hp", 24},{"damage", 2f},{"speed", 3}}},
+        {SpeciesNames.FallenAngel3, new Dictionary<string, float>{{"hp", 24},{"damage", 2f},{"speed", 3}}},
     };
 
     public static readonly Dictionary<SpeciesNames, Dictionary<string, float>> statsPerLevel =
@@ -52,6 +52,6 @@ public class Species
         // Angels
         {SpeciesNames.FallenAngel1, new Dictionary<string, float>{{"hp", 18},{"damage", 1.4f},{"speed", 1.5f}}},
         {SpeciesNames.FallenAngel2, new Dictionary<string, float>{{"hp", 18},{"damage", 1.4f},{"speed", 1.5f}}},
-        {SpeciesNames.FallenAngel2, new Dictionary<string, float>{{"hp", 18},{"damage", 1.4f},{"speed", 1.5f}}},
+        {SpeciesNames.FallenAngel3, new Dictionary<string, float>{{"hp", 18},{"damage", 1.4f},{"speed", 1.5f}}},
     };
 }

@@ -18,6 +18,7 @@ public static class FighterSkin
 
     private static void LoadFighterSkin(Fighter fighter)
     {
+        Debug.Log(fighter.skin);
         fighter.skinAnimations = Resources.LoadAll<AnimationClip>("Animations/Characters/" + fighter.skin);
     }
     

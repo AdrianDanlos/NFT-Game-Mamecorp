@@ -8726,7 +8726,7 @@ GameObject:
   - component: {fileID: 235054965}
   - component: {fileID: 235054964}
   m_Layer: 5
-  m_Name: Character
+  m_Name: Character_Picture
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8741,14 +8741,14 @@ RectTransform:
   m_GameObject: {fileID: 235054962}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1063901977}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 5, y: 1}
+  m_AnchoredPosition: {x: -11, y: 1}
   m_SizeDelta: {x: 196, y: 209}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &235054964
@@ -28355,7 +28355,7 @@ GameObject:
   - component: {fileID: 603447403}
   - component: {fileID: 603447402}
   m_Layer: 5
-  m_Name: List_Me
+  m_Name: List_Me_Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

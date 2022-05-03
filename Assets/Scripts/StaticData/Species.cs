@@ -1,13 +1,16 @@
 using System.Collections.Generic;
 public enum SpeciesNames
 {
+    // Player skins
     FallenAngel1,
+    Golem1,
+    Orc,
+
+    // AI
     FallenAngel2,
     FallenAngel3,
-    Golem1,
     Golem2,
     Golem3,
-    Orc,
     Goblin,
     Ogre
 }

@@ -350,12 +350,6 @@ public class ShopUI : MonoBehaviour
         UnityEngine.SceneManagement.SceneManager.LoadScene(SceneNames.Inventory.ToString());
     }
 
-    // fighter call from skillcollection
-    public void GetFighterSkills()
-    {
-        Inventory.GetFighterSkillsData(fighterData.skills);
-    }
-
     public void GetChestValueFromType(string chestType)
     {
         goldValue = Chest.shopChestsValue[(Chest.ShopChestTypes)System.Enum.Parse

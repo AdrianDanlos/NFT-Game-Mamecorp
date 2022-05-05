@@ -1,9 +1,10 @@
 using System.Collections.Generic;
-using System.Collections.Specialized;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using System;
 
 public class InventoryUI : MonoBehaviour
 {
@@ -18,108 +19,83 @@ public class InventoryUI : MonoBehaviour
     GameObject skillName;
     GameObject skillRarity;
     GameObject skillDescription;
-    GameObject skillQuote;
+    GameObject skillCategory;
+    GameObject skillCategoryLore;
+    Fighter player;
 
     // variables
-    List<Transform> skillsList = new List<Transform>();
-    string lastButtonClicked = "";
+    List<Transform> skillsGameObjectList = new List<Transform>();
+
 
     private void Awake()
     {
-        // 
+        player = PlayerUtils.FindInactiveFighter();
         skillsContainer = GameObject.FindGameObjectWithTag("SkillsContainer");
         skillIcon = GameObject.Find("SkillIcon");
         skillRarityFrame = GameObject.Find("SkillFrame");
         skillName = GameObject.Find("Text_Name");
         skillRarity = GameObject.Find("Text_Rarity");
         skillDescription = GameObject.Find("Text_Description");
-        skillQuote = GameObject.Find("Lore");
+        skillCategory = GameObject.Find("Text_Category");
+        skillCategoryLore = GameObject.Find("Text_Category_Lore");
 
-        // gather all gameobjects
-        GetAllSkills();
+        AddSkillsGameObjectsToList();
         ShowOwnedSkills();
+
+        //Whenever the user has not clicked anything
+        SetDefaultSideBarInfo();
+        
     }
 
-    private void GetAllSkills()
+    private void SetDefaultSideBarInfo(){
+        SetSideBarSkillInfo(player.skills[0].skillName);
+    }
+
+    private void AddSkillsGameObjectsToList()
     {
-        foreach (Transform child in skillsContainer.transform)
-        {
-            skillsList.Add(child);
-        }
+        foreach (Transform skill in skillsContainer.transform) skillsGameObjectList.Add(skill);
     }
 
+    //Be careful, the gameobject names have to match the skill names
     private void ShowOwnedSkills()
     {
-        int i = 0;
-
-        foreach (Transform skill in skillsList)
+        foreach (Transform skill in skillsGameObjectList)
         {
-            if (skillsList[i].gameObject.name != (string) SkillCollection.skills[i]["name"])
-            {
-                HideSkill(skillsList[i].name);
-            }
-
-            i++;
+            //show skill on UI
+            if (player.HasSkill(skill.gameObject.name)) ShowQuestionMarkOrSkill(skill, false, true);
+            //show question mark on UI
+            else ShowQuestionMarkOrSkill(skill, true, false);
         }
     }
 
-    public void HideSkill(string skillname)
+    private void ShowQuestionMarkOrSkill(Transform skill, bool showQuestionMark, bool showSkill)
     {
-        foreach (Transform child in skillsList)
-        {
-            if(child.gameObject.name == skillname)
-            {
-                child.GetChild(0).gameObject.SetActive(true);
-                child.GetChild(1).gameObject.SetActive(false);
-            }
-        }
+        skill.GetChild(0).gameObject.SetActive(showQuestionMark);
+        skill.GetChild(1).gameObject.SetActive(showSkill);
     }
 
 
-    public void GetSkillInfo(string skillname)
+    public void SetSideBarSkillInfo(string skillname)
     {
-        OrderedDictionary skillDictionary = SkillCollection.GetSkillByName(skillname);
-
-        foreach (Transform child in skillsList)
-        {
-            if (child.gameObject.name == skillname)
-            {
-
-                ChangeIcon(skillDictionary["icon"].ToString());
-                ChangeFrameColor(skillDictionary["skillRarity"].ToString());
-                skillName.GetComponent<TextMeshProUGUI>().text = skillDictionary["name"].ToString();
-                skillRarity.GetComponent<TextMeshProUGUI>().text = skillDictionary["skillRarity"].ToString();
-                skillDescription.GetComponent<TextMeshProUGUI>().text = skillDictionary["description"].ToString();
-                skillQuote.GetComponent<TextMeshProUGUI>().text = "none";
-            }
-        }
+        Skill clickedSkill = player.skills.Where(skill => skill.skillName == skillname).ToList()[0];
+        SetIcon(clickedSkill.icon);
+        SetFrameColor(clickedSkill.rarity);
+        skillName.GetComponent<TextMeshProUGUI>().text = clickedSkill.skillName;
+        skillRarity.GetComponent<TextMeshProUGUI>().text = clickedSkill.rarity;
+        skillDescription.GetComponent<TextMeshProUGUI>().text = clickedSkill.description;
+        skillCategory.GetComponent<TextMeshProUGUI>().text = $"TYPE : {clickedSkill.category}";
+        SkillCollection.SkillType skillEnumMember = (SkillCollection.SkillType)Enum.Parse(typeof(SkillCollection.SkillType), clickedSkill.category);
+        skillCategoryLore.GetComponent<TextMeshProUGUI>().text = SkillCollection.skillCategoriesLore[skillEnumMember];
     }
 
-    public bool HasSkill(string skillname)
-    {
-        int i = 0;
-
-        foreach (Transform skill in skillsList)
-        {
-            if (skillname == (string)SkillCollection.skills[i]["name"])
-            {
-                return true;
-            }
-
-            i++;
-        }
-
-        return false;
-    }
-
+    //OnSkillClicked
     public void GetSkillClicked()
     {
-        lastButtonClicked =  EventSystem.current.currentSelectedGameObject.name;
-        if(HasSkill(lastButtonClicked))
-            GetSkillInfo(lastButtonClicked);
+        string clickedSkillName = EventSystem.current.currentSelectedGameObject.name;
+        if (player.HasSkill(clickedSkillName)) SetSideBarSkillInfo(clickedSkillName);
     }
 
-    public void ChangeFrameColor(string rarity)
+    public void SetFrameColor(string rarity)
     {
         switch (rarity)
         {
@@ -138,13 +114,49 @@ public class InventoryUI : MonoBehaviour
         }
     }
 
-    public void ChangeIcon(string iconNumber)
+    public void SetIcon(string iconNumber)
     {
-        switch (iconNumber)
+        Sprite icon = Resources.Load<Sprite>("Icons/IconsSkills/" + iconNumber);
+        skillIcon.GetComponent<Image>().sprite = icon;
+    }
+
+    //FIXME: Unused
+    public static Dictionary<string, int> GetSkillsByRarityCount(List<Skill> fighterSkills)
+    {
+        Dictionary<string, int> skillsByRarityCount = new Dictionary<string, int>()
         {
-            case "1":
-                skillIcon.GetComponent<Image>().sprite = frameColors[0];
-                break;
+            {"COMMON", 0 },
+            {"RARE", 0 },
+            {"EPIC", 0 },
+            {"LEGENDARY", 0 },
+        };
+
+        foreach (Skill skill in fighterSkills)
+        {
+
+            switch (skill.rarity.ToUpper())
+            {
+                case "COMMON":
+                    skillsByRarityCount["COMMON"]++;
+                    break;
+                case "RARE":
+                    skillsByRarityCount["RARE"]++;
+                    break;
+                case "EPIC":
+                    skillsByRarityCount["EPIC"]++;
+                    break;
+                case "LEGENDARY":
+                    skillsByRarityCount["LEGENDARY"]++;
+                    break;
+            }
         }
+
+
+        Debug.Log("COMMON: " + skillsByRarityCount["COMMON"] +
+            " | RARE: " + skillsByRarityCount["RARE"] +
+            " | EPIC: " + skillsByRarityCount["EPIC"] +
+            " | LEGENDARY: " + skillsByRarityCount["LEGENDARY"]);
+
+        return skillsByRarityCount;
     }
 }

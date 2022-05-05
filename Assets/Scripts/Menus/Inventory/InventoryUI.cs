@@ -19,14 +19,15 @@ public class InventoryUI : MonoBehaviour
     GameObject skillRarity;
     GameObject skillDescription;
     GameObject skillQuote;
+    Fighter player;
 
     // variables
-    List<Transform> skillsList = new List<Transform>();
-    string lastButtonClicked = "";
+    List<Transform> skillsGameObjectList = new List<Transform>();
+
 
     private void Awake()
     {
-        // 
+        player = PlayerUtils.FindInactiveFighter();
         skillsContainer = GameObject.FindGameObjectWithTag("SkillsContainer");
         skillIcon = GameObject.Find("SkillIcon");
         skillRarityFrame = GameObject.Find("SkillFrame");
@@ -35,39 +36,54 @@ public class InventoryUI : MonoBehaviour
         skillDescription = GameObject.Find("Text_Description");
         skillQuote = GameObject.Find("Lore");
 
-        // gather all gameobjects
-        GetAllSkills();
+        AddSkillsGameObjectsToList();
         ShowOwnedSkills();
     }
 
-    private void GetAllSkills()
+    private void AddSkillsGameObjectsToList()
     {
-        foreach (Transform child in skillsContainer.transform)
-        {
-            skillsList.Add(child);
-        }
+        foreach (Transform skill in skillsContainer.transform) skillsGameObjectList.Add(skill);
     }
 
     private void ShowOwnedSkills()
     {
-        int i = 0;
-
-        foreach (Transform skill in skillsList)
+        foreach (Transform skill in skillsGameObjectList)
         {
-            if (skillsList[i].gameObject.name != (string) SkillCollection.skills[i]["name"])
-            {
-                HideSkill(skillsList[i].name);
-            }
-
-            i++;
+            //show skill on UI
+            if (player.HasSkill(skill.gameObject.name)) ShowQuestionMarkOrSkill(skill, false, true);
+            //show question mark on UI
+            else ShowQuestionMarkOrSkill(skill, true, false);
         }
     }
 
+    private void ShowQuestionMarkOrSkill(Transform skill, bool showQuestionMark, bool showSkill)
+    {
+        skill.GetChild(0).gameObject.SetActive(showQuestionMark);
+        skill.GetChild(1).gameObject.SetActive(showSkill);
+    }
+
+    // private void ShowOwnedSkills()
+    // {
+    //     int i = 0;
+
+    //     foreach (Transform skill in skillsGameObjectList)
+    //     {
+    //         Debug.Log(skillsGameObjectList[i].gameObject.name);
+    //         Debug.Log(skillsGameObjectList[i].gameObject.name);
+    //         if (skillsGameObjectList[i].gameObject.name != (string)SkillCollection.skills[i]["name"])
+    //         {
+    //             HideSkill(skillsGameObjectList[i].name);
+    //         }
+
+    //         i++;
+    //     }
+    // }
+
     public void HideSkill(string skillname)
     {
-        foreach (Transform child in skillsList)
+        foreach (Transform child in skillsGameObjectList)
         {
-            if(child.gameObject.name == skillname)
+            if (child.gameObject.name == skillname)
             {
                 child.GetChild(0).gameObject.SetActive(true);
                 child.GetChild(1).gameObject.SetActive(false);
@@ -76,11 +92,11 @@ public class InventoryUI : MonoBehaviour
     }
 
 
-    public void GetSkillInfo(string skillname)
+    public void SetSideBarSkillInfo(string skillname)
     {
         OrderedDictionary skillDictionary = SkillCollection.GetSkillByName(skillname);
 
-        foreach (Transform child in skillsList)
+        foreach (Transform child in skillsGameObjectList)
         {
             if (child.gameObject.name == skillname)
             {
@@ -95,28 +111,29 @@ public class InventoryUI : MonoBehaviour
         }
     }
 
-    public bool HasSkill(string skillname)
-    {
-        int i = 0;
+    // public bool HasSkill(string skillname)
+    // {
+    //     int i = 0;
 
-        foreach (Transform skill in skillsList)
-        {
-            if (skillname == (string)SkillCollection.skills[i]["name"])
-            {
-                return true;
-            }
+    //     foreach (Transform skill in skillsGameObjectList)
+    //     {
+    //         Debug.Log(SkillCollection.skills[i]);
+    //         if (skillname == (string)SkillCollection.skills[i]["name"])
+    //         {
+    //             return true;
+    //         }
 
-            i++;
-        }
+    //         i++;
+    //     }
 
-        return false;
-    }
+    //     return false;
+    // }
 
+    //Change name to OnSkillClicked
     public void GetSkillClicked()
     {
-        lastButtonClicked =  EventSystem.current.currentSelectedGameObject.name;
-        if(HasSkill(lastButtonClicked))
-            GetSkillInfo(lastButtonClicked);
+        string clickedSkillName = EventSystem.current.currentSelectedGameObject.name;
+        //if (HasSkill(clickedSkillName)) SetSideBarSkillInfo(clickedSkillName);
     }
 
     public void ChangeFrameColor(string rarity)

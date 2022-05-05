@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class Movement : MonoBehaviour
 {
-    public float runningDurationInSeconds = 0.6f;
-    public double dodgeDurationInSeconds = 0.15;
+    private float runningDurationInSeconds = GeneralUtils.GetRealOrSimulationTime(0.6f);
+    public double dodgeDurationInSeconds = GeneralUtils.GetRealOrSimulationTime(0.15f);
 
     //FIXME: This value is not correct + Is it possible to get this value automatically from the canvas?
     float screenEdgeX = 7;
@@ -36,6 +36,8 @@ public class Movement : MonoBehaviour
     public IEnumerator MoveShuriken(GameObject shuriken, Vector3 startingPosition, Vector3 targetPosition, double duration)
     {
         float elapsedTime = 0;
+
+        duration = GeneralUtils.GetRealOrSimulationTime((float)duration);
 
         while (elapsedTime < duration)
         {
@@ -155,7 +157,7 @@ public class Movement : MonoBehaviour
 
         FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.RUN);
         yield return StartCoroutine(Move(attacker, attacker.transform.position, newDestinationPosition, runningDurationInSeconds * 0.2f));
-    }    
+    }
 
     public void Rotate(Fighter fighter, float rotationDegrees)
     {

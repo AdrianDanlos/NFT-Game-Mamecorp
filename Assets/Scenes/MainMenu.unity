@@ -54278,6 +54278,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerEloGO: {fileID: 440907227}
   battleButtonGO: {fileID: 1535745167}
+  cardsButtonGO: {fileID: 231393243}
   playerExpGO: {fileID: 918332953}
   playerLevelSlider: {fileID: 918332952}
   notifyCards: {fileID: 1304084704}

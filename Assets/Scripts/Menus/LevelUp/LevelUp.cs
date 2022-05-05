@@ -158,6 +158,8 @@ public class LevelUp : MonoBehaviour
     }
     private bool HasSkillAlready(OrderedDictionary skill)
     {
+        Debug.Log(Combat.player);
+        Debug.Log(Combat.player.skills);
         return Combat.player.skills.Any(playerSkill => playerSkill.skillName == skill["skillName"].ToString());
     }
     private Skill GetAwardedSkill(SkillCollection.SkillRarity skillRarityAwarded)

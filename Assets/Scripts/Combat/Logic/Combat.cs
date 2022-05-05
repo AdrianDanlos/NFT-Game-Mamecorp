@@ -209,7 +209,7 @@ public class Combat : MonoBehaviour
         // Then we can instantiate a random class here to use a random SUPER skill this turn
 
         List<string> skillNamesList = fighterWeTakeTheSkillFrom.skills.
-            Where(skill => skill.category == SkillCollection.SkillType.SUPERS.ToString()).
+            Where(skill => skill.category == SkillCollection.SkillType.SUPER.ToString()).
             Select(skill => skill.skillName).ToList();
 
         int randomSkillIndex = UnityEngine.Random.Range(0, skillNamesList.Count());
@@ -236,9 +236,9 @@ public class Combat : MonoBehaviour
                 yield return skillsLogicScript.ExplosiveBomb(attacker, defender);
                 fighterWeTakeTheSkillFrom.removeUsedSkill(SkillNames.ExplosiveBomb);
                 break;
-            case SkillNames.InterdimensionalTravel:
-                yield return skillsLogicScript.InterdimensionalTravel(attacker, defender);
-                fighterWeTakeTheSkillFrom.removeUsedSkill(SkillNames.InterdimensionalTravel);
+            case SkillNames.ShadowTravel:
+                yield return skillsLogicScript.ShadowTravel(attacker, defender);
+                fighterWeTakeTheSkillFrom.removeUsedSkill(SkillNames.ShadowTravel);
                 break;
             case SkillNames.HealingPotion:
                 yield return skillsLogicScript.HealingPotion(attacker);

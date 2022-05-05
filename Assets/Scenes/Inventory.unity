@@ -889,7 +889,7 @@ GameObject:
   - component: {fileID: 148654896}
   - component: {fileID: 148654899}
   m_Layer: 5
-  m_Name: LowBlow
+  m_Name: Low Blow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1257,7 +1257,7 @@ GameObject:
   - component: {fileID: 181981368}
   - component: {fileID: 181981371}
   m_Layer: 5
-  m_Name: GloriousShield
+  m_Name: Glorious Shield
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1378,81 +1378,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!1 &182163228
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 182163229}
-  - component: {fileID: 182163231}
-  - component: {fileID: 182163230}
-  m_Layer: 5
-  m_Name: Line (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &182163229
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 182163228}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1253069997}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.056712978, y: 0.70984614}
-  m_AnchorMax: {x: 0.933, y: 0.70984614}
-  m_AnchoredPosition: {x: 3.9999995, y: -290}
-  m_SizeDelta: {x: 74, y: 73.598}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &182163230
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 182163228}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: a9d4037850bca4a68b07520beb81e80a, type: 3}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
---- !u!222 &182163231
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 182163228}
-  m_CullTransparentMesh: 0
 --- !u!1 &184922800
 GameObject:
   m_ObjectHideFlags: 0
@@ -1617,7 +1542,7 @@ GameObject:
   - component: {fileID: 230107759}
   - component: {fileID: 230107762}
   m_Layer: 5
-  m_Name: CounterAttack
+  m_Name: Counter Attack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1848,8 +1773,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 119.31287, y: 412.2005}
-  m_SizeDelta: {x: 318.8942, y: 120.119}
+  m_AnchoredPosition: {x: 116.55, y: 418.0264}
+  m_SizeDelta: {x: 313.38, y: 108.4672}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &266248199
 MonoBehaviour:
@@ -1871,7 +1796,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Interdimensional kick
+  m_text: Critical Bleeding
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 605433b68313d491a8ab88bc03a41651, type: 2}
   m_sharedMaterial: {fileID: 2830636965969884548, guid: 605433b68313d491a8ab88bc03a41651, type: 2}
@@ -2529,7 +2454,7 @@ GameObject:
   - component: {fileID: 404786317}
   - component: {fileID: 404786320}
   m_Layer: 5
-  m_Name: ExplosiveBomb
+  m_Name: Explosive Bomb
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3132,7 +3057,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1253069997}
-  m_RootOrder: 3
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.056712978, y: 0.70984614}
   m_AnchorMax: {x: 0.933, y: 0.70984614}
@@ -3661,7 +3586,7 @@ RectTransform:
   m_Children:
   - {fileID: 883005292}
   m_Father: {fileID: 1253069997}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.056712978, y: 0.88153833}
   m_AnchorMax: {x: 0.056712978, y: 0.88153833}
@@ -3892,8 +3817,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.056712978, y: 0.74015397}
   m_AnchorMax: {x: 0.933, y: 0.74015397}
-  m_AnchoredPosition: {x: 4, y: -171.74426}
-  m_SizeDelta: {x: -12.5698, y: 343.4885}
+  m_AnchoredPosition: {x: 0.000015258789, y: -203.0782}
+  m_SizeDelta: {x: 0.000030518, y: 345.3321}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &761693312
 MonoBehaviour:
@@ -3917,8 +3842,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Blocks the next basic attack or ability thrown at the fighter.
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: c1482dbce654844b9ba1c753cbea5d80, type: 2}
-  m_sharedMaterial: {fileID: 7374927986402738804, guid: c1482dbce654844b9ba1c753cbea5d80, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8d34560b6d49c4469b2174ccd34ae34b, type: 2}
+  m_sharedMaterial: {fileID: 8690591861142563998, guid: 8d34560b6d49c4469b2174ccd34ae34b, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -3942,15 +3867,15 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 55
-  m_fontSizeBase: 55
+  m_fontSize: 45
+  m_fontSizeBase: 45
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 1
-  m_VerticalAlignment: 512
+  m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: -1
   m_wordSpacing: 0
@@ -4005,7 +3930,7 @@ GameObject:
   - component: {fileID: 790876723}
   - component: {fileID: 790876722}
   m_Layer: 5
-  m_Name: BalletShoes
+  m_Name: Ballet Shoes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4175,7 +4100,7 @@ GameObject:
   - component: {fileID: 860000736}
   - component: {fileID: 860000739}
   m_Layer: 5
-  m_Name: FelineAgility
+  m_Name: Feline Agility
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4481,7 +4406,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 5.8}
-  m_SizeDelta: {x: 129, y: 140}
+  m_SizeDelta: {x: 140, y: 140}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &883005293
 MonoBehaviour:
@@ -5514,10 +5439,10 @@ RectTransform:
   - {fileID: 1713028093}
   - {fileID: 266248198}
   - {fileID: 761693311}
-  - {fileID: 570184799}
-  - {fileID: 182163229}
-  - {fileID: 691977487}
   - {fileID: 1388206882}
+  - {fileID: 1617699644}
+  - {fileID: 570184799}
+  - {fileID: 691977487}
   m_Father: {fileID: 845371413}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5728,7 +5653,7 @@ GameObject:
   - component: {fileID: 1275094415}
   - component: {fileID: 1275094418}
   m_Layer: 5
-  m_Name: JumpStrike
+  m_Name: Jump Strike
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5862,7 +5787,7 @@ GameObject:
   - component: {fileID: 1321968171}
   - component: {fileID: 1321968174}
   m_Layer: 5
-  m_Name: HealingPotion
+  m_Name: Healing Potion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6281,7 +6206,7 @@ GameObject:
   - component: {fileID: 1388206884}
   - component: {fileID: 1388206883}
   m_Layer: 5
-  m_Name: Lore
+  m_Name: Text_Category
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6299,12 +6224,12 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1253069997}
-  m_RootOrder: 6
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.056712978, y: 0.74015397}
   m_AnchorMax: {x: 0.933, y: 0.74015397}
-  m_AnchoredPosition: {x: 4, y: -519}
-  m_SizeDelta: {x: -12.5698, y: 343.4885}
+  m_AnchoredPosition: {x: -0.40042114, y: -471}
+  m_SizeDelta: {x: -0.80072, y: 76.4995}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1388206883
 MonoBehaviour:
@@ -6326,11 +6251,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '"As a measure to reinforce the shield, it was padded with two layers of
-    coarse fabric."'
+  m_text: CATEGORY
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: c1482dbce654844b9ba1c753cbea5d80, type: 2}
-  m_sharedMaterial: {fileID: 7374927986402738804, guid: c1482dbce654844b9ba1c753cbea5d80, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8d34560b6d49c4469b2174ccd34ae34b, type: 2}
+  m_sharedMaterial: {fileID: 8690591861142563998, guid: 8d34560b6d49c4469b2174ccd34ae34b, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -6354,13 +6278,13 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 45
-  m_fontSizeBase: 45
+  m_fontSize: 35
+  m_fontSizeBase: 35
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 3
+  m_fontStyle: 0
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -6569,7 +6493,7 @@ GameObject:
   - component: {fileID: 1439000727}
   - component: {fileID: 1439000730}
   m_Layer: 5
-  m_Name: CriticalBleeding
+  m_Name: Critical Bleeding
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6804,7 +6728,7 @@ GameObject:
   - component: {fileID: 1454203913}
   - component: {fileID: 1454203916}
   m_Layer: 5
-  m_Name: CosmicKicks
+  m_Name: Cosmic Kicks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7300,7 +7224,7 @@ GameObject:
   - component: {fileID: 1594059221}
   - component: {fileID: 1594059224}
   m_Layer: 5
-  m_Name: InterdimensionalTravel
+  m_Name: Shadow Travel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7496,6 +7420,140 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1594491674}
+  m_CullTransparentMesh: 0
+--- !u!1 &1617699643
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1617699644}
+  - component: {fileID: 1617699646}
+  - component: {fileID: 1617699645}
+  m_Layer: 5
+  m_Name: Text_Category_Lore
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1617699644
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1617699643}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1253069997}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.056712978, y: 0.74015397}
+  m_AnchorMax: {x: 0.933, y: 0.74015397}
+  m_AnchoredPosition: {x: -0.8007355, y: -609}
+  m_SizeDelta: {x: 0.000030518, y: 164.9948}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1617699645
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1617699643}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: These are the main skills on the game and the ones that deal more damage.
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: c1482dbce654844b9ba1c753cbea5d80, type: 2}
+  m_sharedMaterial: {fileID: 7374927986402738804, guid: c1482dbce654844b9ba1c753cbea5d80, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 35
+  m_fontSizeBase: 35
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 1
+  m_VerticalAlignment: 256
+  m_textAlignment: 65535
+  m_characterSpacing: -1
+  m_wordSpacing: 0
+  m_lineSpacing: -7.7
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_enableWordWrapping: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 1
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 1
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0.000015258789}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &1617699646
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1617699643}
   m_CullTransparentMesh: 0
 --- !u!1 &1619523278
 GameObject:
@@ -8277,7 +8335,7 @@ GameObject:
   - component: {fileID: 1957519286}
   - component: {fileID: 1957519289}
   m_Layer: 5
-  m_Name: ShurikenFury
+  m_Name: Shuriken Fury
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9382,7 +9440,7 @@ GameObject:
   - component: {fileID: 1421343928059638724}
   - component: {fileID: 1421343928059638728}
   m_Layer: 5
-  m_Name: ViciousTheft
+  m_Name: Vicious Theft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10870,7 +10928,7 @@ GameObject:
   - component: {fileID: 8812225257642030342}
   - component: {fileID: 8812225257642030339}
   m_Layer: 5
-  m_Name: DangerousStrength
+  m_Name: Dangerous Strength
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

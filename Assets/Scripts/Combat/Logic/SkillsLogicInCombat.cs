@@ -115,7 +115,7 @@ public class SkillsLogicInCombat : MonoBehaviour
         yield return StartCoroutine(attackScript.PerformExplosiveBomb(attacker, defender));
         if (!Combat.isGameOver) FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.IDLE);
     }
-    public IEnumerator InterdimensionalTravel(Fighter attacker, Fighter defender)
+    public IEnumerator ShadowTravel(Fighter attacker, Fighter defender)
     {
         FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.IDLE_BLINKING);
         //Wait for blinking animation to finish

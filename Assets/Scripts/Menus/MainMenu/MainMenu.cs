@@ -8,6 +8,7 @@ public class MainMenu : MonoBehaviour
     // UI
     public GameObject playerEloGO;
     public GameObject battleButtonGO;
+    public GameObject cardsButtonGO;
     public GameObject playerExpGO;
     public GameObject playerLevelSlider;
     public GameObject notifyCards;
@@ -50,12 +51,13 @@ public class MainMenu : MonoBehaviour
         MenuUtils.DisplayLevelIcon(player.level, GameObject.Find("Levels"));
         MenuUtils.SetFighterStats(attack, hp, speed);
         battleButtonGO.GetComponent<Button>().interactable = User.Instance.energy > 0;
+        cardsButtonGO.GetComponent<Button>().interactable = player.skills.Count > 0;
 
         // Notifications
         if (Notifications.isInventoryNotificationsOn)
             notifyCards.SetActive(true);
 
-        // on open
+        // Hide poppups
         settings.SetActive(false);
         dailyGiftCanvas.SetActive(false);
         rankingCanvas.SetActive(false);

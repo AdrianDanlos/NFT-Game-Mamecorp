@@ -70,7 +70,7 @@ public class MainMenu : MonoBehaviour
     IEnumerator Start()
     {
         //If the user don't have any energy left check each its energy each second to activate the battle button once an energy point is given.
-        while (User.Instance.energy == 0) yield return new WaitForSeconds(1f);
+        while (User.Instance.energy == 0) yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(1f));
         battleButtonGO.GetComponent<Button>().interactable = true;
     }
 

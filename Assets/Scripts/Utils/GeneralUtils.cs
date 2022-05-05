@@ -1,6 +1,9 @@
 using System;
 public class GeneralUtils
 {
+    //To disable simulation set this to false
+    public const bool SimulationEnabled = false;
+    public const float SimulationTime = 0f;
     public static double ToSingleDecimal(double number)
     {
         string numberAsString = number.ToString();
@@ -10,11 +13,18 @@ public class GeneralUtils
         return Convert.ToDouble(trimmedString);
     }
 
-    public static SpeciesNames StringToSpeciesNamesEnum(string species){
+    public static SpeciesNames StringToSpeciesNamesEnum(string species)
+    {
         return (SpeciesNames)Enum.Parse(typeof(SpeciesNames), species);
     }
 
-    public static SkillCollection.SkillRarity StringToSkillRarityEnum(string rarity){
+    public static SkillCollection.SkillRarity StringToSkillRarityEnum(string rarity)
+    {
         return (SkillCollection.SkillRarity)Enum.Parse(typeof(SkillCollection.SkillRarity), rarity);
+    }
+
+    public static float GetRealOrSimulationTime(float realTimeWait)
+    {
+        return SimulationEnabled ? SimulationTime : realTimeWait;
     }
 }

@@ -26,11 +26,10 @@ public class EntryPoint : MonoBehaviour
         HideFighter();
         GenerateTip();
 
-        //TODO: Set the time of loading screen
         // --- Enable this for loading effect ---
         // StartCoroutine(FakeDelay());
-        // yield return new WaitForSeconds(3.5f);
-        yield return new WaitForSeconds(0f);
+        // yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(3.5f));
+        yield return null; //remove
 
         bool saveFilesFound = File.Exists(JsonDataManager.getFilePath(JsonDataManager.UserFileName)) &&
             File.Exists(JsonDataManager.getFilePath(JsonDataManager.FighterFileName));
@@ -49,19 +48,19 @@ public class EntryPoint : MonoBehaviour
     {
         loadingText.text = "0%";
         loadingBar.value = 0f;
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(1f));
 
         loadingText.text = "30%";
         loadingBar.value = 0.3f;
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(1f));
 
         loadingText.text = "70%";
         loadingBar.value = 0.7f;
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(0.5f));
 
         loadingText.text = "100%";
         loadingBar.value = 1f;
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(1f));
     }
 
     private void HideFighter()

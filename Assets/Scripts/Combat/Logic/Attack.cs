@@ -41,7 +41,7 @@ public class Attack : MonoBehaviour
         shield.transform.position = defender.transform.position;
         shield.transform.position += shieldDisplacement;
         shieldSprite.enabled = true;
-        yield return new WaitForSeconds(secondsToWaitForAttackAnim);
+        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(secondsToWaitForAttackAnim));
         shieldSprite.enabled = false;
         FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.IDLE);
     }
@@ -92,7 +92,7 @@ public class Attack : MonoBehaviour
         shurikenEndPos.x = GetShurikenEndPositionX(dodged, attacker, shurikenEndPos);
 
         FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.THROW);
-        yield return new WaitForSeconds(.1f); //Throw the shuriken when the fighter arm is already up
+        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(.1f)); //Throw the shuriken when the fighter arm is already up
 
         GameObject shurikenInstance = Instantiate(shuriken, shurikenStartPos, Quaternion.identity);
 
@@ -100,9 +100,9 @@ public class Attack : MonoBehaviour
         {
             StartCoroutine(Combat.movementScript.RotateObjectOverTime(shurikenInstance, new Vector3(0, 0, 3000), 0.5f));
             StartCoroutine(Combat.movementScript.MoveShuriken(shurikenInstance, shurikenStartPos, shurikenEndPos, 0.5f)); //We dont yield here so we can jump mid animation
-            yield return new WaitForSeconds(.2f); //Wait for the shuriken to approach before jumping
+            yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(.2f)); //Wait for the shuriken to approach before jumping
             yield return DefenderDodgesAttack(defender);
-            yield return new WaitForSeconds(.2f); //Wait for the shuriken to be in its final position before destroying it (This could be avoided with colliders)
+            yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(.2f)); //Wait for the shuriken to be in its final position before destroying it (This could be avoided with colliders)
             Destroy(shurikenInstance);
             yield break;
         }
@@ -125,7 +125,7 @@ public class Attack : MonoBehaviour
         Vector3 bombStartPos = attacker.transform.position;
 
         FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.THROW);
-        yield return new WaitForSeconds(.1f); //Throw the bomb when the fighter arm is already up
+        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(.1f)); //Throw the bomb when the fighter arm is already up
 
         GameObject bombInstance = Instantiate(bomb, bombStartPos, Quaternion.identity);
         bombInstance.AddComponent(Type.GetType("BombAnimation"));
@@ -134,14 +134,14 @@ public class Attack : MonoBehaviour
         if (IsAttackShielded())
         {
             //Cast shield when bomb is mid air
-            yield return new WaitForSeconds(.4f);
+            yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(.4f));
             yield return StartCoroutine(ShieldAttack(defender));
-            yield return new WaitForSeconds(.2f);
+            yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(.2f));
             yield break;
         }
 
         //Wait bomb travel time
-        yield return new WaitForSeconds(.6f);
+        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(.6f));
 
         yield return DefenderReceivesAttack(attacker, defender, attacker.damage, 0.25f, 0);
     }
@@ -154,7 +154,7 @@ public class Attack : MonoBehaviour
         attacker.GetComponent<SpriteRenderer>().color = new Color32(147, 255, 86, 255);
         RestoreLife(attacker, 30);
         Combat.fightersUIDataScript.ModifyHealthBar(attacker, Combat.player == attacker);
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(1.5f));
         attacker.GetComponent<SpriteRenderer>().color = new Color32(255, 255, 255, 255);
         Destroy(potionInstance);
     }
@@ -170,7 +170,7 @@ public class Attack : MonoBehaviour
     {
         StartCoroutine(Combat.movementScript.DodgeMovement(defender));
         FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.JUMP);
-        yield return new WaitForSeconds(.3f);
+        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(.3f));
         FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.IDLE);
     }
 
@@ -181,7 +181,7 @@ public class Attack : MonoBehaviour
         {
             defender.removeUsedSkill(SkillNames.BalletShoes);
             //Wait for attack animation to finish
-            yield return new WaitForSeconds(.3f);
+            yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(.3f));
             yield break;
         }
 
@@ -193,13 +193,13 @@ public class Attack : MonoBehaviour
         {
             FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.DEATH);
             yield return StartCoroutine(ReceiveDamageAnimation(defender, secondsUntilHitMarker));
-            yield return new WaitForSeconds(.15f); //Wait for attack animation to finish
+            yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(.15f)); //Wait for attack animation to finish
         }
         else
         {
             FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.HURT);
             yield return StartCoroutine(ReceiveDamageAnimation(defender, secondsUntilHitMarker));
-            yield return new WaitForSeconds(secondsToWaitForHurtAnim);
+            yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(secondsToWaitForHurtAnim));
         }
     }
 
@@ -229,10 +229,10 @@ public class Attack : MonoBehaviour
 
     IEnumerator ReceiveDamageAnimation(Fighter defender, float secondsUntilHitMarker)
     {
-        yield return new WaitForSeconds(secondsUntilHitMarker);
+        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(secondsUntilHitMarker));
         Renderer defenderRenderer = defender.GetComponent<Renderer>();
         defenderRenderer.material.color = new Color(255, 1, 1);
-        yield return new WaitForSeconds(.08f);
+        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(.08f));
         defenderRenderer.material.color = new Color(1, 1, 1);
     }
 

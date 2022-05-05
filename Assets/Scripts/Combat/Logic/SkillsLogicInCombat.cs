@@ -119,7 +119,7 @@ public class SkillsLogicInCombat : MonoBehaviour
     {
         FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.IDLE_BLINKING);
         //Wait for blinking animation to finish
-        yield return new WaitForSeconds(1.2f);
+        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(1.2f));
         SetOpacityOfFighterAndShadow(attacker, 0.15f);
         yield return combatScript.MoveForwardHandler(attacker);
         SetOpacityOfFighterAndShadow(attacker, 1);

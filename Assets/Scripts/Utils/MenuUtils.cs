@@ -2,6 +2,8 @@ using UnityEngine;
 using System;
 using TMPro;
 using UnityEngine.UI;
+using System.Collections.Generic;
+
 public class MenuUtils
 {
     public static void SetName(GameObject playerNameGO, string fighterName)
@@ -79,5 +81,28 @@ public class MenuUtils
         attack.text = player.damage.ToString();
         hp.text = player.hp.ToString();
         speed.text = player.speed.ToString();
+    }
+
+    public static void SetProfilePicture(GameObject pictureGO)
+    {
+        
+        Fighter player = PlayerUtils.FindInactiveFighter();
+        if(GetProfilePicture(player.species) != null)
+        {
+            pictureGO.GetComponent<Image>().sprite = GetProfilePicture(player.species);
+        }
+    }
+
+    public static Sprite GetProfilePicture(string specie)
+    {
+        List<Sprite> profilePictures = new List<Sprite>(Resources.LoadAll<Sprite>("CharacterProfilePicture/"));
+        
+        foreach(Sprite picture in profilePictures)
+        {
+            if (picture.name.Contains(specie))
+                return picture;
+        }
+
+        return null;
     }
 }

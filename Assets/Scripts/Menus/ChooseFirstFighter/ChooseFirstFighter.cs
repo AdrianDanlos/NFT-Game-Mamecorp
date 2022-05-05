@@ -1,7 +1,6 @@
 using UnityEngine;
 using Newtonsoft.Json.Linq;
 using TMPro;
-using System;
 using System.Collections.Generic;
 
 
@@ -11,6 +10,7 @@ public class ChooseFirstFighter : MonoBehaviour
     private string fighterName;
     private static string skinName;
     private static string species;
+
     public void OnSelectFighter()
     {
         GameObject.FindGameObjectWithTag("FighterNamePopup").GetComponent<Canvas>().enabled = true;
@@ -28,7 +28,7 @@ public class ChooseFirstFighter : MonoBehaviour
 
     private void CreateFighterFile()
     {
-        SpeciesNames speciesEnumMember = GeneralUtils.StringToSpeciesNamesEnum(species); //Orc, Golem, FallenAngel
+        SpeciesNames speciesEnumMember = GeneralUtils.StringToSpeciesNamesEnum(species); 
         JObject serializableFighter = JObject.FromObject(JsonDataManager.CreateSerializableFighterInstance(FighterFactory.CreatePlayerFighterInstance(
             fighterName, skinName, species,
             Species.defaultStats[speciesEnumMember]["hp"],

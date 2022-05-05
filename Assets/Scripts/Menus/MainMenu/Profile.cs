@@ -11,11 +11,12 @@ public class Profile : MonoBehaviour
     GameObject nCombatsText;
     GameObject highestEnemyText;
     GameObject userName;
+    GameObject characterProfilePicture;
 
     // Components
     Fighter player;
 
-    private void Awake()
+    void Awake()
     {
         player = PlayerUtils.FindInactiveFighter();
 
@@ -27,6 +28,7 @@ public class Profile : MonoBehaviour
         nCombatsText = GameObject.Find("NCombats_Text_Value");
         highestEnemyText = GameObject.Find("Highest_Enemy_Text_Value");
         userName = GameObject.Find("Text_UserName");
+        characterProfilePicture = GameObject.Find("Character_Picture");
 
         LoadStats();
     }
@@ -37,6 +39,7 @@ public class Profile : MonoBehaviour
         MenuUtils.SetLevelSlider(levelExp, levelBar, player.level, player.experiencePoints);
         MenuUtils.DisplayLevelIcon(player.level, levelBar);
         MenuUtils.SetName(userName, player.fighterName);
+        MenuUtils.SetProfilePicture(characterProfilePicture);
 
         // TODO CUPS
         cupsText.GetComponent<TextMeshProUGUI>().text = PlayerPrefs.GetFloat("cups").ToString();

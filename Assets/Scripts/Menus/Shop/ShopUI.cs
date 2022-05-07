@@ -81,7 +81,7 @@ public class ShopUI : MonoBehaviour
         abortButton = GameObject.Find("Button_Abort");
         confirmButton = GameObject.Find("Button_Confirm");
         messageText = GameObject.Find("Message_Text").GetComponent<TextMeshProUGUI>();
-        fighterData = GameObject.Find("FighterWrapper").gameObject.transform.GetChild(0).GetComponent<Fighter>();
+        fighterData = PlayerUtils.FindInactiveFighter();
 
         // tabs
         chestsTab = GameObject.Find("Button_Chests_Tab");
@@ -379,5 +379,15 @@ public class ShopUI : MonoBehaviour
         //FIXME: Create a helper function in general utils to reuse this string to enum conversion
         return Gold.shopGoldBundlesValue[(Gold.ShopGoldBundles)System.Enum.Parse
             (typeof(Gold.ShopGoldBundles), goldBundle.ToUpper())]["gold"];
+    }
+
+    public void A()
+    {
+        Skill skillInstance = new Skill(SkillCollection.skills[0]["name"].ToString(), SkillCollection.skills[0]["description"].ToString(),
+SkillCollection.skills[0]["skillRarity"].ToString(), SkillCollection.skills[0]["category"].ToString(), SkillCollection.skills[0]["icon"].ToString());
+
+        fighterData.skills = new List<Skill> { skillInstance };
+
+        Notifications.IncreaseInventory();
     }
 }

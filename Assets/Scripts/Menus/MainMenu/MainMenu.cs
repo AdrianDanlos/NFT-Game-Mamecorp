@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 
 public class MainMenu : MonoBehaviour
@@ -53,10 +54,6 @@ public class MainMenu : MonoBehaviour
         battleButtonGO.GetComponent<Button>().interactable = User.Instance.energy > 0;
         cardsButtonGO.GetComponent<Button>().interactable = player.skills.Count > 0;
 
-        // Notifications
-        if (Notifications.isInventoryNotificationsOn)
-            notifyCards.SetActive(true);
-
         // Hide poppups
         settings.SetActive(false);
         dailyGiftCanvas.SetActive(false);
@@ -78,6 +75,12 @@ public class MainMenu : MonoBehaviour
     {
         if (dailyGift.IsGiftAvailable() || dailyGift.IsFirstTime())
             dailyGiftsNotification.SetActive(true);
+
+        // Notifications
+        if (Notifications.isInventoryNotificationsOn)
+            notifyCards.SetActive(true);
+        else
+            notifyCards.SetActive(false);
     }
 
     public void OpenSettings()

@@ -1,21 +1,25 @@
 public static class Notifications
 {
-    static int inventoryNotifications = 0;
     public static bool isInventoryNotificationsOn = false;
 
     public static void IncreaseInventory()
     {
-        inventoryNotifications++;
+        TurnOnNotification();
     }
 
     public static void DecreaseInventory()
     {
-        inventoryNotifications = 0;
+        TurnOffNotification();
     }
 
-    public static void ChangeIsInventoryNotificationsOn()
+    public static void TurnOnNotification()
     {
-        isInventoryNotificationsOn = !isInventoryNotificationsOn;
+        isInventoryNotificationsOn = true;
+    }
+
+    public static void TurnOffNotification()
+    {
+        isInventoryNotificationsOn = false;
     }
 }
 

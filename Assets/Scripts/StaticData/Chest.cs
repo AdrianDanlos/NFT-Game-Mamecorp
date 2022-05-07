@@ -28,10 +28,10 @@ public static class Chest
     public static readonly Dictionary<BattleChestRarities, float> battleChestsProbabilities =
         new Dictionary<BattleChestRarities, float>()
         {
-            { BattleChestRarities.COMMON, 40},
-            { BattleChestRarities.RARE, 30},
-            { BattleChestRarities.EPIC, 20},
-            { BattleChestRarities.LEGENDARY, 10}
+            { BattleChestRarities.COMMON, 1},
+            { BattleChestRarities.RARE, 1},
+            { BattleChestRarities.EPIC, 98},
+            { BattleChestRarities.LEGENDARY, 2}
         };
 
     //Battle chests contain either gold & gems OR a skill

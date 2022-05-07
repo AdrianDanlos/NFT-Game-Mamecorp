@@ -163,11 +163,11 @@ public class LevelUp : MonoBehaviour
     {
         Debug.Log(Combat.player);
         Debug.Log(Combat.player.skills);
-#pragma warning disable CS0253 // Posible comparación de referencias involuntaria. El lado de la mano derecha necesita conversión
+#pragma warning disable CS0253 
         // if .ToString() is added as warning message says it doesn't return bool
         // and breaks the code
         return Combat.player.skills.Any(playerSkill => playerSkill.skillName == skill["skillName"]);
-#pragma warning restore CS0253 // Posible comparación de referencias involuntaria. El lado de la mano derecha necesita conversión
+#pragma warning restore CS0253 
     }
     private Skill GetAwardedSkill(SkillCollection.SkillRarity skillRarityAwarded)
     {

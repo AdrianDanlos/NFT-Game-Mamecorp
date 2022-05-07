@@ -3,6 +3,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using TMPro;
+using System;
+using System.Linq;
+using System.Collections.Specialized;
 
 public enum Transactions
 {
@@ -29,6 +32,21 @@ public class ShopUI : MonoBehaviour
     GameObject energyGroupdown;
     GameObject goldGroupdown;
 
+    // UI chest rewards
+    public GameObject skillTitle;
+    public GameObject skillType;
+    public GameObject skillRarity;
+    public GameObject skillDescription;
+    public GameObject skillIcon;
+    public GameObject commonSkill;
+    public GameObject rareSkill;
+    public GameObject epicSkill;
+    public GameObject legendarySkill;
+    public Button skillInventory;
+    public Button skillMainMenu;
+    public Button allSkills;
+    public GameObject canvasSkill;
+
     // chest on open
     GameObject chestPopUp;
     GameObject chestPopUpChest;
@@ -51,11 +69,7 @@ public class ShopUI : MonoBehaviour
     int previousTransaction;
 
     // data
-    Fighter fighterData;
-
-    // chest colors mockup
-    [SerializeField] private List<GameObject> frameColors = new List<GameObject>();
-
+    static Fighter player;
 
     private void Awake()
     {
@@ -81,7 +95,7 @@ public class ShopUI : MonoBehaviour
         abortButton = GameObject.Find("Button_Abort");
         confirmButton = GameObject.Find("Button_Confirm");
         messageText = GameObject.Find("Message_Text").GetComponent<TextMeshProUGUI>();
-        fighterData = PlayerUtils.FindInactiveFighter();
+        player = PlayerUtils.FindInactiveFighter();
 
         // tabs
         chestsTab = GameObject.Find("Button_Chests_Tab");
@@ -156,33 +170,44 @@ public class ShopUI : MonoBehaviour
         GetChestValueFromType(chestButtonPressed);
         previousTransaction = (int)Transactions.CHEST;
 
-        // handle which chest was opened to change icon after
-        if (CurrencyHandler.instance.HasEnoughGold(goldValue))
+        if (PlayerHasAllSkills())
         {
-            buyConfirmation.SetActive(true);
-            abortButton.SetActive(true);
-            confirmButton.SetActive(true);
-            messageText.text = "Are you sure about buying this item ?";
+            buyConfirmation.SetActive(false);
+            abortButton.SetActive(false);
+            confirmButton.SetActive(false);
+            allSkills.gameObject.SetActive(true);
+            messageText.text = "There are no more skills to buy!";
         }
         else
         {
-            buyConfirmation.SetActive(true);
-            abortButton.SetActive(false);
-            confirmButton.SetActive(false);
-            noCurrencyButton.SetActive(true);
-            messageText.text = "Not enough gold!";
+            // handle which chest was opened to change icon after
+            if (CurrencyHandler.instance.HasEnoughGold(goldValue))
+            {
+                buyConfirmation.SetActive(true);
+                abortButton.SetActive(true);
+                confirmButton.SetActive(true);
+                messageText.text = "Are you sure about buying this item ?";
+            }
+            else
+            {
+                buyConfirmation.SetActive(true);
+                abortButton.SetActive(false);
+                confirmButton.SetActive(false);
+                noCurrencyButton.SetActive(true);
+                messageText.text = "Not enough gold!";
+            }
         }
+
     }
 
-    public void HandleChestPopUp()
+    private void HandleChestPopUp()
     {
         CurrencyHandler.instance.SubstractGold(goldValue);
         buyConfirmation.SetActive(false);
         abortButton.SetActive(false);
         confirmButton.SetActive(false);
-        chestPopUp.SetActive(true);
-        nextButton.SetActive(true);
-        chestPopUpChest.SetActive(true);
+        canvasSkill.SetActive(true);
+        SkillPopUpLogic();
     }
 
     public void BuyEnergy()
@@ -322,34 +347,6 @@ public class ShopUI : MonoBehaviour
         goldGroupdown.SetActive(false);
     }
 
-    public void OpenChest()
-    {
-        nextButton.SetActive(false);
-        chestPopUpChest.SetActive(false);
-        chestRewards.SetActive(true);
-        inventoryButton.SetActive(true);
-        backToShopButton.SetActive(true);
-
-        // reward mockup
-        switch (ChestManager.GetRandomShopChestRarity(chestButtonPressed))
-        {
-            case "RARE":
-                chestRewards.transform.GetChild(1).GetChild(0).GetComponent<Image>().sprite = frameColors[1].GetComponent<SpriteRenderer>().sprite;
-                break;
-            case "EPIC":
-                chestRewards.transform.GetChild(1).GetChild(0).GetComponent<Image>().sprite = frameColors[2].GetComponent<SpriteRenderer>().sprite;
-                break;
-            case "LEGENDARY":
-                chestRewards.transform.GetChild(1).GetChild(0).GetComponent<Image>().sprite = frameColors[3].GetComponent<SpriteRenderer>().sprite;
-                break;
-        }
-    }
-
-    public void GoToInventory()
-    {
-        UnityEngine.SceneManagement.SceneManager.LoadScene(SceneNames.Inventory.ToString());
-    }
-
     public void GetChestValueFromType(string chestType)
     {
         goldValue = Chest.shopChestsValue[(Chest.ShopChestTypes)System.Enum.Parse
@@ -381,14 +378,109 @@ public class ShopUI : MonoBehaviour
             (typeof(Gold.ShopGoldBundles), goldBundle.ToUpper())]["gold"];
     }
 
-    public void A()
+    static Func<bool> PlayerHasAllSkills = () => SkillCollection.skills.Count() == player.skills.Count();
+
+    private void SkillPopUpLogic()
     {
-        Skill skillInstance = new Skill(SkillCollection.skills[0]["name"].ToString(), SkillCollection.skills[0]["description"].ToString(),
-SkillCollection.skills[0]["skillRarity"].ToString(), SkillCollection.skills[0]["category"].ToString(), SkillCollection.skills[0]["icon"].ToString());
-
-        fighterData.skills = new List<Skill> { skillInstance };
-
+        SkillCollection.SkillRarity skillRarityAwarded = GetRandomSkillRarityBasedOnChest();
+        Skill skillInstance = GetAwardedSkill(skillRarityAwarded);
+        PlayerUtils.FindInactiveFighter().skills.Add(skillInstance);
+        PlayerUtils.FindInactiveFighter().skills = PlayerUtils.FindInactiveFighter().skills;
         Notifications.TurnOnNotification();
         Notifications.IncreaseCardsUnseen();
+
+        ShowSkillData(skillInstance);
+        ShowSkillIcon(skillInstance);
+    }
+
+    private void ShowSkillData(Skill skill)
+    {
+        skillTitle.GetComponent<TextMeshProUGUI>().text = skill.skillName;
+        skillType.GetComponent<TextMeshProUGUI>().text = skill.category;
+        skillRarity.GetComponent<TextMeshProUGUI>().text = skill.rarity;
+        skillDescription.GetComponent<TextMeshProUGUI>().text = skill.description;
+    }
+
+    private bool HasSkillAlready(OrderedDictionary skill)
+    {
+        Debug.Log(Combat.player);
+        Debug.Log(Combat.player.skills);
+#pragma warning disable CS0253 // Posible comparación de referencias involuntaria. El lado de la mano derecha necesita conversión
+        // if .ToString() is added as warning message says it doesn't return bool
+        // and breaks the code
+        return Combat.player.skills.Any(playerSkill => playerSkill.skillName == skill["skillName"]);
+#pragma warning restore CS0253 // Posible comparación de referencias involuntaria. El lado de la mano derecha necesita conversión
+    }
+    private Skill GetAwardedSkill(SkillCollection.SkillRarity skillRarityAwarded)
+    {
+        //List of OrderedDictionaries
+        //Filter the ones that are from another rarity and the ones the player already has
+        var skills = SkillCollection.skills
+            .Where(skill => (string)skill["skillRarity"] == skillRarityAwarded.ToString())
+            .Where(skill => !HasSkillAlready(skill))
+            .ToList();
+
+        Debug.Log(SkillCollection.skills
+            .Where(skill => !HasSkillAlready(skill)).ToList().Count);
+
+        //If player has all skill for the current rarity get skills from a rarity above. 
+        //Does not matter that they might not belong to the current chest
+        if (!skills.Any())
+        {
+            Debug.Log("User has all skills for the given rarity.");
+
+            //Cast enum to int
+            int skillRarityIndex = (int)skillRarityAwarded;
+
+            //If value for the next index in the enum exists return that rarity. Otherwise return the first value of the enum (COMMON)
+            SkillCollection.SkillRarity newRarity = Enum.IsDefined(typeof(Enum), (SkillCollection.SkillRarity)skillRarityIndex++)
+            ? (SkillCollection.SkillRarity)skillRarityIndex++
+            : (SkillCollection.SkillRarity)0;
+
+            //Recursive call with the new rarity
+            GetAwardedSkill(newRarity);
+        }
+
+        int skillIndex = UnityEngine.Random.Range(0, skills.Count());
+
+        //OrderedDictionary
+        var awardedSkill = skills[skillIndex];
+
+        return new Skill(awardedSkill["name"].ToString(), awardedSkill["description"].ToString(),
+                awardedSkill["skillRarity"].ToString(), awardedSkill["category"].ToString(), awardedSkill["icon"].ToString());
+    }
+
+    private SkillCollection.SkillRarity GetRandomSkillRarityBasedOnChest()
+    {
+        Dictionary<SkillCollection.SkillRarity, float> skillRarityProbabilitiesForChest = 
+            Chest.shopChests[(Chest.ShopChestTypes)System.Enum.Parse
+            (typeof(Chest.ShopChestTypes), chestButtonPressed)];
+
+        float diceRoll = UnityEngine.Random.Range(0f, 100);
+
+        foreach (KeyValuePair<SkillCollection.SkillRarity, float> skill in skillRarityProbabilitiesForChest)
+        {
+            if (skill.Value >= diceRoll)
+                return skill.Key;
+
+            diceRoll -= skill.Value;
+        }
+
+        Debug.LogError("Error");
+        //Fallback
+        return SkillCollection.SkillRarity.COMMON;
+    }
+
+    private void ShowSkillIcon(Skill skill)
+    {
+        //ShowFrame
+        commonSkill.SetActive(SkillCollection.SkillRarity.COMMON == GeneralUtils.StringToSkillRarityEnum(skill.rarity));
+        rareSkill.SetActive(SkillCollection.SkillRarity.RARE == GeneralUtils.StringToSkillRarityEnum(skill.rarity));
+        epicSkill.SetActive(SkillCollection.SkillRarity.EPIC == GeneralUtils.StringToSkillRarityEnum(skill.rarity));
+        legendarySkill.SetActive(SkillCollection.SkillRarity.LEGENDARY == GeneralUtils.StringToSkillRarityEnum(skill.rarity));
+
+        //Show icon
+        Sprite icon = Resources.Load<Sprite>("Icons/IconsSkills/" + skill.icon);
+        skillIcon.GetComponent<Image>().sprite = icon;
     }
 }

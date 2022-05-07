@@ -76,47 +76,47 @@ public static class Chest
             },
         };
 
-    public static readonly Dictionary<ShopChestTypes, Dictionary<string, float>> shopChests =
-        new Dictionary<ShopChestTypes, Dictionary<string, float>>
+    public static readonly Dictionary<ShopChestTypes, Dictionary<SkillCollection.SkillRarity, float>> shopChests =
+        new Dictionary<ShopChestTypes, Dictionary<SkillCollection.SkillRarity, float>>
         {
             {
-                ShopChestTypes.NORMAL, new Dictionary<string, float>
+                ShopChestTypes.NORMAL, new Dictionary<SkillCollection.SkillRarity, float>
                 {
                     // chances of SkillRarity
-                    {SkillCollection.SkillRarity.COMMON.ToString(), 0},
-                    {SkillCollection.SkillRarity.RARE.ToString(), 94},
-                    {SkillCollection.SkillRarity.EPIC.ToString(), 5},
-                    {SkillCollection.SkillRarity.LEGENDARY.ToString(), 1}
+                    {SkillCollection.SkillRarity.COMMON, 0},
+                    {SkillCollection.SkillRarity.RARE, 94},
+                    {SkillCollection.SkillRarity.EPIC, 5},
+                    {SkillCollection.SkillRarity.LEGENDARY, 1}
                 }
             },
             {
-                ShopChestTypes.EPIC, new Dictionary<string, float>
+                ShopChestTypes.EPIC, new Dictionary<SkillCollection.SkillRarity, float>
                 {
                     // chances of SkillRarity
-                    {SkillCollection.SkillRarity.COMMON.ToString(), 0},
-                    {SkillCollection.SkillRarity.RARE.ToString(), 0},
-                    {SkillCollection.SkillRarity.EPIC.ToString(), 95},
-                    {SkillCollection.SkillRarity.LEGENDARY.ToString(), 5}
+                    {SkillCollection.SkillRarity.COMMON, 0},
+                    {SkillCollection.SkillRarity.RARE, 0},
+                    {SkillCollection.SkillRarity.EPIC, 95},
+                    {SkillCollection.SkillRarity.LEGENDARY, 5}
                 }
             },
             {
-                ShopChestTypes.LEGENDARY, new Dictionary<string, float>
+                ShopChestTypes.LEGENDARY, new Dictionary<SkillCollection.SkillRarity, float>
                 {
                     // chances of SkillRarity
-                    {SkillCollection.SkillRarity.COMMON.ToString(), 0},
-                    {SkillCollection.SkillRarity.RARE.ToString(), 0},
-                    {SkillCollection.SkillRarity.EPIC.ToString(), 0},
-                    {SkillCollection.SkillRarity.LEGENDARY.ToString(), 100}
+                    {SkillCollection.SkillRarity.COMMON, 0},
+                    {SkillCollection.SkillRarity.RARE, 0},
+                    {SkillCollection.SkillRarity.EPIC, 0},
+                    {SkillCollection.SkillRarity.LEGENDARY, 100}
                 }
             },
             {
-                ShopChestTypes.SPECIAL, new Dictionary<string, float>
+                ShopChestTypes.SPECIAL, new Dictionary<SkillCollection.SkillRarity, float>
                 {
                     // chances of SkillRarity
-                    {SkillCollection.SkillRarity.COMMON.ToString(), 0},
-                    {SkillCollection.SkillRarity.RARE.ToString(), 30},
-                    {SkillCollection.SkillRarity.EPIC.ToString(), 60},
-                    {SkillCollection.SkillRarity.LEGENDARY.ToString(), 10}
+                    {SkillCollection.SkillRarity.COMMON, 0},
+                    {SkillCollection.SkillRarity.RARE, 30},
+                    {SkillCollection.SkillRarity.EPIC, 60},
+                    {SkillCollection.SkillRarity.LEGENDARY, 10}
                 }
             },
         };

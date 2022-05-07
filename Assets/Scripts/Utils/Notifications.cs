@@ -10,8 +10,7 @@ public static class Notifications
 
     public static void DecreaseInventory()
     {
-        if(inventoryNotifications >= 0)
-            inventoryNotifications--;
+        inventoryNotifications = 0;
     }
 
     public static void ChangeIsInventoryNotificationsOn()

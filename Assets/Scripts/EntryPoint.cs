@@ -42,6 +42,8 @@ public class EntryPoint : MonoBehaviour
         }
 
         else UnityEngine.SceneManagement.SceneManager.LoadScene(SceneNames.ChooseFirstFighter.ToString());
+
+        Notifications.InitiateCardsUnseen();
     }
 
     IEnumerator FakeDelay()

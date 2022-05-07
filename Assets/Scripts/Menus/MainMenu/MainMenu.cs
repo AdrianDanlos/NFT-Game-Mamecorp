@@ -20,6 +20,9 @@ public class MainMenu : MonoBehaviour
     public TextMeshProUGUI hp;
     public TextMeshProUGUI speed;
 
+    // notifications
+    public TextMeshProUGUI notifyCardsTxt;
+
     // daily gift
     GameObject dailyGiftCanvas;
     DailyGift dailyGift;
@@ -53,6 +56,7 @@ public class MainMenu : MonoBehaviour
         MenuUtils.SetFighterStats(attack, hp, speed);
         battleButtonGO.GetComponent<Button>().interactable = User.Instance.energy > 0;
         cardsButtonGO.GetComponent<Button>().interactable = player.skills.Count > 0;
+        notifyCardsTxt = notifyCards.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
 
         // Hide poppups
         settings.SetActive(false);
@@ -78,7 +82,10 @@ public class MainMenu : MonoBehaviour
 
         // Notifications
         if (Notifications.isInventoryNotificationsOn)
+        {
             notifyCards.SetActive(true);
+            notifyCardsTxt.text = Notifications.cardsUnseen.ToString();
+        }
         else
             notifyCards.SetActive(false);
     }

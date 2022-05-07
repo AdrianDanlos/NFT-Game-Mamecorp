@@ -6,7 +6,8 @@ public class OnClickGoToSkillsCollection : MonoBehaviour
 {
     public void GoToSkillsCollection()
     {
-        Notifications.DecreaseInventory();
+        Notifications.ResetCardsUnseen();
+        Notifications.TurnOffNotification();
         UnityEngine.SceneManagement.SceneManager.LoadScene(SceneNames.Inventory.ToString());
     }
 }

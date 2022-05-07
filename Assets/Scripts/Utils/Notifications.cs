@@ -1,16 +1,9 @@
+using UnityEngine;
+
 public static class Notifications
 {
+    public static int cardsUnseen;
     public static bool isInventoryNotificationsOn = false;
-
-    public static void IncreaseInventory()
-    {
-        TurnOnNotification();
-    }
-
-    public static void DecreaseInventory()
-    {
-        TurnOffNotification();
-    }
 
     public static void TurnOnNotification()
     {
@@ -20,6 +13,25 @@ public static class Notifications
     public static void TurnOffNotification()
     {
         isInventoryNotificationsOn = false;
+    }
+
+    public static void InitiateCardsUnseen()
+    {
+        cardsUnseen = PlayerPrefs.GetInt("cardsUnseen");
+    }
+
+    public static void IncreaseCardsUnseen()
+    {
+        cardsUnseen = PlayerPrefs.GetInt("cardsUnseen") + 1;
+        PlayerPrefs.SetInt("cardsUnseen", cardsUnseen);
+        PlayerPrefs.Save();
+    }
+
+    public static void ResetCardsUnseen()
+    {
+        cardsUnseen = 0;
+        PlayerPrefs.SetInt("cardsUnseen", 0);
+        PlayerPrefs.Save();
     }
 }
 

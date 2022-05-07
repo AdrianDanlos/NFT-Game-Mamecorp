@@ -388,6 +388,7 @@ SkillCollection.skills[0]["skillRarity"].ToString(), SkillCollection.skills[0]["
 
         fighterData.skills = new List<Skill> { skillInstance };
 
-        Notifications.IncreaseInventory();
+        Notifications.TurnOnNotification();
+        Notifications.IncreaseCardsUnseen();
     }
 }

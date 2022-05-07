@@ -135,6 +135,7 @@ public class LevelUp : MonoBehaviour
         PlayerUtils.FindInactiveFighter().skills.Add(skillInstance);
         PlayerUtils.FindInactiveFighter().skills = PlayerUtils.FindInactiveFighter().skills;
         Notifications.TurnOnNotification();
+        Notifications.IncreaseCardsUnseen();
 
         ShowSkillData(skillInstance);
         ShowSkillIcon(skillInstance);
@@ -162,7 +163,11 @@ public class LevelUp : MonoBehaviour
     {
         Debug.Log(Combat.player);
         Debug.Log(Combat.player.skills);
+#pragma warning disable CS0253 // Posible comparación de referencias involuntaria. El lado de la mano derecha necesita conversión
+        // if .ToString() is added as warning message says it doesn't return bool
+        // and breaks the code
         return Combat.player.skills.Any(playerSkill => playerSkill.skillName == skill["skillName"]);
+#pragma warning restore CS0253 // Posible comparación de referencias involuntaria. El lado de la mano derecha necesita conversión
     }
     private Skill GetAwardedSkill(SkillCollection.SkillRarity skillRarityAwarded)
     {

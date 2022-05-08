@@ -162,7 +162,7 @@ public class LevelUp : MonoBehaviour
     private bool HasSkillAlready(OrderedDictionary skill)
     {
 #pragma warning disable CS0253
-        return Combat.player.skills.Any(playerSkill => playerSkill.skillName == skill["name"]);
+        return Combat.player.skills.Any(playerSkill => playerSkill.skillName == skill["name"].ToString());
     }
     private Skill GetAwardedSkill(SkillCollection.SkillRarity skillRarityAwarded)
     {

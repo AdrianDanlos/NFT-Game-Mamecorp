@@ -73,21 +73,29 @@ public class MainMenu : MonoBehaviour
         //If the user don't have any energy left check each its energy each second to activate the battle button once an energy point is given.
         while (User.Instance.energy == 0) yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(1f));
         battleButtonGO.GetComponent<Button>().interactable = true;
+
+        StartCoroutine(RefreshItems());
     }
 
-    private void Update()
+    IEnumerator RefreshItems()
     {
-        if (dailyGift.IsGiftAvailable() || dailyGift.IsFirstTime())
-            dailyGiftsNotification.SetActive(true);
-
-        // Notifications
-        if (Notifications.isInventoryNotificationsOn)
+        do
         {
-            notifyCards.SetActive(true);
-            notifyCardsTxt.text = Notifications.cardsUnseen.ToString();
+            if (dailyGift.IsGiftAvailable() || dailyGift.IsFirstTime())
+                dailyGiftsNotification.SetActive(true);
+
+            // Notifications
+            if (Notifications.isInventoryNotificationsOn)
+            {
+                notifyCards.SetActive(true);
+                notifyCardsTxt.text = Notifications.cardsUnseen.ToString();
+            }
+            else
+                notifyCards.SetActive(false);
+            yield return new WaitForSeconds(1f);
         }
-        else
-            notifyCards.SetActive(false);
+
+        while (true);
     }
 
     public void OpenSettings()

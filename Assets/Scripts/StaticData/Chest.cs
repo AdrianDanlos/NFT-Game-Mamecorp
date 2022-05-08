@@ -83,8 +83,8 @@ public static class Chest
                 ShopChestTypes.NORMAL, new Dictionary<SkillCollection.SkillRarity, float>
                 {
                     // chances of SkillRarity
-                    {SkillCollection.SkillRarity.COMMON, 96},
-                    {SkillCollection.SkillRarity.RARE, 1},
+                    {SkillCollection.SkillRarity.COMMON, 1},
+                    {SkillCollection.SkillRarity.RARE, 94},
                     {SkillCollection.SkillRarity.EPIC, 4},
                     {SkillCollection.SkillRarity.LEGENDARY, 1}
                 }

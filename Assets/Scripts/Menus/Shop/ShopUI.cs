@@ -404,44 +404,6 @@ public class ShopUI : MonoBehaviour
     }
     private Skill GetAwardedSkill(SkillCollection.SkillRarity skillRarityAwarded)
     {
-        var skills = FilterSkill(skillRarityAwarded);
-        List<OrderedDictionary> alterSkills;
-
-        //If player has all skill for the current rarity get skills from a rarity above. 
-        //Does not matter that they might not belong to the current chest
-        if (!skills.Any())
-        {
-            Debug.Log("User has all skills for the given rarity.");
-
-            if (skillRarityAwarded.ToString().Contains("EPIC"))
-            {
-                alterSkills = FilterSkill(SkillCollection.SkillRarity.LEGENDARY);
-                int alterSkillIndex = UnityEngine.Random.Range(0, alterSkills.Count());
-                var alterAwardedSkill = alterSkills[alterSkillIndex];
-
-                return new Skill(
-                    alterAwardedSkill["name"].ToString(),
-                    alterAwardedSkill["description"].ToString(),
-                    alterAwardedSkill["skillRarity"].ToString(),
-                    alterAwardedSkill["category"].ToString(),
-                    alterAwardedSkill["icon"].ToString());
-            }
-        }
-
-        int skillIndex = UnityEngine.Random.Range(0, skills.Count());
-
-        //OrderedDictionary
-        var awardedSkill = skills[skillIndex];
-
-        return new Skill(
-            awardedSkill["name"].ToString(),
-            awardedSkill["description"].ToString(),
-            awardedSkill["skillRarity"].ToString(),
-            awardedSkill["category"].ToString(),
-            awardedSkill["icon"].ToString());
-    }
-
-    private List<OrderedDictionary> FilterSkill(SkillCollection.SkillRarity skillRarityAwarded){
         //List of OrderedDictionaries
         //Filter the ones that are from another rarity and the ones the player already has
         var skills = SkillCollection.skills
@@ -449,13 +411,41 @@ public class ShopUI : MonoBehaviour
             .Where(skill => !HasSkillAlready(skill))
             .ToList();
 
-        return skills;
+        Debug.Log(SkillCollection.skills
+            .Where(skill => !HasSkillAlready(skill)).ToList().Count + " " + skillRarityAwarded);
+
+        //If player has all skill for the current rarity get skills from a rarity above. 
+        //Does not matter that they might not belong to the current chest
+        if (!skills.Any())
+        {
+            Debug.Log("User has all skills for the given rarity.");
+
+            //Cast enum to int
+            int skillRarityIndex = (int)skillRarityAwarded;
+
+            //If value for the next index in the enum exists return that rarity. Otherwise return the first value of the enum (COMMON)
+            SkillCollection.SkillRarity newRarity = (Enum.IsDefined(typeof(SkillCollection.SkillRarity), (SkillCollection.SkillRarity)skillRarityIndex++) && skillRarityIndex < 4)
+            ? (SkillCollection.SkillRarity)skillRarityIndex++
+            : (SkillCollection.SkillRarity)0;
+
+            //Recursive call with the new rarity
+            GetAwardedSkill(newRarity);
+        }
+
+        int skillIndex = UnityEngine.Random.Range(0, skills.Count());
+
+        Debug.Log(skills.Count);
+        //OrderedDictionary
+        var awardedSkill = skills[skillIndex];
+
+        return new Skill(awardedSkill["name"].ToString(), awardedSkill["description"].ToString(),
+                awardedSkill["skillRarity"].ToString(), awardedSkill["category"].ToString(), awardedSkill["icon"].ToString());
     }
 
     private SkillCollection.SkillRarity GetRandomSkillRarityBasedOnChest()
     {
         Dictionary<SkillCollection.SkillRarity, float> skillRarityProbabilitiesForChest = 
-            Chest.shopChests[(Chest.ShopChestTypes)System.Enum.Parse
+            Chest.shopChests[(Chest.ShopChestTypes)Enum.Parse
             (typeof(Chest.ShopChestTypes), chestButtonPressed.ToUpper())];
 
         float diceRoll = UnityEngine.Random.Range(0f, 100);
@@ -491,9 +481,7 @@ public class ShopUI : MonoBehaviour
         chestsList = new List<GameObject>();
 
         for(int i = 0; i < chestsContainer.transform.childCount; i++)
-        {
             chestsList.Add(chestsContainer.transform.GetChild(i).gameObject);
-        }
     }
 
     private void ManageChests()
@@ -511,7 +499,11 @@ public class ShopUI : MonoBehaviour
             .ToList();
 
         if (!skills.Any())
+        {
             chestsList.Where(gameObject => gameObject.name.ToUpper() == Chest.ShopChestTypes.LEGENDARY.ToString()).ToList()[0].SetActive(false);
+            legendarySkillCheck = true;
+        }
+            
     }
 
     private void ManageEpicChest()
@@ -523,7 +515,10 @@ public class ShopUI : MonoBehaviour
             .ToList();
 
         if (!skills.Any())
+        {
             chestsList.Where(gameObject => gameObject.name.ToUpper() == Chest.ShopChestTypes.EPIC.ToString()).ToList()[0].SetActive(false);
+            epicSkillCheck = true;
+        }
     }
 
     private void ManageSpecialChest()
@@ -536,6 +531,9 @@ public class ShopUI : MonoBehaviour
             .ToList();
 
         if (!skills.Any())
-            chestsList.Where(gameObject => gameObject.name.ToUpper() == Chest.ShopChestTypes.EPIC.ToString()).ToList()[0].SetActive(false);
+        {
+            chestsList.Where(gameObject => gameObject.name.ToUpper() == Chest.ShopChestTypes.SPECIAL.ToString()).ToList()[0].SetActive(false);
+            rareSkillCheck = true;
+        }
     }
 }

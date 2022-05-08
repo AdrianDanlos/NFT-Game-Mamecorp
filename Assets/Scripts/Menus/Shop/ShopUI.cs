@@ -46,7 +46,9 @@ public class ShopUI : MonoBehaviour
 
     // chests
     public GameObject chestsContainer;
+    public GameObject chestsScrollrect;
     public List<GameObject> chestsList;
+    public GameObject soldOut;
     bool commonSkillCheck = false;
     bool rareSkillCheck = false;
     bool epicSkillCheck = false;
@@ -93,13 +95,15 @@ public class ShopUI : MonoBehaviour
         energyTab = GameObject.Find("Button_Energy_Tab");
         goldTab = GameObject.Find("Button_Gold_Tab");
 
-        // scrollrects
+        // containers
         chestsGroupdown = GameObject.Find("Group_Down_Chests");
+        chestsScrollrect = GameObject.Find("ScrollRect_Chests"); 
         energyGroupdown = GameObject.Find("Group_Down_Energy");
         goldGroupdown = GameObject.Find("Group_Down_Gold");
 
         // chests
         chestsContainer = GameObject.Find("Content_Chest");
+        soldOut = GameObject.Find("SoldOut");
         InitChests();
         ManageChests();
 
@@ -118,10 +122,14 @@ public class ShopUI : MonoBehaviour
         goldNextButton.SetActive(false);
 
         canvasSkill.SetActive(false);
+
+        soldOut.SetActive(false);
     }
 
     private void Start()
     {
+        ShowChestsTab();
+
         // button pressed from main menu
         ShowTab(ShopTab.GetTab());
     }
@@ -159,34 +167,22 @@ public class ShopUI : MonoBehaviour
         GetChestValueFromType(chestButtonPressed);
         previousTransaction = (int)Transactions.CHEST;
 
-        if (PlayerHasAllSkills())
+        // handle which chest was opened to change icon after
+        if (CurrencyHandler.instance.HasEnoughGold(goldValue))
+        {
+            buyConfirmation.SetActive(true);
+            abortButton.SetActive(true);
+            confirmButton.SetActive(true);
+            messageText.text = "Are you sure about buying this item ?";
+        }
+        else
         {
             buyConfirmation.SetActive(true);
             abortButton.SetActive(false);
             confirmButton.SetActive(false);
-            allSkills.gameObject.SetActive(true);
-            messageText.text = "There are no more skills to buy!";
+            noCurrencyButton.SetActive(true);
+            messageText.text = "Not enough gold!";
         }
-        else
-        {
-            // handle which chest was opened to change icon after
-            if (CurrencyHandler.instance.HasEnoughGold(goldValue))
-            {
-                buyConfirmation.SetActive(true);
-                abortButton.SetActive(true);
-                confirmButton.SetActive(true);
-                messageText.text = "Are you sure about buying this item ?";
-            }
-            else
-            {
-                buyConfirmation.SetActive(true);
-                abortButton.SetActive(false);
-                confirmButton.SetActive(false);
-                noCurrencyButton.SetActive(true);
-                messageText.text = "Not enough gold!";
-            }
-        }
-
     }
 
     private void HandleChestPopUp()
@@ -303,7 +299,19 @@ public class ShopUI : MonoBehaviour
     public void ShowChestsTab()
     {
         chestsTab.transform.Find("Focus").GetComponent<Image>().enabled = true;
-        chestsGroupdown.SetActive(true);
+        if (PlayerHasAllSkills())
+        {
+            chestsGroupdown.SetActive(true);
+            chestsScrollrect.SetActive(false);
+            soldOut.SetActive(true);
+        }
+        else
+        {
+            chestsGroupdown.SetActive(true);
+            chestsScrollrect.SetActive(true);
+            soldOut.SetActive(false);
+        }
+
     }
 
     public void ShowEnergyTab()
@@ -492,6 +500,7 @@ public class ShopUI : MonoBehaviour
     {
         ManageLegendaryChest();
         ManageEpicChest();
+        ManageSpecialChest();
     }
 
     private void ManageLegendaryChest()
@@ -509,6 +518,19 @@ public class ShopUI : MonoBehaviour
     {
         var skills = SkillCollection.skills
             .Where(skill => ((string)skill["skillRarity"] == SkillCollection.SkillRarity.EPIC.ToString()) ||  
+                             (string)skill["skillRarity"] == SkillCollection.SkillRarity.LEGENDARY.ToString())
+            .Where(skill => !HasSkillAlready(skill))
+            .ToList();
+
+        if (!skills.Any())
+            chestsList.Where(gameObject => gameObject.name.ToUpper() == Chest.ShopChestTypes.EPIC.ToString()).ToList()[0].SetActive(false);
+    }
+
+    private void ManageSpecialChest()
+    {
+        var skills = SkillCollection.skills
+            .Where(skill => ((string)skill["skillRarity"] == SkillCollection.SkillRarity.RARE.ToString()) ||
+                             (string)skill["skillRarity"] == SkillCollection.SkillRarity.EPIC.ToString() ||
                              (string)skill["skillRarity"] == SkillCollection.SkillRarity.LEGENDARY.ToString())
             .Where(skill => !HasSkillAlready(skill))
             .ToList();

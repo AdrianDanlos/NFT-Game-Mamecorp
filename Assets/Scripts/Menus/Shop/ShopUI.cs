@@ -409,7 +409,7 @@ public class ShopUI : MonoBehaviour
             {
                 alterSkills = FilterSkill(SkillCollection.SkillRarity.LEGENDARY);
                 int alterSkillIndex = UnityEngine.Random.Range(0, alterSkills.Count());
-                var alterAwardedSkill = skills[alterSkillIndex];
+                var alterAwardedSkill = alterSkills[alterSkillIndex];
 
                 return new Skill(
                     alterAwardedSkill["name"].ToString(),

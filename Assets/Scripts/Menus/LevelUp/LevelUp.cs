@@ -185,7 +185,7 @@ public class LevelUp : MonoBehaviour
             int skillRarityIndex = (int)skillRarityAwarded;
 
             //If value for the next index in the enum exists return that rarity. Otherwise return the first value of the enum (COMMON)
-            SkillCollection.SkillRarity newRarity = Enum.IsDefined(typeof(Enum), (SkillCollection.SkillRarity)skillRarityIndex++)
+            SkillCollection.SkillRarity newRarity = Enum.IsDefined(typeof(SkillCollection.SkillRarity), (SkillCollection.SkillRarity)skillRarityIndex++)
             ? (SkillCollection.SkillRarity)skillRarityIndex++
             : (SkillCollection.SkillRarity)0;
 

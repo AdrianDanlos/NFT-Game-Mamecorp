@@ -7,13 +7,14 @@ using UnityEngine.UI;
 public class Leaderboard : MonoBehaviour
 {
     // UI
-    public List<Transform> playersList;
+    public GameObject playerPrefab;
     public GameObject playerProfile;
     public GameObject playersContainer;
 
+    // variables
     string flagName;
     Fighter player;
-    
+    Dictionary<string, Dictionary<string, string>> usersDB;
 
     // Player GameObject Structure
     // - List_Me
@@ -28,19 +29,26 @@ public class Leaderboard : MonoBehaviour
     private void Awake()
     {
         playerProfile = GameObject.Find("List_Me_Player");
+        playerPrefab = GameObject.Find("List_Me_Player");
         playersContainer = GameObject.Find("Content");
-
-        GetAllPlayers();
 
         // user
         player = PlayerUtils.FindInactiveFighter();
         SetupPlayer();
+
+        // ranking
+        GetDB();
+        GenerateDB();
     }
 
-    private void GetAllPlayers()
+    private void GetDB()
     {
-        for(int i = 0; i < playersContainer.transform.childCount; i++)
-            playersList.Add(playersContainer.transform.GetChild(i));
+        usersDB = LeaderboardDB.players;
+    }
+
+    private void GenerateDB()
+    {
+
     }
 
     private void SetupPlayer()

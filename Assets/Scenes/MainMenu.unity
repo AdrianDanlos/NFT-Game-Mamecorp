@@ -6406,7 +6406,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.00091552734}
+  m_AnchoredPosition: {x: 0, y: -0.0009765625}
   m_SizeDelta: {x: -1046.402, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &109850789
@@ -54286,6 +54286,7 @@ MonoBehaviour:
   attack: {fileID: 0}
   hp: {fileID: 0}
   speed: {fileID: 0}
+  notifyCardsTxt: {fileID: 0}
 --- !u!1 &1194738049
 GameObject:
   m_ObjectHideFlags: 0
@@ -75004,6 +75005,7 @@ GameObject:
   - component: {fileID: 1882360797}
   - component: {fileID: 1882360796}
   - component: {fileID: 1882360795}
+  - component: {fileID: 1882360799}
   m_Layer: 5
   m_Name: RankingCanvas
   m_TagString: Untagged
@@ -75096,6 +75098,21 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1882360799
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1882360794}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14fb42454d395204eb00fddb60e68596, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playersList: []
+  playerProfile: {fileID: 0}
+  playersContainer: {fileID: 0}
 --- !u!1 &1885709594
 GameObject:
   m_ObjectHideFlags: 0

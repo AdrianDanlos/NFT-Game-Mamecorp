@@ -4,6 +4,30 @@ using UnityEngine;
 
 public class LeaderboardDB
 {
+    public enum Flag
+    {
+        CHN,
+        DEU,
+        ENG,
+        ESP,
+        FRA,
+        GRE,
+        INA,
+        ITA,
+        JPN,
+        KOR,
+        POL,
+        PRA,
+        PRT,
+        ROU,
+        RUS,
+        SWE,
+        THA,
+        TUR,
+        TWN,
+        UKR
+    }
+
     public static readonly Dictionary<string, Dictionary<string, string>> defaultStats =
     new Dictionary<string, Dictionary<string, string>>
     {

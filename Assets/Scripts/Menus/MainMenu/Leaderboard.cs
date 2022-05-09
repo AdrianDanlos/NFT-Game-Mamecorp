@@ -11,6 +11,7 @@ public class Leaderboard : MonoBehaviour
     public GameObject playersContainer;
 
     string flagName;
+    Fighter player;
 
     // Player GameObject Structure
     // - List_Me
@@ -28,13 +29,18 @@ public class Leaderboard : MonoBehaviour
         playersContainer = GameObject.Find("Content");
 
         GetAllPlayers();
-        ChangeUserFlag("Esp");
+        player = PlayerUtils.FindInactiveFighter();
     }
 
     private void GetAllPlayers()
     {
         for(int i = 0; i < playersContainer.transform.childCount; i++)
             playersList.Add(playersContainer.transform.GetChild(i));
+    }
+
+    private void SetupPlayer()
+    {
+        ChangeUserFlag(LeaderboardDB.Flag.ESP.ToString());
     }
 
     private void ChangeUserFlag(string flagName)

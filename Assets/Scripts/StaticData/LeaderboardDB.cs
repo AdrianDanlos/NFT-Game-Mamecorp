@@ -37,7 +37,7 @@ public class LeaderboardDB
                 {"name", "monstersarius"},
                 {"country", "GRE"},
                 {"trophies", "0"},
-                {"specie", "ORC"},
+                {"specie", "Orc"},
             }
         },
         {
@@ -46,7 +46,7 @@ public class LeaderboardDB
                 {"name", "Turges"},
                 {"country", "ITA"},
                 {"trophies", "0"},
-                {"specie", "OGRE"},
+                {"specie", "Ogre"},
             }
         },
         {
@@ -55,7 +55,7 @@ public class LeaderboardDB
                 {"name", "adamqa"},
                 {"country", "ESP"},
                 {"trophies", "0"},
-                {"specie", "FALLENANGEL1"},
+                {"specie", "FallenAngel1"},
             }
         },
         {
@@ -64,7 +64,7 @@ public class LeaderboardDB
                 {"name", "ellster16"},
                 {"country", "DEU"},
                 {"trophies", "0"},
-                {"specie", "GOLEM1"},
+                {"specie", "Golem1"},
             }
         },
         {
@@ -73,7 +73,7 @@ public class LeaderboardDB
                 {"name", "thenameisG"},
                 {"country", "CHN"},
                 {"trophies", "0"},
-                {"specie", "FALLENANGEL2"},
+                {"specie", "FallenAngel2"},
             }
         },
         {
@@ -82,7 +82,7 @@ public class LeaderboardDB
                 {"name", "Yorphudi"},
                 {"country", "PRT"},
                 {"trophies", "0"},
-                {"specie", "GOBLIN"},
+                {"specie", "Goblin"},
             }
         },
         {
@@ -91,7 +91,7 @@ public class LeaderboardDB
                 {"name", "emf44"},
                 {"country", "KOR"},
                 {"trophies", "0"},
-                {"specie", "FALLENANGEL3"},
+                {"specie", "FallenAngel3"},
             }
         },
         {
@@ -100,7 +100,7 @@ public class LeaderboardDB
                 {"name", "kirisunaKUN"},
                 {"country", "FRA"},
                 {"trophies", "0"},
-                {"specie", "GOBLIN"},
+                {"specie", "Goblin"},
             }
         },
         {
@@ -109,7 +109,7 @@ public class LeaderboardDB
                 {"name", "inkkkk8"},
                 {"country", "RUS"},
                 {"trophies", "0"},
-                {"specie", "GOLEM2"},
+                {"specie", "Golem2"},
             }
         },
         {
@@ -118,7 +118,7 @@ public class LeaderboardDB
                 {"name", "jeje6789"},
                 {"country", "ESP"},
                 {"trophies", "0"},
-                {"specie", "GOLEM1"},
+                {"specie", "Golem1"},
             }
         },
         {
@@ -127,7 +127,7 @@ public class LeaderboardDB
                 {"name", "Crowcifer"},
                 {"country", "fra"},
                 {"trophies", "0"},
-                {"specie", "ORC"},
+                {"specie", "Orc"},
             }
         },
         {
@@ -136,7 +136,7 @@ public class LeaderboardDB
                 {"name", "IISilverIII"},
                 {"country", "SWE"},
                 {"trophies", "0"},
-                {"specie", "FALLENANGEL1"},
+                {"specie", "FallenAngel1"},
             }
         },
         {
@@ -145,7 +145,7 @@ public class LeaderboardDB
                 {"name", "Stoner8008"},
                 {"country", "ITA"},
                 {"trophies", "0"},
-                {"specie", "GOLEM3"},
+                {"specie", "Golem3"},
             }
         },
         {
@@ -154,7 +154,7 @@ public class LeaderboardDB
                 {"name", "EloiseJolie"},
                 {"country", "FRA"},
                 {"trophies", "0"},
-                {"specie", "GOBLIN"},
+                {"specie", "Goblin"},
             }
         },
         {
@@ -163,7 +163,7 @@ public class LeaderboardDB
                 {"name", "huda khatib"},
                 {"country", "TUR"},
                 {"trophies", "0"},
-                {"specie", "OGRE"},
+                {"specie", "Ogre"},
             }
         },
     };

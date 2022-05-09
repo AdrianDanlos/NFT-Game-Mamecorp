@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -12,7 +13,7 @@ public class Leaderboard : MonoBehaviour
     public GameObject playersContainer;
 
     // variables
-    string flagName;
+    string flagName = "FRA";
     Fighter player;
     Dictionary<string, Dictionary<string, string>> usersDB;
 
@@ -29,7 +30,7 @@ public class Leaderboard : MonoBehaviour
     private void Awake()
     {
         playerProfile = GameObject.Find("List_Me_Player");
-        playerPrefab = GameObject.Find("List_Me_Player");
+        playerPrefab = GameObject.Find("List_Me");
         playersContainer = GameObject.Find("Content");
 
         // user
@@ -41,6 +42,15 @@ public class Leaderboard : MonoBehaviour
         GenerateDB();
     }
 
+    private void Update()
+    {
+        if (CanUpdateLeaderboard())
+        {
+            UpdateDB();
+            LeaderboardDB.UpdateDB();
+        }
+    }
+
     private void GetDB()
     {
         usersDB = LeaderboardDB.players;
@@ -48,7 +58,42 @@ public class Leaderboard : MonoBehaviour
 
     private void GenerateDB()
     {
+        foreach (KeyValuePair<string, Dictionary<string, string>> user in usersDB)
+        {
+            Debug.Log(user.Key);
+            SetupOtherPlayer(user);
+            // set up prefab
+            Instantiate(playerPrefab, playerPrefab.transform.parent);
+        }
+    }
 
+    private void UpdateDB()
+    {
+        PlayerPrefs.SetString("leaderboardUpdate", DateTime.Now.AddSeconds(10).ToBinary().ToString());
+        PlayerPrefs.Save();
+    }
+
+    public bool CanUpdateLeaderboard()
+    {
+        if (PlayerPrefs.GetString("leaderboardUpdate") != "")
+            return DateTime.Compare(DateTime.FromBinary(Convert.ToInt64(PlayerPrefs.GetString("leaderboardUpdate"))), DateTime.Now) <= 0;
+
+        return false;
+    }
+
+    private void SetupOtherPlayer(KeyValuePair<string, Dictionary<string, string>> user)
+    {
+        playerPrefab.transform.GetChild(2).GetComponent<Image>().sprite = GetFlagByName(user.Value["country"]);
+
+        playerPrefab.transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = player.fighterName;
+
+        playerPrefab.transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = User.Instance.elo.ToString();
+
+        playerPrefab.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = 1.ToString();
+
+        playerPrefab.transform.GetChild(1).GetChild(0).GetChild(0).gameObject.GetComponent<Image>().sprite = MenuUtils.GetProfilePicture(player.species);
+
+        // if it's top 3 enable medal and disable text
     }
 
     private void SetupPlayer()

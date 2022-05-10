@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+using UnityEngine.SceneManagement;
 
 public class AudioManager : MonoBehaviour
 {
@@ -37,6 +38,14 @@ public class AudioManager : MonoBehaviour
     {
         if (!IsSourcePlaying("Theme"))
             Play("Theme");
+    }
+
+    private void Update()
+    {
+        // TODO
+        // on main menu allow to change music & sound settings
+        if (SceneManager.GetActiveScene().name.Contains("MainMenu"))
+            Debug.Log("true");
     }
 
     public void Play(string name)

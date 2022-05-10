@@ -27,6 +27,7 @@ public class AudioManager : MonoBehaviour
             s.source.volume = s.volume;
             s.source.playOnAwake = false;
 
+            // loop main themes, rest don't
             if (s.clip.name.Contains("main_theme") || s.clip.name.Contains("waiting"))
             {
                 s.source.loop = true;
@@ -36,16 +37,16 @@ public class AudioManager : MonoBehaviour
 
     private void Start()
     {
-        if (!IsSourcePlaying("Theme"))
-            Play("Theme");
+        if (!IsSourcePlaying("Waiting"))
+            Play("Waiting");
     }
 
     private void Update()
     {
         // TODO
         // on main menu allow to change music & sound settings
-        if (SceneManager.GetActiveScene().name.Contains("MainMenu"))
-            Debug.Log("true");
+        //if (SceneManager.GetActiveScene().name.Contains("MainMenu"))
+            // TODO
     }
 
     public void Play(string name)
@@ -88,5 +89,14 @@ public class AudioManager : MonoBehaviour
         if (s == null)
             return false;
         return s.source.isPlaying;
+    }
+
+    public void ChangeVolume(string name, float volume)
+    {
+        Sound s = Array.Find(sounds, sound => sound.name == name);
+        if (s == null)
+            return;
+
+        s.source.volume = volume;
     }
 }

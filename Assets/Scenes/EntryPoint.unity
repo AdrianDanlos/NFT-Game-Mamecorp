@@ -2236,7 +2236,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f21097bbab59e4468d7b9ead8ffa8f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sounds: []
+  sounds:
+  - name: Theme
+    clip: {fileID: 8300000, guid: 183703280e9c06a4194164d1fa7be7d9, type: 3}
+    volume: 0.5
+    source: {fileID: 0}
+  - name: Waiting
+    clip: {fileID: 8300000, guid: bded826cb8265b545b09d3dc3d0cacdc, type: 3}
+    volume: 0.5
+    source: {fileID: 0}
+  - name: Test
+    clip: {fileID: 8300000, guid: 37a9bb49f325c744e87d6f9513c34a23, type: 3}
+    volume: 0.5
+    source: {fileID: 0}
 --- !u!4 &2070570573
 Transform:
   m_ObjectHideFlags: 0

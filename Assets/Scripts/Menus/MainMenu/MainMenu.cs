@@ -36,6 +36,10 @@ public class MainMenu : MonoBehaviour
 
     void Awake()
     {
+        // Music
+        // FindObjectOfType<AudioManager>().Play("Theme");
+        // FindObjectOfType<AudioManager>().PlayClipAtPoint("Test", transform.position);
+
         settings = GameObject.Find("Settings");
         dailyGiftCanvas = GameObject.Find("DailyRewardsCanvas");
         rankingCanvas = GameObject.Find("RankingCanvas");

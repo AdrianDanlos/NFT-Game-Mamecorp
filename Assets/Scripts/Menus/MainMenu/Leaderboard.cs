@@ -14,7 +14,6 @@ public class Leaderboard : MonoBehaviour
     public GameObject playersContainer;
 
     // variables
-    string flagName = "FRA";
     Fighter player;
     Dictionary<string, Dictionary<string, string>> usersDB;
     Dictionary<string, int> orderedDB;
@@ -47,12 +46,14 @@ public class Leaderboard : MonoBehaviour
 
     private void Update()
     {
-        /*
         if (CanUpdateLeaderboard())
-            {
-                UpdateDB();
-            }
-        */
+        {
+            ResetLadder();
+            LeaderboardDB.UpdateDB();
+            UpdateDB();
+            GenerateDB();
+            Debug.Log("Ladder updated");
+        }
     }
 
     private void GetDB()
@@ -74,7 +75,6 @@ public class Leaderboard : MonoBehaviour
             {
                 if (int.Parse(user.Key) == orderedDBkey)
                 {
-                    Debug.Log(user.Key + " " + orderedDBkey);
                     SetupOtherPlayer(user, ranking);
                     Instantiate(playerPrefab, playersContainer.transform);
                     ranking++;
@@ -95,13 +95,19 @@ public class Leaderboard : MonoBehaviour
 
     private void UpdateDB()
     {
-        PlayerPrefs.SetString("leaderboardUpdate", DateTime.Now.AddSeconds(10).ToBinary().ToString());
+        PlayerPrefs.SetString("leaderboardUpdate", DateTime.Now.AddSeconds(3).ToBinary().ToString());
         PlayerPrefs.Save();
     }
 
     public bool CanUpdateLeaderboard()
     {
-        if (PlayerPrefs.GetString("leaderboardUpdate") != "")
+        if (!PlayerPrefs.HasKey("leaderboardUpdate"))
+        {
+            PlayerPrefs.SetString("leaderboardUpdate", DateTime.Now.AddSeconds(3).ToBinary().ToString());
+            PlayerPrefs.Save();
+        }
+
+        if (PlayerPrefs.HasKey("leaderboardUpdate"))
             return DateTime.Compare(DateTime.FromBinary(Convert.ToInt64(PlayerPrefs.GetString("leaderboardUpdate"))), DateTime.Now) <= 0;
 
         return false;
@@ -175,11 +181,25 @@ public class Leaderboard : MonoBehaviour
     private void SetupUserRanking()
     {
         // TODO calc ranking
-        playerProfile.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = 1.ToString();
+        playerProfile.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = 50.ToString();
     }
 
     private void SetupUserSprite()
     {
         MenuUtils.SetProfilePicture(playerProfile.transform.GetChild(1).GetChild(0).GetChild(0).gameObject);
+    }
+
+    private void ResetLadder()
+    {
+        // TODO update player too
+        List<Transform> users = new List<Transform>();
+
+        for(int i = 0; i < playersContainer.transform.childCount; i++)
+            users.Add(playersContainer.transform.GetChild(i));
+
+        foreach (Transform user in users)
+        {
+            user.gameObject.SetActive(false);
+        }
     }
 }

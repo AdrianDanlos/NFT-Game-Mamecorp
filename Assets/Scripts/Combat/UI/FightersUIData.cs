@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using System.Collections;
 
 public class FightersUIData : MonoBehaviour
 {
@@ -25,6 +26,44 @@ public class FightersUIData : MonoBehaviour
     public GameObject gemsRewardGO;
     public GameObject chestRewardGO;
     public GameObject nextButtonGO;
+    
+    // health bar animations
+    public GameObject playerHealthBarFadeGO;
+    public GameObject botHealthBarFadeGO;
+    public float previousPlayerHp = 1f;
+    public float previousBotHp = 1f;
+
+    IEnumerator HealthAnimation(bool isPlayer, float health, float maxHealth, GameObject healthBarFade)
+    {
+        Image healthBarFadeSliderValue = healthBarFade.GetComponent<Image>();
+        float newHp = health / maxHealth;
+        
+
+        if(newHp > 0)
+        {
+            do
+            {
+                yield return new WaitForSeconds(0.1f);
+                if (isPlayer)
+                    healthBarFadeSliderValue.fillAmount -= (previousPlayerHp - newHp) / 5;
+                else
+                    healthBarFadeSliderValue.fillAmount -= (previousBotHp - newHp) / 5;
+
+            } while (healthBarFadeSliderValue.fillAmount > newHp);
+        }
+
+        if (isPlayer)
+            previousPlayerHp = newHp;
+        else
+            previousBotHp = newHp;
+    }
+
+    private void SetHealthBarValue(GameObject healthBar, Fighter fighter, float maxHealth)
+    {
+
+        healthBar.GetComponent<Slider>().value = fighter.hp / maxHealth;
+    }
+
 
     private void AddListenerToNextBtn(bool isLevelUp) {
         nextButtonGO.GetComponent<Button>().onClick.AddListener(() => OnClickNextHandler(isLevelUp));
@@ -76,15 +115,16 @@ public class FightersUIData : MonoBehaviour
     {
         if (isPlayerTargetOfHealthChange)
         {
-            SetHealthBarValue(playerHealthBarGO, fighter, playerMaxHealth);
+            SetHealthBarValue(isPlayerTargetOfHealthChange, playerHealthBarFadeGO, playerHealthBarGO, fighter, playerMaxHealth);
             return;
         }
 
-        SetHealthBarValue(botHealthBarGO, fighter, botMaxHealth);
+        SetHealthBarValue(isPlayerTargetOfHealthChange, botHealthBarFadeGO, botHealthBarGO, fighter, botMaxHealth);
     }
 
-    private void SetHealthBarValue(GameObject healthBar, Fighter fighter, float maxHealth)
+    private void SetHealthBarValue(bool isPlayer, GameObject healthBarFade, GameObject healthBar, Fighter fighter, float maxHealth)
     {
+        StartCoroutine(HealthAnimation(isPlayer, fighter.hp, maxHealth, healthBarFade));
         healthBar.GetComponent<Slider>().value = fighter.hp / maxHealth;
     }
 

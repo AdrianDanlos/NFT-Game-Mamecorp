@@ -36,7 +36,7 @@ public class LeaderboardDB
             new Dictionary<string, string>{
                 {"name", "monstersarius"},
                 {"country", "GRE"},
-                {"trophies", "0"},
+                {"trophies", "100"},
                 {"specie", "Orc"},
             }
         },
@@ -45,7 +45,7 @@ public class LeaderboardDB
             new Dictionary<string, string>{
                 {"name", "Turges"},
                 {"country", "ITA"},
-                {"trophies", "0"},
+                {"trophies", "100"},
                 {"specie", "Ogre"},
             }
         },
@@ -54,7 +54,7 @@ public class LeaderboardDB
             new Dictionary<string, string>{
                 {"name", "adamqa"},
                 {"country", "ESP"},
-                {"trophies", "0"},
+                {"trophies", "100"},
                 {"specie", "FallenAngel1"},
             }
         },
@@ -63,7 +63,7 @@ public class LeaderboardDB
             new Dictionary<string, string>{
                 {"name", "ellster16"},
                 {"country", "DEU"},
-                {"trophies", "0"},
+                {"trophies", "100"},
                 {"specie", "Golem1"},
             }
         },
@@ -72,7 +72,7 @@ public class LeaderboardDB
             new Dictionary<string, string>{
                 {"name", "thenameisG"},
                 {"country", "CHN"},
-                {"trophies", "0"},
+                {"trophies", "100"},
                 {"specie", "FallenAngel2"},
             }
         },
@@ -81,7 +81,7 @@ public class LeaderboardDB
             new Dictionary<string, string>{
                 {"name", "Yorphudi"},
                 {"country", "PRT"},
-                {"trophies", "0"},
+                {"trophies", "100"},
                 {"specie", "Goblin"},
             }
         },
@@ -90,7 +90,7 @@ public class LeaderboardDB
             new Dictionary<string, string>{
                 {"name", "emf44"},
                 {"country", "KOR"},
-                {"trophies", "0"},
+                {"trophies", "100"},
                 {"specie", "FallenAngel3"},
             }
         },
@@ -99,7 +99,7 @@ public class LeaderboardDB
             new Dictionary<string, string>{
                 {"name", "kirisunaKUN"},
                 {"country", "FRA"},
-                {"trophies", "0"},
+                {"trophies", "100"},
                 {"specie", "Goblin"},
             }
         },
@@ -108,7 +108,7 @@ public class LeaderboardDB
             new Dictionary<string, string>{
                 {"name", "inkkkk8"},
                 {"country", "RUS"},
-                {"trophies", "0"},
+                {"trophies", "100"},
                 {"specie", "Golem2"},
             }
         },
@@ -117,7 +117,7 @@ public class LeaderboardDB
             new Dictionary<string, string>{
                 {"name", "jeje6789"},
                 {"country", "ESP"},
-                {"trophies", "0"},
+                {"trophies", "100"},
                 {"specie", "Golem1"},
             }
         },
@@ -126,7 +126,7 @@ public class LeaderboardDB
             new Dictionary<string, string>{
                 {"name", "Crowcifer"},
                 {"country", "fra"},
-                {"trophies", "0"},
+                {"trophies", "100"},
                 {"specie", "Orc"},
             }
         },
@@ -135,7 +135,7 @@ public class LeaderboardDB
             new Dictionary<string, string>{
                 {"name", "IISilverIII"},
                 {"country", "SWE"},
-                {"trophies", "0"},
+                {"trophies", "100"},
                 {"specie", "FallenAngel1"},
             }
         },
@@ -144,7 +144,7 @@ public class LeaderboardDB
             new Dictionary<string, string>{
                 {"name", "Stoner8008"},
                 {"country", "ITA"},
-                {"trophies", "0"},
+                {"trophies", "100"},
                 {"specie", "Golem3"},
             }
         },
@@ -153,7 +153,7 @@ public class LeaderboardDB
             new Dictionary<string, string>{
                 {"name", "EloiseJolie"},
                 {"country", "FRA"},
-                {"trophies", "0"},
+                {"trophies", "100"},
                 {"specie", "Goblin"},
             }
         },
@@ -162,29 +162,63 @@ public class LeaderboardDB
             new Dictionary<string, string>{
                 {"name", "huda khatib"},
                 {"country", "TUR"},
-                {"trophies", "0"},
+                {"trophies", "100"},
                 {"specie", "Ogre"},
             }
         },
     };
 
-    public static void UpdateDB()
+    public static void UpdateDB(int player)
     {
-        PlayerPrefs.SetInt("player001", Random.Range(50, 100));
-        PlayerPrefs.SetInt("player002", Random.Range(-10, 30));
-        PlayerPrefs.SetInt("player003", Random.Range(50, 100));
-        PlayerPrefs.SetInt("player004", Random.Range(20, 60));
-        PlayerPrefs.SetInt("player005", Random.Range(50, 100));
-        PlayerPrefs.SetInt("player006", Random.Range(-10, 30));
-        PlayerPrefs.SetInt("player007", Random.Range(20, 60));
-        PlayerPrefs.SetInt("player008", Random.Range(50, 100));
-        PlayerPrefs.SetInt("player009", Random.Range(50, 100));
-        PlayerPrefs.SetInt("player010", Random.Range(20, 60));
-        PlayerPrefs.SetInt("player011", Random.Range(-10, 10));
-        PlayerPrefs.SetInt("player012", Random.Range(50, 100));
-        PlayerPrefs.SetInt("player013", Random.Range(50, 100));
-        PlayerPrefs.SetInt("player014", Random.Range(-10, 10));
-        PlayerPrefs.SetInt("player015", Random.Range(20, 60));
+        switch (player)
+        {
+            case 001:
+                PlayerPrefs.SetInt("player" + player, Random.Range(50, 100));
+                break;
+            case 002:
+                PlayerPrefs.SetInt("player" + player, Random.Range(-10, 30));
+                break;
+            case 003:
+                PlayerPrefs.SetInt("player" + player, Random.Range(50, 100));
+                break;
+            case 004:
+                PlayerPrefs.SetInt("player" + player, Random.Range(20, 60));
+                break;
+            case 005:
+                PlayerPrefs.SetInt("player" + player, Random.Range(-10, 30));
+                break;
+            case 006:
+                PlayerPrefs.SetInt("player" + player, Random.Range(50, 100));
+                break;
+            case 007:
+                PlayerPrefs.SetInt("player" + player, Random.Range(50, 100));
+                break;
+            case 008:
+                PlayerPrefs.SetInt("player" + player, Random.Range(50, 100));
+                break;
+            case 009:
+                PlayerPrefs.SetInt("player" + player, Random.Range(50, 100));
+                break;
+            case 010:
+                PlayerPrefs.SetInt("player" + player, Random.Range(20, 60));
+                break;
+            case 011:
+                PlayerPrefs.SetInt("player" + player, Random.Range(-10, 10));
+                break;
+            case 012:
+                PlayerPrefs.SetInt("player" + player, Random.Range(50, 100));
+                break;
+            case 013:
+                PlayerPrefs.SetInt("player" + player, Random.Range(50, 100));
+                break;
+            case 014:
+                PlayerPrefs.SetInt("player" + player, Random.Range(-10, 10));
+                break;
+            case 015:
+                PlayerPrefs.SetInt("player" + player, Random.Range(20, 60));
+                break;
+        }
+
         PlayerPrefs.Save();
     }
 }

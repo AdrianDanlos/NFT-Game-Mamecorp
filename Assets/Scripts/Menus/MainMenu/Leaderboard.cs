@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,6 +17,7 @@ public class Leaderboard : MonoBehaviour
     string flagName = "FRA";
     Fighter player;
     Dictionary<string, Dictionary<string, string>> usersDB;
+    Dictionary<string, string> orderedDB;
 
     // Player GameObject Structure
     // - List_Me
@@ -30,7 +32,6 @@ public class Leaderboard : MonoBehaviour
     private void Awake()
     {
         playerProfile = GameObject.Find("List_Me_Player");
-        playerPrefab = GameObject.Find("List_Me");
         playersContainer = GameObject.Find("Content");
 
         // user
@@ -47,7 +48,6 @@ public class Leaderboard : MonoBehaviour
         if (CanUpdateLeaderboard())
         {
             UpdateDB();
-            LeaderboardDB.UpdateDB();
         }
     }
 
@@ -58,13 +58,27 @@ public class Leaderboard : MonoBehaviour
 
     private void GenerateDB()
     {
+        int ranking = 1;
+
         foreach (KeyValuePair<string, Dictionary<string, string>> user in usersDB)
         {
-            Debug.Log(user.Key);
-            SetupOtherPlayer(user);
-            // set up prefab
-            Instantiate(playerPrefab, playerPrefab.transform.parent);
+            SetupOtherPlayer(user, ranking);
+            Instantiate(playerPrefab, playersContainer.transform);
+            ranking++;
         }
+
+        OrderDB();
+    }
+
+    private void OrderDB()
+    {
+        orderedDB = new Dictionary<string, string>();
+
+        foreach (KeyValuePair<string, Dictionary<string, string>> user in usersDB)
+            orderedDB.Add(user.Key, user.Value["trophies"]);
+
+        foreach (KeyValuePair<string, string> user in orderedDB.OrderBy(key => key.Value))
+            Debug.Log("Key: {0}, Value: {1}" +  user.Key + user.Value);
     }
 
     private void UpdateDB()
@@ -81,19 +95,40 @@ public class Leaderboard : MonoBehaviour
         return false;
     }
 
-    private void SetupOtherPlayer(KeyValuePair<string, Dictionary<string, string>> user)
+    private void SetupOtherPlayer(KeyValuePair<string, Dictionary<string, string>> user, int ranking)
     {
         playerPrefab.transform.GetChild(2).GetComponent<Image>().sprite = GetFlagByName(user.Value["country"]);
+        playerPrefab.transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = user.Value["name"];
+        playerPrefab.transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = user.Value["trophies"];
+        playerPrefab.transform.GetChild(1).GetChild(0).GetChild(0).gameObject.GetComponent<Image>().sprite = MenuUtils.GetProfilePicture(user.Value["specie"]);
 
-        playerPrefab.transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = player.fighterName;
+        if (ranking == 1)
+        {
+            playerPrefab.transform.GetChild(0).GetComponent<TextMeshProUGUI>().enabled = false;
+            playerPrefab.transform.GetChild(6).GetComponent<Image>().enabled = true;
+            playerPrefab.transform.GetChild(6).GetComponent<Image>().sprite = Resources.Load<Sprite>("Medals/Medal_Gold");
+        }
 
-        playerPrefab.transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = User.Instance.elo.ToString();
-
-        playerPrefab.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = 1.ToString();
-
-        playerPrefab.transform.GetChild(1).GetChild(0).GetChild(0).gameObject.GetComponent<Image>().sprite = MenuUtils.GetProfilePicture(player.species);
-
-        // if it's top 3 enable medal and disable text
+        if (ranking == 2)
+        {
+            playerPrefab.transform.GetChild(0).GetComponent<TextMeshProUGUI>().enabled = false;
+            playerPrefab.transform.GetChild(6).GetComponent<Image>().enabled = true;
+            playerPrefab.transform.GetChild(6).GetComponent<RectTransform>().sizeDelta = new Vector2(111, 108);
+            playerPrefab.transform.GetChild(6).GetComponent<Image>().sprite = Resources.Load<Sprite>("Medals/Medal_Silver");
+        }
+        if (ranking == 3)
+        {
+            playerPrefab.transform.GetChild(0).GetComponent<TextMeshProUGUI>().enabled = false;
+            playerPrefab.transform.GetChild(6).GetComponent<Image>().enabled = true;
+            playerPrefab.transform.GetChild(6).GetComponent<RectTransform>().sizeDelta = new Vector2(82, 108);
+            playerPrefab.transform.GetChild(6).GetComponent<Image>().sprite = Resources.Load<Sprite>("Medals/Medal_Bronze");
+        }
+        if (ranking > 3)
+        {
+            playerPrefab.transform.GetChild(0).GetComponent<TextMeshProUGUI>().enabled = true;
+            playerPrefab.transform.GetChild(6).GetComponent<Image>().enabled = false;
+            playerPrefab.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = ranking.ToString();
+        }
     }
 
     private void SetupPlayer()

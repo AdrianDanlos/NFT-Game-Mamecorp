@@ -17,7 +17,8 @@ public class Leaderboard : MonoBehaviour
     string flagName = "FRA";
     Fighter player;
     Dictionary<string, Dictionary<string, string>> usersDB;
-    Dictionary<string, string> orderedDB;
+    Dictionary<string, int> orderedDB;
+    List<KeyValuePair<string, int>> newDict;
 
     // Player GameObject Structure
     // - List_Me
@@ -40,15 +41,18 @@ public class Leaderboard : MonoBehaviour
 
         // ranking
         GetDB();
+        LeaderboardDB.UpdateDB();
         GenerateDB();
     }
 
     private void Update()
     {
+        /*
         if (CanUpdateLeaderboard())
-        {
-            UpdateDB();
-        }
+            {
+                UpdateDB();
+            }
+        */
     }
 
     private void GetDB()
@@ -58,27 +62,35 @@ public class Leaderboard : MonoBehaviour
 
     private void GenerateDB()
     {
-        int ranking = 1;
-
-        foreach (KeyValuePair<string, Dictionary<string, string>> user in usersDB)
-        {
-            SetupOtherPlayer(user, ranking);
-            Instantiate(playerPrefab, playersContainer.transform);
-            ranking++;
-        }
-
         OrderDB();
+        int ranking = 1;
+        int orderedDBkey;
+
+        for(int i = 0; i < newDict.Count; i++)
+        {
+            orderedDBkey = int.Parse(newDict.ElementAt(i).Key);
+
+            foreach (KeyValuePair<string, Dictionary<string, string>> user in usersDB)
+            {
+                if (int.Parse(user.Key) == orderedDBkey)
+                {
+                    Debug.Log(user.Key + " " + orderedDBkey);
+                    SetupOtherPlayer(user, ranking);
+                    Instantiate(playerPrefab, playersContainer.transform);
+                    ranking++;
+                }
+            }
+        }
     }
 
     private void OrderDB()
     {
-        orderedDB = new Dictionary<string, string>();
+        orderedDB = new Dictionary<string, int>();
 
         foreach (KeyValuePair<string, Dictionary<string, string>> user in usersDB)
-            orderedDB.Add(user.Key, user.Value["trophies"]);
+            orderedDB.Add(user.Key, LeaderboardDB.GetUserTrophies(user.Key));
 
-        foreach (KeyValuePair<string, string> user in orderedDB.OrderBy(key => key.Value))
-            Debug.Log("Key: {0}, Value: {1}" +  user.Key + user.Value);
+        newDict = orderedDB.OrderByDescending(user => user.Value).ToList();
     }
 
     private void UpdateDB()
@@ -99,7 +111,7 @@ public class Leaderboard : MonoBehaviour
     {
         playerPrefab.transform.GetChild(2).GetComponent<Image>().sprite = GetFlagByName(user.Value["country"]);
         playerPrefab.transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = user.Value["name"];
-        playerPrefab.transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = user.Value["trophies"];
+        playerPrefab.transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = LeaderboardDB.GetUserTrophies(user.Key).ToString();
         playerPrefab.transform.GetChild(1).GetChild(0).GetChild(0).gameObject.GetComponent<Image>().sprite = MenuUtils.GetProfilePicture(user.Value["specie"]);
 
         if (ranking == 1)

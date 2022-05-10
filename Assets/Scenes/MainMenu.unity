@@ -6625,7 +6625,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &148763724
 RectTransform:
   m_ObjectHideFlags: 0
@@ -13809,6 +13809,7 @@ GameObject:
   m_Component:
   - component: {fileID: 296827660}
   - component: {fileID: 296827661}
+  - component: {fileID: 296827662}
   m_Layer: 5
   m_Name: Settings
   m_TagString: Untagged
@@ -13847,6 +13848,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a8276f1aeed49644b93d2bdef0b92eb5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &296827662
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 296827659}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 147057431d608ea4a84c896695da4b07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &300874722
@@ -19771,7 +19784,7 @@ GameObject:
   - component: {fileID: 412674171}
   - component: {fileID: 412674170}
   m_Layer: 5
-  m_Name: Slider
+  m_Name: SliderMusic
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -19844,8 +19857,8 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1238484643}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 1
-  m_WholeNumbers: 0
+  m_MaxValue: 10
+  m_WholeNumbers: 1
   m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -25662,7 +25675,7 @@ GameObject:
   m_Component:
   - component: {fileID: 484046762}
   m_Layer: 5
-  m_Name: List
+  m_Name: ListSounds
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -37116,7 +37129,7 @@ GameObject:
   m_Component:
   - component: {fileID: 934036489}
   m_Layer: 5
-  m_Name: List
+  m_Name: ListMusic
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -37951,12 +37964,12 @@ GameObject:
   m_Component:
   - component: {fileID: 987885458}
   m_Layer: 5
-  m_Name: List
+  m_Name: ListVibration
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &987885458
 RectTransform:
   m_ObjectHideFlags: 0
@@ -37974,10 +37987,10 @@ RectTransform:
   m_Father: {fileID: 1267449537}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 180}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 388.16248, y: -474.8}
+  m_SizeDelta: {x: 776.32495, y: 180}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &988761788
 GameObject:
@@ -38275,7 +38288,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 739.55975, y: 0}
   m_SizeDelta: {x: 1479.1195, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &990340787
@@ -53732,7 +53745,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1341782528
 RectTransform:
   m_ObjectHideFlags: 0
@@ -66700,7 +66713,7 @@ GameObject:
   - component: {fileID: 1606263087}
   - component: {fileID: 1606263086}
   m_Layer: 5
-  m_Name: Slider
+  m_Name: SliderSounds
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -66773,8 +66786,8 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1632171413}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 1
-  m_WholeNumbers: 0
+  m_MaxValue: 10
+  m_WholeNumbers: 1
   m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -70089,7 +70102,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 739.55975, y: 0}
   m_SizeDelta: {x: 1479.1195, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1850596500

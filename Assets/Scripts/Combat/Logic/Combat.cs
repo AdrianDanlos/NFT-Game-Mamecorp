@@ -68,6 +68,7 @@ public class Combat : MonoBehaviour
         FighterSkin.SetFightersSkin(player, bot);
         FighterAnimations.ResetToDefaultAnimation(player);
         fightersUIDataScript.SetFightersUIInfo(player, bot, botElo);
+        fightersUIDataScript.HidePortraitsUI();
     }
 
     IEnumerator Start()
@@ -77,6 +78,9 @@ public class Combat : MonoBehaviour
         // loadingScreen.SetBotLoadingScreenData(bot);
         // yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(2f));
         yield return null; //remove
+
+        // UI
+        fightersUIDataScript.ShowPortraitsUI();
         
         ToggleLoadingScreenVisibility(false);
         StartCoroutine(InitiateCombat());

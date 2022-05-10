@@ -85,6 +85,22 @@ public class FightersUIData : MonoBehaviour
         this.botMaxHealth = botMaxHealth;
     }
 
+    public void HidePortraitsUI()
+    {
+        playerPortrait.SetActive(false);
+        botPortrait.SetActive(false);
+        playerPortraitFrame.SetActive(false);
+        botPortraitFrame.SetActive(false);
+    }
+
+    public void ShowPortraitsUI()
+    {
+        playerPortrait.SetActive(true);
+        botPortrait.SetActive(true);
+        playerPortraitFrame.SetActive(true);
+        botPortraitFrame.SetActive(true);
+    }
+
     public void ModifyHealthBar(Fighter fighter, bool isPlayerTargetOfHealthChange)
     {
         if (isPlayerTargetOfHealthChange)
@@ -130,12 +146,16 @@ public class FightersUIData : MonoBehaviour
 
     public void FighterHitPortraitAnimation(bool isPlayerTargetOfHealthChange)
     {
+        // TODO dont do animation when health restored
+        // need to do double animation to fix not playing onAwake
         if (isPlayerTargetOfHealthChange)
         {
+            playerPortraitFrame.GetComponent<Animator>().SetTrigger("GetDamage");
             playerPortraitFrame.GetComponent<Animator>().SetTrigger("GetDamage");
             return;
         }
 
+        botPortraitFrame.GetComponent<Animator>().SetTrigger("GetDamage");
         botPortraitFrame.GetComponent<Animator>().SetTrigger("GetDamage");
     }
 

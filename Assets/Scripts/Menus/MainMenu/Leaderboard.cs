@@ -124,6 +124,7 @@ public class Leaderboard : MonoBehaviour
         {
             playerPrefab.transform.GetChild(0).GetComponent<TextMeshProUGUI>().enabled = false;
             playerPrefab.transform.GetChild(6).GetComponent<Image>().enabled = true;
+            playerPrefab.transform.GetChild(6).GetComponent<RectTransform>().sizeDelta = new Vector2(124, 108);
             playerPrefab.transform.GetChild(6).GetComponent<Image>().sprite = Resources.Load<Sprite>("Medals/Medal_Gold");
         }
 

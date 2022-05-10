@@ -230,19 +230,19 @@ public class LeaderboardDB
     public static void UpdateDB()
     {
         PlayerPrefs.SetInt("player1", PlayerPrefs.GetInt("player1") + Random.Range(50, 100));
-        PlayerPrefs.SetInt("player2", PlayerPrefs.GetInt("player2") + Random.Range(-10, 30));
+        PlayerPrefs.SetInt("player2", PlayerPrefs.GetInt("player2") + Random.Range(0, 30));
         PlayerPrefs.SetInt("player3", PlayerPrefs.GetInt("player3") + Random.Range(50, 100));
         PlayerPrefs.SetInt("player4", PlayerPrefs.GetInt("player4") + Random.Range(20, 60));
-        PlayerPrefs.SetInt("player5", PlayerPrefs.GetInt("player5") + Random.Range(-10, 30));
+        PlayerPrefs.SetInt("player5", PlayerPrefs.GetInt("player5") + Random.Range(0, 30));
         PlayerPrefs.SetInt("player6", PlayerPrefs.GetInt("player6") + Random.Range(50, 100));
         PlayerPrefs.SetInt("player7", PlayerPrefs.GetInt("player7") + Random.Range(50, 100));
         PlayerPrefs.SetInt("player8", PlayerPrefs.GetInt("player8") + Random.Range(50, 100));
         PlayerPrefs.SetInt("player9", PlayerPrefs.GetInt("player9") + Random.Range(50, 100));
         PlayerPrefs.SetInt("player10", PlayerPrefs.GetInt("player10") + Random.Range(20, 60));
-        PlayerPrefs.SetInt("player11", PlayerPrefs.GetInt("player11") + Random.Range(-10, 10));
+        PlayerPrefs.SetInt("player11", PlayerPrefs.GetInt("player11") + Random.Range(0, 10));
         PlayerPrefs.SetInt("player12", PlayerPrefs.GetInt("player12") + Random.Range(50, 100));
         PlayerPrefs.SetInt("player13", PlayerPrefs.GetInt("player13") + Random.Range(50, 100));
-        PlayerPrefs.SetInt("player14", PlayerPrefs.GetInt("player14") + Random.Range(-10, 10));
+        PlayerPrefs.SetInt("player14", PlayerPrefs.GetInt("player14") + Random.Range(0, 10));
         PlayerPrefs.SetInt("player15", PlayerPrefs.GetInt("player15") + Random.Range(20, 60));
 
         PlayerPrefs.Save();

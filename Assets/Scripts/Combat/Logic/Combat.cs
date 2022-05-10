@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Collections.Specialized;
 using System;
+using UnityEngine.UI;
 
 public class Combat : MonoBehaviour
 {
@@ -161,6 +162,12 @@ public class Combat : MonoBehaviour
 
         botDestinationPosition.x += distanceAwayFromEachOtherOnAttack;
         bot.destinationPosition = botDestinationPosition;
+    }
+
+    public void SetFightersPortrait(GameObject playerPortrait, GameObject botPortrait)
+    {
+        playerPortrait.GetComponent<Image>().sprite = Resources.Load<Sprite>("CharacterProfilePicture/" + player.species);
+        botPortrait.GetComponent<Image>().sprite = Resources.Load<Sprite>("CharacterProfilePicture/" + bot.species);
     }
 
     IEnumerator InitiateCombat()

@@ -18,6 +18,7 @@ public class Contact : MonoBehaviour
     [System.Obsolete]
     private void OnClickOpenMail()
     {
+        // TODO change email in future
         string email = "mamecorp@gmail.com";
         string subject = MyEscapeURL("Fight Game");
         string body = MyEscapeURL("");

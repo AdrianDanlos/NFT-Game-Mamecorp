@@ -9,11 +9,8 @@ public class Contact : MonoBehaviour
     private void Awake()
     {
         contactBtn = GameObject.Find("Button_Support");
-
         contactBtn.GetComponent<Button>().onClick.AddListener(() => OnClickOpenMail());
     }
-
-    // It has to be sanitized or else it will crash silently
 
     [System.Obsolete]
     private void OnClickOpenMail()
@@ -28,6 +25,8 @@ public class Contact : MonoBehaviour
     [System.Obsolete]
     string MyEscapeURL(string url)
     {
+        // WWW class is deprecated
+        // It has to be sanitized or else it will crash silently
         return WWW.EscapeURL(url).Replace("+", "%20");
     }
 }

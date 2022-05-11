@@ -20,7 +20,6 @@ public class User
             return instance;
         }
     }
-    // add pic var
 
     private string _userName;
     private string _userIcon;

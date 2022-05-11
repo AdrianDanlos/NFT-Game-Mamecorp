@@ -14,8 +14,6 @@ public class OnCreateUser : MonoBehaviour
         JsonDataManager.SaveData(user, JsonDataManager.UserFileName);
     }
 
-    // get random pic
-
     private int GenerateIcon()
     {
         return Random.Range(0, Resources.LoadAll<Sprite>("Icons/UserIcons/").Length) + 1;

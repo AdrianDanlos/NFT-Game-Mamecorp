@@ -9,6 +9,7 @@ public static class JsonDataManager
     private static string savePath = Application.persistentDataPath;
     public const string UserFileName = "user";
     public const string FighterFileName = "fighter";
+    public const string CupFileName = "cup";
     public static void SaveData(JObject data, string fileName)
     {
         System.IO.Directory.CreateDirectory(savePath);

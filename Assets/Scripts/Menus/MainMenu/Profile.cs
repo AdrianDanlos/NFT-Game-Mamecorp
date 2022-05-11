@@ -37,7 +37,6 @@ public class Profile : MonoBehaviour
 
     private void LoadStats()
     {
-        // TODO fighter face
         MenuUtils.SetLevelSlider(levelExp, levelBar, player.level, player.experiencePoints);
         MenuUtils.DisplayLevelIcon(player.level, levelBar);
         MenuUtils.SetName(userName, player.fighterName);

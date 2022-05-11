@@ -187,7 +187,7 @@ public class Leaderboard : MonoBehaviour
 
     private void SetupUserSprite()
     {
-        MenuUtils.SetProfilePicture(playerProfile.transform.GetChild(1).GetChild(0).GetChild(0).gameObject);
+        playerProfile.transform.GetChild(1).GetChild(0).GetChild(0).gameObject.GetComponent<Image>().sprite = MenuUtils.GetProfilePicture(player.species);
     }
 
     private void ResetLadder()

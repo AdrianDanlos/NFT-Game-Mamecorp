@@ -345,6 +345,11 @@ public class Combat : MonoBehaviour
         ProfileData.SaveHighestEnemy(botElo);
     }
 
+    public bool GetGameStatus()
+    {
+        return isGameOver;
+    }
+
     //During the combat the player object experiences a lot of changes so we need to set it back to its default state after the combat.
     private Action ResetPlayerObject = () => player = JsonDataManager.ReadFighterFile();
 }

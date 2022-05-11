@@ -41,6 +41,13 @@ public class FightersUIData : MonoBehaviour
     public GameObject playerIcon;
     public GameObject botIcon;
 
+    private Combat combatScript;
+
+    private void Awake()
+    {
+        combatScript = GetComponent<Combat>();
+    }
+
     private void AddListenerToNextBtn(bool isLevelUp) {
         nextButtonGO.GetComponent<Button>().onClick.AddListener(() => OnClickNextHandler(isLevelUp));
     }
@@ -92,7 +99,7 @@ public class FightersUIData : MonoBehaviour
     private void SetPlayerIcons(GameObject playerIcon, GameObject botIcon)
     {
         playerIcon.GetComponent<Image>().sprite = Resources.Load<Sprite>("Icons/UserIcons/" + User.Instance.userIcon);
-        botIcon.GetComponent<Image>().sprite = Resources.Load<Sprite>("Icons/UserIcons/" + UnityEngine.Random.Range(0, Resources.LoadAll<Sprite>("Icons/UserIcons/").Length));
+        botIcon.GetComponent<Image>().sprite = Resources.Load<Sprite>("Icons/UserIcons/" + (UnityEngine.Random.Range(0, Resources.LoadAll<Sprite>("Icons/UserIcons/").Length) + 1));
     }
 
     public void HidePortraitsUI()
@@ -135,6 +142,8 @@ public class FightersUIData : MonoBehaviour
         Image healthBarFadeSliderValue = healthBarFade.GetComponent<Image>();
         float newHp = health / maxHealth;
 
+        Debug.Log(health + " " + newHp);
+
         if (newHp > 0)
         {
             do
@@ -145,7 +154,12 @@ public class FightersUIData : MonoBehaviour
                 else
                     healthBarFadeSliderValue.fillAmount -= (previousBotHp - newHp) / 5;
 
-            } while (healthBarFadeSliderValue.fillAmount > newHp);
+            } while (healthBarFadeSliderValue.fillAmount > newHp && !combatScript.GetGameStatus());
+        }
+
+        if(newHp <= 0 && !combatScript.GetGameStatus())
+        {
+            healthBarFadeSliderValue.fillAmount = newHp;
         }
 
         if (isPlayer)

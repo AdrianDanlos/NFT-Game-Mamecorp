@@ -18,6 +18,6 @@ public class OnCreateUser : MonoBehaviour
 
     private int GenerateIcon()
     {
-        return Random.Range(0, Resources.LoadAll<Sprite>("Icons/UserIcons/").Length);
+        return Random.Range(0, Resources.LoadAll<Sprite>("Icons/UserIcons/").Length) + 1;
     }
 }

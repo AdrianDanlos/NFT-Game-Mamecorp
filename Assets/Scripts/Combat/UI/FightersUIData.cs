@@ -37,6 +37,10 @@ public class FightersUIData : MonoBehaviour
     private float previousPlayerHp = 1f;
     private float previousBotHp = 1f;
 
+    // usericons
+    public GameObject playerIcon;
+    public GameObject botIcon;
+
     private void AddListenerToNextBtn(bool isLevelUp) {
         nextButtonGO.GetComponent<Button>().onClick.AddListener(() => OnClickNextHandler(isLevelUp));
     }
@@ -64,7 +68,7 @@ public class FightersUIData : MonoBehaviour
         SetFightersName(player.fighterName, bot.fighterName);
         SetFightersMaxHealth(player.hp, bot.hp);
         GetComponent<Combat>().SetFightersPortrait(playerPortrait, botPortrait);
-
+        SetPlayerIcons(playerIcon, botIcon);
     }
 
     private void SetFightersElo(int botElo)
@@ -83,6 +87,12 @@ public class FightersUIData : MonoBehaviour
     {
         this.playerMaxHealth = playerMaxHealth;
         this.botMaxHealth = botMaxHealth;
+    }
+
+    private void SetPlayerIcons(GameObject playerIcon, GameObject botIcon)
+    {
+        playerIcon.GetComponent<Image>().sprite = Resources.Load<Sprite>("Icons/UserIcons/" + User.Instance.userIcon);
+        botIcon.GetComponent<Image>().sprite = Resources.Load<Sprite>("Icons/UserIcons/" + UnityEngine.Random.Range(0, Resources.LoadAll<Sprite>("Icons/UserIcons/").Length));
     }
 
     public void HidePortraitsUI()

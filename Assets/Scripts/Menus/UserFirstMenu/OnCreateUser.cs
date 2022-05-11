@@ -8,8 +8,16 @@ public class OnCreateUser : MonoBehaviour
     {
         //string userName = nickNameInput.GetComponent<TextMeshProUGUI>().text;
         string userName = "unknown"; //We dont have a userName concept anymore
-        UserFactory.CreateUserInstance(userName, PlayerUtils.maxEnergy);
+        string userIcon = GenerateIcon().ToString();
+        UserFactory.CreateUserInstance(userName, userIcon, PlayerUtils.maxEnergy);
         JObject user = JObject.FromObject(User.Instance);
         JsonDataManager.SaveData(user, JsonDataManager.UserFileName);
+    }
+
+    // get random pic
+
+    private int GenerateIcon()
+    {
+        return Random.Range(0, Resources.LoadAll<Sprite>("Icons/UserIcons/").Length);
     }
 }

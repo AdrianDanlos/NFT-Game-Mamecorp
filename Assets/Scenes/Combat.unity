@@ -9851,6 +9851,8 @@ MonoBehaviour:
   botPortrait: {fileID: 199359566}
   playerPortraitFrame: {fileID: 65746005}
   botPortraitFrame: {fileID: 774515836}
+  playerIcon: {fileID: 1958101604}
+  botIcon: {fileID: 889245895}
 --- !u!114 &1570540188
 MonoBehaviour:
   m_ObjectHideFlags: 0

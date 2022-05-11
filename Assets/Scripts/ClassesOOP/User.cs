@@ -20,8 +20,10 @@ public class User
             return instance;
         }
     }
+    // add pic var
 
     private string _userName;
+    private string _userIcon;
     private int _wins;
     private int _loses;
     private int _elo;
@@ -35,6 +37,15 @@ public class User
         set
         {
             _userName = value;
+            SaveUser();
+        }
+    }
+    public string userIcon
+    {
+        get => _userIcon;
+        set
+        {
+            _userIcon = value;
             SaveUser();
         }
     }
@@ -101,9 +112,10 @@ public class User
             _saveEnabled = value;
         }
     }
-    public void SetUserValues(string userName, int wins, int loses, int elo, int gold, int gems, int energy)
+    public void SetUserValues(string userName, string userIcon, int wins, int loses, int elo, int gold, int gems, int energy)
     {
         this.userName = userName;
+        this.userIcon = userIcon;
         this.wins = wins;
         this.loses = loses;
         this.elo = elo;

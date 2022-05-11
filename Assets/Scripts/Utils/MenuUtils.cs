@@ -85,12 +85,7 @@ public class MenuUtils
 
     public static void SetProfilePicture(GameObject pictureGO)
     {
-        
-        Fighter player = PlayerUtils.FindInactiveFighter();
-        if(GetProfilePicture(player.species) != null)
-        {
-            pictureGO.GetComponent<Image>().sprite = GetProfilePicture(player.species);
-        }
+        pictureGO.GetComponent<Image>().sprite = Resources.Load<Sprite>("Icons/UserIcons/" + User.Instance.userIcon);   
     }
 
     public static Sprite GetProfilePicture(string specie)

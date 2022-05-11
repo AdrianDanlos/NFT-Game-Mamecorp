@@ -85,7 +85,8 @@ public class MenuUtils
 
     public static void SetProfilePicture(GameObject pictureGO)
     {
-        pictureGO.GetComponent<Image>().sprite = Resources.Load<Sprite>("Icons/UserIcons/" + User.Instance.userIcon);   
+        Fighter player = PlayerUtils.FindInactiveFighter();
+        pictureGO.GetComponent<Image>().sprite = MenuUtils.GetProfilePicture(player.species);
     }
 
     public static Sprite GetProfilePicture(string specie)
@@ -99,5 +100,10 @@ public class MenuUtils
         }
 
         return null;
+    }
+
+    public static void SetProfileUserIcon(GameObject iconGO)
+    {
+        iconGO.GetComponent<Image>().sprite = Resources.Load<Sprite>("Icons/UserIcons/" + User.Instance.userIcon);   
     }
 }

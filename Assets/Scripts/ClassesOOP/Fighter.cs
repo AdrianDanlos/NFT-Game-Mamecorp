@@ -32,8 +32,6 @@ public class Fighter : MonoBehaviour
 
     public string currentAnimation;
 
-
-
     public string fighterName
     {
         get => _fighterName; set
@@ -135,8 +133,6 @@ public class Fighter : MonoBehaviour
         get => _counterAttackChance;
         set => _counterAttackChance = value;
     }
-
-
 
     // When a class is attached to a gameobject (Monobehaviour) it is not possible to use the default constructor for the class because the "new" keyword can't be used.
     // That's why we create the following FighterConstructor method and use it as a constructor.

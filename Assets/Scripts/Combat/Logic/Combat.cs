@@ -50,9 +50,11 @@ public class Combat : MonoBehaviour
 
         FindGameObjects();
         GetComponentReferences();
+        // change this generation if cup mode enabled
         MatchMaking.GenerateBotData(player, bot);
         SetMaxHpValues();
 
+        // change this loading screen if cup mode enabled
         // LoadingScreen
         loadingScreen.SetPlayerLoadingScreenData(player);
         loadingScreen.DisplayLoaderForEnemy();

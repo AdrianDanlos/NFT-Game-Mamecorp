@@ -2,6 +2,7 @@ enum SceneNames
 {
     EntryPoint,
     Combat,
+    Cup,
     UserFirstStart,
     MainMenu,
     ChooseFirstFighter,

@@ -1,35 +1,31 @@
 using Newtonsoft.Json.Linq;
-using System.Collections;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
-public class CupInfoManager : MonoBehaviour
+public class CupManager : MonoBehaviour
 {
     private void Awake()
     {
-        if(Cup.Instance == null)
-        {
+        bool saveFileFound = File.Exists(JsonDataManager.getFilePath(JsonDataManager.CupFileName));
+
+        if (saveFileFound)
+            JsonDataManager.ReadCupFile();
+        else
             CreateCupFile();
-        }
     }
 
     public void CreateCupFile()
     {
-        string cupName = cupNames[Random.Range(0, cupNames.Count)];
+        Array cupNames = Enum.GetValues(typeof(CupDB.CupNames));
+        System.Random random = new System.Random();
+        string cupName = cupNames.GetValue(random.Next(cupNames.Length)).ToString();
         List<CupFighter> participants = new List<CupFighter>();
         Dictionary<string, Dictionary<string, Dictionary<string, string>>> cupInfo = new Dictionary<string, Dictionary<string, Dictionary<string, string>>>();
 
         CupFactory.CreateCupInstance(cupName, participants, cupInfo);
-        JObject cup = JObject.FromObject(User.Instance);
+        JObject cup = JObject.FromObject(Cup.Instance);
         JsonDataManager.SaveData(cup, JsonDataManager.CupFileName);
     }
-
-    // cup names DB
-    private static List<string> cupNames = new List<string>
-    {
-        "Earth",
-        "Water",
-        "Air",
-        "Fire"
-    };
 }

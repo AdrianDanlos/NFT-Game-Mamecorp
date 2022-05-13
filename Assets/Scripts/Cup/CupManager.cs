@@ -66,7 +66,7 @@ public class CupManager : MonoBehaviour
                                 { "matchId", "1"} , // match id
                                 { "1", "0"} ,       // seed 1 player
                                 { "2", "1"} ,       // seed 2 player
-                                { "winner" , ""}    // winner 1/2
+                                { "winner" , ""}    // winner id
                             }
                         },
                         { "2", new Dictionary<string, string>
@@ -81,15 +81,15 @@ public class CupManager : MonoBehaviour
                             {
                                 { "matchId", "3"} ,
                                 { "5", "4"} ,
-                                { "2", "5"} ,
+                                { "6", "5"} ,
                                 { "winner" , ""}
                             }
                         },
                         { "4", new Dictionary<string, string>
                             {
                                 { "matchId", "4"} ,
-                                { "1", "6"} ,
-                                { "2", "7"} ,
+                                { "7", "6"} ,
+                                { "8", "7"} ,
                                 { "winner" , ""}
                             }
                         },
@@ -101,14 +101,62 @@ public class CupManager : MonoBehaviour
     }
 
 
-    public void SimulateFirstRound()
+    public void SimulateQuarters()
     {
         Dictionary<string, Dictionary<string, Dictionary<string, string>>> cupInfo = Cup.Instance.cupInfo;
-        // rewrite cup info 
-        cupInfo["quarters"]["1"]["winner"] = "1";
+        List<string> match1 = new List<string>
+        {
+            cupInfo["quarters"]["1"]["1"],
+            cupInfo["quarters"]["1"]["2"],
+        };
+
+        List<string> match2 = new List<string>
+        {
+            cupInfo["quarters"]["2"]["3"],
+            cupInfo["quarters"]["2"]["4"],
+        };
+
+        List<string> match3 = new List<string>
+        {
+            cupInfo["quarters"]["3"]["5"],
+            cupInfo["quarters"]["3"]["6"],
+        };
+
+        List<string> match4 = new List<string>
+        {
+            cupInfo["quarters"]["4"]["7"],
+            cupInfo["quarters"]["4"]["8"],
+        };
+
+        cupInfo["quarters"]["1"]["winner"] = match1[UnityEngine.Random.Range(0, match1.Count)];
+        cupInfo["quarters"]["2"]["winner"] = match2[UnityEngine.Random.Range(0, match2.Count)];
+        cupInfo["quarters"]["3"]["winner"] = match3[UnityEngine.Random.Range(0, match3.Count)];
+        cupInfo["quarters"]["4"]["winner"] = match4[UnityEngine.Random.Range(0, match4.Count)];
+
+        Cup.Instance.round = "semis";
 
         Cup.Instance.cupInfo = cupInfo;
         Cup.Instance.SaveCup();
-        Debug.Log("Simulated");
+        Debug.Log("Simulated quarters!");
+    }
+
+    public List<CupFighter> GenerateParticipantsBasedOnQuarters()
+    {
+        Dictionary<string, Dictionary<string, Dictionary<string, string>>> _cupInfo = Cup.Instance.cupInfo;
+        List<CupFighter> _participants = Cup.Instance.participants;
+
+        List<CupFighter> semisParticipants = new List<CupFighter>();
+        int matchesNumber = 4;
+
+        foreach(CupFighter participant in _participants)
+        {
+            for(int matchCounter = 1; matchCounter < matchesNumber + 1; matchCounter++)
+            {
+                if (participant.id == _cupInfo["quarters"][matchCounter.ToString()]["winner"])
+                    semisParticipants.Add(participant);
+            }
+        }
+
+        return semisParticipants;
     }
 }

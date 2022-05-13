@@ -46,6 +46,9 @@ public class CupUIManager : MonoBehaviour
     List<Transform> participants;
     TextMeshProUGUI roundAnnouncer;
 
+    // scripts
+    CupManager cupManager;
+
     // vars
     public string round;
 
@@ -54,11 +57,11 @@ public class CupUIManager : MonoBehaviour
         labelContainer = GameObject.Find("LabelContainer").GetComponent<Transform>();
         playersContainer = GameObject.Find("Players").GetComponent<Transform>();
         roundAnnouncer = GameObject.Find("RoundAnnouncerTxt").GetComponent<TextMeshProUGUI>();
+        cupManager = GetComponent<CupManager>();
 
         HideCupLabels();
         GetAllUIPlayers();
 
-        DisplayPlayers();
         SetUIBasedOnRound();
     }
 
@@ -75,7 +78,7 @@ public class CupUIManager : MonoBehaviour
             participants.Add(playersContainer.GetChild(i));
     }
 
-    private void DisplayPlayers()
+    private void DisplayPlayerQuarters()
     {
         Dictionary<string, Dictionary<string, Dictionary<string, string>>> cupInfoDictionary = Cup.Instance.cupInfo;
         var participantsList = Cup.Instance.participants;
@@ -97,15 +100,32 @@ public class CupUIManager : MonoBehaviour
                     GetSpeciePortrait(participantsList[counter].species);
                 player.GetChild(1).GetComponent<TextMeshProUGUI>().text =
                     participantsList[counter].fighterName;
-            }
 
-            counter++;
+                counter++;
+            }
         }
     }
 
-    private Sprite GetSpeciePortrait(string species)
+    private void DisplayPlayerSemis()
     {
-        return Resources.Load<Sprite>("CharacterProfilePicture/" + species);
+        Dictionary<string, Dictionary<string, Dictionary<string, string>>> cupInfoDictionary = Cup.Instance.cupInfo;
+
+        playersContainer.GetChild(8).GetChild(1).GetComponent<TextMeshProUGUI>().color = Color.yellow;
+        int counter = 0;
+        List<CupFighter> _participants = cupManager.GenerateParticipantsBasedOnQuarters();
+
+        foreach (Transform player in participants)
+        {
+            if (player.name.Contains("Semis"))
+            {
+                player.GetChild(0).GetChild(0).GetChild(0).GetComponent<Image>().sprite =
+                    GetSpeciePortrait(_participants[counter].species);
+                player.GetChild(1).GetComponent<TextMeshProUGUI>().text =
+                    _participants[counter].fighterName;
+
+                counter++;
+            }
+        }
     }
 
     private void SetUIBasedOnRound()
@@ -115,9 +135,11 @@ public class CupUIManager : MonoBehaviour
         {
             case "quarters":
                 SetUIQuarters();
+                DisplayPlayerQuarters();
                 break;
             case "semis":
                 SetUISemis();
+                DisplayPlayerSemis();
                 break;
             case "finals":
 
@@ -180,5 +202,10 @@ public class CupUIManager : MonoBehaviour
     private void ShowCupLabel()
     {
         GetCupLabelByName(Cup.Instance.cupName).gameObject.SetActive(true);
+    }
+
+    private Sprite GetSpeciePortrait(string species)
+    {
+        return Resources.Load<Sprite>("CharacterProfilePicture/" + species);
     }
 }

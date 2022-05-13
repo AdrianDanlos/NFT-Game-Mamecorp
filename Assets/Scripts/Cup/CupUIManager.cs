@@ -127,7 +127,7 @@ public class CupUIManager : MonoBehaviour
             }
         }
 
-        // TODO gray out losers from previous round
+        cupManager.GrayOutLosersQuarters();
     }
 
     private void DisplayPlayerFinals()
@@ -151,7 +151,7 @@ public class CupUIManager : MonoBehaviour
             }
         }
 
-        // TODO gray out losers from previous round
+        cupManager.GrayOutLosersSemis();
     }
 
     private void DisplayPlayerFinalsEnd()
@@ -175,7 +175,7 @@ public class CupUIManager : MonoBehaviour
             }
         }
 
-        // TODO gray out losers from previous round
+        cupManager.GrayOutLoserFinals();
     }
 
     private void SetUIBasedOnRound()

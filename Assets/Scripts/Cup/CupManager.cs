@@ -66,7 +66,8 @@ public class CupManager : MonoBehaviour
                                 { "matchId", "1"} , // match id
                                 { "1", "0"} ,       // seed 1 player
                                 { "2", "1"} ,       // seed 2 player
-                                { "winner" , ""}    // winner id
+                                { "winner" , ""} ,  // winner id
+                                { "loser" , ""}     // loser id
                             }
                         },
                         { "2", new Dictionary<string, string>
@@ -74,7 +75,8 @@ public class CupManager : MonoBehaviour
                                 { "matchId", "2"} ,
                                 { "3", "2"} ,
                                 { "4", "3"} ,
-                                { "winner" , ""}
+                                { "winner" , ""} ,  
+                                { "loser" , ""}
                             }
                         },
                         { "3", new Dictionary<string, string>
@@ -82,7 +84,8 @@ public class CupManager : MonoBehaviour
                                 { "matchId", "3"} ,
                                 { "5", "4"} ,
                                 { "6", "5"} ,
-                                { "winner" , ""}
+                                { "winner" , ""} ,  
+                                { "loser" , ""}
                             }
                         },
                         { "4", new Dictionary<string, string>
@@ -90,7 +93,8 @@ public class CupManager : MonoBehaviour
                                 { "matchId", "4"} ,
                                 { "7", "6"} ,
                                 { "8", "7"} ,
-                                { "winner" , ""}
+                                { "winner" , ""} ,  
+                                { "loser" , ""}
                             }
                         },
                     }
@@ -102,7 +106,10 @@ public class CupManager : MonoBehaviour
 
     public void SimulateQuarters()
     {
+        int random;
         Dictionary<string, Dictionary<string, Dictionary<string, string>>> cupInfo = Cup.Instance.cupInfo;
+        
+        // match lists
         List<string> match1 = new List<string>
         {
             // this doesn't need to be simulated - player
@@ -128,11 +135,36 @@ public class CupManager : MonoBehaviour
             cupInfo["quarters"]["4"]["8"],
         };
 
-        cupInfo["quarters"]["1"]["winner"] = match1[UnityEngine.Random.Range(0, match1.Count)];
-        cupInfo["quarters"]["2"]["winner"] = match2[UnityEngine.Random.Range(0, match2.Count)];
-        cupInfo["quarters"]["3"]["winner"] = match3[UnityEngine.Random.Range(0, match3.Count)];
-        cupInfo["quarters"]["4"]["winner"] = match4[UnityEngine.Random.Range(0, match4.Count)];
+        // simulate matches
+        random = UnityEngine.Random.Range(0, match1.Count);
+        cupInfo["quarters"]["1"]["winner"] = match1[random];
+        if (random == 0)
+            cupInfo["quarters"]["1"]["loser"] = match1[1];
+        else
+            cupInfo["quarters"]["1"]["loser"] = match1[0];
 
+        random = UnityEngine.Random.Range(0, match2.Count);
+        cupInfo["quarters"]["2"]["winner"] = match2[random];
+        if (random == 0)
+            cupInfo["quarters"]["2"]["loser"] = match2[1];
+        else
+            cupInfo["quarters"]["2"]["loser"] = match2[0];
+
+        random = UnityEngine.Random.Range(0, match3.Count);
+        cupInfo["quarters"]["3"]["winner"] = match3[random];
+        if (random == 0)
+            cupInfo["quarters"]["3"]["loser"] = match3[1];
+        else
+            cupInfo["quarters"]["3"]["loser"] = match3[0];
+
+        random = UnityEngine.Random.Range(0, match4.Count);
+        cupInfo["quarters"]["4"]["winner"] = match4[random];
+        if (random == 0)
+            cupInfo["quarters"]["4"]["loser"] = match4[1];
+        else
+            cupInfo["quarters"]["4"]["loser"] = match4[0];
+
+        // save results
         Cup.Instance.round = "semis";
 
         Cup.Instance.cupInfo = cupInfo;
@@ -163,6 +195,11 @@ public class CupManager : MonoBehaviour
         return semisParticipants;
     }
 
+    public void GrayOutLosersQuarters()
+    {
+
+    }
+
     // call on combat end 
     private void GenerateCupSemisInfo()
     {
@@ -174,7 +211,8 @@ public class CupManager : MonoBehaviour
                         { "matchId", "5"} ,
                         { "9", ""} ,
                         { "10", ""} ,
-                        { "winner" , ""}
+                        { "winner" , ""} ,
+                        { "loser" , ""}
                     }
                 },
                 { "6", new Dictionary<string, string>
@@ -182,7 +220,8 @@ public class CupManager : MonoBehaviour
                         { "matchId", "6"} ,
                         { "11", ""} ,
                         { "12", ""} ,
-                        { "winner" , ""}
+                        { "winner" , ""} ,
+                        { "loser" , ""}
                     }
                 },
             });
@@ -205,7 +244,10 @@ public class CupManager : MonoBehaviour
 
     public void SimulateSemis()
     {
+        int random;
         Dictionary<string, Dictionary<string, Dictionary<string, string>>> cupInfo = Cup.Instance.cupInfo;
+        
+        // match lists
         List<string> match5 = new List<string>
         {
             // this doesn't need to be simulated - player
@@ -219,10 +261,22 @@ public class CupManager : MonoBehaviour
             cupInfo["semis"]["6"]["12"],
         };
 
-        cupInfo["semis"]["5"]["winner"] = match5[UnityEngine.Random.Range(0, match5.Count)];
-        cupInfo["semis"]["6"]["winner"] = match6[UnityEngine.Random.Range(0, match6.Count)];
+        // simulate matches
+        random = UnityEngine.Random.Range(0, match5.Count);
+        cupInfo["semis"]["5"]["winner"] = match5[random];
+        if (random == 0)
+            cupInfo["semis"]["5"]["loser"] = match5[1];
+        else
+            cupInfo["semis"]["5"]["loser"] = match5[0];
 
+        random = UnityEngine.Random.Range(0, match6.Count);
+        cupInfo["semis"]["6"]["winner"] = match6[random];
+        if (random == 0)
+            cupInfo["semis"]["6"]["loser"] = match6[1];
+        else
+            cupInfo["semis"]["6"]["loser"] = match6[0];
 
+        // save results
         Cup.Instance.round = "finals";
 
         Cup.Instance.cupInfo = cupInfo;
@@ -254,6 +308,11 @@ public class CupManager : MonoBehaviour
         return semisParticipants;
     }
 
+    public void GrayOutLosersSemis()
+    {
+
+    }
+
     private void GenerateCupFinalsInfo()
     {
         Cup.Instance.cupInfo.Add(
@@ -264,7 +323,8 @@ public class CupManager : MonoBehaviour
                         { "matchId", "7"} ,
                         { "13", ""} ,
                         { "14", ""} ,
-                        { "winner" , ""}
+                        { "winner" , ""} ,
+                        { "loser" , ""}
                     }
                 },
             });
@@ -283,7 +343,10 @@ public class CupManager : MonoBehaviour
 
     public void SimulateFinals()
     {
+        int random;
         Dictionary<string, Dictionary<string, Dictionary<string, string>>> cupInfo = Cup.Instance.cupInfo;
+        
+        // matches lists
         List<string> match7 = new List<string>
         {
             // this doesn't need to be simulated - player
@@ -291,12 +354,24 @@ public class CupManager : MonoBehaviour
             cupInfo["finals"]["7"]["14"],
         };
 
-        cupInfo["finals"]["7"]["winner"] = match7[UnityEngine.Random.Range(0, match7.Count)];
+        // simulate match
+        random = UnityEngine.Random.Range(0, match7.Count);
+        cupInfo["finals"]["7"]["winner"] = match7[random];
+        if (random == 0)
+            cupInfo["finals"]["7"]["loser"] = match7[1];
+        else
+            cupInfo["finals"]["7"]["loser"] = match7[0];
 
+        // save results
         Cup.Instance.round = "end";
 
         Cup.Instance.cupInfo = cupInfo;
         Cup.Instance.SaveCup();
         Debug.Log("Simulated finals!");
+    }
+
+    public void GrayOutLoserFinals()
+    {
+
     }
 }

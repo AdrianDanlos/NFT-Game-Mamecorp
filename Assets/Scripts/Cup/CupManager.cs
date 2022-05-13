@@ -138,6 +138,9 @@ public class CupManager : MonoBehaviour
         Cup.Instance.cupInfo = cupInfo;
         Cup.Instance.SaveCup();
         Debug.Log("Simulated quarters!");
+
+        GenerateCupSemisInfo();
+        Debug.Log("Generated semis bracket!");
     }
 
     public List<CupFighter> GenerateParticipantsBasedOnQuarters()
@@ -189,9 +192,12 @@ public class CupManager : MonoBehaviour
         int participantsCounter = 0; 
 
         cupInfo["semis"]["5"]["9"] = _participants[participantsCounter].id;
+        participantsCounter++;
         cupInfo["semis"]["5"]["10"] = _participants[participantsCounter].id;
-        cupInfo["semis"]["5"]["11"] = _participants[participantsCounter].id;
-        cupInfo["semis"]["5"]["12"] = _participants[participantsCounter].id;
+        participantsCounter++;
+        cupInfo["semis"]["6"]["11"] = _participants[participantsCounter].id;
+        participantsCounter++;
+        cupInfo["semis"]["6"]["12"] = _participants[participantsCounter].id;
 
         Cup.Instance.cupInfo = cupInfo;
         Cup.Instance.SaveCup();
@@ -222,5 +228,75 @@ public class CupManager : MonoBehaviour
         Cup.Instance.cupInfo = cupInfo;
         Cup.Instance.SaveCup();
         Debug.Log("Simulated semis!");
+
+        GenerateCupFinalsInfo();
+        Debug.Log("Generated finals bracket!");
+    }
+
+    public List<CupFighter> GenerateParticipantsBasedOnSemis()
+    {
+        Dictionary<string, Dictionary<string, Dictionary<string, string>>> _cupInfo = Cup.Instance.cupInfo;
+        List<CupFighter> _participants = Cup.Instance.participants;
+
+        List<CupFighter> semisParticipants = new List<CupFighter>();
+        int matchesNumber = 2;
+        matchesNumber += 5;
+
+        foreach (CupFighter participant in _participants)
+        {
+            for (int matchCounter = 5; matchCounter < matchesNumber; matchCounter++)
+            {
+                if (participant.id == _cupInfo["semis"][matchCounter.ToString()]["winner"])
+                    semisParticipants.Add(participant);
+            }
+        }
+
+        return semisParticipants;
+    }
+
+    private void GenerateCupFinalsInfo()
+    {
+        Cup.Instance.cupInfo.Add(
+            "finals", new Dictionary<string, Dictionary<string, string>>
+            {
+                { "7", new Dictionary<string, string>
+                    {
+                        { "matchId", "7"} ,
+                        { "13", ""} ,
+                        { "14", ""} ,
+                        { "winner" , ""}
+                    }
+                },
+            });
+
+        List<CupFighter> _participants = GenerateParticipantsBasedOnSemis();
+        Dictionary<string, Dictionary<string, Dictionary<string, string>>> cupInfo = Cup.Instance.cupInfo;
+        int participantsCounter = 0;
+
+        cupInfo["finals"]["7"]["13"] = _participants[participantsCounter].id;
+        participantsCounter++;
+        cupInfo["finals"]["7"]["14"] = _participants[participantsCounter].id;
+
+        Cup.Instance.cupInfo = cupInfo;
+        Cup.Instance.SaveCup();
+    }
+
+    public void SimulateFinals()
+    {
+        Dictionary<string, Dictionary<string, Dictionary<string, string>>> cupInfo = Cup.Instance.cupInfo;
+        List<string> match7 = new List<string>
+        {
+            // this doesn't need to be simulated - player
+            cupInfo["finals"]["7"]["13"],
+            cupInfo["finals"]["7"]["14"],
+        };
+
+        cupInfo["finals"]["7"]["winner"] = match7[UnityEngine.Random.Range(0, match7.Count)];
+
+        Cup.Instance.round = "end";
+
+        Cup.Instance.cupInfo = cupInfo;
+        Cup.Instance.SaveCup();
+        Debug.Log("Simulated finals!");
     }
 }

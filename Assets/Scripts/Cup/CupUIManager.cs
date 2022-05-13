@@ -127,9 +127,20 @@ public class CupUIManager : MonoBehaviour
             }
         }
 
+        // TODO gray out losers from previous round
+    }
+
+    private void DisplayPlayerFinals()
+    {
+        Dictionary<string, Dictionary<string, Dictionary<string, string>>> cupInfoDictionary = Cup.Instance.cupInfo;
+
+        playersContainer.GetChild(12).GetChild(1).GetComponent<TextMeshProUGUI>().color = Color.yellow;
+        int counter = 0;
+        List<CupFighter> _participants = cupManager.GenerateParticipantsBasedOnSemis();
+
         foreach (Transform player in participants)
         {
-            if (player.name.Contains("Quarters"))
+            if (player.name.Contains("Finals"))
             {
                 player.GetChild(0).GetChild(0).GetChild(0).GetComponent<Image>().sprite =
                     GetSpeciePortrait(_participants[counter].species);
@@ -139,6 +150,32 @@ public class CupUIManager : MonoBehaviour
                 counter++;
             }
         }
+
+        // TODO gray out losers from previous round
+    }
+
+    private void DisplayPlayerFinalsEnd()
+    {
+        Dictionary<string, Dictionary<string, Dictionary<string, string>>> cupInfoDictionary = Cup.Instance.cupInfo;
+
+        playersContainer.GetChild(12).GetChild(1).GetComponent<TextMeshProUGUI>().color = Color.yellow;
+        int counter = 0;
+        List<CupFighter> _participants = cupManager.GenerateParticipantsBasedOnSemis();
+
+        foreach (Transform player in participants)
+        {
+            if (player.name.Contains("Finals"))
+            {
+                player.GetChild(0).GetChild(0).GetChild(0).GetComponent<Image>().sprite =
+                    GetSpeciePortrait(_participants[counter].species);
+                player.GetChild(1).GetComponent<TextMeshProUGUI>().text =
+                    _participants[counter].fighterName;
+
+                counter++;
+            }
+        }
+
+        // TODO gray out losers from previous round
     }
 
     private void SetUIBasedOnRound()
@@ -156,7 +193,17 @@ public class CupUIManager : MonoBehaviour
                 DisplayPlayerSemis();
                 break;
             case "finals":
-
+                SetUIFinals();
+                DisplayPlayerQuarters();
+                DisplayPlayerSemis();
+                DisplayPlayerFinals();
+                break;
+            case "end":
+                SetUIFinalsEnd();
+                DisplayPlayerQuarters();
+                DisplayPlayerSemis();
+                DisplayPlayerFinals();
+                DisplayPlayerFinalsEnd();
                 break;
         }
     }
@@ -187,6 +234,16 @@ public class CupUIManager : MonoBehaviour
                 player.GetChild(1).GetComponent<TextMeshProUGUI>().text = "???";
             }
         }
+    }
+
+    private void SetUIFinals()
+    {
+        roundAnnouncer.text = "FINALS";
+    }
+
+    private void SetUIFinalsEnd()
+    {
+        roundAnnouncer.text = "TOURNAMENT ENDED";
     }
 
     private void HideCupLabels()

@@ -100,12 +100,12 @@ public class CupManager : MonoBehaviour
         return cupInfo;
     }
 
-
     public void SimulateQuarters()
     {
         Dictionary<string, Dictionary<string, Dictionary<string, string>>> cupInfo = Cup.Instance.cupInfo;
         List<string> match1 = new List<string>
         {
+            // this doesn't need to be simulated - player
             cupInfo["quarters"]["1"]["1"],
             cupInfo["quarters"]["1"]["2"],
         };
@@ -158,5 +158,69 @@ public class CupManager : MonoBehaviour
         }
 
         return semisParticipants;
+    }
+
+    // call on combat end 
+    private void GenerateCupSemisInfo()
+    {
+        Cup.Instance.cupInfo.Add(
+            "semis", new Dictionary<string, Dictionary<string, string>>
+            {
+                { "5", new Dictionary<string, string>
+                    {
+                        { "matchId", "5"} ,
+                        { "9", ""} ,
+                        { "10", ""} ,
+                        { "winner" , ""}
+                    }
+                },
+                { "6", new Dictionary<string, string>
+                    {
+                        { "matchId", "6"} ,
+                        { "11", ""} ,
+                        { "12", ""} ,
+                        { "winner" , ""}
+                    }
+                },
+            });
+
+        List<CupFighter> _participants = GenerateParticipantsBasedOnQuarters();
+        Dictionary<string, Dictionary<string, Dictionary<string, string>>> cupInfo = Cup.Instance.cupInfo;
+        int participantsCounter = 0; 
+
+        cupInfo["semis"]["5"]["9"] = _participants[participantsCounter].id;
+        cupInfo["semis"]["5"]["10"] = _participants[participantsCounter].id;
+        cupInfo["semis"]["5"]["11"] = _participants[participantsCounter].id;
+        cupInfo["semis"]["5"]["12"] = _participants[participantsCounter].id;
+
+        Cup.Instance.cupInfo = cupInfo;
+        Cup.Instance.SaveCup();
+    }
+
+    public void SimulateSemis()
+    {
+        Dictionary<string, Dictionary<string, Dictionary<string, string>>> cupInfo = Cup.Instance.cupInfo;
+        List<string> match5 = new List<string>
+        {
+            // this doesn't need to be simulated - player
+            cupInfo["semis"]["5"]["9"],
+            cupInfo["semis"]["5"]["10"],
+        };
+
+        List<string> match6 = new List<string>
+        {
+            cupInfo["semis"]["6"]["11"],
+            cupInfo["semis"]["6"]["12"],
+        };
+
+        cupInfo["semis"]["5"]["winner"] = match5[UnityEngine.Random.Range(0, match5.Count)];
+        cupInfo["semis"]["6"]["winner"] = match6[UnityEngine.Random.Range(0, match6.Count)];
+
+
+        Cup.Instance.round = "finals";
+
+        Cup.Instance.cupInfo = cupInfo;
+        Cup.Instance.SaveCup();
+        Debug.Log("Simulated semis!");
     }
 }

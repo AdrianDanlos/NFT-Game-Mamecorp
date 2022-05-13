@@ -126,6 +126,19 @@ public class CupUIManager : MonoBehaviour
                 counter++;
             }
         }
+
+        foreach (Transform player in participants)
+        {
+            if (player.name.Contains("Quarters"))
+            {
+                player.GetChild(0).GetChild(0).GetChild(0).GetComponent<Image>().sprite =
+                    GetSpeciePortrait(_participants[counter].species);
+                player.GetChild(1).GetComponent<TextMeshProUGUI>().text =
+                    _participants[counter].fighterName;
+
+                counter++;
+            }
+        }
     }
 
     private void SetUIBasedOnRound()
@@ -139,6 +152,7 @@ public class CupUIManager : MonoBehaviour
                 break;
             case "semis":
                 SetUISemis();
+                DisplayPlayerQuarters();
                 DisplayPlayerSemis();
                 break;
             case "finals":

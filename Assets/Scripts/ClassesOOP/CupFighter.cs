@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public class CupFighter
 {
     // Use this class to generate cup opponents in combat
@@ -9,6 +5,13 @@ public class CupFighter
     private string _id;
     private string _fighterName;
     private string _species;
+
+    public CupFighter(string id, string fighterName, string species)
+    {
+        this.id = id;
+        this.fighterName = fighterName;
+        this.species = species;
+    }
 
     public string id
     {

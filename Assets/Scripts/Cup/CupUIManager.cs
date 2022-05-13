@@ -16,6 +16,17 @@ using UnityEngine.UI;
  *    
  * ----------------------------------------------------------
  * 
+ * MATCHES STRUCTURE IDS
+ * 
+ * QUARTERS     SEMIS       FINAL       SEMIS       QUARTERS
+ * 
+ *    1           5           7           6            3
+ *                                              
+ *    2                                                4
+ *                                                    
+ *    
+ * ----------------------------------------------------------
+ * 
  * Players gameobject structure
  * 
  * - BG
@@ -77,7 +88,7 @@ public class CupUIManager : MonoBehaviour
                 SetUIQuarters();
                 break;
             case "semis":
-
+                SetUISemis();
                 break;
             case "finals":
 
@@ -92,6 +103,20 @@ public class CupUIManager : MonoBehaviour
         foreach(Transform player in participants)
         {
             if (player.name.Contains("Semis") || player.name.Contains("Finals"))
+            {
+                player.GetChild(0).GetChild(0).GetChild(0).GetComponent<Image>().color = new Color(0, 0, 0);
+                player.GetChild(1).GetComponent<TextMeshProUGUI>().text = "???";
+            }
+        }
+    }
+
+    private void SetUISemis()
+    {
+        roundAnnouncer.text = "SEMIFINALS";
+
+        foreach (Transform player in participants)
+        {
+            if (player.name.Contains("Finals"))
             {
                 player.GetChild(0).GetChild(0).GetChild(0).GetComponent<Image>().color = new Color(0, 0, 0);
                 player.GetChild(1).GetComponent<TextMeshProUGUI>().text = "???";

@@ -38,6 +38,7 @@ public class EntryPoint : MonoBehaviour
         {
             JsonDataManager.ReadUserFile();
             JsonDataManager.ReadFighterFile();
+
             UnityEngine.SceneManagement.SceneManager.LoadScene(SceneNames.MainMenu.ToString());
         }
 

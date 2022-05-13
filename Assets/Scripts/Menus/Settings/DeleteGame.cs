@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -20,7 +18,7 @@ public class DeleteGame : MonoBehaviour
     {
         DeleteSaves();
         ResetAllPrefs();
-        SceneManager.LoadScene(SceneNames.ChooseFirstFighter.ToString());
+        SceneManager.LoadScene(SceneNames.EntryPoint.ToString());
     }
 
     private void DeleteSaves()

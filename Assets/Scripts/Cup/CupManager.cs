@@ -35,15 +35,25 @@ public class CupManager : MonoBehaviour
         Fighter player = PlayerUtils.FindInactiveFighter();
 
         // there will be 8 fighters per cup (7 + user)
-        int id = 0;
         List<CupFighter> participants = new List<CupFighter>();
 
-        CupFighter user = new CupFighter(id.ToString(), player.fighterName, player.species);
-
-        Debug.Log(user.id + " " + user.fighterName + " " + user.species);
-
+        CupFighter user = new CupFighter(0.ToString(), player.fighterName, player.species);
         participants.Add(user);
+
+        for(int i = 1; i < 8; i++)
+        {
+            participants.Add(
+                new CupFighter(
+                    i.ToString(),
+                    RandomNameGenerator.GenerateRandomName(),
+                    GeneralUtils.GetRandomSpecies()
+                )
+            );
+        }
 
         return participants;
     }
+
+
+    // TODO save rounds
 }

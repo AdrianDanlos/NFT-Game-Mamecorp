@@ -27,4 +27,11 @@ public class GeneralUtils
     {
         return SimulationEnabled ? SimulationTime : realTimeWait;
     }
+
+    public static string GetRandomSpecies()
+    {
+        Array species = Enum.GetValues(typeof(SpeciesNames));
+        int a = species.Length;
+        return species.GetValue(UnityEngine.Random.Range(0, species.Length)).ToString();
+    }
 }

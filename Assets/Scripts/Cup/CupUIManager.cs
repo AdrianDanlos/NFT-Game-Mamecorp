@@ -103,7 +103,6 @@ public class CupUIManager : MonoBehaviour
     {
         Dictionary<string, Dictionary<string, Dictionary<string, string>>> cupInfoDictionary = Cup.Instance.cupInfo;
 
-        playersContainer.GetChild(8).GetChild(1).GetComponent<TextMeshProUGUI>().color = Color.yellow;
         int counter = 0;
         List<CupFighter> _participants = cupManager.GenerateParticipantsBasedOnQuarters();
 
@@ -116,6 +115,9 @@ public class CupUIManager : MonoBehaviour
                 player.GetChild(1).GetComponent<TextMeshProUGUI>().text =
                     _participants[counter].fighterName;
 
+                if(_participants[counter].id == "0")
+                    playersContainer.GetChild(8).GetChild(1).GetComponent<TextMeshProUGUI>().color = Color.yellow;
+
                 counter++;
             }
         }
@@ -127,7 +129,6 @@ public class CupUIManager : MonoBehaviour
     {
         Dictionary<string, Dictionary<string, Dictionary<string, string>>> cupInfoDictionary = Cup.Instance.cupInfo;
 
-        playersContainer.GetChild(12).GetChild(1).GetComponent<TextMeshProUGUI>().color = Color.yellow;
         int counter = 0;
         List<CupFighter> _participants = cupManager.GenerateParticipantsBasedOnSemis();
 
@@ -139,6 +140,9 @@ public class CupUIManager : MonoBehaviour
                     GetSpeciePortrait(_participants[counter].species);
                 player.GetChild(1).GetComponent<TextMeshProUGUI>().text =
                     _participants[counter].fighterName;
+
+                if (_participants[counter].id == "0")
+                    playersContainer.GetChild(12).GetChild(1).GetComponent<TextMeshProUGUI>().color = Color.yellow;
 
                 counter++;
             }
@@ -236,7 +240,15 @@ public class CupUIManager : MonoBehaviour
 
     private void SetUIFinalsEnd()
     {
-        roundAnnouncer.text = "TOURNAMENT ENDED";
+        string winnerId = Cup.Instance.cupInfo["finals"]["7"]["winner"];
+        string winnerName = "";
+        foreach (CupFighter fighter in Cup.Instance.participants)
+        {
+            if (fighter.id == winnerId)
+                winnerName = fighter.fighterName;
+        }
+
+        roundAnnouncer.text = "TOURNAMENT ENDED\n" + "WINNER " + winnerName + "!";
     }
 
     private void HideCupLabels()

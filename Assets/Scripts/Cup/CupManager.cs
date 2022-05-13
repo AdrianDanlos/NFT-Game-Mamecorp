@@ -101,5 +101,14 @@ public class CupManager : MonoBehaviour
     }
 
 
-    // TODO save rounds
+    public void SimulateFirstRound()
+    {
+        Dictionary<string, Dictionary<string, Dictionary<string, string>>> cupInfo = Cup.Instance.cupInfo;
+        // rewrite cup info 
+        cupInfo["quarters"]["1"]["winner"] = "1";
+
+        Cup.Instance.cupInfo = cupInfo;
+        Cup.Instance.SaveCup();
+        Debug.Log("Simulated");
+    }
 }

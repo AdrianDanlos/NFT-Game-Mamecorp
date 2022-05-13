@@ -278,7 +278,7 @@ public class CupUIManager : MonoBehaviour
         var participantsList = Cup.Instance.participants;
         var cupInfo = Cup.Instance.cupInfo;
         List<string> loserIds = new List<string>();
-        int counter = 5; // losers + 1
+        int counter = 5; // match ids + 1
 
         for (int i = 1; i < counter; i++)
             loserIds.Add(cupInfo["quarters"][i.ToString()]["loser"]);
@@ -304,12 +304,12 @@ public class CupUIManager : MonoBehaviour
 
     public void GrayOutLosersSemis()
     {
-        var participantsList = Cup.Instance.participants;
+        var participantsList = cupManager.GenerateParticipantsBasedOnQuarters();
         var cupInfo = Cup.Instance.cupInfo;
         List<string> loserIds = new List<string>();
-        int counter = 3; // losers + 1
+        int counter = 7; // match ids + 1
 
-        for (int i = 1; i < counter; i++)
+        for (int i = 5; i < counter; i++)
             loserIds.Add(cupInfo["semis"][i.ToString()]["loser"]);
 
         counter = 0;
@@ -333,13 +333,12 @@ public class CupUIManager : MonoBehaviour
 
     public void GrayOutLoserFinals()
     {
-        var participantsList = Cup.Instance.participants;
+        var participantsList = cupManager.GenerateParticipantsBasedOnSemis();
         var cupInfo = Cup.Instance.cupInfo;
         List<string> loserIds = new List<string>();
-        int counter = 2; // losers + 1
+        int counter = 7; // match ids + 1 
 
-        for (int i = 1; i < counter; i++)
-            loserIds.Add(cupInfo["finals"][i.ToString()]["loser"]);
+        loserIds.Add(cupInfo["finals"][counter.ToString()]["loser"]);
 
         counter = 0;
 

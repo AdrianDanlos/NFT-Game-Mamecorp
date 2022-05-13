@@ -71,6 +71,7 @@ public class CupManager : MonoBehaviour
                         },
                         { "2", new Dictionary<string, string>
                             {
+                                { "matchId", "2"} ,
                                 { "3", "2"} ,
                                 { "4", "3"} ,
                                 { "winner" , ""}
@@ -78,6 +79,7 @@ public class CupManager : MonoBehaviour
                         },
                         { "3", new Dictionary<string, string>
                             {
+                                { "matchId", "3"} ,
                                 { "5", "4"} ,
                                 { "2", "5"} ,
                                 { "winner" , ""}
@@ -85,6 +87,7 @@ public class CupManager : MonoBehaviour
                         },
                         { "4", new Dictionary<string, string>
                             {
+                                { "matchId", "4"} ,
                                 { "1", "6"} ,
                                 { "2", "7"} ,
                                 { "winner" , ""}

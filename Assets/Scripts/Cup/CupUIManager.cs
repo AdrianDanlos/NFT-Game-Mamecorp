@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -76,7 +77,35 @@ public class CupUIManager : MonoBehaviour
 
     private void DisplayPlayers()
     {
-        
+        Dictionary<string, Dictionary<string, Dictionary<string, string>>> cupInfoDictionary = Cup.Instance.cupInfo;
+        var participantsList = Cup.Instance.participants;
+
+        playersContainer.GetChild(0).GetChild(1).GetComponent<TextMeshProUGUI>().color = Color.yellow;
+        int counter = 0;
+
+        /* 
+            var participant = from s in participantsList
+                        where s.id == participantsList[counter].id
+                        select s;
+        */
+
+        foreach (Transform player in participants)
+        {
+            if (player.name.Contains("Quarters"))
+            {
+                player.GetChild(0).GetChild(0).GetChild(0).GetComponent<Image>().sprite =
+                    GetSpeciePortrait(participantsList[counter].species);
+                player.GetChild(1).GetComponent<TextMeshProUGUI>().text =
+                    participantsList[counter].fighterName;
+            }
+
+            counter++;
+        }
+    }
+
+    private Sprite GetSpeciePortrait(string species)
+    {
+        return Resources.Load<Sprite>("CharacterProfilePicture/" + species);
     }
 
     private void SetUIBasedOnRound()

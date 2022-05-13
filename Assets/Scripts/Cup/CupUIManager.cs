@@ -155,7 +155,6 @@ public class CupUIManager : MonoBehaviour
     {
         Dictionary<string, Dictionary<string, Dictionary<string, string>>> cupInfoDictionary = Cup.Instance.cupInfo;
 
-        playersContainer.GetChild(12).GetChild(1).GetComponent<TextMeshProUGUI>().color = Color.yellow;
         int counter = 0;
         List<CupFighter> _participants = cupManager.GenerateParticipantsBasedOnSemis();
 
@@ -167,6 +166,9 @@ public class CupUIManager : MonoBehaviour
                     GetSpeciePortrait(_participants[counter].species);
                 player.GetChild(1).GetComponent<TextMeshProUGUI>().text =
                     _participants[counter].fighterName;
+
+                if (_participants[counter].id == "0")
+                    playersContainer.GetChild(12).GetChild(1).GetComponent<TextMeshProUGUI>().color = Color.yellow;
 
                 counter++;
             }

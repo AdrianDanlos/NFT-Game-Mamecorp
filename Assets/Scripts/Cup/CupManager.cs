@@ -195,11 +195,6 @@ public class CupManager : MonoBehaviour
         return semisParticipants;
     }
 
-    public void GrayOutLosersQuarters()
-    {
-
-    }
-
     // call on combat end 
     private void GenerateCupSemisInfo()
     {
@@ -308,11 +303,6 @@ public class CupManager : MonoBehaviour
         return semisParticipants;
     }
 
-    public void GrayOutLosersSemis()
-    {
-
-    }
-
     private void GenerateCupFinalsInfo()
     {
         Cup.Instance.cupInfo.Add(
@@ -368,10 +358,5 @@ public class CupManager : MonoBehaviour
         Cup.Instance.cupInfo = cupInfo;
         Cup.Instance.SaveCup();
         Debug.Log("Simulated finals!");
-    }
-
-    public void GrayOutLoserFinals()
-    {
-
     }
 }

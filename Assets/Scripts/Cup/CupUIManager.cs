@@ -80,17 +80,10 @@ public class CupUIManager : MonoBehaviour
 
     private void DisplayPlayerQuarters()
     {
-        Dictionary<string, Dictionary<string, Dictionary<string, string>>> cupInfoDictionary = Cup.Instance.cupInfo;
         var participantsList = Cup.Instance.participants;
 
         playersContainer.GetChild(0).GetChild(1).GetComponent<TextMeshProUGUI>().color = Color.yellow;
         int counter = 0;
-
-        /* 
-            var participant = from s in participantsList
-                        where s.id == participantsList[counter].id
-                        select s;
-        */
 
         foreach (Transform player in participants)
         {
@@ -127,7 +120,7 @@ public class CupUIManager : MonoBehaviour
             }
         }
 
-        cupManager.GrayOutLosersQuarters();
+        GrayOutLosersQuarters();
     }
 
     private void DisplayPlayerFinals()
@@ -151,7 +144,7 @@ public class CupUIManager : MonoBehaviour
             }
         }
 
-        cupManager.GrayOutLosersSemis();
+        GrayOutLosersSemis();
     }
 
     private void DisplayPlayerFinalsEnd()
@@ -175,7 +168,7 @@ public class CupUIManager : MonoBehaviour
             }
         }
 
-        cupManager.GrayOutLoserFinals();
+        GrayOutLoserFinals();
     }
 
     private void SetUIBasedOnRound()
@@ -278,5 +271,92 @@ public class CupUIManager : MonoBehaviour
     private Sprite GetSpeciePortrait(string species)
     {
         return Resources.Load<Sprite>("CharacterProfilePicture/" + species);
+    }
+
+    public void GrayOutLosersQuarters()
+    {
+        var participantsList = Cup.Instance.participants;
+        var cupInfo = Cup.Instance.cupInfo;
+        List<string> loserIds = new List<string>();
+        int counter = 5; // losers + 1
+
+        for (int i = 1; i < counter; i++)
+            loserIds.Add(cupInfo["quarters"][i.ToString()]["loser"]);
+
+        counter = 0;
+
+        foreach (Transform player in participants)
+        {
+            if (player.name.Contains("Quarters"))
+            {
+                for(int i = 0; i < loserIds.Count; i++)
+                {
+                    if (participantsList[counter].id == loserIds[i])
+                    {
+                        player.GetChild(2).GetComponent<Image>().enabled = true;
+                    }
+                }
+
+                counter++;
+            }
+        }
+    }
+
+    public void GrayOutLosersSemis()
+    {
+        var participantsList = Cup.Instance.participants;
+        var cupInfo = Cup.Instance.cupInfo;
+        List<string> loserIds = new List<string>();
+        int counter = 3; // losers + 1
+
+        for (int i = 1; i < counter; i++)
+            loserIds.Add(cupInfo["semis"][i.ToString()]["loser"]);
+
+        counter = 0;
+
+        foreach (Transform player in participants)
+        {
+            if (player.name.Contains("Semis"))
+            {
+                for (int i = 0; i < loserIds.Count; i++)
+                {
+                    if (participantsList[counter].id == loserIds[i])
+                    {
+                        player.GetChild(2).GetComponent<Image>().enabled = true;
+                    }
+                }
+
+                counter++;
+            }
+        }
+    }
+
+    public void GrayOutLoserFinals()
+    {
+        var participantsList = Cup.Instance.participants;
+        var cupInfo = Cup.Instance.cupInfo;
+        List<string> loserIds = new List<string>();
+        int counter = 2; // losers + 1
+
+        for (int i = 1; i < counter; i++)
+            loserIds.Add(cupInfo["finals"][i.ToString()]["loser"]);
+
+        counter = 0;
+
+        foreach (Transform player in participants)
+        {
+            if (player.name.Contains("Finals"))
+            {
+                for (int i = 0; i < loserIds.Count; i++)
+                {
+                    if (participantsList[counter].id == loserIds[i])
+                    {
+                        player.GetChild(2).GetComponent<Image>().enabled = true;
+                    }
+                }
+
+                counter++;
+            }
+        }
     }
 }

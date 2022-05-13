@@ -21,10 +21,11 @@ public class CupManager : MonoBehaviour
         Array cupNames = Enum.GetValues(typeof(CupDB.CupNames));
         System.Random random = new System.Random();
         string cupName = cupNames.GetValue(random.Next(cupNames.Length)).ToString();
+        string round = "quarters";
         List<CupFighter> participants = new List<CupFighter>();
         Dictionary<string, Dictionary<string, Dictionary<string, string>>> cupInfo = new Dictionary<string, Dictionary<string, Dictionary<string, string>>>();
 
-        CupFactory.CreateCupInstance(cupName, participants, cupInfo);
+        CupFactory.CreateCupInstance(cupName, round, participants, cupInfo);
         JObject cup = JObject.FromObject(Cup.Instance);
         JsonDataManager.SaveData(cup, JsonDataManager.CupFileName);
     }

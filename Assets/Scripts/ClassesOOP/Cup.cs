@@ -1,5 +1,4 @@
 using Newtonsoft.Json.Linq;
-using System.Collections;
 using System.Collections.Generic;
 
 public class Cup 
@@ -20,6 +19,7 @@ public class Cup
     }
 
     private string _cupName;
+    private string _round;
     private List<CupFighter> _participants;
     private Dictionary<string, Dictionary<string, Dictionary<string, string>>> _cupInfo;
     private bool _saveEnabled = false;
@@ -30,6 +30,14 @@ public class Cup
         set
         {
             _cupName = value;
+        }
+    }
+    public string round
+    {
+        get => _round;
+        set
+        {
+            _round = value;
         }
     }
     public List<CupFighter> participants
@@ -57,9 +65,10 @@ public class Cup
         }
     }
 
-    public void SetCupValues(string cupName, List<CupFighter> participants, Dictionary<string, Dictionary<string, Dictionary<string, string>>> cupInfo)
+    public void SetCupValues(string cupName, string round, List<CupFighter> participants, Dictionary<string, Dictionary<string, Dictionary<string, string>>> cupInfo)
     {
         this.cupName = cupName;
+        this.round = round;
         this.participants = participants;
         this.cupInfo = cupInfo;
     }

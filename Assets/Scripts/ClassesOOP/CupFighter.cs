@@ -9,7 +9,6 @@ public class CupFighter
     private string _id;
     private string _fighterName;
     private string _species;
-    private int _elo;
 
     public string id
     {
@@ -30,13 +29,6 @@ public class CupFighter
         get => _species; set
         {
             _species = value;
-        }
-    }
-    public int elo
-    {
-        get => _elo; set
-        {
-            _elo = value;
         }
     }
 }

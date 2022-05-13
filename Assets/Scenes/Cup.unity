@@ -689,7 +689,7 @@ GameObject:
   - component: {fileID: 123631098}
   - component: {fileID: 123631099}
   m_Layer: 5
-  m_Name: List_Me (3)
+  m_Name: List_Me_Quarters
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1486,7 +1486,7 @@ GameObject:
   - component: {fileID: 343378705}
   - component: {fileID: 343378706}
   m_Layer: 5
-  m_Name: List_Me (11)
+  m_Name: List_Me_Semis
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1507,7 +1507,7 @@ RectTransform:
   - {fileID: 236177100}
   - {fileID: 664594946}
   m_Father: {fileID: 1678974526}
-  m_RootOrder: 11
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
@@ -2529,7 +2529,7 @@ GameObject:
   - component: {fileID: 469909513}
   - component: {fileID: 469909514}
   m_Layer: 5
-  m_Name: List_Me (8)
+  m_Name: List_Me_Quarters
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2550,7 +2550,7 @@ RectTransform:
   - {fileID: 1627753919}
   - {fileID: 2131435580}
   m_Father: {fileID: 1678974526}
-  m_RootOrder: 8
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
@@ -2950,7 +2950,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 569666604}
-  - component: {fileID: 569666606}
   - component: {fileID: 569666605}
   m_Layer: 0
   m_Name: CupManager
@@ -2985,18 +2984,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e42c0a7e0b6b594c9362ef9e055dd58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &569666606
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 569666603}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9119942d0ec250d49aa162abbf989dea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  round: 
 --- !u!1 &576589620
 GameObject:
   m_ObjectHideFlags: 0
@@ -3008,7 +2996,7 @@ GameObject:
   - component: {fileID: 576589621}
   - component: {fileID: 576589622}
   m_Layer: 5
-  m_Name: List_Me (7)
+  m_Name: List_Me_Quarters
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3029,7 +3017,7 @@ RectTransform:
   - {fileID: 770094955}
   - {fileID: 754301239}
   m_Father: {fileID: 1678974526}
-  m_RootOrder: 6
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
@@ -4724,7 +4712,7 @@ GameObject:
   - component: {fileID: 925615176}
   - component: {fileID: 925615177}
   m_Layer: 5
-  m_Name: List_Me (9)
+  m_Name: List_Me_Quarters
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4745,7 +4733,7 @@ RectTransform:
   - {fileID: 485962247}
   - {fileID: 973434708}
   m_Father: {fileID: 1678974526}
-  m_RootOrder: 9
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
@@ -6117,7 +6105,7 @@ GameObject:
   - component: {fileID: 1226393799}
   - component: {fileID: 1226393800}
   m_Layer: 5
-  m_Name: List_Me (1)
+  m_Name: List_Me_Quarters
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6314,7 +6302,7 @@ GameObject:
   - component: {fileID: 1298821776}
   - component: {fileID: 1298821777}
   m_Layer: 5
-  m_Name: List_Me (2)
+  m_Name: List_Me_Quarters
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8578,7 +8566,7 @@ GameObject:
   - component: {fileID: 1580028265}
   - component: {fileID: 1580028266}
   m_Layer: 5
-  m_Name: List_Me (13)
+  m_Name: List_Me_Finals
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9300,7 +9288,7 @@ GameObject:
   - component: {fileID: 1649414526}
   - component: {fileID: 1649414527}
   m_Layer: 5
-  m_Name: List_Me (6)
+  m_Name: List_Me_Quarters
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9321,7 +9309,7 @@ RectTransform:
   - {fileID: 1506770698}
   - {fileID: 1579914802}
   m_Father: {fileID: 1678974526}
-  m_RootOrder: 7
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
@@ -9514,14 +9502,14 @@ RectTransform:
   - {fileID: 1226393799}
   - {fileID: 123631098}
   - {fileID: 1298821776}
-  - {fileID: 1722339232}
-  - {fileID: 1938994070}
   - {fileID: 576589621}
   - {fileID: 1649414526}
   - {fileID: 469909513}
   - {fileID: 925615176}
-  - {fileID: 1903293321}
+  - {fileID: 1722339232}
+  - {fileID: 1938994070}
   - {fileID: 343378705}
+  - {fileID: 1903293321}
   - {fileID: 1753923036}
   - {fileID: 1580028265}
   m_Father: {fileID: 716655889}
@@ -9648,7 +9636,7 @@ GameObject:
   - component: {fileID: 1722339232}
   - component: {fileID: 1722339233}
   m_Layer: 5
-  m_Name: List_Me (4)
+  m_Name: List_Me_Semis
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9669,7 +9657,7 @@ RectTransform:
   - {fileID: 1862399007}
   - {fileID: 134589259}
   m_Father: {fileID: 1678974526}
-  m_RootOrder: 4
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
@@ -9980,7 +9968,7 @@ GameObject:
   - component: {fileID: 1753923036}
   - component: {fileID: 1753923037}
   m_Layer: 5
-  m_Name: List_Me (12)
+  m_Name: List_Me_Finals
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10986,7 +10974,7 @@ GameObject:
   - component: {fileID: 1903293321}
   - component: {fileID: 1903293322}
   m_Layer: 5
-  m_Name: List_Me (10)
+  m_Name: List_Me_Semis
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11007,7 +10995,7 @@ RectTransform:
   - {fileID: 1124873856}
   - {fileID: 1795367464}
   m_Father: {fileID: 1678974526}
-  m_RootOrder: 10
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
@@ -11254,7 +11242,7 @@ GameObject:
   - component: {fileID: 1938994070}
   - component: {fileID: 1938994071}
   m_Layer: 5
-  m_Name: List_Me (5)
+  m_Name: List_Me_Semis
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11275,7 +11263,7 @@ RectTransform:
   - {fileID: 369025822}
   - {fileID: 1232384249}
   m_Father: {fileID: 1678974526}
-  m_RootOrder: 5
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
@@ -12365,7 +12353,7 @@ GameObject:
   - component: {fileID: 5141575238469954403}
   - component: {fileID: 5141575238469954461}
   m_Layer: 5
-  m_Name: List_Me
+  m_Name: List_Me_Quarters
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

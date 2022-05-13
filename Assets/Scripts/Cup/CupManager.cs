@@ -23,7 +23,7 @@ public class CupManager : MonoBehaviour
         string cupName = cupNames.GetValue(random.Next(cupNames.Length)).ToString();
         string round = "quarters";
         List<CupFighter> participants = GenerateParticipants();
-        Dictionary<string, Dictionary<string, Dictionary<string, string>>> cupInfo = new Dictionary<string, Dictionary<string, Dictionary<string, string>>>();
+        Dictionary<string, Dictionary<string, Dictionary<string, string>>> cupInfo = GenerateCupInitialInfo();
 
         CupFactory.CreateCupInstance(cupName, round, participants, cupInfo);
         JObject cup = JObject.FromObject(Cup.Instance);
@@ -52,6 +52,49 @@ public class CupManager : MonoBehaviour
         }
 
         return participants;
+    }
+
+    private Dictionary<string, Dictionary<string, Dictionary<string, string>>> GenerateCupInitialInfo()
+    {
+        Dictionary<string, Dictionary<string, Dictionary<string, string>>> cupInfo = 
+            new Dictionary<string, Dictionary<string, Dictionary<string, string>>>
+            {
+                { "quarters", new Dictionary<string, Dictionary<string, string>>
+                    {
+                        { "1", new Dictionary<string, string>
+                            {
+                                { "matchId", "1"} , // match id
+                                { "1", "0"} ,       // seed 1 player
+                                { "2", "1"} ,       // seed 2 player
+                                { "winner" , ""}    // winner 1/2
+                            }
+                        },
+                        { "2", new Dictionary<string, string>
+                            {
+                                { "3", "2"} ,
+                                { "4", "3"} ,
+                                { "winner" , ""}
+                            }
+                        },
+                        { "3", new Dictionary<string, string>
+                            {
+                                { "5", "4"} ,
+                                { "2", "5"} ,
+                                { "winner" , ""}
+                            }
+                        },
+                        { "4", new Dictionary<string, string>
+                            {
+                                { "1", "6"} ,
+                                { "2", "7"} ,
+                                { "winner" , ""}
+                            }
+                        },
+                    }
+                }
+            };
+
+        return cupInfo;
     }
 
 

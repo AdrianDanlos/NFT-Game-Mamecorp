@@ -5,6 +5,7 @@ public class OnCreateUser : MonoBehaviour
 {
     public void CreateUserFile()
     {
+        // TODO add flag to user
         string userIcon = GenerateIcon().ToString();
         UserFactory.CreateUserInstance(userIcon, PlayerUtils.maxEnergy);
         JObject user = JObject.FromObject(User.Instance);

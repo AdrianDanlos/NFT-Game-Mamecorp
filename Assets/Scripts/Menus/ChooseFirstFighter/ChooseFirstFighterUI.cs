@@ -14,9 +14,6 @@ public class ChooseFirstFighterUI : MonoBehaviour
     public Canvas chooseCountry;
 
     // fighters
-    private Transform fighterLeft;
-    private Transform fighterMid;
-    private Transform fighterRight;
     private Transform fighterLeftObject;
     private Transform fighterMidObject;
     private Transform fighterRightObject;
@@ -26,6 +23,11 @@ public class ChooseFirstFighterUI : MonoBehaviour
     private Transform fighterLeftSpecieTitle;
     private Transform fighterMidSpecieTitle;
     private Transform fighterRightSpecieTitle;
+
+    // stats bar fade
+    private CanvasGroup fighterLeftGroup;
+    private CanvasGroup fighterMidGroup;
+    private CanvasGroup fighterRightGroup;
 
     // animations
     private SetFighterAnimations fighterLeftAnimator;
@@ -60,9 +62,6 @@ public class ChooseFirstFighterUI : MonoBehaviour
         chooseName = GameObject.Find("Canvas_Choose_Name_Fighter").GetComponent<Canvas>();
         chooseCountry = GameObject.Find("Canvas_Choose_Country").GetComponent<Canvas>();
 
-        fighterLeft = GameObject.Find("Container_Fighter_Left").GetComponent<Transform>();
-        fighterMid = GameObject.Find("Container_Fighter_Mid").GetComponent<Transform>();
-        fighterRight = GameObject.Find("Container_Fighter_Right").GetComponent<Transform>();
         fighterLeftObject = GameObject.Find("Fighter_Left").GetComponent<Transform>();
         fighterMidObject = GameObject.Find("Fighter_Mid").GetComponent<Transform>();
         fighterRightObject = GameObject.Find("Fighter_Right").GetComponent<Transform>();
@@ -72,6 +71,10 @@ public class ChooseFirstFighterUI : MonoBehaviour
         fighterLeftSpecieTitle = GameObject.Find("Specie_Left").GetComponent<Transform>();
         fighterMidSpecieTitle = GameObject.Find("Specie_Mid").GetComponent<Transform>();
         fighterRightSpecieTitle = GameObject.Find("Specie_Right").GetComponent<Transform>();
+
+        fighterLeftGroup = GameObject.Find("Bar_Level_Left").GetComponent<CanvasGroup>();
+        fighterMidGroup = GameObject.Find("Bar_Level_Mid").GetComponent<CanvasGroup>();
+        fighterRightGroup = GameObject.Find("Bar_Level_Right").GetComponent<CanvasGroup>();
 
         fighterLeftAnimator = GameObject.Find("Fighter_Left").GetComponent<SetFighterAnimations>();
         fighterMidAnimator = GameObject.Find("Fighter_Mid").GetComponent<SetFighterAnimations>();
@@ -105,6 +108,10 @@ public class ChooseFirstFighterUI : MonoBehaviour
         fighterLeftObject.gameObject.GetComponent<SpriteRenderer>().color = new Color32(90, 90, 90, 255);
         fighterMidObject.gameObject.GetComponent<SpriteRenderer>().color = new Color32(90, 90, 90, 255);
         fighterRightObject.gameObject.GetComponent<SpriteRenderer>().color = new Color32(90, 90, 90, 255);
+
+        fighterLeftGroup.alpha = 0.5f;
+        fighterMidGroup.alpha = 0.5f;
+        fighterRightGroup.alpha = 0.5f;
 
         fighterLeftRing.gameObject.SetActive(false);
         fighterMidRing.gameObject.SetActive(false);
@@ -144,6 +151,9 @@ public class ChooseFirstFighterUI : MonoBehaviour
 
     public void EnableLeftFighterHighlight()
     {
+        fighterLeftGroup.alpha = 1f;
+        fighterMidGroup.alpha = 0.5f;
+        fighterRightGroup.alpha = 0.5f;
         next.gameObject.SetActive(true);
         fighterLeftAnimator.PlayRunAnimation();
         fighterMidAnimator.PlayIdleAnimation();
@@ -157,6 +167,9 @@ public class ChooseFirstFighterUI : MonoBehaviour
 
     public void EnableMidFighterHighlight()
     {
+        fighterLeftGroup.alpha = 0.5f;
+        fighterMidGroup.alpha = 1f;
+        fighterRightGroup.alpha = 0.5f;
         next.gameObject.SetActive(true);
         fighterLeftAnimator.PlayIdleAnimation();
         fighterMidAnimator.PlayRunAnimation();
@@ -170,6 +183,9 @@ public class ChooseFirstFighterUI : MonoBehaviour
 
     public void EnableRightFighterHighlight()
     {
+        fighterLeftGroup.alpha = 0.5f;
+        fighterMidGroup.alpha = 0.5f;
+        fighterRightGroup.alpha = 1f;
         next.gameObject.SetActive(true);
         fighterLeftAnimator.PlayIdleAnimation();
         fighterMidAnimator.PlayIdleAnimation();

@@ -1,6 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -45,6 +43,7 @@ public class CupUIManager : MonoBehaviour
     Transform playersContainer;
     List<Transform> participants;
     TextMeshProUGUI roundAnnouncer;
+    Button buttonBattle;
 
     // scripts
     CupManager cupManager;
@@ -57,7 +56,10 @@ public class CupUIManager : MonoBehaviour
         labelContainer = GameObject.Find("LabelContainer").GetComponent<Transform>();
         playersContainer = GameObject.Find("Players").GetComponent<Transform>();
         roundAnnouncer = GameObject.Find("RoundAnnouncerTxt").GetComponent<TextMeshProUGUI>();
+        buttonBattle = GameObject.Find("Button_Battle").GetComponent<Button>();
         cupManager = GetComponent<CupManager>();
+
+        IsTournamentOver();
 
         HideCupLabels();
         GetAllUIPlayers();
@@ -76,6 +78,12 @@ public class CupUIManager : MonoBehaviour
 
         for (int i = 0; i < playersContainer.childCount; i++)
             participants.Add(playersContainer.GetChild(i));
+    }
+
+    private void IsTournamentOver()
+    {
+        if (Cup.Instance.round == "end")
+            buttonBattle.gameObject.SetActive(false);
     }
 
     private void DisplayPlayerQuarters()

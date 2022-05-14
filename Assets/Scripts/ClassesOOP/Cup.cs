@@ -19,6 +19,7 @@ public class Cup
     }
 
     private string _cupName;
+    private bool _isActive;
     private string _round;
     private List<CupFighter> _participants;
     private Dictionary<string, Dictionary<string, Dictionary<string, string>>> _cupInfo;
@@ -30,6 +31,14 @@ public class Cup
         set
         {
             _cupName = value;
+        }
+    }
+    public bool isActive
+    {
+        get => _isActive;
+        set
+        {
+            _isActive = value;
         }
     }
     public string round
@@ -65,9 +74,10 @@ public class Cup
         }
     }
 
-    public void SetCupValues(string cupName, string round, List<CupFighter> participants, Dictionary<string, Dictionary<string, Dictionary<string, string>>> cupInfo)
+    public void SetCupValues(string cupName, bool isActive, string round, List<CupFighter> participants, Dictionary<string, Dictionary<string, Dictionary<string, string>>> cupInfo)
     {
         this.cupName = cupName;
+        this.isActive = isActive;
         this.round = round;
         this.participants = participants;
         this.cupInfo = cupInfo;

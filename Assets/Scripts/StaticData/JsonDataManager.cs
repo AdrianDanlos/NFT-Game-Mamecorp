@@ -32,7 +32,7 @@ public static class JsonDataManager
     public static void ReadCupFile()
     {
         JObject cupData = JsonDataManager.ReadData(JsonDataManager.CupFileName);
-        CupFactory.CreateCupInstance((string)cupData["cupName"], (string)cupData["round"], cupData["participants"].ToObject<List<CupFighter>>(), cupData["cupInfo"].ToObject<Dictionary<string, Dictionary<string, Dictionary<string, string>>>>());
+        CupFactory.CreateCupInstance((string)cupData["cupName"],(bool)cupData["isActive"], (string)cupData["round"], cupData["participants"].ToObject<List<CupFighter>>(), cupData["cupInfo"].ToObject<Dictionary<string, Dictionary<string, Dictionary<string, string>>>>());
     }
 
     public static JObject ReadData(string fileName)

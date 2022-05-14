@@ -22,10 +22,11 @@ public class CupManager : MonoBehaviour
         System.Random random = new System.Random();
         string cupName = cupNames.GetValue(random.Next(cupNames.Length)).ToString();
         string round = "quarters";
+        bool isActive = false;
         List<CupFighter> participants = GenerateParticipants();
         Dictionary<string, Dictionary<string, Dictionary<string, string>>> cupInfo = GenerateCupInitialInfo();
 
-        CupFactory.CreateCupInstance(cupName, round, participants, cupInfo);
+        CupFactory.CreateCupInstance(cupName, isActive, round, participants, cupInfo);
         JObject cup = JObject.FromObject(Cup.Instance);
         JsonDataManager.SaveData(cup, JsonDataManager.CupFileName);
     }

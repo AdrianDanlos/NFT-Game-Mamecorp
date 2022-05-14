@@ -27,6 +27,11 @@ public class ChooseFirstFighterUI : MonoBehaviour
     private Transform fighterMidSpecieTitle;
     private Transform fighterRightSpecieTitle;
 
+    // animations
+    private SetFighterAnimations fighterLeftAnimator;
+    private SetFighterAnimations fighterMidAnimator;
+    private SetFighterAnimations fighterRightAnimator;
+
     // stats per fighter
     private TextMeshProUGUI fighterLeftDamageText;
     private TextMeshProUGUI fighterLeftHpText;
@@ -68,6 +73,10 @@ public class ChooseFirstFighterUI : MonoBehaviour
         fighterMidSpecieTitle = GameObject.Find("Specie_Mid").GetComponent<Transform>();
         fighterRightSpecieTitle = GameObject.Find("Specie_Right").GetComponent<Transform>();
 
+        fighterLeftAnimator = GameObject.Find("Fighter_Left").GetComponent<SetFighterAnimations>();
+        fighterMidAnimator = GameObject.Find("Fighter_Mid").GetComponent<SetFighterAnimations>();
+        fighterRightAnimator = GameObject.Find("Fighter_Right").GetComponent<SetFighterAnimations>();
+
         chooseCountry = GameObject.Find("Canvas_Choose_Country").GetComponent<Canvas>();
 
         prev = GameObject.Find("Button_Prev").GetComponent<Button>();
@@ -77,15 +86,25 @@ public class ChooseFirstFighterUI : MonoBehaviour
         fighterLeftDamageText = GameObject.Find("Attack_Value_Left").GetComponent<TextMeshProUGUI>();
         fighterLeftHpText = GameObject.Find("Life_Value_Left").GetComponent<TextMeshProUGUI>();
         fighterLeftSpeedText = GameObject.Find("Speed_Value_Left").GetComponent<TextMeshProUGUI>();
+        fighterMidDamageText = GameObject.Find("Attack_Value_Mid").GetComponent<TextMeshProUGUI>();
+        fighterMidHpText = GameObject.Find("Life_Value_Mid").GetComponent<TextMeshProUGUI>();
+        fighterMidSpeedText = GameObject.Find("Speed_Value_Mid").GetComponent<TextMeshProUGUI>();
+        fighterRightDamageText = GameObject.Find("Attack_Value_Right").GetComponent<TextMeshProUGUI>();
+        fighterRightHpText = GameObject.Find("Life_Value_Right").GetComponent<TextMeshProUGUI>();
+        fighterRightSpeedText = GameObject.Find("Speed_Value_Right").GetComponent<TextMeshProUGUI>();
 
         // setup stats
-        SetDefaultStats(GameObject.Find("Fighter_Left").GetComponent<FighterSkinData>().species);
-        SetDefaultStats(GameObject.Find("Fighter_Mid").GetComponent<FighterSkinData>().species);
-        SetDefaultStats(GameObject.Find("Fighter_Right").GetComponent<FighterSkinData>().species);
+        SetDefaultStats(GameObject.Find("Fighter_Left").GetComponent<FighterSkinData>().species, "Fighter_Left");
+        SetDefaultStats(GameObject.Find("Fighter_Mid").GetComponent<FighterSkinData>().species, "Fighter_Mid");
+        SetDefaultStats(GameObject.Find("Fighter_Right").GetComponent<FighterSkinData>().species, "Fighter_Right");
 
         // Initial setup
         chooseName.enabled = false;
         chooseCountry.enabled = false;
+
+        fighterLeftObject.gameObject.GetComponent<SpriteRenderer>().color = new Color32(90, 90, 90, 255);
+        fighterMidObject.gameObject.GetComponent<SpriteRenderer>().color = new Color32(90, 90, 90, 255);
+        fighterRightObject.gameObject.GetComponent<SpriteRenderer>().color = new Color32(90, 90, 90, 255);
 
         fighterLeftRing.gameObject.SetActive(false);
         fighterMidRing.gameObject.SetActive(false);
@@ -95,15 +114,33 @@ public class ChooseFirstFighterUI : MonoBehaviour
         fighterRightSpecieTitle.gameObject.SetActive(false);
     }
 
-    private void SetDefaultStats(string specie)
+    private void SetDefaultStats(string specie, string fighter)
     {
-        fighterLeftDamageText.text = Species.defaultStats[(SpeciesNames)Enum.Parse(typeof(SpeciesNames), specie)]["damage"].ToString();
-        fighterLeftHpText.text = Species.defaultStats[(SpeciesNames)Enum.Parse(typeof(SpeciesNames), specie)]["hp"].ToString();
-        fighterLeftSpeedText.text = Species.defaultStats[(SpeciesNames)Enum.Parse(typeof(SpeciesNames), specie)]["speed"].ToString();
+        switch (fighter)
+        {
+            case "Fighter_Left":
+                fighterLeftDamageText.text = Species.defaultStats[(SpeciesNames)Enum.Parse(typeof(SpeciesNames), specie)]["damage"].ToString();
+                fighterLeftHpText.text = Species.defaultStats[(SpeciesNames)Enum.Parse(typeof(SpeciesNames), specie)]["hp"].ToString();
+                fighterLeftSpeedText.text = Species.defaultStats[(SpeciesNames)Enum.Parse(typeof(SpeciesNames), specie)]["speed"].ToString();
+                break;
+            case "Fighter_Mid":
+                fighterMidDamageText.text = Species.defaultStats[(SpeciesNames)Enum.Parse(typeof(SpeciesNames), specie)]["damage"].ToString();
+                fighterMidHpText.text = Species.defaultStats[(SpeciesNames)Enum.Parse(typeof(SpeciesNames), specie)]["hp"].ToString();
+                fighterMidSpeedText.text = Species.defaultStats[(SpeciesNames)Enum.Parse(typeof(SpeciesNames), specie)]["speed"].ToString();
+                break;
+            case "Fighter_Right":
+                fighterRightDamageText.text = Species.defaultStats[(SpeciesNames)Enum.Parse(typeof(SpeciesNames), specie)]["damage"].ToString();
+                fighterRightHpText.text = Species.defaultStats[(SpeciesNames)Enum.Parse(typeof(SpeciesNames), specie)]["hp"].ToString();
+                fighterRightSpeedText.text = Species.defaultStats[(SpeciesNames)Enum.Parse(typeof(SpeciesNames), specie)]["speed"].ToString();
+                break;
+        }
     }
 
     public void EnableLeftFighterHighlight()
     {
+        fighterLeftAnimator.PlayRunAnimation();
+        fighterMidAnimator.PlayIdleAnimation();
+        fighterRightAnimator.PlayIdleAnimation();
         DisableMidFighterHighlight();
         DisableRightFighterHighlight();
         fighterLeftObject.gameObject.GetComponent<SpriteRenderer>().color = new Color32(255, 255, 255, 255);
@@ -113,6 +150,9 @@ public class ChooseFirstFighterUI : MonoBehaviour
 
     public void EnableMidFighterHighlight()
     {
+        fighterLeftAnimator.PlayIdleAnimation();
+        fighterMidAnimator.PlayRunAnimation();
+        fighterRightAnimator.PlayIdleAnimation();
         DisableLeftFighterHighlight();
         DisableRightFighterHighlight();
         fighterMidObject.gameObject.GetComponent<SpriteRenderer>().color = new Color32(255, 255, 255, 255);
@@ -122,6 +162,9 @@ public class ChooseFirstFighterUI : MonoBehaviour
 
     public void EnableRightFighterHighlight()
     {
+        fighterLeftAnimator.PlayIdleAnimation();
+        fighterMidAnimator.PlayIdleAnimation();
+        fighterRightAnimator.PlayRunAnimation();
         DisableLeftFighterHighlight();
         DisableMidFighterHighlight();
         fighterRightObject.gameObject.GetComponent<SpriteRenderer>().color = new Color32(255, 255, 255, 255);

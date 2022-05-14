@@ -5,14 +5,18 @@ using UnityEngine.SceneManagement;
 
 public class SetFighterAnimations : MonoBehaviour
 {
+    AnimationClip idleAnimation;
+    AnimationClip runAnimation;
     public Animator fighterAnimator;
+
     private void Start()
     {
         string skinName = GetSkinNameDependingOnScene();
-        fighterAnimator = this.GetComponent<Animator>();
+        fighterAnimator = GetComponent<Animator>();
 
         //TODO: This script only sets the idle animation. Change it to be more flexible
-        AnimationClip idleAnimation = Resources.Load<AnimationClip>("Animations/Characters/" + skinName + "/01_idle");
+        idleAnimation = Resources.Load<AnimationClip>("Animations/Characters/" + skinName + "/01_idle");
+        runAnimation = Resources.Load<AnimationClip>("Animations/Characters/" + skinName + "/02_run");
         SetAnimationClipToAnimator(fighterAnimator, idleAnimation);
     }
 
@@ -20,10 +24,10 @@ public class SetFighterAnimations : MonoBehaviour
     {
         string currrentScene = SceneManager.GetActiveScene().name;
 
-        if (currrentScene == SceneNames.ChooseFirstFighter.ToString()) return this.GetComponent<FighterSkinData>().skinName;
+        if (currrentScene == SceneNames.ChooseFirstFighter.ToString()) return GetComponent<FighterSkinData>().skinName;
         if (currrentScene == SceneNames.MainMenu.ToString()) return PlayerUtils.FindInactiveFighter().skin;
         //Combat
-        return this.tag == "LoadingScreenBot" ? Combat.bot.skin : Combat.player.skin;
+        return tag == "LoadingScreenBot" ? Combat.bot.skin : Combat.player.skin;
     }
 
     private static void SetAnimationClipToAnimator(Animator animator, AnimationClip idleAnimation)
@@ -35,5 +39,15 @@ public class SetFighterAnimations : MonoBehaviour
         anims.Add(new KeyValuePair<AnimationClip, AnimationClip>(defaultIdleClip, idleAnimation));
         aoc.ApplyOverrides(anims);
         animator.runtimeAnimatorController = aoc;
+    }
+
+    public void PlayIdleAnimation()
+    {
+        SetAnimationClipToAnimator(fighterAnimator, idleAnimation);
+    }
+
+    public void PlayRunAnimation()
+    {
+        SetAnimationClipToAnimator(fighterAnimator, runAnimation);
     }
 }

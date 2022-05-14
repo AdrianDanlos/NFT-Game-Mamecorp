@@ -3990,7 +3990,7 @@ GameObject:
   - component: {fileID: 891248155}
   - component: {fileID: 891248154}
   m_Layer: 5
-  m_Name: Text_Value (1)
+  m_Name: Attack_Value_Right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5537,7 +5537,7 @@ GameObject:
   - component: {fileID: 1140598772}
   - component: {fileID: 1140598771}
   m_Layer: 5
-  m_Name: Text_Value (1)
+  m_Name: Life_Value_Right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6573,7 +6573,7 @@ GameObject:
   - component: {fileID: 1378770552}
   - component: {fileID: 1378770551}
   m_Layer: 5
-  m_Name: Text_Value (1)
+  m_Name: Attack_Value_Mid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7318,7 +7318,7 @@ GameObject:
   - component: {fileID: 1502336910}
   - component: {fileID: 1502336909}
   m_Layer: 5
-  m_Name: Text_Value (1)
+  m_Name: Speed_Value_Mid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9307,7 +9307,7 @@ GameObject:
   - component: {fileID: 1886688289}
   - component: {fileID: 1886688288}
   m_Layer: 5
-  m_Name: Text_Value (1)
+  m_Name: Speed_Value_Right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10291,7 +10291,7 @@ GameObject:
   - component: {fileID: 2122290291}
   - component: {fileID: 2122290290}
   m_Layer: 5
-  m_Name: Text_Value (1)
+  m_Name: Life_Value_Mid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

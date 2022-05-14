@@ -9,9 +9,9 @@ public class ChooseFirstFighterUI : MonoBehaviour
 {
     // UI
     // canvases
-    private Canvas chooseFighter;
-    private Canvas chooseName;
-    private Canvas chooseCountry;
+    public Canvas chooseFighter;
+    public Canvas chooseName;
+    public Canvas chooseCountry;
 
     // fighters
     private Transform fighterLeft;
@@ -47,7 +47,7 @@ public class ChooseFirstFighterUI : MonoBehaviour
 
     private Button prev;
     private Button next;
-    private TextMeshProUGUI panelInfo;
+    public TextMeshProUGUI panelInfo;
 
     private void Awake()
     {
@@ -81,7 +81,7 @@ public class ChooseFirstFighterUI : MonoBehaviour
 
         prev = GameObject.Find("Button_Prev").GetComponent<Button>();
         next = GameObject.Find("Button_Next").GetComponent<Button>();
-        panelInfo = GameObject.Find("Button_Prev").GetComponent<TextMeshProUGUI>();
+        panelInfo = GameObject.Find("PanelControlTitle").GetComponent<TextMeshProUGUI>();
 
         fighterLeftDamageText = GameObject.Find("Attack_Value_Left").GetComponent<TextMeshProUGUI>();
         fighterLeftHpText = GameObject.Find("Life_Value_Left").GetComponent<TextMeshProUGUI>();
@@ -112,6 +112,12 @@ public class ChooseFirstFighterUI : MonoBehaviour
         fighterLeftSpecieTitle.gameObject.SetActive(false);
         fighterMidSpecieTitle.gameObject.SetActive(false);
         fighterRightSpecieTitle.gameObject.SetActive(false);
+
+        prev.gameObject.SetActive(false);
+        next.gameObject.SetActive(false);
+
+        // set canvas state
+        FirstPlayTempData.state = FirstPlayTempData.FirstPlayState.FIGHTER.ToString();
     }
 
     private void SetDefaultStats(string specie, string fighter)
@@ -138,6 +144,7 @@ public class ChooseFirstFighterUI : MonoBehaviour
 
     public void EnableLeftFighterHighlight()
     {
+        next.gameObject.SetActive(true);
         fighterLeftAnimator.PlayRunAnimation();
         fighterMidAnimator.PlayIdleAnimation();
         fighterRightAnimator.PlayIdleAnimation();
@@ -150,6 +157,7 @@ public class ChooseFirstFighterUI : MonoBehaviour
 
     public void EnableMidFighterHighlight()
     {
+        next.gameObject.SetActive(true);
         fighterLeftAnimator.PlayIdleAnimation();
         fighterMidAnimator.PlayRunAnimation();
         fighterRightAnimator.PlayIdleAnimation();
@@ -162,6 +170,7 @@ public class ChooseFirstFighterUI : MonoBehaviour
 
     public void EnableRightFighterHighlight()
     {
+        next.gameObject.SetActive(true);
         fighterLeftAnimator.PlayIdleAnimation();
         fighterMidAnimator.PlayIdleAnimation();
         fighterRightAnimator.PlayRunAnimation();
@@ -202,13 +211,28 @@ public class ChooseFirstFighterUI : MonoBehaviour
         fighterMidSpecieTitle.gameObject.SetActive(false);
     }
 
-    public void ChooseFighter() 
-    {
-        // nextButtonGO.GetComponent<Button>().onClick.AddListener(() => OnClickNextHandler(isLevelUp));
-    }
-
     public void OnExitNamePopUp()
     {
         GameObject.FindGameObjectWithTag("FighterNamePopup").GetComponent<Canvas>().enabled = false;
+    }
+
+    public void EnableNextBtn()
+    {
+        next.gameObject.SetActive(true);
+    }
+
+    public void EnablePrevBtn()
+    {
+        prev.gameObject.SetActive(true);
+    }
+
+    public void DisableNextBtn()
+    {
+        next.gameObject.SetActive(false);
+    }
+
+    public void DisablePrevBtn()
+    {
+        prev.gameObject.SetActive(false);
     }
 }

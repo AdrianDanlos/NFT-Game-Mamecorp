@@ -8,10 +8,8 @@ public class ChooseFirstFighter : MonoBehaviour
 {
     // Handles UI buttons
     public GameObject fighterNameInput;
-    private string fighterName;
-    private static string skinName;
-    private static string species;
 
+    // scripts
     ChooseFirstFighterUI chooseFirstFighterUI;
 
     private void Awake()
@@ -38,6 +36,46 @@ public class ChooseFirstFighter : MonoBehaviour
         }
     }
 
+    public void MoveToNextState()
+    {
+        switch (FirstPlayTempData.state.ToString())
+        {
+            case "FIGHTER":
+                chooseFirstFighterUI.chooseFighter.enabled = false;
+                chooseFirstFighterUI.chooseName.enabled = true;
+                chooseFirstFighterUI.EnablePrevBtn();
+                FirstPlayTempData.state = FirstPlayTempData.FirstPlayState.NAME.ToString();
+                chooseFirstFighterUI.panelInfo.text = "Fighter Name";
+                break;
+            case "NAME":
+
+                break;
+            case "COUNTRY":
+
+                break;
+        }
+    }
+
+    public void MoveToPreviousState()
+    {
+        switch (FirstPlayTempData.state.ToString())
+        {
+            case "FIGHTER":
+
+                break;
+            case "NAME":
+                chooseFirstFighterUI.chooseFighter.enabled = true;
+                chooseFirstFighterUI.chooseName.enabled = false;
+                chooseFirstFighterUI.DisablePrevBtn();
+                FirstPlayTempData.state = FirstPlayTempData.FirstPlayState.FIGHTER.ToString();
+                chooseFirstFighterUI.panelInfo.text = "Fighter";
+                break;
+            case "COUNTRY":
+
+                break;
+        }
+    }
+
     private void SetFighter(FighterSkinData fighterSkin)
     {
         FirstPlayTempData.skinName = fighterSkin.skinName;
@@ -46,16 +84,16 @@ public class ChooseFirstFighter : MonoBehaviour
 
     public void OnConfirmFighterName()
     {
-        fighterName = fighterNameInput.GetComponent<TextMeshProUGUI>().text;
-        CreateFighterFile();
-        UnityEngine.SceneManagement.SceneManager.LoadScene(SceneNames.EntryPoint.ToString());
+        FirstPlayTempData.fighterName = fighterNameInput.GetComponent<TextMeshProUGUI>().text;
+        FirstPlayTempData.state = FirstPlayTempData.FirstPlayState.COUNTRY.ToString();
+        CreateFighterFile(); // move to when all has been selected (country)
     }
 
     private void CreateFighterFile()
     {
-        SpeciesNames speciesEnumMember = GeneralUtils.StringToSpeciesNamesEnum(species); 
+        SpeciesNames speciesEnumMember = GeneralUtils.StringToSpeciesNamesEnum(FirstPlayTempData.species); 
         JObject serializableFighter = JObject.FromObject(JsonDataManager.CreateSerializableFighterInstance(FighterFactory.CreatePlayerFighterInstance(
-            fighterName, skinName, species,
+            FirstPlayTempData.fighterName, FirstPlayTempData.skinName, FirstPlayTempData.species,
             Species.defaultStats[speciesEnumMember]["hp"],
             Species.defaultStats[speciesEnumMember]["damage"],
             Species.defaultStats[speciesEnumMember]["speed"],

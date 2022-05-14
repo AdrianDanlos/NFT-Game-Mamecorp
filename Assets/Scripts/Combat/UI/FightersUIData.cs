@@ -53,8 +53,15 @@ public class FightersUIData : MonoBehaviour
     }
 
     private void OnClickNextHandler(bool isLevelUp){
-        if(isLevelUp) UnityEngine.SceneManagement.SceneManager.LoadScene(SceneNames.LevelUp.ToString());
-        else UnityEngine.SceneManagement.SceneManager.LoadScene(SceneNames.MainMenu.ToString());
+        if(isLevelUp) 
+            UnityEngine.SceneManagement.SceneManager.LoadScene(SceneNames.LevelUp.ToString());
+        else
+        {
+            if(Cup.Instance.isActive && !CombatMode.isSoloqEnabled)
+                UnityEngine.SceneManagement.SceneManager.LoadScene(SceneNames.Cup.ToString());
+            if(CombatMode.isSoloqEnabled)
+                UnityEngine.SceneManagement.SceneManager.LoadScene(SceneNames.MainMenu.ToString());
+        }
     }
 
     public void ShowPostCombatInfo(Fighter player, bool isPlayerWinner, int eloChange, bool isLevelUp, int goldReward, int gemsReward, Canvas results)

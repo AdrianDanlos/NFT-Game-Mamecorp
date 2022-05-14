@@ -43,7 +43,7 @@ public class Profile : MonoBehaviour
         MenuUtils.SetProfilePicture(characterProfilePicture);
         MenuUtils.SetProfileUserIcon(userIcon);
 
-        // TODO CUPS
+        
         cupsText.GetComponent<TextMeshProUGUI>().text = PlayerPrefs.GetFloat("cups").ToString();
         nCombatsText.GetComponent<TextMeshProUGUI>().text = PlayerPrefs.GetFloat("fights").ToString();
         trophiesText.GetComponent<TextMeshProUGUI>().text = PlayerPrefs.GetFloat("maxTrophies").ToString();

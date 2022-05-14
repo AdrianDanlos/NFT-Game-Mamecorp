@@ -361,8 +361,11 @@ public class CupManager : MonoBehaviour
             cupInfo[CupDB.CupRounds.FINALS.ToString()]["7"]["loser"] = match7[0];
         }
 
+        // save cup won on profile
+        ProfileData.SaveCups();
+
         // save results
-        Cup.Instance.round = CupDB.CupRounds.END.ToString(); ;
+        Cup.Instance.round = CupDB.CupRounds.END.ToString(); 
 
         Cup.Instance.cupInfo = cupInfo;
         Cup.Instance.SaveCup();

@@ -50,13 +50,14 @@ public class CupUIManager : MonoBehaviour
 
     // vars
     public string round;
+    private Color32 playerHihglight = new Color32(254, 161, 0, 255);
 
     private void Awake()
     {
         labelContainer = GameObject.Find("LabelContainer").GetComponent<Transform>();
         playersContainer = GameObject.Find("Players").GetComponent<Transform>();
         roundAnnouncer = GameObject.Find("RoundAnnouncerTxt").GetComponent<TextMeshProUGUI>();
-        buttonBattle = GameObject.Find("Button_Battle").GetComponent<Button>();
+        buttonBattle = GameObject.Find("Button_Cup").GetComponent<Button>();
         cupManager = GetComponent<CupManager>();
 
         IsTournamentOver();
@@ -90,7 +91,7 @@ public class CupUIManager : MonoBehaviour
     {
         var participantsList = Cup.Instance.participants;
 
-        playersContainer.GetChild(0).GetChild(1).GetComponent<TextMeshProUGUI>().color = Color.yellow;
+        playersContainer.GetChild(0).GetChild(1).GetComponent<TextMeshProUGUI>().color = playerHihglight;
         int counter = 0;
 
         foreach (Transform player in participants)
@@ -109,8 +110,6 @@ public class CupUIManager : MonoBehaviour
 
     private void DisplayPlayerSemis()
     {
-        Dictionary<string, Dictionary<string, Dictionary<string, string>>> cupInfoDictionary = Cup.Instance.cupInfo;
-
         int counter = 0;
         List<CupFighter> _participants = cupManager.GenerateParticipantsBasedOnQuarters();
 
@@ -124,7 +123,7 @@ public class CupUIManager : MonoBehaviour
                     _participants[counter].fighterName;
 
                 if(_participants[counter].id == "0")
-                    playersContainer.GetChild(8).GetChild(1).GetComponent<TextMeshProUGUI>().color = Color.yellow;
+                    playersContainer.GetChild(8).GetChild(1).GetComponent<TextMeshProUGUI>().color = playerHihglight;
 
                 counter++;
             }
@@ -135,8 +134,6 @@ public class CupUIManager : MonoBehaviour
 
     private void DisplayPlayerFinals()
     {
-        Dictionary<string, Dictionary<string, Dictionary<string, string>>> cupInfoDictionary = Cup.Instance.cupInfo;
-
         int counter = 0;
         List<CupFighter> _participants = cupManager.GenerateParticipantsBasedOnSemis();
 
@@ -150,7 +147,7 @@ public class CupUIManager : MonoBehaviour
                     _participants[counter].fighterName;
 
                 if (_participants[counter].id == "0")
-                    playersContainer.GetChild(12).GetChild(1).GetComponent<TextMeshProUGUI>().color = Color.yellow;
+                    playersContainer.GetChild(12).GetChild(1).GetComponent<TextMeshProUGUI>().color = playerHihglight;
 
                 counter++;
             }
@@ -161,8 +158,6 @@ public class CupUIManager : MonoBehaviour
 
     private void DisplayPlayerFinalsEnd()
     {
-        Dictionary<string, Dictionary<string, Dictionary<string, string>>> cupInfoDictionary = Cup.Instance.cupInfo;
-
         int counter = 0;
         List<CupFighter> _participants = cupManager.GenerateParticipantsBasedOnSemis();
 
@@ -176,7 +171,7 @@ public class CupUIManager : MonoBehaviour
                     _participants[counter].fighterName;
 
                 if (_participants[counter].id == "0")
-                    playersContainer.GetChild(12).GetChild(1).GetComponent<TextMeshProUGUI>().color = Color.yellow;
+                    playersContainer.GetChild(12).GetChild(1).GetComponent<TextMeshProUGUI>().color = playerHihglight;
 
                 counter++;
             }
@@ -244,12 +239,12 @@ public class CupUIManager : MonoBehaviour
 
     private void SetUIFinals()
     {
-        roundAnnouncer.text = CupDB.CupRounds.FINALS.ToString(); ;
+        roundAnnouncer.text = CupDB.CupRounds.FINALS.ToString(); 
     }
 
     private void SetUIFinalsEnd()
     {
-        string winnerId = Cup.Instance.cupInfo["finals"]["7"]["winner"];
+        string winnerId = Cup.Instance.cupInfo[CupDB.CupRounds.FINALS.ToString()]["7"]["winner"];
         string winnerName = "";
         foreach (CupFighter fighter in Cup.Instance.participants)
         {
@@ -302,7 +297,7 @@ public class CupUIManager : MonoBehaviour
         int counter = 5; // match ids + 1
 
         for (int i = 1; i < counter; i++)
-            loserIds.Add(cupInfo["quarters"][i.ToString()]["loser"]);
+            loserIds.Add(cupInfo[CupDB.CupRounds.QUARTERS.ToString()][i.ToString()]["loser"]);
 
         counter = 0;
 
@@ -331,7 +326,7 @@ public class CupUIManager : MonoBehaviour
         int counter = 7; // match ids + 1
 
         for (int i = 5; i < counter; i++)
-            loserIds.Add(cupInfo["semis"][i.ToString()]["loser"]);
+            loserIds.Add(cupInfo[CupDB.CupRounds.SEMIS.ToString()][i.ToString()]["loser"]);
 
         counter = 0;
 
@@ -359,7 +354,7 @@ public class CupUIManager : MonoBehaviour
         List<string> loserIds = new List<string>();
         int counter = 7; // match ids + 1 
 
-        loserIds.Add(cupInfo["finals"][counter.ToString()]["loser"]);
+        loserIds.Add(cupInfo[CupDB.CupRounds.FINALS.ToString()][counter.ToString()]["loser"]);
 
         counter = 0;
 

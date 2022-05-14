@@ -52,10 +52,10 @@ public class Combat : MonoBehaviour
         FindGameObjects();
         GetComponentReferences();
 
-        Debug.Log(Cup.Instance.isActive);
-        if (Cup.Instance.isActive)
+        // cup mode
+        if (Cup.Instance.isActive && !CombatMode.isSoloqEnabled)
             MatchMaking.GenerateCupBotData(player, bot);
-        else
+        if (CombatMode.isSoloqEnabled)
             MatchMaking.GenerateBotData(player, bot);
 
         SetMaxHpValues();
@@ -70,7 +70,7 @@ public class Combat : MonoBehaviour
         SetVisibilityOfGameObjects();
         SetFighterPositions();
         SetOrderOfAttacks();
-        GetRandomArena();
+        GetRandomArena(); // TODO specific arena for tournament?
         FighterSkin.SetFightersSkin(player, bot);
         FighterAnimations.ResetToDefaultAnimation(player);
         fightersUIDataScript.SetFightersUIInfo(player, bot, botElo);
@@ -80,9 +80,9 @@ public class Combat : MonoBehaviour
     IEnumerator Start()
     {
         // --- Enable this for loading effect ---
-        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(2f));
-        loadingScreen.SetBotLoadingScreenData(bot);
-        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(2f));
+        // yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(2f));
+        // loadingScreen.SetBotLoadingScreenData(bot);
+        // yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(2f));
         yield return null; //remove
 
         // UI
@@ -333,8 +333,10 @@ public class Combat : MonoBehaviour
         PostGameActions.SetElo(eloChange);
         PostGameActions.SetWinLoseCounter(isPlayerWinner);
         PostGameActions.SetExperience(player, isPlayerWinner);
-        if (isLevelUp) PostGameActions.SetLevelUpSideEffects(player);
-        EnergyManager.SubtractOneEnergyPoint();
+        if (isLevelUp) 
+            PostGameActions.SetLevelUpSideEffects(player);
+        if(CombatMode.isSoloqEnabled)
+            EnergyManager.SubtractOneEnergyPoint();
 
         //Rewards
         PostGameActions.SetCurrencies(goldReward, gemsReward);
@@ -350,13 +352,25 @@ public class Combat : MonoBehaviour
         ProfileData.SaveHighestTrophies(User.Instance.elo);
         ProfileData.SaveHighestEnemy(botElo);
 
-        if (Cup.Instance.isActive)
+        if (Cup.Instance.isActive && !CombatMode.isSoloqEnabled)
         {
-            cupManager.SimulateQuarters(isPlayerWinner);
+            switch (Cup.Instance.round)
+            {
+                case "QUARTERS":
+                    cupManager.SimulateQuarters(isPlayerWinner);
+                    break;
+                case "SEMIS":
+                    cupManager.SimulateSemis(isPlayerWinner);
+                    break;
+                case "FINALS":
+                    cupManager.SimulateFinals(isPlayerWinner);
+                    break;
+            }
 
             if (!isPlayerWinner)
             {
                 // enable rewards button on cup menu
+                // disable battle button
                 Cup.Instance.isActive = false;
                 Cup.Instance.SaveCup();
             }

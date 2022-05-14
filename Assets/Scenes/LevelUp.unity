@@ -31712,7 +31712,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 436656494}
-        m_TargetAssemblyTypeName: OnClickGoToMainMenu, Assembly-CSharp
+        m_TargetAssemblyTypeName: OnClickGoToMainMenuOrCup, Assembly-CSharp
         m_MethodName: GoToMainMenu
         m_Mode: 1
         m_Arguments:
@@ -31770,7 +31770,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 436656489}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f5845c43788b7574fa35a1f8be8a587e, type: 3}
+  m_Script: {fileID: 11500000, guid: d972e6ac19c06e042954cfe8d6470f0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &480507067

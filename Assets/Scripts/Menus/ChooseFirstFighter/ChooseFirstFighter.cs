@@ -14,17 +14,16 @@ public class ChooseFirstFighter : MonoBehaviour
 
     public void OnSelectFighter()
     {
-        GameObject.FindGameObjectWithTag("FighterNamePopup").GetComponent<Canvas>().enabled = true;
-        FighterSkinData fighterSkin = this.transform.Find("Fighter").GetComponent<FighterSkinData>();
-        skinName = fighterSkin.skinName;
-        species = fighterSkin.species;
+        FighterSkinData fighterSkin = transform.Find("Fighter").GetComponent<FighterSkinData>();
+        FirstPlayTempData.skinName = fighterSkin.skinName;
+        FirstPlayTempData.species = fighterSkin.species;
     }
 
     public void OnConfirmFighterName()
     {
         fighterName = fighterNameInput.GetComponent<TextMeshProUGUI>().text;
         CreateFighterFile();
-        UnityEngine.SceneManagement.SceneManager.LoadScene(SceneNames.MainMenu.ToString());
+        UnityEngine.SceneManagement.SceneManager.LoadScene(SceneNames.EntryPoint.ToString());
     }
 
     private void CreateFighterFile()

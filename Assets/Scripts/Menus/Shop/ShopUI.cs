@@ -49,10 +49,6 @@ public class ShopUI : MonoBehaviour
     public GameObject chestsScrollrect;
     public List<GameObject> chestsList;
     public GameObject soldOut;
-    bool commonSkillCheck = false;
-    bool rareSkillCheck = false;
-    bool epicSkillCheck = false;
-    bool legendarySkillCheck = false;
 
     // energy on open
     GameObject energyPopUp;
@@ -499,11 +495,7 @@ public class ShopUI : MonoBehaviour
             .ToList();
 
         if (!skills.Any())
-        {
-            chestsList.Where(gameObject => gameObject.name.ToUpper() == Chest.ShopChestTypes.LEGENDARY.ToString()).ToList()[0].SetActive(false);
-            legendarySkillCheck = true;
-        }
-            
+            chestsList.Where(gameObject => gameObject.name.ToUpper() == Chest.ShopChestTypes.LEGENDARY.ToString()).ToList()[0].SetActive(false);    
     }
 
     private void ManageEpicChest()
@@ -515,10 +507,7 @@ public class ShopUI : MonoBehaviour
             .ToList();
 
         if (!skills.Any())
-        {
             chestsList.Where(gameObject => gameObject.name.ToUpper() == Chest.ShopChestTypes.EPIC.ToString()).ToList()[0].SetActive(false);
-            epicSkillCheck = true;
-        }
     }
 
     private void ManageSpecialChest()
@@ -531,9 +520,6 @@ public class ShopUI : MonoBehaviour
             .ToList();
 
         if (!skills.Any())
-        {
             chestsList.Where(gameObject => gameObject.name.ToUpper() == Chest.ShopChestTypes.SPECIAL.ToString()).ToList()[0].SetActive(false);
-            rareSkillCheck = true;
-        }
     }
 }

@@ -459,7 +459,7 @@ GameObject:
   - component: {fileID: 52731347}
   - component: {fileID: 52731346}
   m_Layer: 5
-  m_Name: Text_Value (1)
+  m_Name: 'Text_Value '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -647,7 +647,7 @@ Canvas:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 64211765}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_RenderMode: 0
   m_Camera: {fileID: 0}
@@ -1018,7 +1018,7 @@ GameObject:
   - component: {fileID: 154614267}
   - component: {fileID: 154614266}
   m_Layer: 5
-  m_Name: Text_Value (1)
+  m_Name: Text_Value
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1527,6 +1527,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ring
       objectReference: {fileID: 0}
+    - target: {fileID: 50279819837839210, guid: 6648c8a2fc797b44392c792fe1537aa6, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 517976221957823082, guid: 6648c8a2fc797b44392c792fe1537aa6, type: 3}
       propertyPath: m_FlipY
       value: 0
@@ -1545,6 +1549,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 517976221957823082, guid: 6648c8a2fc797b44392c792fe1537aa6, type: 3}
       propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 517976221957823082, guid: 6648c8a2fc797b44392c792fe1537aa6, type: 3}
+      propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 517976221957823082, guid: 6648c8a2fc797b44392c792fe1537aa6, type: 3}
@@ -3386,7 +3394,7 @@ GameObject:
   - component: {fileID: 633276937}
   - component: {fileID: 633276936}
   m_Layer: 5
-  m_Name: Canvas_Language
+  m_Name: Canvas_Choose_Country
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9171,7 +9179,7 @@ GameObject:
   - component: {fileID: 1858782521}
   - component: {fileID: 1858782520}
   m_Layer: 5
-  m_Name: Text_Value (1)
+  m_Name: Text_Value
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

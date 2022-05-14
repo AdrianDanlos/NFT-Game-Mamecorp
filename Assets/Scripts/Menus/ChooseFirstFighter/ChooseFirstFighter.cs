@@ -6,6 +6,7 @@ using System.Collections.Generic;
 
 public class ChooseFirstFighter : MonoBehaviour
 {
+    // Handles UI buttons
     public GameObject fighterNameInput;
     private string fighterName;
     private static string skinName;
@@ -17,11 +18,6 @@ public class ChooseFirstFighter : MonoBehaviour
         FighterSkinData fighterSkin = this.transform.Find("Fighter").GetComponent<FighterSkinData>();
         skinName = fighterSkin.skinName;
         species = fighterSkin.species;
-    }
-
-    public void OnExitNamePopUp()
-    {
-        GameObject.FindGameObjectWithTag("FighterNamePopup").GetComponent<Canvas>().enabled = false;
     }
 
     public void OnConfirmFighterName()

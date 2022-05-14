@@ -336,7 +336,7 @@ public class Combat : MonoBehaviour
         if (isLevelUp) 
             PostGameActions.SetLevelUpSideEffects(player);
         if(CombatMode.isSoloqEnabled)
-            EnergyManager.SubtractOneEnergyPoint();
+            EnergyManager.SubtractOneEnergyPoint(); // tournament doesn't cost energy
 
         //Rewards
         PostGameActions.SetCurrencies(goldReward, gemsReward);

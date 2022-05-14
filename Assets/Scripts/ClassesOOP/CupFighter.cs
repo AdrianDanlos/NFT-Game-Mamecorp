@@ -1,6 +1,6 @@
 public class CupFighter
 {
-    // Use this class to generate cup opponents in combat
+    // Use this class to generate cup opponents 
     // and save them in cup file
     private string _id;
     private string _fighterName;

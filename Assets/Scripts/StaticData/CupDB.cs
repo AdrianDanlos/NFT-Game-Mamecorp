@@ -9,4 +9,12 @@ public static class CupDB
         AIR,
         FIRE
     }
+
+    public enum CupRounds
+    {
+        QUARTERS,
+        SEMIS,
+        FINALS,
+        END
+    }
 }

@@ -1,15 +1,18 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System;
+using UnityEngine;
 
 public static class MatchMaking
 {
     private static int baseEloGain = 15;
+    public static CupFighter bot; // use for cup mode
+
     public static void GenerateBotData(Fighter player, Fighter bot)
     {
-        string botName = MatchMaking.FetchBotRandomName();
-        int botLevel = MatchMaking.GenerateBotLevel(player.level);
-        Combat.botElo = MatchMaking.GenerateBotElo(User.Instance.elo);
+        string botName = FetchBotRandomName();
+        int botLevel = GenerateBotLevel(player.level);
+        Combat.botElo = GenerateBotElo(User.Instance.elo);
 
         List<Skill> botSkills = new List<Skill>();
 
@@ -31,6 +34,59 @@ public static class MatchMaking
 
         //FIXME: We should remove the skin concept from the fighters and use the species name for the skin.
     }
+
+    public static void GenerateCupBotData(Fighter player, Fighter bot)
+    {
+        CupFighter cupBot = GetCupBotData();
+        Debug.Log(cupBot.fighterName + " " + cupBot.species);
+
+        string botName = cupBot.fighterName; 
+        int botLevel = GenerateBotLevel(player.level);
+        Combat.botElo = GenerateBotElo(User.Instance.elo);
+
+        List<Skill> botSkills = new List<Skill>();
+
+        //ADD ALL SKILLS
+        foreach (OrderedDictionary skill in SkillCollection.skills)
+        {
+            Skill skillInstance = new Skill(skill["name"].ToString(), skill["description"].ToString(),
+                skill["skillRarity"].ToString(), skill["category"].ToString(), skill["icon"].ToString());
+
+            botSkills.Add(skillInstance);
+        }
+
+        SpeciesNames randomSpecies = (SpeciesNames)Enum.Parse(typeof(SpeciesNames), cupBot.species);
+
+        Dictionary<string, float> botStats = GenerateBotRandomStats(randomSpecies);
+
+        bot.FighterConstructor(botName, botStats["hp"], botStats["damage"], botStats["speed"],
+            randomSpecies.ToString(), randomSpecies.ToString(), botLevel, 0, botSkills);
+    }
+
+    private static CupFighter GetCupBotData()
+    {
+        string cupBotId = "";
+        int counter = 0;
+
+        // player enemies will be on seed2, seed10, seed14
+        if (Cup.Instance.round == CupDB.CupRounds.QUARTERS.ToString())
+            cupBotId = Cup.Instance.cupInfo[CupDB.CupRounds.QUARTERS.ToString()]["1"]["2"];
+        if (Cup.Instance.round == CupDB.CupRounds.SEMIS.ToString())
+            cupBotId = Cup.Instance.cupInfo[CupDB.CupRounds.SEMIS.ToString()]["5"]["10"];
+        if (Cup.Instance.round == CupDB.CupRounds.FINALS.ToString())
+            cupBotId = Cup.Instance.cupInfo[CupDB.CupRounds.FINALS.ToString()]["7"]["14"];
+
+        for (int i = 0; i < Cup.Instance.participants.Count; i++)
+        {
+            if (cupBotId == Cup.Instance.participants[counter].id)
+                return Cup.Instance.participants[counter];
+            counter++;
+        }
+
+        Debug.Log("Couldn't get fighter!");
+        return new CupFighter("", "", "");
+    }
+
     private static Dictionary<string, float> GenerateBotRandomStats(SpeciesNames randomSpecies)
     {
         float hp = Species.defaultStats[randomSpecies]["hp"] + (Species.statsPerLevel[randomSpecies]["hp"] * Combat.player.level);

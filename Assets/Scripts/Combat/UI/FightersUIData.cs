@@ -142,7 +142,7 @@ public class FightersUIData : MonoBehaviour
         Image healthBarFadeSliderValue = healthBarFade.GetComponent<Image>();
         float newHp = health / maxHealth;
 
-        Debug.Log(health + " " + newHp);
+        // TODO if damage is lethal it needs to go to 0
 
         if (newHp > 0)
         {

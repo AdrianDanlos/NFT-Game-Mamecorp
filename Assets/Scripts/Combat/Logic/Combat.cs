@@ -29,6 +29,7 @@ public class Combat : MonoBehaviour
     SkillsLogicInCombat skillsLogicScript;
     Attack attackScript;
     LoadingScreen loadingScreen;
+    CupManager cupManager;
 
     // Positions data
     static Vector3 playerStartingPosition = new Vector3(-6, -0.7f, 0);
@@ -50,11 +51,14 @@ public class Combat : MonoBehaviour
 
         FindGameObjects();
         GetComponentReferences();
-        // change this generation if cup mode enabled
-        MatchMaking.GenerateBotData(player, bot);
-        SetMaxHpValues();
 
-        // change this loading screen if cup mode enabled
+        Debug.Log(Cup.Instance.isActive);
+        if (Cup.Instance.isActive)
+            MatchMaking.GenerateCupBotData(player, bot);
+        else
+            MatchMaking.GenerateBotData(player, bot);
+
+        SetMaxHpValues();
         // LoadingScreen
         loadingScreen.SetPlayerLoadingScreenData(player);
         loadingScreen.DisplayLoaderForEnemy();
@@ -76,9 +80,9 @@ public class Combat : MonoBehaviour
     IEnumerator Start()
     {
         // --- Enable this for loading effect ---
-        // yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(2f));
-        // loadingScreen.SetBotLoadingScreenData(bot);
-        // yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(2f));
+        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(2f));
+        loadingScreen.SetBotLoadingScreenData(bot);
+        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(2f));
         yield return null; //remove
 
         // UI
@@ -96,14 +100,14 @@ public class Combat : MonoBehaviour
 
     private void GetComponentReferences()
     {
-        // From the current gameobject (this) access the movement component which is a script.
-        movementScript = this.GetComponent<Movement>();
-        fightersUIDataScript = this.GetComponent<FightersUIData>();
-        skillsLogicScript = this.GetComponent<SkillsLogicInCombat>();
-        attackScript = this.GetComponent<Attack>();
-        loadingScreen = this.GetComponent<LoadingScreen>();
+        movementScript = GetComponent<Movement>();
+        fightersUIDataScript = GetComponent<FightersUIData>();
+        skillsLogicScript = GetComponent<SkillsLogicInCombat>();
+        attackScript = GetComponent<Attack>();
+        loadingScreen = GetComponent<LoadingScreen>();
         player = playerGameObject.GetComponent<Fighter>();
         bot = botGameObject.GetComponent<Fighter>();
+        cupManager = GameObject.Find("CupManager").GetComponent<CupManager>();
     }
 
     private void ToggleLoadingScreenVisibility(bool displayLoadingScreen)
@@ -345,6 +349,18 @@ public class Combat : MonoBehaviour
         ProfileData.SaveFights();
         ProfileData.SaveHighestTrophies(User.Instance.elo);
         ProfileData.SaveHighestEnemy(botElo);
+
+        if (Cup.Instance.isActive)
+        {
+            cupManager.SimulateQuarters(isPlayerWinner);
+
+            if (!isPlayerWinner)
+            {
+                // enable rewards button on cup menu
+                Cup.Instance.isActive = false;
+                Cup.Instance.SaveCup();
+            }
+        }
     }
 
     public bool GetGameStatus()

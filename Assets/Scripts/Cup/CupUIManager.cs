@@ -82,7 +82,7 @@ public class CupUIManager : MonoBehaviour
 
     private void IsTournamentOver()
     {
-        if (Cup.Instance.round == "end")
+        if (Cup.Instance.round == CupDB.CupRounds.END.ToString() || !Cup.Instance.isActive)
             buttonBattle.gameObject.SetActive(false);
     }
 
@@ -187,25 +187,24 @@ public class CupUIManager : MonoBehaviour
 
     private void SetUIBasedOnRound()
     {
-        Debug.Log(Cup.Instance.round);
         switch (Cup.Instance.round)
         {
-            case "quarters":
+            case "QUARTERS":
                 SetUIQuarters();
                 DisplayPlayerQuarters();
                 break;
-            case "semis":
+            case "SEMIS":
                 SetUISemis();
                 DisplayPlayerQuarters();
                 DisplayPlayerSemis();
                 break;
-            case "finals":
+            case "FINALS":
                 SetUIFinals();
                 DisplayPlayerQuarters();
                 DisplayPlayerSemis();
                 DisplayPlayerFinals();
                 break;
-            case "end":
+            case "END":
                 SetUIFinalsEnd();
                 DisplayPlayerQuarters();
                 DisplayPlayerSemis();
@@ -217,7 +216,7 @@ public class CupUIManager : MonoBehaviour
 
     private void SetUIQuarters()
     {
-        roundAnnouncer.text = "QUARTERS";
+        roundAnnouncer.text = CupDB.CupRounds.QUARTERS.ToString();
 
         foreach(Transform player in participants)
         {
@@ -231,7 +230,7 @@ public class CupUIManager : MonoBehaviour
 
     private void SetUISemis()
     {
-        roundAnnouncer.text = "SEMIFINALS";
+        roundAnnouncer.text = CupDB.CupRounds.SEMIS.ToString(); ;
 
         foreach (Transform player in participants)
         {
@@ -245,7 +244,7 @@ public class CupUIManager : MonoBehaviour
 
     private void SetUIFinals()
     {
-        roundAnnouncer.text = "FINALS";
+        roundAnnouncer.text = CupDB.CupRounds.FINALS.ToString(); ;
     }
 
     private void SetUIFinalsEnd()

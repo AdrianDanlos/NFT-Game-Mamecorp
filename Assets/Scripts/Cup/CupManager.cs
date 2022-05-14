@@ -21,7 +21,7 @@ public class CupManager : MonoBehaviour
         Array cupNames = Enum.GetValues(typeof(CupDB.CupNames));
         System.Random random = new System.Random();
         string cupName = cupNames.GetValue(random.Next(cupNames.Length)).ToString();
-        string round = "quarters";
+        string round = CupDB.CupRounds.QUARTERS.ToString();
         bool isActive = false;
         List<CupFighter> participants = GenerateParticipants();
         Dictionary<string, Dictionary<string, Dictionary<string, string>>> cupInfo = GenerateCupInitialInfo();
@@ -60,7 +60,7 @@ public class CupManager : MonoBehaviour
         Dictionary<string, Dictionary<string, Dictionary<string, string>>> cupInfo = 
             new Dictionary<string, Dictionary<string, Dictionary<string, string>>>
             {
-                { "quarters", new Dictionary<string, Dictionary<string, string>>
+                { CupDB.CupRounds.QUARTERS.ToString(), new Dictionary<string, Dictionary<string, string>>
                     {
                         { "1", new Dictionary<string, string>
                             {
@@ -105,7 +105,7 @@ public class CupManager : MonoBehaviour
         return cupInfo;
     }
 
-    public void SimulateQuarters()
+    public void SimulateQuarters(bool hasPlayerWon)
     {
         int random;
         Dictionary<string, Dictionary<string, Dictionary<string, string>>> cupInfo = Cup.Instance.cupInfo;
@@ -113,60 +113,63 @@ public class CupManager : MonoBehaviour
         // match lists
         List<string> match1 = new List<string>
         {
-            // this doesn't need to be simulated - player
-            cupInfo["quarters"]["1"]["1"],
-            cupInfo["quarters"]["1"]["2"],
+            cupInfo[CupDB.CupRounds.QUARTERS.ToString()]["1"]["1"],
+            cupInfo[CupDB.CupRounds.QUARTERS.ToString()]["1"]["2"],
         };
 
         List<string> match2 = new List<string>
         {
-            cupInfo["quarters"]["2"]["3"],
-            cupInfo["quarters"]["2"]["4"],
+            cupInfo[CupDB.CupRounds.QUARTERS.ToString()]["2"]["3"],
+            cupInfo[CupDB.CupRounds.QUARTERS.ToString()]["2"]["4"],
         };
 
         List<string> match3 = new List<string>
         {
-            cupInfo["quarters"]["3"]["5"],
-            cupInfo["quarters"]["3"]["6"],
+            cupInfo[CupDB.CupRounds.QUARTERS.ToString()]["3"]["5"],
+            cupInfo[CupDB.CupRounds.QUARTERS.ToString()]["3"]["6"],
         };
 
         List<string> match4 = new List<string>
         {
-            cupInfo["quarters"]["4"]["7"],
-            cupInfo["quarters"]["4"]["8"],
+            cupInfo[CupDB.CupRounds.QUARTERS.ToString()]["4"]["7"],
+            cupInfo[CupDB.CupRounds.QUARTERS.ToString()]["4"]["8"],
         };
 
         // simulate matches
-        random = UnityEngine.Random.Range(0, match1.Count);
-        cupInfo["quarters"]["1"]["winner"] = match1[random];
-        if (random == 0)
-            cupInfo["quarters"]["1"]["loser"] = match1[1];
+        if (hasPlayerWon)
+        {
+            cupInfo[CupDB.CupRounds.QUARTERS.ToString()]["1"]["winner"] = match1[0];
+            cupInfo[CupDB.CupRounds.QUARTERS.ToString()]["1"]["loser"] = match1[1];
+        }
         else
-            cupInfo["quarters"]["1"]["loser"] = match1[0];
+        {
+            cupInfo[CupDB.CupRounds.QUARTERS.ToString()]["1"]["winner"] = match1[1];
+            cupInfo[CupDB.CupRounds.QUARTERS.ToString()]["1"]["loser"] = match1[0];
+        }
 
         random = UnityEngine.Random.Range(0, match2.Count);
-        cupInfo["quarters"]["2"]["winner"] = match2[random];
+        cupInfo[CupDB.CupRounds.QUARTERS.ToString()]["2"]["winner"] = match2[random];
         if (random == 0)
-            cupInfo["quarters"]["2"]["loser"] = match2[1];
+            cupInfo[CupDB.CupRounds.QUARTERS.ToString()]["2"]["loser"] = match2[1];
         else
-            cupInfo["quarters"]["2"]["loser"] = match2[0];
+            cupInfo[CupDB.CupRounds.QUARTERS.ToString()]["2"]["loser"] = match2[0];
 
         random = UnityEngine.Random.Range(0, match3.Count);
-        cupInfo["quarters"]["3"]["winner"] = match3[random];
+        cupInfo[CupDB.CupRounds.QUARTERS.ToString()]["3"]["winner"] = match3[random];
         if (random == 0)
-            cupInfo["quarters"]["3"]["loser"] = match3[1];
+            cupInfo[CupDB.CupRounds.QUARTERS.ToString()]["3"]["loser"] = match3[1];
         else
-            cupInfo["quarters"]["3"]["loser"] = match3[0];
+            cupInfo[CupDB.CupRounds.QUARTERS.ToString()]["3"]["loser"] = match3[0];
 
         random = UnityEngine.Random.Range(0, match4.Count);
-        cupInfo["quarters"]["4"]["winner"] = match4[random];
+        cupInfo[CupDB.CupRounds.QUARTERS.ToString()]["4"]["winner"] = match4[random];
         if (random == 0)
-            cupInfo["quarters"]["4"]["loser"] = match4[1];
+            cupInfo[CupDB.CupRounds.QUARTERS.ToString()]["4"]["loser"] = match4[1];
         else
-            cupInfo["quarters"]["4"]["loser"] = match4[0];
+            cupInfo[CupDB.CupRounds.QUARTERS.ToString()]["4"]["loser"] = match4[0];
 
         // save results
-        Cup.Instance.round = "semis";
+        Cup.Instance.round = CupDB.CupRounds.SEMIS.ToString(); ;
 
         Cup.Instance.cupInfo = cupInfo;
         Cup.Instance.SaveCup();
@@ -188,7 +191,7 @@ public class CupManager : MonoBehaviour
         {
             for(int matchCounter = 1; matchCounter < matchesNumber + 1; matchCounter++)
             {
-                if (participant.id == _cupInfo["quarters"][matchCounter.ToString()]["winner"])
+                if (participant.id == _cupInfo[CupDB.CupRounds.QUARTERS.ToString()][matchCounter.ToString()]["winner"])
                     semisParticipants.Add(participant);
             }
         }
@@ -200,7 +203,7 @@ public class CupManager : MonoBehaviour
     private void GenerateCupSemisInfo()
     {
         Cup.Instance.cupInfo.Add(
-            "semis", new Dictionary<string, Dictionary<string, string>>
+            CupDB.CupRounds.SEMIS.ToString(), new Dictionary<string, Dictionary<string, string>>
             {
                 { "5", new Dictionary<string, string>
                     {
@@ -226,19 +229,19 @@ public class CupManager : MonoBehaviour
         Dictionary<string, Dictionary<string, Dictionary<string, string>>> cupInfo = Cup.Instance.cupInfo;
         int participantsCounter = 0; 
 
-        cupInfo["semis"]["5"]["9"] = _participants[participantsCounter].id;
+        cupInfo[CupDB.CupRounds.SEMIS.ToString()]["5"]["9"] = _participants[participantsCounter].id;
         participantsCounter++;
-        cupInfo["semis"]["5"]["10"] = _participants[participantsCounter].id;
+        cupInfo[CupDB.CupRounds.SEMIS.ToString()]["5"]["10"] = _participants[participantsCounter].id;
         participantsCounter++;
-        cupInfo["semis"]["6"]["11"] = _participants[participantsCounter].id;
+        cupInfo[CupDB.CupRounds.SEMIS.ToString()]["6"]["11"] = _participants[participantsCounter].id;
         participantsCounter++;
-        cupInfo["semis"]["6"]["12"] = _participants[participantsCounter].id;
+        cupInfo[CupDB.CupRounds.SEMIS.ToString()]["6"]["12"] = _participants[participantsCounter].id;
 
         Cup.Instance.cupInfo = cupInfo;
         Cup.Instance.SaveCup();
     }
 
-    public void SimulateSemis()
+    public void SimulateSemis(bool hasPlayerWon)
     {
         int random;
         Dictionary<string, Dictionary<string, Dictionary<string, string>>> cupInfo = Cup.Instance.cupInfo;
@@ -246,34 +249,37 @@ public class CupManager : MonoBehaviour
         // match lists
         List<string> match5 = new List<string>
         {
-            // this doesn't need to be simulated - player
-            cupInfo["semis"]["5"]["9"],
-            cupInfo["semis"]["5"]["10"],
+            cupInfo[CupDB.CupRounds.SEMIS.ToString()]["5"]["9"],
+            cupInfo[CupDB.CupRounds.SEMIS.ToString()]["5"]["10"],
         };
 
         List<string> match6 = new List<string>
         {
-            cupInfo["semis"]["6"]["11"],
-            cupInfo["semis"]["6"]["12"],
+            cupInfo[CupDB.CupRounds.SEMIS.ToString()]["6"]["11"],
+            cupInfo[CupDB.CupRounds.SEMIS.ToString()]["6"]["12"],
         };
 
         // simulate matches
-        random = UnityEngine.Random.Range(0, match5.Count);
-        cupInfo["semis"]["5"]["winner"] = match5[random];
-        if (random == 0)
-            cupInfo["semis"]["5"]["loser"] = match5[1];
+        if (hasPlayerWon)
+        {
+            cupInfo[CupDB.CupRounds.SEMIS.ToString()]["5"]["winner"] = match5[0];
+            cupInfo[CupDB.CupRounds.SEMIS.ToString()]["5"]["loser"] = match5[1];
+        }
         else
-            cupInfo["semis"]["5"]["loser"] = match5[0];
+        {
+            cupInfo[CupDB.CupRounds.SEMIS.ToString()]["5"]["winner"] = match5[1];
+            cupInfo[CupDB.CupRounds.SEMIS.ToString()]["5"]["loser"] = match5[0];
+        }
 
         random = UnityEngine.Random.Range(0, match6.Count);
-        cupInfo["semis"]["6"]["winner"] = match6[random];
+        cupInfo[CupDB.CupRounds.SEMIS.ToString()]["6"]["winner"] = match6[random];
         if (random == 0)
-            cupInfo["semis"]["6"]["loser"] = match6[1];
+            cupInfo[CupDB.CupRounds.SEMIS.ToString()]["6"]["loser"] = match6[1];
         else
-            cupInfo["semis"]["6"]["loser"] = match6[0];
+            cupInfo[CupDB.CupRounds.SEMIS.ToString()]["6"]["loser"] = match6[0];
 
         // save results
-        Cup.Instance.round = "finals";
+        Cup.Instance.round = CupDB.CupRounds.FINALS.ToString(); ;
 
         Cup.Instance.cupInfo = cupInfo;
         Cup.Instance.SaveCup();
@@ -296,7 +302,7 @@ public class CupManager : MonoBehaviour
         {
             for (int matchCounter = 5; matchCounter < matchesNumber; matchCounter++)
             {
-                if (participant.id == _cupInfo["semis"][matchCounter.ToString()]["winner"])
+                if (participant.id == _cupInfo[CupDB.CupRounds.SEMIS.ToString()][matchCounter.ToString()]["winner"])
                     semisParticipants.Add(participant);
             }
         }
@@ -307,7 +313,7 @@ public class CupManager : MonoBehaviour
     private void GenerateCupFinalsInfo()
     {
         Cup.Instance.cupInfo.Add(
-            "finals", new Dictionary<string, Dictionary<string, string>>
+            CupDB.CupRounds.FINALS.ToString(), new Dictionary<string, Dictionary<string, string>>
             {
                 { "7", new Dictionary<string, string>
                     {
@@ -324,37 +330,39 @@ public class CupManager : MonoBehaviour
         Dictionary<string, Dictionary<string, Dictionary<string, string>>> cupInfo = Cup.Instance.cupInfo;
         int participantsCounter = 0;
 
-        cupInfo["finals"]["7"]["13"] = _participants[participantsCounter].id;
+        cupInfo[CupDB.CupRounds.FINALS.ToString()]["7"]["13"] = _participants[participantsCounter].id;
         participantsCounter++;
-        cupInfo["finals"]["7"]["14"] = _participants[participantsCounter].id;
+        cupInfo[CupDB.CupRounds.FINALS.ToString()]["7"]["14"] = _participants[participantsCounter].id;
 
         Cup.Instance.cupInfo = cupInfo;
         Cup.Instance.SaveCup();
     }
 
-    public void SimulateFinals()
+    public void SimulateFinals(bool hasPlayerWon)
     {
-        int random;
         Dictionary<string, Dictionary<string, Dictionary<string, string>>> cupInfo = Cup.Instance.cupInfo;
         
         // matches lists
         List<string> match7 = new List<string>
         {
-            // this doesn't need to be simulated - player
-            cupInfo["finals"]["7"]["13"],
-            cupInfo["finals"]["7"]["14"],
+            cupInfo[CupDB.CupRounds.FINALS.ToString()]["7"]["13"],
+            cupInfo[CupDB.CupRounds.FINALS.ToString()]["7"]["14"],
         };
 
         // simulate match
-        random = UnityEngine.Random.Range(0, match7.Count);
-        cupInfo["finals"]["7"]["winner"] = match7[random];
-        if (random == 0)
-            cupInfo["finals"]["7"]["loser"] = match7[1];
+        if (hasPlayerWon)
+        {
+            cupInfo[CupDB.CupRounds.FINALS.ToString()]["7"]["winner"] = match7[0];
+            cupInfo[CupDB.CupRounds.FINALS.ToString()]["7"]["loser"] = match7[1];
+        }
         else
-            cupInfo["finals"]["7"]["loser"] = match7[0];
+        {
+            cupInfo[CupDB.CupRounds.FINALS.ToString()]["7"]["winner"] = match7[1];
+            cupInfo[CupDB.CupRounds.FINALS.ToString()]["7"]["loser"] = match7[0];
+        }
 
         // save results
-        Cup.Instance.round = "end";
+        Cup.Instance.round = CupDB.CupRounds.END.ToString(); ;
 
         Cup.Instance.cupInfo = cupInfo;
         Cup.Instance.SaveCup();

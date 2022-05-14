@@ -19,6 +19,11 @@ public class ChooseFirstFighter : MonoBehaviour
         species = fighterSkin.species;
     }
 
+    public void OnExitNamePopUp()
+    {
+        GameObject.FindGameObjectWithTag("FighterNamePopup").GetComponent<Canvas>().enabled = false;
+    }
+
     public void OnConfirmFighterName()
     {
         fighterName = fighterNameInput.GetComponent<TextMeshProUGUI>().text;

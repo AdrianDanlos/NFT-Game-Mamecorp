@@ -1,3 +1,4 @@
+using System.Collections;
 using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -18,7 +19,7 @@ public class DeleteGame : MonoBehaviour
     {
         DeleteSaves();
         ResetAllPrefs();
-        SceneManager.LoadScene(SceneNames.EntryPoint.ToString());
+        IGoToEntryPoint();
     }
 
     private void DeleteSaves()
@@ -26,13 +27,23 @@ public class DeleteGame : MonoBehaviour
         string[] files =  Directory.GetFiles(Application.persistentDataPath);
 
         for (int i = 0; i < files.Length; i++)
-        {
             File.Delete(files[i]);
-        }
     }
 
     private void ResetAllPrefs()
     {
         PlayerPrefs.DeleteAll();
+    }
+
+    private IEnumerator GoToEntryPoint()
+    {
+        StartCoroutine(SceneManagerScript.instance.FadeOut());
+        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(1f));
+        UnityEngine.SceneManagement.SceneManager.LoadScene(SceneNames.EntryPoint.ToString());
+    }
+
+    private void IGoToEntryPoint()
+    {
+        StartCoroutine(GoToEntryPoint());
     }
 }

@@ -7,7 +7,8 @@ public class SceneManagerScript : MonoBehaviour
     public static SceneManagerScript instance;
 
     private CanvasGroup fadeCanvasGroup;
-    public readonly float fadeDuration = 1f;
+    public const float FADE_DURATION = 1f;
+    public const float FADE_INCREMENT = 0.02f;
     public float alphaValue = 1f;
 
     private void Awake()
@@ -19,7 +20,7 @@ public class SceneManagerScript : MonoBehaviour
         {
             Destroy(gameObject);
             return;
-        }
+        }   
 
         DontDestroyOnLoad(gameObject);
 
@@ -36,7 +37,7 @@ public class SceneManagerScript : MonoBehaviour
     {
         alphaValue = 0f;
         float fadeCounter = 0f;
-        float fadeIncrement = 0.02f;
+        float fadeIncrement = FADE_INCREMENT;
 
         do
         {
@@ -44,14 +45,14 @@ public class SceneManagerScript : MonoBehaviour
             alphaValue += fadeIncrement;
             fadeCounter += fadeIncrement;
             yield return new WaitForSeconds(fadeIncrement);
-        } while (fadeCounter < fadeDuration);
+        } while (fadeCounter < FADE_DURATION);
     }
 
     public IEnumerator FadeIn()
     {
         alphaValue = 1f;
-        float fadeCounter = 0f;
-        float fadeIncrement = 0.02f;
+        float fadeCounter = 0;
+        float fadeIncrement = FADE_INCREMENT;
 
         do
         {
@@ -59,6 +60,6 @@ public class SceneManagerScript : MonoBehaviour
             alphaValue -= fadeIncrement;
             fadeCounter += fadeIncrement;
             yield return new WaitForSeconds(fadeIncrement);
-        } while (fadeCounter < fadeDuration);
+        } while (fadeCounter < FADE_DURATION);
     }
 }

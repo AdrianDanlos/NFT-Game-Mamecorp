@@ -12,6 +12,9 @@ public class EntryPoint : MonoBehaviour
     Slider loadingBar;
     TextMeshProUGUI tipText;
 
+    // fighter
+    public static GameObject fighterGameObject;
+
     private void Awake()
     {
         loadingBarGO = GameObject.Find("Slider_LoadingBar");
@@ -24,14 +27,15 @@ public class EntryPoint : MonoBehaviour
         loadingBar.value = 0f;
     }
 
-    public static GameObject fighterGameObject;
     IEnumerator Start()
     {
         HideFighter();
         GenerateTip();
 
+        StartCoroutine(SceneManagerScript.instance.FadeIn());
+        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(0.5f));
+
         // --- Enable this for loading effect ---
-        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(1f));
         StartCoroutine(FakeDelay());
         yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(3.5f));
         yield return null; //remove
@@ -62,8 +66,6 @@ public class EntryPoint : MonoBehaviour
 
     IEnumerator FakeDelay()
     {
-        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(1f));
-
         loadingText.text = "0%";
         loadingBar.value = 0f;
         yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(1f));

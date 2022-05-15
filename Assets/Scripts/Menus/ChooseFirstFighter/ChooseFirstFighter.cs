@@ -2,9 +2,6 @@ using UnityEngine;
 
 public class ChooseFirstFighter : MonoBehaviour
 {
-    // Handles UI buttons
-    public GameObject fighterNameInput;
-
     // scripts
     ChooseFirstFighterUI chooseFirstFighterUI;
 

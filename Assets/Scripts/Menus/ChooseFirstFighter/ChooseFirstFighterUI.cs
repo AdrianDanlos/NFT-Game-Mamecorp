@@ -316,6 +316,7 @@ public class ChooseFirstFighterUI : MonoBehaviour
             ShowError("Name must be at least 4 characters!");
         else
         {
+            FirstPlayTempData.fighterName = nameInputField.text;
             FirstPlayTempData.state = FirstPlayTempData.FirstPlayState.COUNTRY.ToString();
             panelInfo.text = "Country";
             chooseCountry.enabled = true;

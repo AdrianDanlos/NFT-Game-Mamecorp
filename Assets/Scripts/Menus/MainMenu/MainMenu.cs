@@ -15,8 +15,11 @@ public class MainMenu : MonoBehaviour
     public GameObject notifyCards;
     public GameObject settings;
     public GameObject deleteConfirmation;
+    public GameObject aboutPopup;
     public GameObject buttonDelete;
-    public GameObject buttonCloseconfirmation;
+    public GameObject buttonAbout;
+    public GameObject buttonCloseConfirmation;
+    public GameObject buttonCloseAbout;
 
     // stats
     public TextMeshProUGUI attack;
@@ -45,13 +48,16 @@ public class MainMenu : MonoBehaviour
 
         settings = GameObject.Find("Settings");
         deleteConfirmation = GameObject.Find("Delete_Confirmation");
+        aboutPopup = GameObject.Find("AboutPopup");
         dailyGiftCanvas = GameObject.Find("DailyRewardsCanvas");
         rankingCanvas = GameObject.Find("RankingCanvas");
         profileCanvas = GameObject.Find("ProfileCanvas");
         dailyGift = dailyGiftCanvas.GetComponent<DailyGift>();
         dailyGiftsNotification = GameObject.Find("DailyGiftsNotification");
         buttonDelete = GameObject.Find("Button_Delete");
-        buttonCloseconfirmation = GameObject.Find("Button_Close_Confirmation");
+        buttonAbout = GameObject.Find("Button_About");
+        buttonCloseConfirmation = GameObject.Find("Button_Close_Confirmation");
+        buttonCloseAbout = GameObject.Find("Button_Close_About");
 
         // stats
         attack = GameObject.Find("Attack_Value").GetComponent<TextMeshProUGUI>();
@@ -71,6 +77,7 @@ public class MainMenu : MonoBehaviour
         // Hide poppups
         settings.SetActive(false);
         deleteConfirmation.SetActive(false);
+        aboutPopup.SetActive(false);
         dailyGiftCanvas.SetActive(false);
         rankingCanvas.SetActive(false);
         profileCanvas.SetActive(false);
@@ -79,7 +86,9 @@ public class MainMenu : MonoBehaviour
             dailyGiftsNotification.SetActive(true);
 
         buttonDelete.GetComponent<Button>().onClick.AddListener(() => ShowDeleteConfirmation());
-        buttonCloseconfirmation.GetComponent<Button>().onClick.AddListener(() => CloseSettingsConfirmation());
+        buttonCloseConfirmation.GetComponent<Button>().onClick.AddListener(() => CloseSettingsConfirmation());
+        buttonAbout.GetComponent<Button>().onClick.AddListener(() => ShowAboutPopup());
+        buttonCloseAbout.GetComponent<Button>().onClick.AddListener(() => HideAboutPopup());
     }
 
     IEnumerator Start()
@@ -118,9 +127,24 @@ public class MainMenu : MonoBehaviour
         settings.SetActive(true);
     }
 
+    public void CloseSettings()
+    {
+        settings.SetActive(false);
+    }
+
     public void ShowDeleteConfirmation()
     {
         deleteConfirmation.SetActive(true);
+    }
+
+    public void ShowAboutPopup()
+    {
+        aboutPopup.SetActive(true);
+    }
+
+    public void HideAboutPopup()
+    {
+        aboutPopup.SetActive(false);
     }
 
     public void CloseSettingsConfirmation()

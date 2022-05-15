@@ -5,6 +5,7 @@ using System.Linq;
 using System.Collections.Specialized;
 using System;
 using UnityEngine.UI;
+using TMPro;
 
 public class Combat : MonoBehaviour
 {
@@ -22,6 +23,7 @@ public class Combat : MonoBehaviour
     public GameObject combatUI;
     public GameObject combatLoadingScreenUI;
     public GameObject combatLoadingScreenSprites;
+    private TextMeshProUGUI levelTextBot;
 
     // Script references
     public static Movement movementScript;
@@ -47,6 +49,8 @@ public class Combat : MonoBehaviour
 
     private void Awake()
     {
+        SetupUI();
+
         isGameOver = false;
 
         FindGameObjects();
@@ -82,6 +86,7 @@ public class Combat : MonoBehaviour
         // --- Enable this for loading effect ---
         yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(2f));
         loadingScreen.SetBotLoadingScreenData(bot);
+        levelTextBot.enabled = true;
         yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(3f));
         yield return null; //remove
 
@@ -90,6 +95,12 @@ public class Combat : MonoBehaviour
         
         ToggleLoadingScreenVisibility(false);
         StartCoroutine(InitiateCombat());
+    }
+
+    private void SetupUI()
+    {
+        levelTextBot = GameObject.Find("LevelTextBot").GetComponent<TextMeshProUGUI>();
+        levelTextBot.enabled = false;
     }
 
     private void BoostFightersStatsBasedOnPassiveSkills()

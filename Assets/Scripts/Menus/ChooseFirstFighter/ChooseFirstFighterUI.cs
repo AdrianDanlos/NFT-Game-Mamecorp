@@ -255,26 +255,6 @@ public class ChooseFirstFighterUI : MonoBehaviour
         GameObject.FindGameObjectWithTag("FighterNamePopup").GetComponent<Canvas>().enabled = false;
     }
 
-    public void EnableNextBtn()
-    {
-        next.gameObject.SetActive(true);
-    }
-
-    public void EnablePrevBtn()
-    {
-        prev.gameObject.SetActive(true);
-    }
-
-    public void DisableNextBtn()
-    {
-        next.gameObject.SetActive(false);
-    }
-
-    public void DisablePrevBtn()
-    {
-        prev.gameObject.SetActive(false);
-    }
-
     private void GetFlagGOs()
     {
         for(int i = 0; i < flagsContainer.childCount; i++)
@@ -287,7 +267,7 @@ public class ChooseFirstFighterUI : MonoBehaviour
     {
         chooseFighter.enabled = false;
         chooseName.enabled = true;
-        EnablePrevBtn();
+        prev.gameObject.SetActive(true);
         FirstPlayTempData.state = FirstPlayTempData.FirstPlayState.NAME.ToString();
         panelInfo.text = "Fighter Name";
     }
@@ -361,7 +341,7 @@ public class ChooseFirstFighterUI : MonoBehaviour
     {
         chooseFighter.enabled = true;
         chooseName.enabled = false;
-        DisablePrevBtn();
+        prev.gameObject.SetActive(false);
         FirstPlayTempData.state = FirstPlayTempData.FirstPlayState.FIGHTER.ToString();
         panelInfo.text = "Fighter";
     }

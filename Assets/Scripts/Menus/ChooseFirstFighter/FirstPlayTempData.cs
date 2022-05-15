@@ -17,5 +17,7 @@ public static class FirstPlayTempData
     public static string lastFlag;
     public static bool firstFlag = false;
 
+    // fighter creation state
+    // chooseFighter - name - country
     public static string state;
 }

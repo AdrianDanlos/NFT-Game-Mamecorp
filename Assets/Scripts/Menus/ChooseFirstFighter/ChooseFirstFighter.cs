@@ -79,10 +79,12 @@ public class ChooseFirstFighter : MonoBehaviour
             FirstPlayTempData.firstFlag = true;
 
         chooseFirstFighterUI.EnableCheckOnFlag(transform.name);
-        if (FirstPlayTempData.lastFlag != "")
-            chooseFirstFighterUI.DisableCheckOnFlag(FirstPlayTempData.lastFlag);
-
         FirstPlayTempData.countryFlag = transform.name;
+
+        if (FirstPlayTempData.lastFlag != "")
+            if (FirstPlayTempData.lastFlag != FirstPlayTempData.countryFlag)
+                chooseFirstFighterUI.DisableCheckOnFlag(FirstPlayTempData.lastFlag);
+
         FirstPlayTempData.lastFlag = FirstPlayTempData.countryFlag;
     }
 

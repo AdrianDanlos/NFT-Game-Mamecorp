@@ -59,6 +59,8 @@ public class ChooseFirstFighterUI : MonoBehaviour
     private List<Transform> flags;
     private Transform flagsContainer;
 
+    public GameObject flagErrorOk;
+
     private void Awake()
     {
         HandleUIOnAwake();
@@ -115,6 +117,7 @@ public class ChooseFirstFighterUI : MonoBehaviour
 
         flagsContainer = GameObject.Find("Flags").GetComponent<Transform>();
         flags = new List<Transform>();
+        flagErrorOk = GameObject.Find("FlagErrorBg");
 
         // Initial setup -----------------------------------------------------------------------------------------
         chooseName.enabled = false;
@@ -140,6 +143,7 @@ public class ChooseFirstFighterUI : MonoBehaviour
             
         regexText.gameObject.SetActive(false);
         GetFlagGOs();
+        flagErrorOk.SetActive(false);
 
         // set canvas state
         FirstPlayTempData.state = FirstPlayTempData.FirstPlayState.FIGHTER.ToString();
@@ -319,19 +323,35 @@ public class ChooseFirstFighterUI : MonoBehaviour
         }
     }
 
+    private bool IsFlagEmpty()
+    {
+        return FirstPlayTempData.countryFlag == null;
+    }
+
     public void CheckFlag()
     {
-        if (IsNameEmpty())
-            ShowError("Name can't be empty!");
-        else if (IsNameLengthCorrect())
-            ShowError("Name must be at least 4 characters!");
+        if (IsFlagEmpty())
+            flagErrorOk.SetActive(true);
         else
         {
-            FirstPlayTempData.fighterName = nameInputField.text;
-            panelInfo.text = "Fighter Name";
-            chooseCountry.enabled = true;
-            chooseName.enabled = false;
+            CreateFighterFile();
+            CreateUserFile();
+            UnityEngine.SceneManagement.SceneManager.LoadScene(SceneNames.EntryPoint.ToString());
         }
+    }
+
+    public void EnableCheckOnFlag(string flagName)
+    {
+        for(int i = 0; i < flags.Count; i++)
+            if(flagName == flags[i].transform.name)
+                flags[i].transform.GetChild(0).GetComponent<Image>().enabled = true;
+    }
+
+    public void DisableCheckOnFlag(string flagName)
+    {
+        for (int i = 0; i < flags.Count; i++)
+            if (flagName == flags[i].transform.name)
+                flags[i].transform.GetChild(0).GetComponent<Image>().enabled = false;
     }
 
     // previous button
@@ -369,7 +389,7 @@ public class ChooseFirstFighterUI : MonoBehaviour
 
     public void CreateUserFile()
     {
-        string flag = "";
+        string flag = FirstPlayTempData.countryFlag;
         string userIcon = GenerateIcon().ToString();
         UserFactory.CreateUserInstance(flag, userIcon, PlayerUtils.maxEnergy);
         JObject user = JObject.FromObject(User.Instance);

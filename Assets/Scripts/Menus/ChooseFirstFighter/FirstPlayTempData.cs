@@ -13,5 +13,9 @@ public static class FirstPlayTempData
     public static string userName;
     public static string countryFlag;
 
+    // check bools
+    public static string lastFlag;
+    public static bool firstFlag = false;
+
     public static string state;
 }

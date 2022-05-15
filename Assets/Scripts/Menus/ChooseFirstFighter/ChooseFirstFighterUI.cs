@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -51,6 +50,11 @@ public class ChooseFirstFighterUI : MonoBehaviour
     private Button next;
     public TextMeshProUGUI panelInfo;
 
+    // NAME
+    public TMP_InputField nameInputField;
+    public TextMeshProUGUI regexText;
+
+
     private void Awake()
     {
         HandleUIOnAwake();
@@ -58,6 +62,7 @@ public class ChooseFirstFighterUI : MonoBehaviour
 
     private void HandleUIOnAwake()
     {
+        // References ------------------------------------------------------------------------------------------
         chooseFighter = GameObject.Find("Canvas_Choose_Fighter").GetComponent<Canvas>();
         chooseName = GameObject.Find("Canvas_Choose_Name_Fighter").GetComponent<Canvas>();
         chooseCountry = GameObject.Find("Canvas_Choose_Country").GetComponent<Canvas>();
@@ -101,7 +106,10 @@ public class ChooseFirstFighterUI : MonoBehaviour
         SetDefaultStats(GameObject.Find("Fighter_Mid").GetComponent<FighterSkinData>().species, "Fighter_Mid");
         SetDefaultStats(GameObject.Find("Fighter_Right").GetComponent<FighterSkinData>().species, "Fighter_Right");
 
-        // Initial setup
+        nameInputField = GameObject.Find("NameInputField").GetComponent<TMP_InputField>();
+        regexText = GameObject.Find("RegexText").GetComponent<TextMeshProUGUI>();
+
+        // Initial setup -----------------------------------------------------------------------------------------
         chooseName.enabled = false;
         chooseCountry.enabled = false;
 
@@ -122,6 +130,8 @@ public class ChooseFirstFighterUI : MonoBehaviour
 
         prev.gameObject.SetActive(false);
         next.gameObject.SetActive(false);
+            
+        regexText.gameObject.SetActive(false);
 
         // set canvas state
         FirstPlayTempData.state = FirstPlayTempData.FirstPlayState.FIGHTER.ToString();
@@ -132,21 +142,22 @@ public class ChooseFirstFighterUI : MonoBehaviour
         switch (fighter)
         {
             case "Fighter_Left":
-                fighterLeftDamageText.text = Species.defaultStats[(SpeciesNames)Enum.Parse(typeof(SpeciesNames), specie)]["damage"].ToString();
-                fighterLeftHpText.text = Species.defaultStats[(SpeciesNames)Enum.Parse(typeof(SpeciesNames), specie)]["hp"].ToString();
-                fighterLeftSpeedText.text = Species.defaultStats[(SpeciesNames)Enum.Parse(typeof(SpeciesNames), specie)]["speed"].ToString();
+                SetBaseStats(fighterLeftDamageText, fighterLeftHpText, fighterLeftSpeedText, specie);
                 break;
             case "Fighter_Mid":
-                fighterMidDamageText.text = Species.defaultStats[(SpeciesNames)Enum.Parse(typeof(SpeciesNames), specie)]["damage"].ToString();
-                fighterMidHpText.text = Species.defaultStats[(SpeciesNames)Enum.Parse(typeof(SpeciesNames), specie)]["hp"].ToString();
-                fighterMidSpeedText.text = Species.defaultStats[(SpeciesNames)Enum.Parse(typeof(SpeciesNames), specie)]["speed"].ToString();
+                SetBaseStats(fighterMidDamageText, fighterMidHpText, fighterMidSpeedText, specie);
                 break;
             case "Fighter_Right":
-                fighterRightDamageText.text = Species.defaultStats[(SpeciesNames)Enum.Parse(typeof(SpeciesNames), specie)]["damage"].ToString();
-                fighterRightHpText.text = Species.defaultStats[(SpeciesNames)Enum.Parse(typeof(SpeciesNames), specie)]["hp"].ToString();
-                fighterRightSpeedText.text = Species.defaultStats[(SpeciesNames)Enum.Parse(typeof(SpeciesNames), specie)]["speed"].ToString();
+                SetBaseStats(fighterRightDamageText, fighterRightHpText, fighterRightSpeedText, specie);
                 break;
         }
+    }
+
+    private void SetBaseStats(TextMeshProUGUI damage, TextMeshProUGUI health, TextMeshProUGUI speed, string specie)
+    {
+        damage.text = Species.defaultStats[(SpeciesNames)Enum.Parse(typeof(SpeciesNames), specie)]["damage"].ToString();
+        health.text = Species.defaultStats[(SpeciesNames)Enum.Parse(typeof(SpeciesNames), specie)]["hp"].ToString();
+        speed.text = Species.defaultStats[(SpeciesNames)Enum.Parse(typeof(SpeciesNames), specie)]["speed"].ToString();
     }
 
     public void EnableLeftFighterHighlight()
@@ -250,5 +261,58 @@ public class ChooseFirstFighterUI : MonoBehaviour
     public void DisablePrevBtn()
     {
         prev.gameObject.SetActive(false);
+    }
+
+    // next button
+
+    public void ChooseFighter()
+    {
+        chooseFighter.enabled = false;
+        chooseName.enabled = true;
+        EnablePrevBtn();
+        FirstPlayTempData.state = FirstPlayTempData.FirstPlayState.NAME.ToString();
+        panelInfo.text = "Fighter Name";
+    }
+
+    public bool IsNameEmpty()
+    {
+        return nameInputField.text == "";
+    }
+
+    public bool IsNameLengthCorrect()
+    {
+        return nameInputField.text.Length < 4;
+    }
+
+    private void ShowError(string errorMessage)
+    {
+        regexText.gameObject.SetActive(true);
+        regexText.text = errorMessage;
+    }
+
+    public void CheckName()
+    {
+        if (IsNameEmpty())
+            ShowError("Name can't be empty!");
+        else if (IsNameLengthCorrect())
+            ShowError("Name must be at least 4 characters!");
+        else
+        {
+            FirstPlayTempData.state = FirstPlayTempData.FirstPlayState.NAME.ToString();
+            panelInfo.text = "Fighter Name";
+            chooseFighter.enabled = false;
+            chooseName.enabled = true;
+        }
+    }
+
+    // previous button
+
+    public void BackToChooseFighter()
+    {
+        chooseFighter.enabled = true;
+        chooseName.enabled = false;
+        DisablePrevBtn();
+        FirstPlayTempData.state = FirstPlayTempData.FirstPlayState.FIGHTER.ToString();
+        panelInfo.text = "Fighter";
     }
 }

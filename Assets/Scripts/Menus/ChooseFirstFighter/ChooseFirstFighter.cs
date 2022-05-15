@@ -41,14 +41,10 @@ public class ChooseFirstFighter : MonoBehaviour
         switch (FirstPlayTempData.state.ToString())
         {
             case "FIGHTER":
-                chooseFirstFighterUI.chooseFighter.enabled = false;
-                chooseFirstFighterUI.chooseName.enabled = true;
-                chooseFirstFighterUI.EnablePrevBtn();
-                FirstPlayTempData.state = FirstPlayTempData.FirstPlayState.NAME.ToString();
-                chooseFirstFighterUI.panelInfo.text = "Fighter Name";
+                chooseFirstFighterUI.ChooseFighter();
                 break;
             case "NAME":
-
+                chooseFirstFighterUI.CheckName();
                 break;
             case "COUNTRY":
 
@@ -64,11 +60,7 @@ public class ChooseFirstFighter : MonoBehaviour
 
                 break;
             case "NAME":
-                chooseFirstFighterUI.chooseFighter.enabled = true;
-                chooseFirstFighterUI.chooseName.enabled = false;
-                chooseFirstFighterUI.DisablePrevBtn();
-                FirstPlayTempData.state = FirstPlayTempData.FirstPlayState.FIGHTER.ToString();
-                chooseFirstFighterUI.panelInfo.text = "Fighter";
+                chooseFirstFighterUI.BackToChooseFighter();
                 break;
             case "COUNTRY":
 
@@ -106,5 +98,11 @@ public class ChooseFirstFighter : MonoBehaviour
     private void ResetAllPrefs()
     {
         PlayerPrefs.DeleteAll();
+    }
+
+    public void ResetRegexText()
+    {
+        chooseFirstFighterUI.regexText.gameObject.SetActive(false);
+        chooseFirstFighterUI.regexText.text = "";
     }
 }

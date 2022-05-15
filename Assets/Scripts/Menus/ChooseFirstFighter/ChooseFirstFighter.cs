@@ -1,8 +1,4 @@
 using UnityEngine;
-using Newtonsoft.Json.Linq;
-using TMPro;
-using System.Collections.Generic;
-
 
 public class ChooseFirstFighter : MonoBehaviour
 {
@@ -47,7 +43,7 @@ public class ChooseFirstFighter : MonoBehaviour
                 chooseFirstFighterUI.CheckName();
                 break;
             case "COUNTRY":
-
+                chooseFirstFighterUI.CheckFlag();
                 break;
         }
     }
@@ -56,14 +52,11 @@ public class ChooseFirstFighter : MonoBehaviour
     {
         switch (FirstPlayTempData.state.ToString())
         {
-            case "FIGHTER":
-
-                break;
             case "NAME":
                 chooseFirstFighterUI.BackToChooseFighter();
                 break;
             case "COUNTRY":
-
+                chooseFirstFighterUI.BackToName();
                 break;
         }
     }
@@ -74,32 +67,7 @@ public class ChooseFirstFighter : MonoBehaviour
         FirstPlayTempData.species = fighterSkin.species;
     }
 
-    public void OnConfirmFighterName()
-    {
-        FirstPlayTempData.fighterName = fighterNameInput.GetComponent<TextMeshProUGUI>().text;
-        FirstPlayTempData.state = FirstPlayTempData.FirstPlayState.COUNTRY.ToString();
-        CreateFighterFile(); // move to when all has been selected (country)
-    }
-
-    private void CreateFighterFile()
-    {
-        SpeciesNames speciesEnumMember = GeneralUtils.StringToSpeciesNamesEnum(FirstPlayTempData.species); 
-        JObject serializableFighter = JObject.FromObject(JsonDataManager.CreateSerializableFighterInstance(FighterFactory.CreatePlayerFighterInstance(
-            FirstPlayTempData.fighterName, FirstPlayTempData.skinName, FirstPlayTempData.species,
-            Species.defaultStats[speciesEnumMember]["hp"],
-            Species.defaultStats[speciesEnumMember]["damage"],
-            Species.defaultStats[speciesEnumMember]["speed"],
-            new List<Skill>())));
-        JsonDataManager.SaveData(serializableFighter, JsonDataManager.FighterFileName);
-
-        ResetAllPrefs();
-    }
-
-    private void ResetAllPrefs()
-    {
-        PlayerPrefs.DeleteAll();
-    }
-
+    // used on set focus on input
     public void ResetRegexText()
     {
         chooseFirstFighterUI.regexText.gameObject.SetActive(false);

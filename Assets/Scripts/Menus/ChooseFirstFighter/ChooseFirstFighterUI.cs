@@ -1,5 +1,7 @@
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -298,10 +300,25 @@ public class ChooseFirstFighterUI : MonoBehaviour
             ShowError("Name must be at least 4 characters!");
         else
         {
-            FirstPlayTempData.state = FirstPlayTempData.FirstPlayState.NAME.ToString();
+            FirstPlayTempData.state = FirstPlayTempData.FirstPlayState.COUNTRY.ToString();
+            panelInfo.text = "Country";
+            chooseCountry.enabled = true;
+            chooseName.enabled = false;
+        }
+    }
+
+    public void CheckFlag()
+    {
+        if (IsNameEmpty())
+            ShowError("Name can't be empty!");
+        else if (IsNameLengthCorrect())
+            ShowError("Name must be at least 4 characters!");
+        else
+        {
+            FirstPlayTempData.fighterName = nameInputField.text;
             panelInfo.text = "Fighter Name";
-            chooseFighter.enabled = false;
-            chooseName.enabled = true;
+            chooseCountry.enabled = true;
+            chooseName.enabled = false;
         }
     }
 
@@ -314,5 +331,46 @@ public class ChooseFirstFighterUI : MonoBehaviour
         DisablePrevBtn();
         FirstPlayTempData.state = FirstPlayTempData.FirstPlayState.FIGHTER.ToString();
         panelInfo.text = "Fighter";
+    }
+    public void BackToName()
+    {
+        chooseName.enabled = true;
+        chooseCountry.enabled = false;
+        FirstPlayTempData.state = FirstPlayTempData.FirstPlayState.NAME.ToString();
+        panelInfo.text = "Fighter Name";
+    }
+
+    // files creation
+    private void CreateFighterFile()
+    {
+        SpeciesNames speciesEnumMember = GeneralUtils.StringToSpeciesNamesEnum(FirstPlayTempData.species);
+        JObject serializableFighter = JObject.FromObject(JsonDataManager.CreateSerializableFighterInstance(FighterFactory.CreatePlayerFighterInstance(
+            FirstPlayTempData.fighterName, FirstPlayTempData.skinName, FirstPlayTempData.species,
+            Species.defaultStats[speciesEnumMember]["hp"],
+            Species.defaultStats[speciesEnumMember]["damage"],
+            Species.defaultStats[speciesEnumMember]["speed"],
+            new List<Skill>())));
+        JsonDataManager.SaveData(serializableFighter, JsonDataManager.FighterFileName);
+
+        ResetAllPrefs();
+    }
+
+    public void CreateUserFile()
+    {
+        string flag = "";
+        string userIcon = GenerateIcon().ToString();
+        UserFactory.CreateUserInstance(flag, userIcon, PlayerUtils.maxEnergy);
+        JObject user = JObject.FromObject(User.Instance);
+        JsonDataManager.SaveData(user, JsonDataManager.UserFileName);
+    }
+
+    private int GenerateIcon()
+    {
+        return UnityEngine.Random.Range(0, Resources.LoadAll<Sprite>("Icons/UserIcons/").Length) + 1;
+    }
+
+    private void ResetAllPrefs()
+    {
+        PlayerPrefs.DeleteAll();
     }
 }

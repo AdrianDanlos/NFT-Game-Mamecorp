@@ -152,8 +152,7 @@ public class Leaderboard : MonoBehaviour
 
     private void SetupPlayer()
     {
-        // TODO get from user
-        SetUpUserFlag(LeaderboardDB.Flag.ESP.ToString());
+        SetUpUserFlag(User.Instance.flag);
         SetupUserName();
         SetupUserTrophies();
         SetupUserRanking();

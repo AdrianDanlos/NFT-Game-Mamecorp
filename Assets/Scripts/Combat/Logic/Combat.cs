@@ -80,9 +80,9 @@ public class Combat : MonoBehaviour
     IEnumerator Start()
     {
         // --- Enable this for loading effect ---
-        // yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(2f));
-        // loadingScreen.SetBotLoadingScreenData(bot);
-        // yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(2f));
+        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(2f));
+        loadingScreen.SetBotLoadingScreenData(bot);
+        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(3f));
         yield return null; //remove
 
         // UI

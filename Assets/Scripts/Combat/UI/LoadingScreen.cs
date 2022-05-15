@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using System.Collections;
 
 public class LoadingScreen : MonoBehaviour
 {
@@ -19,19 +20,43 @@ public class LoadingScreen : MonoBehaviour
     public void DisplayLoaderForEnemy()
     {
         GetGameObjects();
-        ToggleSpinnerAndBotData(false, true);
+        ToggleSpinnerAndBotData(true, true, true);
     }
 
     public void SetBotLoadingScreenData(Fighter bot)
     {
         botName.GetComponent<TextMeshProUGUI>().text = bot.fighterName;
         MenuUtils.DisplayLevelIcon(bot.level, botLevels);
-        ToggleSpinnerAndBotData(true, false);
+        ToggleSpinnerAndBotData(true, false, false);
+        StartCoroutine(FadeBotGradually());
     }
 
-    public void ToggleSpinnerAndBotData(bool showBot, bool showSpinner)
+    IEnumerator FadeBotGradually()
     {
+        // 2f is the duration of spinner animation
+        // change it according to that to sync
+        float color = 0;
+        float colorIncrement = 12.75f;
+        float time = 0f;
+        float increment = 0.1f;
+
+        do
+        {
+            botSprite.GetComponent<SpriteRenderer>().color = new Color32((byte)color, (byte)color, (byte)color, 255);
+            color += colorIncrement;
+            time += increment;
+            yield return new WaitForSeconds(increment);
+        }
+        while (time < 2f);
+    }
+
+    public void ToggleSpinnerAndBotData(bool showBot, bool showSpinner, bool shadow)
+    { 
         botSprite.SetActive(showBot);
+        if (shadow)
+            botSprite.GetComponent<SpriteRenderer>().color = new Color32(0, 0, 0, 255);
+        else
+            botSprite.GetComponent<SpriteRenderer>().color = new Color32(255, 255, 255, 255);
         botData.SetActive(showBot);
         spinner.SetActive(showSpinner);
     }

@@ -8,11 +8,19 @@ using TMPro;
 public class DailyGift : MonoBehaviour
 {
     // UI
-    GameObject confirmGiftCanvas;
-    GameObject giftCollectedButton;
     List<GameObject> giftItems = new List<GameObject>();
     TextMeshProUGUI timer;
     GameObject timerGO;
+
+    // gift received 
+    GameObject dailyGiftGoldAndGems;
+    GameObject dailyGiftSkills;
+    GameObject dailyGiftGoldPopup;
+    GameObject dailyGiftGemsPopup;
+
+    TextMeshProUGUI goldOrGemsTitle;
+    TextMeshProUGUI goldQuantity;
+    TextMeshProUGUI gemsQuantity;
 
     // Manager
     MainMenu mainMenu;
@@ -22,20 +30,36 @@ public class DailyGift : MonoBehaviour
 
     private void Awake()
     {
-        timer = GameObject.Find("Text_Daily_Time").GetComponent<TextMeshProUGUI>();
-        timerGO = GameObject.Find("Icon_Daily_Time");
-        confirmGiftCanvas = GameObject.Find("Canvas_Gift_Collected");
-        giftCollectedButton = GameObject.Find("Button_BackToDailyGift");
-        mainMenu = GameObject.Find("MainMenuManager").GetComponent<MainMenu>(); // notifications system
-
-        // on enable
+        SetUpUI();
+        
+        // setup on enable
         timerGO.SetActive(false);
-        confirmGiftCanvas.SetActive(false);
         GetDailyItems();
-        giftCollectedButton.GetComponent<Button>().onClick.AddListener(() => GoToMainMenu());
         DisableInteraction();
         LoadUI();
         EnableNextReward();
+
+        dailyGiftGoldAndGems.SetActive(false);
+        dailyGiftSkills.SetActive(false);
+        dailyGiftGoldPopup.SetActive(false);
+        dailyGiftGemsPopup.SetActive(false);
+    }
+
+    private void SetUpUI()
+    {
+        // gift logic
+        timer = GameObject.Find("Text_Daily_Time").GetComponent<TextMeshProUGUI>();
+        timerGO = GameObject.Find("Icon_Daily_Time");
+        mainMenu = GameObject.Find("MainMenuManager").GetComponent<MainMenu>(); // notifications system
+
+        // collect reward popup
+        dailyGiftSkills = GameObject.Find("Popup_Skill");
+        dailyGiftGoldAndGems = GameObject.Find("Popup_Currencies");
+        dailyGiftGoldPopup = GameObject.Find("DailyGoldReward");
+        dailyGiftGemsPopup = GameObject.Find("DailyGemsReward");
+        goldOrGemsTitle = GameObject.Find("Popup_Currencies_Title").GetComponent<TextMeshProUGUI>();
+        goldQuantity = GameObject.Find("Gold_Quantity").GetComponent<TextMeshProUGUI>();
+        gemsQuantity = GameObject.Find("Gems_Quantity").GetComponent<TextMeshProUGUI>();
     }
 
     private void Update()
@@ -135,16 +159,34 @@ public class DailyGift : MonoBehaviour
     private void GiveReward(Dictionary<string, string> reward)
     {
         if (reward.ContainsKey("gold"))
-            CurrencyHandler.instance.AddGold(int.Parse(reward["gold"]));
+            EnableGoldPopup(reward);
         if (reward.ContainsKey("gems"))
-            CurrencyHandler.instance.AddGems(int.Parse(reward["gems"]));
+            EnableGemsPopup(reward);
         if (reward.ContainsKey("chest"))
-        {
-            // give chest here
-        }
+            EnableChestPopup(reward);
+    }
 
-        // show confirm button + manage UI
-        confirmGiftCanvas.SetActive(true);
+    private void EnableGoldPopup(Dictionary<string, string> reward)
+    {
+        dailyGiftGoldAndGems.SetActive(true);
+        CurrencyHandler.instance.AddGold(int.Parse(reward["gold"]));
+        goldOrGemsTitle.text = "GOLD REWARD";
+        dailyGiftGoldPopup.SetActive(true);
+        goldQuantity.text = reward["gold"];
+    }
+
+    private void EnableGemsPopup(Dictionary<string, string> reward)
+    {
+        dailyGiftGoldAndGems.SetActive(true);
+        CurrencyHandler.instance.AddGems(int.Parse(reward["gems"]));
+        goldOrGemsTitle.text = "GEMS REWARD";
+        dailyGiftGemsPopup.SetActive(true);
+        gemsQuantity.text = reward["gems"];
+    }
+
+    private void EnableChestPopup(Dictionary<string, string> reward)
+    {
+        // TODO
     }
 
     public void GiveRewardButton()
@@ -189,7 +231,8 @@ public class DailyGift : MonoBehaviour
 
     private void StartCountdown()
     {
-        PlayerPrefs.SetString("giftCountdown", DateTime.Now.AddDays(1).ToBinary().ToString());
+        // TODO change to 1 day
+        PlayerPrefs.SetString("giftCountdown", DateTime.Now.AddSeconds(4).ToBinary().ToString());
         PlayerPrefs.Save();
     }
 

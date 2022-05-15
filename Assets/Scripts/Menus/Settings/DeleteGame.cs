@@ -10,7 +10,7 @@ public class DeleteGame : MonoBehaviour
 
     private void Awake()
     {
-        resetGame = GameObject.Find("Button_Delete");
+        resetGame = GameObject.Find("Button_Delete_Confirmation");
         resetGame.GetComponent<Button>().onClick.AddListener(() => RestartGame());
     }
 

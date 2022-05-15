@@ -14,6 +14,9 @@ public class MainMenu : MonoBehaviour
     public GameObject playerLevelSlider;
     public GameObject notifyCards;
     public GameObject settings;
+    public GameObject deleteConfirmation;
+    public GameObject buttonDelete;
+    public GameObject buttonCloseconfirmation;
 
     // stats
     public TextMeshProUGUI attack;
@@ -41,11 +44,14 @@ public class MainMenu : MonoBehaviour
         // FindObjectOfType<AudioManager>().PlayClipAtPoint("Test", transform.position);
 
         settings = GameObject.Find("Settings");
+        deleteConfirmation = GameObject.Find("Delete_Confirmation");
         dailyGiftCanvas = GameObject.Find("DailyRewardsCanvas");
         rankingCanvas = GameObject.Find("RankingCanvas");
         profileCanvas = GameObject.Find("ProfileCanvas");
         dailyGift = dailyGiftCanvas.GetComponent<DailyGift>();
         dailyGiftsNotification = GameObject.Find("DailyGiftsNotification");
+        buttonDelete = GameObject.Find("Button_Delete");
+        buttonCloseconfirmation = GameObject.Find("Button_Close_Confirmation");
 
         // stats
         attack = GameObject.Find("Attack_Value").GetComponent<TextMeshProUGUI>();
@@ -64,12 +70,16 @@ public class MainMenu : MonoBehaviour
 
         // Hide poppups
         settings.SetActive(false);
+        deleteConfirmation.SetActive(false);
         dailyGiftCanvas.SetActive(false);
         rankingCanvas.SetActive(false);
         profileCanvas.SetActive(false);
         dailyGiftsNotification.SetActive(false);
         if (dailyGift.IsFirstTime())
             dailyGiftsNotification.SetActive(true);
+
+        buttonDelete.GetComponent<Button>().onClick.AddListener(() => ShowDeleteConfirmation());
+        buttonCloseconfirmation.GetComponent<Button>().onClick.AddListener(() => CloseSettingsConfirmation());
     }
 
     IEnumerator Start()
@@ -102,14 +112,20 @@ public class MainMenu : MonoBehaviour
         while (true);
     }
 
+    // on settings button
     public void OpenSettings()
     {
         settings.SetActive(true);
     }
 
-    public void CloseSettings()
+    public void ShowDeleteConfirmation()
     {
-        settings.SetActive(false);
+        deleteConfirmation.SetActive(true);
+    }
+
+    public void CloseSettingsConfirmation()
+    {
+        deleteConfirmation.SetActive(false);
     }
 
     public void EnableDailyGiftNotification()

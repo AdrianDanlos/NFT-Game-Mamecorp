@@ -73,4 +73,11 @@ public class ChooseFirstFighter : MonoBehaviour
         chooseFirstFighterUI.regexText.gameObject.SetActive(false);
         chooseFirstFighterUI.regexText.text = "";
     }
+
+    public void GetFlagClicked()
+    {
+        // turn off check of last flag
+        // turn on check on this flag
+        FirstPlayTempData.countryFlag = transform.name;
+    }
 }

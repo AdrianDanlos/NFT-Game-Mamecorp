@@ -56,6 +56,8 @@ public class ChooseFirstFighterUI : MonoBehaviour
     public TMP_InputField nameInputField;
     public TextMeshProUGUI regexText;
 
+    private List<Transform> flags;
+    private Transform flagsContainer;
 
     private void Awake()
     {
@@ -111,6 +113,9 @@ public class ChooseFirstFighterUI : MonoBehaviour
         nameInputField = GameObject.Find("NameInputField").GetComponent<TMP_InputField>();
         regexText = GameObject.Find("RegexText").GetComponent<TextMeshProUGUI>();
 
+        flagsContainer = GameObject.Find("Flags").GetComponent<Transform>();
+        flags = new List<Transform>();
+
         // Initial setup -----------------------------------------------------------------------------------------
         chooseName.enabled = false;
         chooseCountry.enabled = false;
@@ -134,6 +139,7 @@ public class ChooseFirstFighterUI : MonoBehaviour
         next.gameObject.SetActive(false);
             
         regexText.gameObject.SetActive(false);
+        GetFlagGOs();
 
         // set canvas state
         FirstPlayTempData.state = FirstPlayTempData.FirstPlayState.FIGHTER.ToString();
@@ -263,6 +269,12 @@ public class ChooseFirstFighterUI : MonoBehaviour
     public void DisablePrevBtn()
     {
         prev.gameObject.SetActive(false);
+    }
+
+    private void GetFlagGOs()
+    {
+        for(int i = 0; i < flagsContainer.childCount; i++)
+            flags.Add(flagsContainer.GetChild(i));
     }
 
     // next button

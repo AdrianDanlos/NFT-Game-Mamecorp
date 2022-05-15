@@ -48,6 +48,12 @@ public class ChooseFirstFighterUI : MonoBehaviour
     private TextMeshProUGUI fighterRightHpText;
     private TextMeshProUGUI fighterRightSpeedText;
 
+    // Shadow fighters and UI
+    private Color32 shadowedColor = new Color32(90, 90, 90, 255);
+    private Color32 visibleColor = new Color32(255, 255, 255, 255);
+    private float initialAlphaUI = 0.5f;
+    private float visibleAlphaUI = 1f;
+
     private Button prev;
     private Button next;
     public TextMeshProUGUI panelInfo;
@@ -123,13 +129,13 @@ public class ChooseFirstFighterUI : MonoBehaviour
         chooseName.enabled = false;
         chooseCountry.enabled = false;
 
-        fighterLeftObject.gameObject.GetComponent<SpriteRenderer>().color = new Color32(90, 90, 90, 255);
-        fighterMidObject.gameObject.GetComponent<SpriteRenderer>().color = new Color32(90, 90, 90, 255);
-        fighterRightObject.gameObject.GetComponent<SpriteRenderer>().color = new Color32(90, 90, 90, 255);
+        fighterLeftObject.gameObject.GetComponent<SpriteRenderer>().color = shadowedColor;
+        fighterMidObject.gameObject.GetComponent<SpriteRenderer>().color = shadowedColor;
+        fighterRightObject.gameObject.GetComponent<SpriteRenderer>().color = shadowedColor;
 
-        fighterLeftGroup.alpha = 0.5f;
-        fighterMidGroup.alpha = 0.5f;
-        fighterRightGroup.alpha = 0.5f;
+        fighterLeftGroup.alpha = initialAlphaUI;
+        fighterMidGroup.alpha = initialAlphaUI;
+        fighterRightGroup.alpha = initialAlphaUI;
 
         fighterLeftRing.gameObject.SetActive(false);
         fighterMidRing.gameObject.SetActive(false);
@@ -147,6 +153,12 @@ public class ChooseFirstFighterUI : MonoBehaviour
 
         // set canvas state
         FirstPlayTempData.state = FirstPlayTempData.FirstPlayState.FIGHTER.ToString();
+    }
+
+    private IEnumerator Start()
+    {
+        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(1f));
+        StartCoroutine(SceneManagerScript.instance.FadeIn());
     }
 
     private void SetDefaultStats(string specie, string fighter)
@@ -174,56 +186,56 @@ public class ChooseFirstFighterUI : MonoBehaviour
 
     public void EnableLeftFighterHighlight()
     {
-        fighterLeftGroup.alpha = 1f;
-        fighterMidGroup.alpha = 0.5f;
-        fighterRightGroup.alpha = 0.5f;
+        fighterLeftGroup.alpha = visibleAlphaUI;
+        fighterMidGroup.alpha = initialAlphaUI;
+        fighterRightGroup.alpha = initialAlphaUI;
         next.gameObject.SetActive(true);
         fighterLeftAnimator.PlayRunAnimation();
         fighterMidAnimator.PlayIdleAnimation();
         fighterRightAnimator.PlayIdleAnimation();
         DisableMidFighterHighlight();
         DisableRightFighterHighlight();
-        fighterLeftObject.gameObject.GetComponent<SpriteRenderer>().color = new Color32(255, 255, 255, 255);
+        fighterLeftObject.gameObject.GetComponent<SpriteRenderer>().color = visibleColor;
         fighterLeftRing.gameObject.SetActive(true);
         fighterLeftSpecieTitle.gameObject.SetActive(true);
     }
 
     public void EnableMidFighterHighlight()
     {
-        fighterLeftGroup.alpha = 0.5f;
-        fighterMidGroup.alpha = 1f;
-        fighterRightGroup.alpha = 0.5f;
+        fighterLeftGroup.alpha = initialAlphaUI;
+        fighterMidGroup.alpha = visibleAlphaUI;
+        fighterRightGroup.alpha = initialAlphaUI;
         next.gameObject.SetActive(true);
         fighterLeftAnimator.PlayIdleAnimation();
         fighterMidAnimator.PlayRunAnimation();
         fighterRightAnimator.PlayIdleAnimation();
         DisableLeftFighterHighlight();
         DisableRightFighterHighlight();
-        fighterMidObject.gameObject.GetComponent<SpriteRenderer>().color = new Color32(255, 255, 255, 255);
+        fighterMidObject.gameObject.GetComponent<SpriteRenderer>().color = visibleColor;
         fighterMidRing.gameObject.SetActive(true);
         fighterMidSpecieTitle.gameObject.SetActive(true);
     }
 
     public void EnableRightFighterHighlight()
     {
-        fighterLeftGroup.alpha = 0.5f;
-        fighterMidGroup.alpha = 0.5f;
-        fighterRightGroup.alpha = 1f;
+        fighterLeftGroup.alpha = initialAlphaUI;
+        fighterMidGroup.alpha = initialAlphaUI;
+        fighterRightGroup.alpha = visibleAlphaUI;
         next.gameObject.SetActive(true);
         fighterLeftAnimator.PlayIdleAnimation();
         fighterMidAnimator.PlayIdleAnimation();
         fighterRightAnimator.PlayRunAnimation();
         DisableLeftFighterHighlight();
         DisableMidFighterHighlight();
-        fighterRightObject.gameObject.GetComponent<SpriteRenderer>().color = new Color32(255, 255, 255, 255);
+        fighterRightObject.gameObject.GetComponent<SpriteRenderer>().color = visibleColor;
         fighterRightRing.gameObject.SetActive(true);
         fighterRightSpecieTitle.gameObject.SetActive(true);
     }
 
     public void DisableLeftFighterHighlight()
     {
-        fighterRightObject.gameObject.GetComponent<SpriteRenderer>().color = new Color32(90, 90, 90, 255);
-        fighterMidObject.gameObject.GetComponent<SpriteRenderer>().color = new Color32(90, 90, 90, 255);
+        fighterRightObject.gameObject.GetComponent<SpriteRenderer>().color = shadowedColor;
+        fighterMidObject.gameObject.GetComponent<SpriteRenderer>().color = shadowedColor;
         fighterRightRing.gameObject.SetActive(false);
         fighterRightSpecieTitle.gameObject.SetActive(false);
         fighterMidRing.gameObject.SetActive(false);
@@ -232,8 +244,8 @@ public class ChooseFirstFighterUI : MonoBehaviour
 
     public void DisableMidFighterHighlight()
     {
-        fighterLeftObject.gameObject.GetComponent<SpriteRenderer>().color = new Color32(90, 90, 90, 255);
-        fighterRightObject.gameObject.GetComponent<SpriteRenderer>().color = new Color32(90, 90, 90, 255);
+        fighterLeftObject.gameObject.GetComponent<SpriteRenderer>().color = shadowedColor;
+        fighterRightObject.gameObject.GetComponent<SpriteRenderer>().color = shadowedColor;
         fighterLeftRing.gameObject.SetActive(false);
         fighterLeftSpecieTitle.gameObject.SetActive(false);
         fighterRightRing.gameObject.SetActive(false);
@@ -242,8 +254,8 @@ public class ChooseFirstFighterUI : MonoBehaviour
 
     public void DisableRightFighterHighlight()
     {
-        fighterLeftObject.gameObject.GetComponent<SpriteRenderer>().color = new Color32(90, 90, 90, 255);
-        fighterMidObject.gameObject.GetComponent<SpriteRenderer>().color = new Color32(90, 90, 90, 255);
+        fighterLeftObject.gameObject.GetComponent<SpriteRenderer>().color = shadowedColor;
+        fighterMidObject.gameObject.GetComponent<SpriteRenderer>().color = shadowedColor;
         fighterLeftRing.gameObject.SetActive(false);
         fighterLeftSpecieTitle.gameObject.SetActive(false);
         fighterMidRing.gameObject.SetActive(false);
@@ -336,7 +348,6 @@ public class ChooseFirstFighterUI : MonoBehaviour
     }
 
     // previous button
-
     public void BackToChooseFighter()
     {
         chooseFighter.enabled = true;

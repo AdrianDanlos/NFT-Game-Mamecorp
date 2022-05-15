@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SceneManagerScript : MonoBehaviour
@@ -7,8 +6,9 @@ public class SceneManagerScript : MonoBehaviour
     // instance
     public static SceneManagerScript instance;
 
-    private Canvas fadeCanvas;
     private CanvasGroup fadeCanvasGroup;
+    public readonly float fadeDuration = 1f;
+    public float alphaValue = 1f;
 
     private void Awake()
     {
@@ -24,7 +24,41 @@ public class SceneManagerScript : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         // components
-        fadeCanvas = GameObject.Find("FadeCanvas").GetComponent<Canvas>();
         fadeCanvasGroup = GameObject.Find("FadeCanvas").GetComponent<CanvasGroup>();
+    }
+
+    private void Start()
+    {
+        StartCoroutine(FadeIn());
+    }
+
+    public IEnumerator FadeOut()
+    {
+        alphaValue = 0f;
+        float fadeCounter = 0f;
+        float fadeIncrement = 0.02f;
+
+        do
+        {
+            fadeCanvasGroup.alpha += fadeIncrement;
+            alphaValue += fadeIncrement;
+            fadeCounter += fadeIncrement;
+            yield return new WaitForSeconds(fadeIncrement);
+        } while (fadeCounter < fadeDuration);
+    }
+
+    public IEnumerator FadeIn()
+    {
+        alphaValue = 1f;
+        float fadeCounter = 0f;
+        float fadeIncrement = 0.02f;
+
+        do
+        {
+            fadeCanvasGroup.alpha -= fadeIncrement;
+            alphaValue -= fadeIncrement;
+            fadeCounter += fadeIncrement;
+            yield return new WaitForSeconds(fadeIncrement);
+        } while (fadeCounter < fadeDuration);
     }
 }

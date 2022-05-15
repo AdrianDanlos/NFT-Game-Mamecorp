@@ -18,6 +18,10 @@ public class EntryPoint : MonoBehaviour
         loadingText = loadingBarGO.GetComponentInChildren<TextMeshProUGUI>();
         loadingBar = loadingBarGO.GetComponent<Slider>();
         tipText = GameObject.Find("TipText").GetComponentInChildren<TextMeshProUGUI>();
+
+        // set up bar
+        loadingText.text = "0%";
+        loadingBar.value = 0f;
     }
 
     public static GameObject fighterGameObject;
@@ -27,8 +31,9 @@ public class EntryPoint : MonoBehaviour
         GenerateTip();
 
         // --- Enable this for loading effect ---
-        // StartCoroutine(FakeDelay());
-        // yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(3.5f));
+        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(1f));
+        StartCoroutine(FakeDelay());
+        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(3.5f));
         yield return null; //remove
 
         bool saveFilesFound = File.Exists(JsonDataManager.getFilePath(JsonDataManager.UserFileName)) &&
@@ -39,16 +44,26 @@ public class EntryPoint : MonoBehaviour
             JsonDataManager.ReadUserFile();
             JsonDataManager.ReadFighterFile();
 
+            yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(1f));
+            StartCoroutine(SceneManagerScript.instance.FadeOut());
+            yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(1f));
             UnityEngine.SceneManagement.SceneManager.LoadScene(SceneNames.MainMenu.ToString());
         }
 
-        else UnityEngine.SceneManagement.SceneManager.LoadScene(SceneNames.ChooseFirstFighter.ToString());
+        else
+        {
+            StartCoroutine(SceneManagerScript.instance.FadeOut());
+            yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(1f));
+            UnityEngine.SceneManagement.SceneManager.LoadScene(SceneNames.ChooseFirstFighter.ToString());
+        }
 
         Notifications.InitiateCardsUnseen();
     }
 
     IEnumerator FakeDelay()
     {
+        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(1f));
+
         loadingText.text = "0%";
         loadingBar.value = 0f;
         yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(1f));

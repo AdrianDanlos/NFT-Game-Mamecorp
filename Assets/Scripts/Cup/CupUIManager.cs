@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.IO;
 using System.Linq;
 using TMPro;
 using UnityEngine;
@@ -382,12 +383,8 @@ public class CupUIManager : MonoBehaviour
             if (player.name.Contains("Quarters"))
             {
                 for(int i = 0; i < loserIds.Count; i++)
-                {
                     if (participantsList[counter].id == loserIds[i])
-                    {
                         player.GetChild(2).GetComponent<Image>().enabled = true;
-                    }
-                }
 
                 counter++;
             }
@@ -411,12 +408,8 @@ public class CupUIManager : MonoBehaviour
             if (player.name.Contains("Semis"))
             {
                 for (int i = 0; i < loserIds.Count; i++)
-                {
                     if (participantsList[counter].id == loserIds[i])
-                    {
                         player.GetChild(2).GetComponent<Image>().enabled = true;
-                    }
-                }
 
                 counter++;
             }
@@ -439,28 +432,34 @@ public class CupUIManager : MonoBehaviour
             if (player.name.Contains("Finals"))
             {
                 for (int i = 0; i < loserIds.Count; i++)
-                {
                     if (participantsList[counter].id == loserIds[i])
-                    {
                         player.GetChild(2).GetComponent<Image>().enabled = true;
-                    }
-                }
 
                 counter++;
             }
         }
     }
+
+    private string GetPlayerFinalResult()
+    {
+        if (Cup.Instance.cupInfo[CupDB.CupRounds.FINALS.ToString()]["7"]["winner"] == "0")
+            return CupDB.CupRounds.FINALS.ToString();
+        if (Cup.Instance.cupInfo[CupDB.CupRounds.FINALS.ToString()]["5"]["winner"] == "0")
+            return CupDB.CupRounds.FINALS.ToString();
+        if (Cup.Instance.cupInfo[CupDB.CupRounds.FINALS.ToString()]["1"]["winner"] == "0")
+            return CupDB.CupRounds.FINALS.ToString();
+
+        return CupDB.CupRounds.ZERO.ToString();
+    }
         
     // Prizes logic
     private string GetCupRound()
     {
-        return Cup.Instance.round;
+        return GetPlayerFinalResult();
     }
 
     private Dictionary<string, string> GetRewardType(string round)
     {
-        round = round.ToUpper();
-
         return new Dictionary<string, string>
         {
             {
@@ -473,6 +472,8 @@ public class CupUIManager : MonoBehaviour
     private void GiveReward(Dictionary<string, string> reward)
     {
         prizeCanvas.enabled = true;
+        ResetCup();
+        // TODO reset timer
 
         if (reward.ContainsKey("gold"))
             EnableGoldPopup(reward);
@@ -480,6 +481,15 @@ public class CupUIManager : MonoBehaviour
             EnableGemsPopup(reward);
         if (reward.ContainsKey("chest"))
             EnableChestPopup(reward);
+    }
+
+    private void ResetCup()
+    {
+        string[] files = Directory.GetFiles(Application.persistentDataPath);
+
+        for (int i = 0; i < files.Length; i++)
+            if(files[i].Contains("cup"))
+                File.Delete(files[i]);
     }
 
     private void EnableGoldPopup(Dictionary<string, string> reward)

@@ -38,7 +38,6 @@ public static class MatchMaking
     public static void GenerateCupBotData(Fighter player, Fighter bot)
     {
         CupFighter cupBot = GetCupBotData();
-        Debug.Log(cupBot.fighterName + " " + cupBot.species);
 
         string botName = cupBot.fighterName; 
         int botLevel = GenerateBotLevel(player.level);

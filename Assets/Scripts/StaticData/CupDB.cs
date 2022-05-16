@@ -12,6 +12,7 @@ public static class CupDB
 
     public enum CupRounds
     {
+        ZERO, 
         QUARTERS,
         SEMIS,
         FINALS,
@@ -23,10 +24,18 @@ public static class CupDB
         new Dictionary<CupRounds, Dictionary<string, string>>
         {
             {
+                // Prize if player doesn't win any round
+                CupRounds.ZERO, new Dictionary<string, string>
+                {
+                    {"reward", "gold"},
+                    {"value", "1" } 
+                }
+            },
+            {
                 CupRounds.QUARTERS, new Dictionary<string, string>
                 {
                     {"reward", "gold"},
-                    {"value", "1000" }
+                    {"value", "1500" }
                 }
             },
             {

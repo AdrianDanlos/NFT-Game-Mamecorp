@@ -170,8 +170,8 @@ public class DailyGift : MonoBehaviour
         return new Dictionary<string, string>
         {
             { 
-              DailyGiftDB.gifts[(DailyGiftDB.Days)Enum.Parse(typeof(DailyGiftDB.Days), day)]["reward"],
-              DailyGiftDB.gifts[(DailyGiftDB.Days)Enum.Parse(typeof(DailyGiftDB.Days), day)]["value"]
+                DailyGiftDB.gifts[(DailyGiftDB.Days)Enum.Parse(typeof(DailyGiftDB.Days), day)]["reward"],
+                DailyGiftDB.gifts[(DailyGiftDB.Days)Enum.Parse(typeof(DailyGiftDB.Days), day)]["value"]
             }
         };
     }

@@ -51,10 +51,10 @@ public class CupUIManager : MonoBehaviour
     Button buttonCollectRewards;
 
     // gift received 
-    GameObject dailyGiftGoldAndGems;
-    GameObject dailyGiftSkills;
-    GameObject dailyGiftGoldPopup;
-    GameObject dailyGiftGemsPopup;
+    GameObject cupGoldAndGems;
+    GameObject cupSkills;
+    GameObject cupGoldPopup;
+    GameObject cupGemsPopup;
 
     TextMeshProUGUI goldOrGemsTitle;
     TextMeshProUGUI goldQuantity;
@@ -93,10 +93,11 @@ public class CupUIManager : MonoBehaviour
         SetUIBasedOnRound();
         SetUpButtons();
 
-        dailyGiftGoldAndGems.SetActive(false);
-        dailyGiftSkills.SetActive(false);
-        dailyGiftGoldPopup.SetActive(false);
-        dailyGiftGemsPopup.SetActive(false);
+        // Initial setup
+        cupGoldAndGems.SetActive(false);
+        cupSkills.SetActive(false);
+        cupGoldPopup.SetActive(false);
+        cupGemsPopup.SetActive(false);
         player = PlayerUtils.FindInactiveFighter();
     }
 
@@ -115,12 +116,27 @@ public class CupUIManager : MonoBehaviour
 
     private void SetUpUI()
     {
+        // cup bracket
         labelContainer = GameObject.Find("LabelContainer").GetComponent<Transform>();
         playersContainer = GameObject.Find("Players").GetComponent<Transform>();
         roundAnnouncer = GameObject.Find("RoundAnnouncerTxt").GetComponent<TextMeshProUGUI>();
         buttonBattle = GameObject.Find("Button_Cup").GetComponent<Button>();
         buttonCollectRewards = GameObject.Find("Button_Rewards").GetComponent<Button>();
         cupManager = GetComponent<CupManager>();
+
+        // collect reward popup
+        cupSkills = GameObject.Find("Popup_Skill");
+        cupGoldAndGems = GameObject.Find("Popup_Currencies");
+        cupGoldPopup = GameObject.Find("GoldReward");
+        cupGemsPopup = GameObject.Find("GemsReward");
+        goldOrGemsTitle = GameObject.Find("Popup_Currencies_Title").GetComponent<TextMeshProUGUI>();
+        goldQuantity = GameObject.Find("Gold_Quantity").GetComponent<TextMeshProUGUI>();
+        gemsQuantity = GameObject.Find("Gems_Quantity").GetComponent<TextMeshProUGUI>();
+    }
+
+    private void SetUpButtons()
+    {
+        buttonCollectRewards.GetComponent<Button>().onClick.AddListener(() => GiveReward(GetRewardType(GetCupRound())));
     }
 
     private void GetAllUIPlayers()
@@ -424,13 +440,26 @@ public class CupUIManager : MonoBehaviour
             }
         }
     }
-
-    private void SetUpButtons()
-    {
-        //buttonCollectRewards.GetComponent<Button>().onClick.AddListener(() => OnClickOpenChest());
-    }
         
     // Prizes logic
+    private string GetCupRound()
+    {
+        return Cup.Instance.round;
+    }
+
+    private Dictionary<string, string> GetRewardType(string round)
+    {
+        round = round.ToUpper();
+
+        return new Dictionary<string, string>
+        {
+            {
+                CupDB.prizes[(CupDB.CupRounds)Enum.Parse(typeof(CupDB.CupRounds), round)]["reward"],
+                CupDB.prizes[(CupDB.CupRounds)Enum.Parse(typeof(CupDB.CupRounds), round)]["value"]
+            }
+        };
+    }
+
     private void GiveReward(Dictionary<string, string> reward)
     {
         if (reward.ContainsKey("gold"))
@@ -443,25 +472,25 @@ public class CupUIManager : MonoBehaviour
 
     private void EnableGoldPopup(Dictionary<string, string> reward)
     {
-        dailyGiftGoldAndGems.SetActive(true);
+        cupGoldAndGems.SetActive(true);
         CurrencyHandler.instance.AddGold(int.Parse(reward["gold"]));
         goldOrGemsTitle.text = "GOLD REWARD";
-        dailyGiftGoldPopup.SetActive(true);
+        cupGoldPopup.SetActive(true);
         goldQuantity.text = reward["gold"];
     }
 
     private void EnableGemsPopup(Dictionary<string, string> reward)
     {
-        dailyGiftGoldAndGems.SetActive(true);
+        cupGoldAndGems.SetActive(true);
         CurrencyHandler.instance.AddGems(int.Parse(reward["gems"]));
         goldOrGemsTitle.text = "GEMS REWARD";
-        dailyGiftGemsPopup.SetActive(true);
+        cupGemsPopup.SetActive(true);
         gemsQuantity.text = reward["gems"];
     }
 
     private void EnableChestPopup(Dictionary<string, string> reward)
     {
-        dailyGiftSkills.SetActive(true);
+        cupSkills.SetActive(true);
         SkillPopUpLogic(reward);
     }
 

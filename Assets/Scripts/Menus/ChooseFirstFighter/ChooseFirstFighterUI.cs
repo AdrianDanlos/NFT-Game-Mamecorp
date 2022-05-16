@@ -184,6 +184,7 @@ public class ChooseFirstFighterUI : MonoBehaviour
         speed.text = Species.defaultStats[(SpeciesNames)Enum.Parse(typeof(SpeciesNames), specie)]["speed"].ToString();
     }
 
+    // TODO optimize code
     public void EnableLeftFighterHighlight()
     {
         fighterLeftGroup.alpha = visibleAlphaUI;

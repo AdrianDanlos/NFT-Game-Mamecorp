@@ -209,7 +209,7 @@ public class CupUIManager : MonoBehaviour
         GrayOutLosersQuarters();
     }
 
-    private void DisplayPlayerFinals()
+    private void DisplayPlayerFinals(string round)
     {
         int counter = 0;
         List<CupFighter> _participants = cupManager.GenerateParticipantsBasedOnSemis();
@@ -230,31 +230,10 @@ public class CupUIManager : MonoBehaviour
             }
         }
 
-        GrayOutLosersSemis();
-    }
-
-    private void DisplayPlayerFinalsEnd()
-    {
-        int counter = 0;
-        List<CupFighter> _participants = cupManager.GenerateParticipantsBasedOnSemis();
-
-        foreach (Transform player in participants)
-        {
-            if (player.name.Contains("Finals"))
-            {
-                player.GetChild(0).GetChild(0).GetChild(0).GetComponent<Image>().sprite =
-                    GetSpeciePortrait(_participants[counter].species);
-                player.GetChild(1).GetComponent<TextMeshProUGUI>().text =
-                    _participants[counter].fighterName;
-
-                if (_participants[counter].id == "0")
-                    playersContainer.GetChild(12).GetChild(1).GetComponent<TextMeshProUGUI>().color = playerHihglight;
-
-                counter++;
-            }
-        }
-
-        GrayOutLoserFinals();
+        if(round == "FINALS")
+            GrayOutLosersSemis();
+        if(round == "END")
+            GrayOutLoserFinals();
     }
 
     private void SetUIBasedOnRound()
@@ -274,14 +253,14 @@ public class CupUIManager : MonoBehaviour
                 SetUIFinals();
                 DisplayPlayerQuarters();
                 DisplayPlayerSemis();
-                DisplayPlayerFinals();
+                DisplayPlayerFinals("FINALS");
                 break;
             case "END":
                 SetUIFinalsEnd();
                 DisplayPlayerQuarters();
                 DisplayPlayerSemis();
-                DisplayPlayerFinals();
-                DisplayPlayerFinalsEnd();
+                DisplayPlayerFinals("FINALS");
+                DisplayPlayerFinals("END");
                 break;
         }
     }

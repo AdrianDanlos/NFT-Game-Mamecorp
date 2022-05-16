@@ -29,7 +29,7 @@ public class EntryPoint : MonoBehaviour
     {
         HideFighter();
         GenerateTip();
-
+         
         StartCoroutine(SceneManagerScript.instance.FadeIn());
         yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(0.5f));
 

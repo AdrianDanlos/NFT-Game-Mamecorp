@@ -1,7 +1,7 @@
+using System.Collections.Generic;
+
 public static class CupDB 
 {
-    // TODO add prizes for each cup and round reached
-
     public enum CupNames
     {
         EARTH,
@@ -17,4 +17,31 @@ public static class CupDB
         FINALS,
         END
     }
+
+    // rewards given if each round if passed
+    public static readonly Dictionary<CupRounds, Dictionary<string, string>> prizes =
+        new Dictionary<CupRounds, Dictionary<string, string>>
+        {
+            {
+                CupRounds.QUARTERS, new Dictionary<string, string>
+                {
+                    {"reward", "gold"},
+                    {"value", "1000" }
+                }
+            },
+            {
+                CupRounds.SEMIS, new Dictionary<string, string>
+                {
+                    {"reward", "gems"},
+                    {"value", "50"}
+                }
+            },
+            {
+                CupRounds.FINALS, new Dictionary<string, string>
+                {
+                    {"reward", "chest"},
+                    {"value", "EPIC"}
+                }
+            },
+        };
 }

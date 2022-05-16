@@ -9,6 +9,7 @@ public class CupTimer : MonoBehaviour
 {
     // UI
     GameObject buttonCup;
+    Image cupIcon;
     TextMeshProUGUI textCup;
     TextMeshProUGUI textCupDisabled;
     GameObject timerGO;
@@ -24,6 +25,7 @@ public class CupTimer : MonoBehaviour
     private void SetupUI()
     {
         buttonCup = GameObject.Find("Button_Cup");
+        cupIcon = GameObject.Find("Icon_Cup").GetComponent<Image>();
         textCup = GameObject.Find("Text_Cup").GetComponent<TextMeshProUGUI>();
         textCupDisabled = GameObject.Find("Text_Cup_Disabled").GetComponent<TextMeshProUGUI>();
         timerGO = GameObject.Find("Icon_Daily_Time");
@@ -51,6 +53,7 @@ public class CupTimer : MonoBehaviour
     private void EnableCup()
     {
         buttonCup.GetComponent<Button>().enabled = true;
+        cupIcon.enabled = true;
         lockIcon.enabled = false;
         textCup.enabled = true;
         textCupDisabled.enabled = false;
@@ -60,6 +63,7 @@ public class CupTimer : MonoBehaviour
     private void DisableCup()
     {
         buttonCup.GetComponent<Button>().enabled = false;
+        cupIcon.enabled = false;
         lockIcon.enabled = true;
         textCup.enabled = false;
         textCupDisabled.enabled = true;

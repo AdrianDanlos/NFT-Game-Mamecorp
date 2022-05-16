@@ -98,6 +98,8 @@ public class Combat : MonoBehaviour
         
         ToggleLoadingScreenVisibility(false);
         StartCoroutine(InitiateCombat());
+
+        SceneFlag.sceneName = SceneNames.Combat.ToString();
     }
 
     private void SetupUI()

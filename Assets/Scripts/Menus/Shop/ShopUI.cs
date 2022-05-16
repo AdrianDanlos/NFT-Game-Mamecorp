@@ -128,6 +128,8 @@ public class ShopUI : MonoBehaviour
 
         // button pressed from main menu
         ShowTab(ShopTab.GetTab());
+
+        SceneFlag.sceneName = SceneNames.Shop.ToString();
     }
 
     public void ConfirmPurchase()

@@ -34,6 +34,7 @@ public class LevelUp : MonoBehaviour
     public GameObject epicSkill;
     public GameObject legendarySkill;
     private Chest.BattleChestRarities chestRarityAwarded;
+
     void Start()
     {
         AddListenerToButtons();
@@ -43,6 +44,8 @@ public class LevelUp : MonoBehaviour
         SetStatRewardValue(healthNumber, "hp");
         SetStatRewardValue(speedNumber, "speed");
         chestRarityAwarded = ChestManager.GetRandomBattleChestRarity();
+
+        SceneFlag.sceneName = SceneNames.LevelUp.ToString();
     }
 
     private void SetStatRewardValue(GameObject element, string stat)

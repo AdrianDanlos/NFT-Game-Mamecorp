@@ -62,6 +62,7 @@ public class EntryPoint : MonoBehaviour
         }
 
         Notifications.InitiateCardsUnseen();
+        SceneFlag.sceneName = SceneNames.EntryPoint.ToString();
     }
 
     IEnumerator FakeDelay()

@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class OnClickGoToMainMenuOrCup : MonoBehaviour
@@ -5,8 +6,20 @@ public class OnClickGoToMainMenuOrCup : MonoBehaviour
     public void GoToMainMenu()
     {
         if (Cup.Instance.isActive && !CombatMode.isSoloqEnabled)
-            UnityEngine.SceneManagement.SceneManager.LoadScene(SceneNames.Cup.ToString());
+            IGoToCombat(SceneNames.Cup);
         if (CombatMode.isSoloqEnabled)
-            UnityEngine.SceneManagement.SceneManager.LoadScene(SceneNames.MainMenu.ToString());
+            IGoToCombat(SceneNames.MainMenu);
+    }
+
+    private IEnumerator GoToCombat(SceneNames sceneName)
+    {
+        StartCoroutine(SceneManagerScript.instance.FadeOut());
+        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(1f));
+        UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName.ToString());
+    }
+
+    private void IGoToCombat(SceneNames sceneName)
+    {
+        StartCoroutine(GoToCombat(sceneName));
     }
 }

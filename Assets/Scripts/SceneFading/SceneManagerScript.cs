@@ -9,6 +9,7 @@ public class SceneManagerScript : MonoBehaviour
     private CanvasGroup fadeCanvasGroup;
     public const float FADE_DURATION = 1f;
     public const float FADE_INCREMENT = 0.02f;
+    public const float ANIMATION_SPEED = 2f;
     public float alphaValue = 1f;
 
     private void Awake()
@@ -41,9 +42,9 @@ public class SceneManagerScript : MonoBehaviour
 
         do
         {
-            fadeCanvasGroup.alpha += fadeIncrement;
-            alphaValue += fadeIncrement;
-            fadeCounter += fadeIncrement;
+            fadeCanvasGroup.alpha += fadeIncrement * ANIMATION_SPEED;
+            alphaValue += fadeIncrement * ANIMATION_SPEED;
+            fadeCounter += fadeIncrement * ANIMATION_SPEED;
             yield return new WaitForSeconds(fadeIncrement);
         } while (fadeCounter < FADE_DURATION);
     }
@@ -56,9 +57,9 @@ public class SceneManagerScript : MonoBehaviour
 
         do
         {
-            fadeCanvasGroup.alpha -= fadeIncrement;
-            alphaValue -= fadeIncrement;
-            fadeCounter += fadeIncrement;
+            fadeCanvasGroup.alpha -= fadeIncrement * ANIMATION_SPEED;
+            alphaValue -= fadeIncrement * ANIMATION_SPEED; 
+            fadeCounter += fadeIncrement * ANIMATION_SPEED; 
             yield return new WaitForSeconds(fadeIncrement);
         } while (fadeCounter < FADE_DURATION);
     }

@@ -8,9 +8,7 @@ public class CupManager : MonoBehaviour
 {
     private void Awake()
     {
-        bool saveFileFound = File.Exists(JsonDataManager.getFilePath(JsonDataManager.CupFileName));
-
-        if (saveFileFound)
+        if (File.Exists(JsonDataManager.getFilePath(JsonDataManager.CupFileName)))
             JsonDataManager.ReadCupFile();
         else
             CreateCupFile();

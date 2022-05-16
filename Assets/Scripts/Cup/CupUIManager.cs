@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -68,9 +69,17 @@ public class CupUIManager : MonoBehaviour
         SetUIBasedOnRound();
     }
 
-    private void Start()
+    private IEnumerator Start()
     {
         ShowCupLabel();
+
+        if (SceneFlag.sceneName == SceneNames.Combat.ToString() || SceneFlag.sceneName == SceneNames.LevelUp.ToString()) 
+        {
+            yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(1f));
+            StartCoroutine(SceneManagerScript.instance.FadeIn());
+        }
+
+        SceneFlag.sceneName = SceneNames.Cup.ToString();
     }
 
     private void GetAllUIPlayers()

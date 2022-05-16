@@ -12,7 +12,6 @@ public class InventoryUI : MonoBehaviour
     GameObject skillsContainer;
     [SerializeField] private List<Sprite> frameColors = new List<Sprite>();
 
-
     // Skill Description 
     GameObject skillIcon;
     GameObject skillRarityFrame;
@@ -44,7 +43,11 @@ public class InventoryUI : MonoBehaviour
 
         //Whenever the user has not clicked anything
         SetDefaultSideBarInfo();
-        
+    }
+
+    private void Start()
+    {
+        SceneFlag.sceneName = SceneNames.Inventory.ToString();
     }
 
     private void SetDefaultSideBarInfo(){

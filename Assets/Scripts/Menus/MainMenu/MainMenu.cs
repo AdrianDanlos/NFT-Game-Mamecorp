@@ -101,6 +101,8 @@ public class MainMenu : MonoBehaviour
         battleButtonGO.GetComponent<Button>().interactable = true;
 
         StartCoroutine(RefreshItems());
+
+        SceneFlag.sceneName = SceneNames.MainMenu.ToString();
     }
 
     IEnumerator RefreshItems()

@@ -252,7 +252,7 @@ public class DailyGift : MonoBehaviour
 
     private void StartCountdown()
     {
-        // TODO change to 1 day
+        // TODO change to real date
         PlayerPrefs.SetString("giftCountdown", DateTime.Now.AddSeconds(4).ToBinary().ToString());
         PlayerPrefs.Save();
     }

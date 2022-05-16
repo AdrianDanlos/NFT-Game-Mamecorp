@@ -473,7 +473,6 @@ public class CupUIManager : MonoBehaviour
     {
         prizeCanvas.enabled = true;
         ResetCup();
-        // TODO reset timer
 
         if (reward.ContainsKey("gold"))
             EnableGoldPopup(reward);
@@ -490,6 +489,9 @@ public class CupUIManager : MonoBehaviour
         for (int i = 0; i < files.Length; i++)
             if(files[i].Contains("cup"))
                 File.Delete(files[i]);
+
+        PlayerPrefs.SetString("cupCountdown", DateTime.Now.AddSeconds(20).ToBinary().ToString());
+        PlayerPrefs.Save();
     }
 
     private void EnableGoldPopup(Dictionary<string, string> reward)

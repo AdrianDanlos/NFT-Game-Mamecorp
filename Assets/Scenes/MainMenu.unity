@@ -11670,8 +11670,8 @@ RectTransform:
   - {fileID: 1900221826}
   - {fileID: 1752219838}
   - {fileID: 15712694}
-  - {fileID: 918332951}
   - {fileID: 1745736512}
+  - {fileID: 918332951}
   - {fileID: 296827660}
   - {fileID: 1964303932}
   - {fileID: 1960340862}
@@ -42516,12 +42516,12 @@ GameObject:
   - component: {fileID: 582232569}
   - component: {fileID: 582232568}
   m_Layer: 5
-  m_Name: Text_CupDisabled
+  m_Name: Text_Cup_Disabled
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &582232567
 RectTransform:
   m_ObjectHideFlags: 0
@@ -127961,7 +127961,7 @@ RectTransform:
   - {fileID: 915024792}
   - {fileID: 997534950}
   m_Father: {fileID: 135198657}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
@@ -160186,7 +160186,7 @@ GameObject:
   - component: {fileID: 2128726588}
   - component: {fileID: 2128726587}
   m_Layer: 5
-  m_Name: CupLock
+  m_Name: Cup_Lock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

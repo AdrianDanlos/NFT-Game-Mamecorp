@@ -5543,7 +5543,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 47569242}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -5552,7 +5552,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.57, y: 1.36}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &50293647
@@ -11584,6 +11584,7 @@ GameObject:
   - component: {fileID: 135198656}
   - component: {fileID: 135198655}
   - component: {fileID: 135198654}
+  - component: {fileID: 135198658}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -11682,6 +11683,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!225 &135198658
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 135198653}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &143113135
 GameObject:
   m_ObjectHideFlags: 0
@@ -12601,6 +12614,7 @@ GameObject:
   - component: {fileID: 209139029}
   - component: {fileID: 209139028}
   - component: {fileID: 209139027}
+  - component: {fileID: 209139031}
   m_Layer: 5
   m_Name: GameView
   m_TagString: Untagged
@@ -12690,6 +12704,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!225 &209139031
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 209139026}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &209243486
 GameObject:
   m_ObjectHideFlags: 0
@@ -31667,7 +31693,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 504235113}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -31676,7 +31702,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.57, y: 1.36}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &508416847
@@ -37156,6 +37182,7 @@ GameObject:
   - component: {fileID: 571629929}
   - component: {fileID: 571629928}
   - component: {fileID: 571629932}
+  - component: {fileID: 571629933}
   m_Layer: 5
   m_Name: ProfileCanvas
   m_TagString: Untagged
@@ -37257,6 +37284,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1390caf859752f41a4f7eff2fd77826, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!225 &571629933
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 571629927}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &573915493
 GameObject:
   m_ObjectHideFlags: 0
@@ -118269,6 +118308,7 @@ GameObject:
   - component: {fileID: 1472612661}
   - component: {fileID: 1472612660}
   - component: {fileID: 1472612664}
+  - component: {fileID: 1472612665}
   m_Layer: 5
   m_Name: DailyRewardsCanvas
   m_TagString: Untagged
@@ -118386,6 +118426,18 @@ MonoBehaviour:
   skillInventory: {fileID: 1737537638}
   skillMainMenu: {fileID: 1457036571}
   allSkills: {fileID: 1990747339}
+--- !u!225 &1472612665
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1472612659}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1484509301
 GameObject:
   m_ObjectHideFlags: 0
@@ -129997,6 +130049,7 @@ GameObject:
   - component: {fileID: 1882360796}
   - component: {fileID: 1882360795}
   - component: {fileID: 1882360799}
+  - component: {fileID: 1882360800}
   m_Layer: 5
   m_Name: RankingCanvas
   m_TagString: Untagged
@@ -130104,6 +130157,18 @@ MonoBehaviour:
   playerPrefab: {fileID: 3215630396062960596, guid: e6459566360d2b34c9c993683d981f9d, type: 3}
   playerProfile: {fileID: 0}
   playersContainer: {fileID: 0}
+--- !u!225 &1882360800
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1882360794}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1885709594
 GameObject:
   m_ObjectHideFlags: 0

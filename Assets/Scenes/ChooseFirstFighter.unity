@@ -599,6 +599,7 @@ GameObject:
   - component: {fileID: 64211768}
   - component: {fileID: 64211767}
   - component: {fileID: 64211766}
+  - component: {fileID: 64211770}
   m_Layer: 5
   m_Name: Canvas_Choose_Name_Fighter
   m_TagString: FighterNamePopup
@@ -687,6 +688,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!225 &64211770
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 64211765}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &66241297
 GameObject:
   m_ObjectHideFlags: 0
@@ -3944,6 +3957,7 @@ GameObject:
   - component: {fileID: 633276938}
   - component: {fileID: 633276937}
   - component: {fileID: 633276936}
+  - component: {fileID: 633276939}
   m_Layer: 5
   m_Name: Canvas_Choose_Country
   m_TagString: Untagged
@@ -4033,6 +4047,18 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!225 &633276939
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 633276934}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &643789261
 GameObject:
   m_ObjectHideFlags: 0
@@ -5002,7 +5028,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 943840259}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.1064234, y: -0.4283876, z: 109.257095}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -9682,7 +9708,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1516699750}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.1064234, y: -0.4283876, z: 109.257095}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -9776,6 +9802,7 @@ GameObject:
   - component: {fileID: 1570344900}
   - component: {fileID: 1570344899}
   - component: {fileID: 1570344898}
+  - component: {fileID: 1570344901}
   m_Layer: 5
   m_Name: PanelControl
   m_TagString: Untagged
@@ -9844,6 +9871,18 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!225 &1570344901
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1570344897}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!222 &1570344902
 CanvasRenderer:
   m_ObjectHideFlags: 0

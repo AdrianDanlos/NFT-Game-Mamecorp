@@ -6,31 +6,28 @@ public class CanvasRaycastBlocker : MonoBehaviour
 
     private void Awake()
     {
-        CanvasGroup[] canvasList = FindObjectsOfType<CanvasGroup>();
-        BlockRaycast();
+        canvasList = FindObjectsOfType<CanvasGroup>();
     }
 
     private void Update()
     {
         if(SceneManagerScript.instance.hasFadingEnded)
             AllowRaycast();
+        if (!SceneManagerScript.instance.hasFadingEnded)
+            BlockRaycast();
     }
 
     private void BlockRaycast()
     {
         for(int i = 0; i < canvasList.Length; i++)
-        {
-            canvasList[i].interactable = false;
-            canvasList[i].blocksRaycasts = true;
-        }
+            if(canvasList[i] != null)
+                canvasList[i].blocksRaycasts = false;
     }
 
     private void AllowRaycast()
     {
         for (int i = 0; i < canvasList.Length; i++)
-        {
-            canvasList[i].interactable = true;
-            canvasList[i].blocksRaycasts = false;
-        }
+            if (canvasList[i] != null)
+                canvasList[i].blocksRaycasts = true;
     }
 }

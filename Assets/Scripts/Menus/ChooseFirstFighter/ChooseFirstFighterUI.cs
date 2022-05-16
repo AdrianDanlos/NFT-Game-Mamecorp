@@ -184,53 +184,52 @@ public class ChooseFirstFighterUI : MonoBehaviour
         speed.text = Species.defaultStats[(SpeciesNames)Enum.Parse(typeof(SpeciesNames), specie)]["speed"].ToString();
     }
 
-    // TODO optimize code
-    public void EnableLeftFighterHighlight()
+    public void EnableFighterHighlight(string fighter)
     {
-        fighterLeftGroup.alpha = visibleAlphaUI;
-        fighterMidGroup.alpha = initialAlphaUI;
-        fighterRightGroup.alpha = initialAlphaUI;
-        next.gameObject.SetActive(true);
-        fighterLeftAnimator.PlayRunAnimation();
-        fighterMidAnimator.PlayIdleAnimation();
-        fighterRightAnimator.PlayIdleAnimation();
-        DisableMidFighterHighlight();
-        DisableRightFighterHighlight();
-        fighterLeftObject.gameObject.GetComponent<SpriteRenderer>().color = visibleColor;
-        fighterLeftRing.gameObject.SetActive(true);
-        fighterLeftSpecieTitle.gameObject.SetActive(true);
-    }
+        switch (fighter)
+        {
+            case "left":
+                fighterLeftGroup.alpha = visibleAlphaUI;
+                fighterMidGroup.alpha = initialAlphaUI;
+                fighterRightGroup.alpha = initialAlphaUI;
+                fighterLeftAnimator.PlayRunAnimation();
+                fighterMidAnimator.PlayIdleAnimation();
+                fighterRightAnimator.PlayIdleAnimation();
+                DisableMidFighterHighlight();
+                DisableRightFighterHighlight();
+                fighterLeftObject.gameObject.GetComponent<SpriteRenderer>().color = visibleColor;
+                fighterLeftRing.gameObject.SetActive(true);
+                fighterLeftSpecieTitle.gameObject.SetActive(true);
+                break;
+            case "mid":
+                fighterLeftGroup.alpha = initialAlphaUI;
+                fighterMidGroup.alpha = visibleAlphaUI;
+                fighterRightGroup.alpha = initialAlphaUI;
+                fighterLeftAnimator.PlayIdleAnimation();
+                fighterMidAnimator.PlayRunAnimation();
+                fighterRightAnimator.PlayIdleAnimation();
+                DisableLeftFighterHighlight();
+                DisableRightFighterHighlight();
+                fighterMidObject.gameObject.GetComponent<SpriteRenderer>().color = visibleColor;
+                fighterMidRing.gameObject.SetActive(true);
+                fighterMidSpecieTitle.gameObject.SetActive(true);
+                break;
+            case "right":
+                fighterLeftGroup.alpha = initialAlphaUI;
+                fighterMidGroup.alpha = initialAlphaUI;
+                fighterRightGroup.alpha = visibleAlphaUI;
+                fighterLeftAnimator.PlayIdleAnimation();
+                fighterMidAnimator.PlayIdleAnimation();
+                fighterRightAnimator.PlayRunAnimation();
+                DisableLeftFighterHighlight();
+                DisableMidFighterHighlight();
+                fighterRightObject.gameObject.GetComponent<SpriteRenderer>().color = visibleColor;
+                fighterRightRing.gameObject.SetActive(true);
+                fighterRightSpecieTitle.gameObject.SetActive(true);
+                break;
+        }
 
-    public void EnableMidFighterHighlight()
-    {
-        fighterLeftGroup.alpha = initialAlphaUI;
-        fighterMidGroup.alpha = visibleAlphaUI;
-        fighterRightGroup.alpha = initialAlphaUI;
         next.gameObject.SetActive(true);
-        fighterLeftAnimator.PlayIdleAnimation();
-        fighterMidAnimator.PlayRunAnimation();
-        fighterRightAnimator.PlayIdleAnimation();
-        DisableLeftFighterHighlight();
-        DisableRightFighterHighlight();
-        fighterMidObject.gameObject.GetComponent<SpriteRenderer>().color = visibleColor;
-        fighterMidRing.gameObject.SetActive(true);
-        fighterMidSpecieTitle.gameObject.SetActive(true);
-    }
-
-    public void EnableRightFighterHighlight()
-    {
-        fighterLeftGroup.alpha = initialAlphaUI;
-        fighterMidGroup.alpha = initialAlphaUI;
-        fighterRightGroup.alpha = visibleAlphaUI;
-        next.gameObject.SetActive(true);
-        fighterLeftAnimator.PlayIdleAnimation();
-        fighterMidAnimator.PlayIdleAnimation();
-        fighterRightAnimator.PlayRunAnimation();
-        DisableLeftFighterHighlight();
-        DisableMidFighterHighlight();
-        fighterRightObject.gameObject.GetComponent<SpriteRenderer>().color = visibleColor;
-        fighterRightRing.gameObject.SetActive(true);
-        fighterRightSpecieTitle.gameObject.SetActive(true);
     }
 
     public void DisableLeftFighterHighlight()

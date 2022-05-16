@@ -16,15 +16,15 @@ public class ChooseFirstFighter : MonoBehaviour
         {
             case "Container_Fighter_Left":
                 SetFighter(transform.Find("Fighter_Left").GetComponent<FighterSkinData>());
-                chooseFirstFighterUI.EnableLeftFighterHighlight();
+                chooseFirstFighterUI.EnableFighterHighlight("left");
                 break;
             case "Container_Fighter_Mid":
                 SetFighter(transform.Find("Fighter_Mid").GetComponent<FighterSkinData>());
-                chooseFirstFighterUI.EnableMidFighterHighlight();
+                chooseFirstFighterUI.EnableFighterHighlight("mid");
                 break;
             case "Container_Fighter_Right":
                 SetFighter(transform.Find("Fighter_Right").GetComponent<FighterSkinData>());
-                chooseFirstFighterUI.EnableRightFighterHighlight();
+                chooseFirstFighterUI.EnableFighterHighlight("right");
                 break;
         }
     }

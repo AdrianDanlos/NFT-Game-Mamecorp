@@ -50,7 +50,8 @@ public class CupUIManager : MonoBehaviour
     Button buttonBattle;
     Button buttonCollectRewards;
 
-    // gift received 
+    // prize
+    Canvas prizeCanvas;
     GameObject cupGoldAndGems;
     GameObject cupSkills;
     GameObject cupGoldPopup;
@@ -125,6 +126,7 @@ public class CupUIManager : MonoBehaviour
         cupManager = GetComponent<CupManager>();
 
         // collect reward popup
+        prizeCanvas = GameObject.Find("PrizeCanvas").GetComponent<Canvas>();
         cupSkills = GameObject.Find("Popup_Skill");
         cupGoldAndGems = GameObject.Find("Popup_Currencies");
         cupGoldPopup = GameObject.Find("GoldReward");
@@ -150,7 +152,15 @@ public class CupUIManager : MonoBehaviour
     private void IsTournamentOver()
     {
         if (Cup.Instance.round == CupDB.CupRounds.END.ToString() || !Cup.Instance.isActive)
+        {
             buttonBattle.gameObject.SetActive(false);
+            buttonCollectRewards.gameObject.SetActive(true);
+        }
+        else
+        {
+            buttonBattle.gameObject.SetActive(true);
+            buttonCollectRewards.gameObject.SetActive(false);
+        }
     }
 
     private void DisplayPlayerQuarters()
@@ -462,6 +472,8 @@ public class CupUIManager : MonoBehaviour
 
     private void GiveReward(Dictionary<string, string> reward)
     {
+        prizeCanvas.enabled = true;
+
         if (reward.ContainsKey("gold"))
             EnableGoldPopup(reward);
         if (reward.ContainsKey("gems"))

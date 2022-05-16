@@ -229,6 +229,7 @@ public class Combat : MonoBehaviour
 
     IEnumerator StartTurn(Fighter attacker, Fighter defender)
     {
+        // TODO bugs if no skill
         if (WillUseSkillThisTurn(attacker))
         {
             yield return StartCoroutine(UseRandomSkill(attacker, defender, attacker));

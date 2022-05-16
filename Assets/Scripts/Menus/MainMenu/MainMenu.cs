@@ -42,6 +42,7 @@ public class MainMenu : MonoBehaviour
 
     void Awake()
     {
+        // TODO
         // Music
         // FindObjectOfType<AudioManager>().Play("Theme");
         // FindObjectOfType<AudioManager>().PlayClipAtPoint("Test", transform.position);
@@ -93,8 +94,11 @@ public class MainMenu : MonoBehaviour
 
     IEnumerator Start()
     {
-        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(1f));
-        StartCoroutine(SceneManagerScript.instance.FadeIn());
+        if (SceneFlag.sceneName == SceneNames.EntryPoint.ToString()) 
+        {
+            yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(1f));
+            StartCoroutine(SceneManagerScript.instance.FadeIn());
+        }
 
         //If the user don't have any energy left check each its energy each second to activate the battle button once an energy point is given.
         while (User.Instance.energy == 0) yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(1f));
@@ -120,7 +124,7 @@ public class MainMenu : MonoBehaviour
             }
             else
                 notifyCards.SetActive(false);
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(0.1f);
         }
 
         while (true);

@@ -22,9 +22,7 @@ public class EntryPoint : MonoBehaviour
         loadingBar = loadingBarGO.GetComponent<Slider>();
         tipText = GameObject.Find("TipText").GetComponentInChildren<TextMeshProUGUI>();
 
-        // set up bar
-        loadingText.text = "0%";
-        loadingBar.value = 0f;
+        ResetBar();
     }
 
     IEnumerator Start()
@@ -48,7 +46,6 @@ public class EntryPoint : MonoBehaviour
             JsonDataManager.ReadUserFile();
             JsonDataManager.ReadFighterFile();
 
-            yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(1f));
             StartCoroutine(SceneManagerScript.instance.FadeOut());
             yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(1f));
             UnityEngine.SceneManagement.SceneManager.LoadScene(SceneNames.MainMenu.ToString());
@@ -63,6 +60,13 @@ public class EntryPoint : MonoBehaviour
 
         Notifications.InitiateCardsUnseen();
         SceneFlag.sceneName = SceneNames.EntryPoint.ToString();
+    }
+
+    private void ResetBar()
+    {
+        // set up bar
+        loadingText.text = "0%";
+        loadingBar.value = 0f;
     }
 
     IEnumerator FakeDelay()
@@ -81,7 +85,7 @@ public class EntryPoint : MonoBehaviour
 
         loadingText.text = "100%";
         loadingBar.value = 1f;
-        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(1f));
+        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(0.25f));
     }
 
     private void HideFighter()

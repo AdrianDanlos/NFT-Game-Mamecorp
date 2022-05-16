@@ -58,9 +58,9 @@ public class FightersUIData : MonoBehaviour
         else
         {
             if(Cup.Instance.isActive && !CombatMode.isSoloqEnabled)
-                UnityEngine.SceneManagement.SceneManager.LoadScene(SceneNames.Cup.ToString());
+                IGoToScene(SceneNames.Cup);
             if(CombatMode.isSoloqEnabled)
-                UnityEngine.SceneManagement.SceneManager.LoadScene(SceneNames.MainMenu.ToString());
+                IGoToScene(SceneNames.MainMenu);
         }
     }
 
@@ -223,5 +223,17 @@ public class FightersUIData : MonoBehaviour
         gemsRewardGO.SetActive(Convert.ToBoolean(gemsReward));
         goldRewardGO.transform.Find("TextValue").gameObject.GetComponent<TextMeshProUGUI>().text = goldReward.ToString();
         if (Convert.ToBoolean(gemsReward)) gemsRewardGO.transform.Find("TextValue").gameObject.GetComponent<TextMeshProUGUI>().text = gemsReward.ToString();
+    }
+
+    private IEnumerator GoToScene(SceneNames sceneName)
+    {
+        StartCoroutine(SceneManagerScript.instance.FadeOut());
+        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(1f));
+        UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName.ToString());
+    }
+
+    private void IGoToScene(SceneNames sceneName)
+    {
+        StartCoroutine(GoToScene(sceneName));
     }
 }

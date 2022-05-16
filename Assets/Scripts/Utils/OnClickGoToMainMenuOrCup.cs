@@ -6,20 +6,20 @@ public class OnClickGoToMainMenuOrCup : MonoBehaviour
     public void GoToMainMenu()
     {
         if (Cup.Instance.isActive && !CombatMode.isSoloqEnabled)
-            IGoToCombat(SceneNames.Cup);
+            IGoToScene(SceneNames.Cup);
         if (CombatMode.isSoloqEnabled)
-            IGoToCombat(SceneNames.MainMenu);
+            IGoToScene(SceneNames.MainMenu);
     }
 
-    private IEnumerator GoToCombat(SceneNames sceneName)
+    private IEnumerator GoToScene(SceneNames sceneName)
     {
         StartCoroutine(SceneManagerScript.instance.FadeOut());
         yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(1f));
         UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName.ToString());
     }
 
-    private void IGoToCombat(SceneNames sceneName)
+    private void IGoToScene(SceneNames sceneName)
     {
-        StartCoroutine(GoToCombat(sceneName));
+        StartCoroutine(GoToScene(sceneName));
     }
 }

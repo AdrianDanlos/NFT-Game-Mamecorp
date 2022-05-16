@@ -329,7 +329,7 @@ public class ChooseFirstFighterUI : MonoBehaviour
         {
             CreateFighterFile();
             CreateUserFile();
-            IGoToEntryPoint();
+            IGoToScene(SceneNames.EntryPoint);
         }
     }
 
@@ -398,15 +398,15 @@ public class ChooseFirstFighterUI : MonoBehaviour
         PlayerPrefs.DeleteAll();
     }
 
-    private IEnumerator GoToEntryPoint()
+    private IEnumerator GoToScene(SceneNames sceneName)
     {
         StartCoroutine(SceneManagerScript.instance.FadeOut());
         yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(1f));
-        UnityEngine.SceneManagement.SceneManager.LoadScene(SceneNames.EntryPoint.ToString());
+        UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName.ToString());
     }
 
-    private void IGoToEntryPoint()
+    private void IGoToScene(SceneNames sceneName)
     {
-        StartCoroutine(GoToEntryPoint());
+        StartCoroutine(GoToScene(sceneName));
     }
 }

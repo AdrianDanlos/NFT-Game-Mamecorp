@@ -8,9 +8,9 @@ public class SceneManagerScript : MonoBehaviour
 
     private CanvasGroup fadeCanvasGroup;
     public const float FADE_DURATION = 1f;
-    public const float FADE_INCREMENT = 0.02f;
+    public const float FADE_INCREMENT = 0.04f;
     public const float ANIMATION_SPEED = 2f;
-    public float alphaValue = 1f;
+    public bool hasFadingEnded = false;
 
     private void Awake()
     {
@@ -36,31 +36,32 @@ public class SceneManagerScript : MonoBehaviour
 
     public IEnumerator FadeOut()
     {
-        alphaValue = 0f;
-        float fadeCounter = 0f;
+        hasFadingEnded = false;
+        fadeCanvasGroup.alpha = 0f;
         float fadeIncrement = FADE_INCREMENT;
 
         do
         {
-            fadeCanvasGroup.alpha += fadeIncrement * ANIMATION_SPEED;
-            alphaValue += fadeIncrement * ANIMATION_SPEED;
-            fadeCounter += fadeIncrement * ANIMATION_SPEED;
+            fadeCanvasGroup.alpha += fadeIncrement;
             yield return new WaitForSeconds(fadeIncrement);
-        } while (fadeCounter < FADE_DURATION);
+        } while (fadeCanvasGroup.alpha != 1f);
+
+        hasFadingEnded = true;
     }
 
     public IEnumerator FadeIn()
     {
-        alphaValue = 1f;
-        float fadeCounter = 0;
+        hasFadingEnded = false;
+        fadeCanvasGroup.interactable = false;
+        fadeCanvasGroup.alpha = 1f;
         float fadeIncrement = FADE_INCREMENT;
 
         do
         {
-            fadeCanvasGroup.alpha -= fadeIncrement * ANIMATION_SPEED;
-            alphaValue -= fadeIncrement * ANIMATION_SPEED; 
-            fadeCounter += fadeIncrement * ANIMATION_SPEED; 
+            fadeCanvasGroup.alpha -= fadeIncrement;
             yield return new WaitForSeconds(fadeIncrement);
-        } while (fadeCounter < FADE_DURATION);
+        } while (fadeCanvasGroup.alpha != 0f);
+
+        hasFadingEnded = true;
     }
 }

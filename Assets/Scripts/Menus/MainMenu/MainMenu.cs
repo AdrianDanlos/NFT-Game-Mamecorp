@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
@@ -18,7 +19,6 @@ public class MainMenu : MonoBehaviour
     public GameObject buttonDelete;
     public GameObject buttonAbout;
     public GameObject buttonCredits;
-    public GameObject buttonCloseCredits;
     public GameObject buttonCloseConfirmation;
     public GameObject buttonCloseAbout;
 
@@ -41,9 +41,6 @@ public class MainMenu : MonoBehaviour
     // profile
     GameObject profileCanvas;
 
-    // credits
-    GameObject creditsCanvas;
-
     void Awake()
     {
         // TODO
@@ -56,13 +53,11 @@ public class MainMenu : MonoBehaviour
         dailyGiftCanvas = GameObject.Find("DailyRewardsCanvas");
         rankingCanvas = GameObject.Find("RankingCanvas");
         profileCanvas = GameObject.Find("ProfileCanvas");
-        creditsCanvas = GameObject.Find("CreditsCanvas");
         dailyGift = dailyGiftCanvas.GetComponent<DailyGift>();
         dailyGiftsNotification = GameObject.Find("DailyGiftsNotification");
         buttonDelete = GameObject.Find("Button_Delete");
         buttonAbout = GameObject.Find("Button_About");
         buttonCredits = GameObject.Find("Button_Credits");
-        buttonCloseCredits = GameObject.Find("Button_Close_Credits");
         buttonCloseConfirmation = GameObject.Find("Button_Close_Confirmation");
         buttonCloseAbout = GameObject.Find("Button_Close_About");
 
@@ -88,7 +83,6 @@ public class MainMenu : MonoBehaviour
         dailyGiftCanvas.SetActive(false);
         rankingCanvas.SetActive(false);
         profileCanvas.SetActive(false);
-        creditsCanvas.SetActive(false);
         dailyGiftsNotification.SetActive(false);
         if (dailyGift.IsFirstTime())
             dailyGiftsNotification.SetActive(true);
@@ -97,8 +91,7 @@ public class MainMenu : MonoBehaviour
         buttonCloseConfirmation.GetComponent<Button>().onClick.AddListener(() => CloseSettingsConfirmation());
         buttonAbout.GetComponent<Button>().onClick.AddListener(() => ShowAboutPopup());
         buttonCloseAbout.GetComponent<Button>().onClick.AddListener(() => HideAboutPopup());
-        buttonCredits.GetComponent<Button>().onClick.AddListener(() => ShowCreditsPopup());
-        buttonCloseCredits.GetComponent<Button>().onClick.AddListener(() => HideCreditsPopup());
+        buttonCredits.GetComponent<Button>().onClick.AddListener(() => IShowCredits());
     }
 
     IEnumerator Start()
@@ -165,14 +158,16 @@ public class MainMenu : MonoBehaviour
         aboutPopup.SetActive(false);
     }
 
-    public void ShowCreditsPopup()
+    public void IShowCredits()
     {
-        creditsCanvas.SetActive(true);
+        StartCoroutine(ShowCredits());
     }
 
-    public void HideCreditsPopup()
+    public IEnumerator ShowCredits()
     {
-        creditsCanvas.SetActive(false);
+        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(1f));
+        StartCoroutine(SceneManagerScript.instance.FadeOut());
+        SceneManager.LoadScene(SceneNames.Credits.ToString());
     }
 
     public void CloseSettingsConfirmation()

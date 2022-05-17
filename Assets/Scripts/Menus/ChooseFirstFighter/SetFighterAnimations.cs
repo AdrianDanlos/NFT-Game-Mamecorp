@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -26,6 +25,7 @@ public class SetFighterAnimations : MonoBehaviour
 
         if (currrentScene == SceneNames.ChooseFirstFighter.ToString()) return GetComponent<FighterSkinData>().skinName;
         if (currrentScene == SceneNames.MainMenu.ToString()) return PlayerUtils.FindInactiveFighter().skin;
+        if (currrentScene == SceneNames.Credits.ToString()) return PlayerUtils.FindInactiveFighter().skin;
         //Combat
         return tag == "LoadingScreenBot" ? Combat.bot.skin : Combat.player.skin;
     }

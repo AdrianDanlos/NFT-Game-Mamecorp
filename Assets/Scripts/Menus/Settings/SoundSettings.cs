@@ -1,13 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class SoundSettings : MonoBehaviour
 {
     // UI
-    GameObject sounds;
-    GameObject music;
     Slider sliderSounds;
     Slider sliderMusic;
     Image soundOn;
@@ -18,13 +14,12 @@ public class SoundSettings : MonoBehaviour
     private void Awake()
     {
         InitUI();
+        SetupUI();
     }
 
     private void InitUI()
     {
         // UI
-        sounds = GameObject.Find("ListSounds");
-        music = GameObject.Find("ListMusic");
         sliderSounds = GameObject.Find("SliderSounds").GetComponent<Slider>();
         sliderMusic = GameObject.Find("SliderMusic").GetComponent<Slider>();
         soundOn = GameObject.Find("SoundOn").GetComponent<Image>();
@@ -35,6 +30,12 @@ public class SoundSettings : MonoBehaviour
         // onValueChange
         sliderSounds.onValueChanged.AddListener(SoundListener);
         sliderMusic.onValueChanged.AddListener(MusicListener);
+    }
+
+    private void SetupUI()
+    {
+        sliderMusic.value = PlayerPrefs.GetFloat("musicVolume");
+        sliderSounds.value = PlayerPrefs.GetFloat("soundsVolume");
     }
 
     public void SoundListener(float value)
@@ -49,6 +50,8 @@ public class SoundSettings : MonoBehaviour
             soundOn.enabled = true;
             soundOff.enabled = false;
         }
+
+        SaveMusicPrefs("sounds", value);
     }
 
     // Slider scale is 0-10 and audio is 0-1
@@ -56,15 +59,34 @@ public class SoundSettings : MonoBehaviour
     {
         if (value == 0)
         {
+            // TODO get current playing music depending on scene
             FindObjectOfType<AudioManager>().ChangeVolume("Waiting", value / 10);
             musicOn.enabled = false;
             musicOff.enabled = true;
         }
         else
         {
+            // TODO get current playing music depending on scene
             FindObjectOfType<AudioManager>().ChangeVolume("Waiting", value / 10);
             musicOn.enabled = true;
             musicOff.enabled = false;
+        }
+
+        SaveMusicPrefs("music", value);
+    }
+
+    private void SaveMusicPrefs(string setting, float value)
+    {
+        switch (setting)
+        {
+            case "music":
+                PlayerPrefs.SetFloat("musicVolume", value);
+                PlayerPrefs.Save();
+                break;
+            case "sounds":
+                PlayerPrefs.SetFloat("soundsVolume", value);
+                PlayerPrefs.Save();
+                break;
         }
     }
 }

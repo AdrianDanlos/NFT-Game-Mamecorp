@@ -4,8 +4,17 @@ using UnityEngine.SceneManagement;
 
 public class AudioManager : MonoBehaviour
 {
-    public Sound[] sounds;
+    // TODO
+    // - one theme on main menu + shop, inventory...
+    // - one theme for combat
+    // - one theme for loading
+    // - sound effects on combat
+    // - sound effects on chest opening, cards...
 
+    // can use it anywhere
+    // -> FindObjectOfType<AudioManager>().Play("Theme");
+
+    public Sound[] sounds;
     public static AudioManager instance;
 
     private void Awake()
@@ -29,9 +38,7 @@ public class AudioManager : MonoBehaviour
 
             // loop main themes, rest don't
             if (s.clip.name.Contains("main_theme") || s.clip.name.Contains("waiting"))
-            {
                 s.source.loop = true;
-            }
         }
     }
 
@@ -73,7 +80,7 @@ public class AudioManager : MonoBehaviour
         s.source.Pause();
     }
 
-    // needed to add sounds to instantiated objects
+    // if needed to add sounds to instantiated objects
     public void PlayClipAtPoint(string name, Vector2 transform)
     {
         Sound s = Array.Find(sounds, sound => sound.name == name);

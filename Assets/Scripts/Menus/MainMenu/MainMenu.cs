@@ -43,7 +43,6 @@ public class MainMenu : MonoBehaviour
     void Awake()
     {
         // TODO
-        // Music
         // FindObjectOfType<AudioManager>().Play("Theme");
         // FindObjectOfType<AudioManager>().PlayClipAtPoint("Test", transform.position);
 

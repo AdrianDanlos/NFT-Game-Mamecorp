@@ -98,7 +98,8 @@ public class MainMenu : MonoBehaviour
     {
         if (SceneFlag.sceneName == SceneNames.EntryPoint.ToString() ||
             SceneFlag.sceneName == SceneNames.Combat.ToString() ||
-            SceneFlag.sceneName == SceneNames.LevelUp.ToString())
+            SceneFlag.sceneName == SceneNames.LevelUp.ToString() ||
+                SceneFlag.sceneName == SceneNames.Credits.ToString())
         {
             StartCoroutine(SceneManagerScript.instance.FadeIn());
             yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(1f));

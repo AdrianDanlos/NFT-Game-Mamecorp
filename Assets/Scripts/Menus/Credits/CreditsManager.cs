@@ -15,7 +15,35 @@ public class CreditsManager : MonoBehaviour
     TextMeshProUGUI dev3;
     TextMeshProUGUI copy;
 
+    // animations
+    Animator titleAnimator;
+    Animator dev1Animator;
+    Animator dev2Animator;
+    Animator dev3Animator;
+    Animator copyAnimator;
+
     private void Awake()
+    {
+        SetupUI();
+        SetupButtons();
+    }
+
+    IEnumerator Start()
+    {
+        StartCoroutine(SceneManagerScript.instance.FadeIn());
+        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(1f));
+
+        SceneFlag.sceneName = SceneNames.Credits.ToString();
+
+        IStartAnimation();
+    }
+
+    private void SetupButtons()
+    {
+        buttonCloseCredits.GetComponent<Button>().onClick.AddListener(() => IHideCreditsPopup());
+    }
+
+    private void SetupUI()
     {
         buttonCloseCredits = GameObject.Find("Button_Close_Credits");
         title = GameObject.Find("Title").GetComponent<TextMeshProUGUI>();
@@ -24,36 +52,53 @@ public class CreditsManager : MonoBehaviour
         dev3 = GameObject.Find("Dev3").GetComponent<TextMeshProUGUI>();
         copy = GameObject.Find("Copy").GetComponent<TextMeshProUGUI>();
 
-        SetupUI();
+        titleAnimator = title.gameObject.GetComponent<Animator>();
+        dev1Animator = dev1.gameObject.GetComponent<Animator>();
+        dev2Animator = dev2.gameObject.GetComponent<Animator>();
+        dev3Animator = dev3.gameObject.GetComponent<Animator>();
+        copyAnimator = copy.gameObject.GetComponent<Animator>();
 
-        buttonCloseCredits.GetComponent<Button>().onClick.AddListener(() => IHideCreditsPopup());
-    }
-
-    IEnumerator Start()
-    {
-        StartCoroutine(SceneManagerScript.instance.FadeIn());
-        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(1f));
-
-        StartCoroutine(StartAnimation());
-
-        SceneFlag.sceneName = SceneNames.Credits.ToString();
-    }
-
-    private void SetupUI()
-    {
         title.enabled = false;
         dev1.enabled = false;
         dev2.enabled = false;
         dev3.enabled = false;
         copy.enabled = false;
+
+        titleAnimator.enabled = false;
+        dev1Animator.enabled = false;
+        dev2Animator.enabled = false;
+        dev3Animator.enabled = false;
+        copyAnimator.enabled = false;
     }
 
-    IEnumerator StartAnimation()
+    private void IStartAnimation()
     {
-        IFadeIn(title);
+        StartCoroutine(StartAnimation());
+    }
+
+    public IEnumerator StartAnimation()
+    {
         yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(1f));
-        IFadeOut(title);
+
+        titleAnimator.enabled = true;
+        copyAnimator.enabled = true;
+        title.enabled = true;
+        copy.enabled = true;
+
         yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(1f));
+
+        dev1Animator.enabled = true;
+        dev1.enabled = true;
+
+        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(4f));
+
+        dev2Animator.enabled = true;
+        dev2.enabled = true;
+
+        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(4f));
+
+        dev3Animator.enabled = true;
+        dev3.enabled = true;
     }
 
     public void IHideCreditsPopup()
@@ -61,50 +106,10 @@ public class CreditsManager : MonoBehaviour
         StartCoroutine(HideCreditsPopup());
     }
 
-    public IEnumerator HideCreditsPopup()
+    private IEnumerator HideCreditsPopup()
     {
         StartCoroutine(SceneManagerScript.instance.FadeOut());
         yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(1f));
         SceneManager.LoadScene(SceneNames.MainMenu.ToString());
-    }
-
-    private void IFadeOut(TextMeshProUGUI text)
-    {
-        StartCoroutine(FadeOut(text));
-    }
-
-    private void IFadeIn(TextMeshProUGUI text)
-    {
-        StartCoroutine(FadeIn(text));
-    }
-
-    private IEnumerator FadeOut(TextMeshProUGUI text)
-    {
-        byte alphaValue = 0;
-        text.enabled = true;
-        text.color = new Color32(255, 255, 255, alphaValue);
-        float fadeIncrement = 0.1f;
-
-        do
-        {
-            text.color = new Color32(255, 255, 255, alphaValue);
-            alphaValue += 26;
-            yield return new WaitForSeconds(fadeIncrement);
-        } while (alphaValue <= 255);
-    }
-
-    private IEnumerator FadeIn(TextMeshProUGUI text)
-    {
-        byte alphaValue = 255;
-        text.enabled = true;
-        text.color = new Color32(255, 255, 255, alphaValue);
-        float fadeIncrement = 0.1f;
-
-        do
-        {
-            text.color = new Color32(255, 255, 255, alphaValue);
-            alphaValue -= 26;
-            yield return new WaitForSeconds(fadeIncrement);
-        } while (alphaValue >= 0);
     }
 }

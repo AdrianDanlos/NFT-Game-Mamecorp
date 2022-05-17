@@ -96,10 +96,12 @@ public class MainMenu : MonoBehaviour
 
     IEnumerator Start()
     {
-        if (SceneFlag.sceneName == SceneNames.EntryPoint.ToString()) 
+        if (SceneFlag.sceneName == SceneNames.EntryPoint.ToString() ||
+            SceneFlag.sceneName == SceneNames.Combat.ToString() ||
+            SceneFlag.sceneName == SceneNames.LevelUp.ToString())
         {
-            yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(1f));
             StartCoroutine(SceneManagerScript.instance.FadeIn());
+            yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(1f));
         }
 
         //If the user don't have any energy left check each its energy each second to activate the battle button once an energy point is given.
@@ -165,8 +167,8 @@ public class MainMenu : MonoBehaviour
 
     public IEnumerator ShowCredits()
     {
-        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(1f));
         StartCoroutine(SceneManagerScript.instance.FadeOut());
+        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(1f));
         SceneManager.LoadScene(SceneNames.Credits.ToString());
     }
 

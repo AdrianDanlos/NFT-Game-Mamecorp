@@ -3,7 +3,7 @@ using System;
 public class GeneralUtils
 {
     //To disable simulation set this to false
-    public const bool SimulationEnabled = true;
+    public const bool SimulationEnabled = false;
     public const float SimulationTime = 0f;
     public static double ToSingleDecimal(double number)
     {

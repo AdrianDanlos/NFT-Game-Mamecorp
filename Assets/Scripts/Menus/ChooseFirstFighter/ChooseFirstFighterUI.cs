@@ -157,8 +157,8 @@ public class ChooseFirstFighterUI : MonoBehaviour
 
     private IEnumerator Start()
     {
-        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(1f));
         StartCoroutine(SceneManagerScript.instance.FadeIn());
+        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(1f));
     }
 
     private void SetDefaultStats(string specie, string fighter)

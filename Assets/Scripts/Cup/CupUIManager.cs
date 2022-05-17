@@ -107,10 +107,10 @@ public class CupUIManager : MonoBehaviour
     {
         ShowCupLabel();
 
-        if (SceneFlag.sceneName == SceneNames.Combat.ToString() || SceneFlag.sceneName == SceneNames.LevelUp.ToString()) 
+        if (SceneFlag.sceneName == SceneNames.Combat.ToString() || SceneFlag.sceneName == SceneNames.LevelUp.ToString())
         {
-            yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(1f));
             StartCoroutine(SceneManagerScript.instance.FadeIn());
+            yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(1f));
         }
 
         SceneFlag.sceneName = SceneNames.Cup.ToString();

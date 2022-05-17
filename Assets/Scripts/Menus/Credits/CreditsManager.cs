@@ -13,13 +13,13 @@ public class CreditsManager : MonoBehaviour
     private void Awake()
     {
         buttonCloseCredits = GameObject.Find("Button_Close_Credits");
-        buttonCloseCredits.GetComponent<Button>().onClick.AddListener(() => HideCreditsPopup());
+        buttonCloseCredits.GetComponent<Button>().onClick.AddListener(() => IHideCreditsPopup());
     }
 
     IEnumerator Start()
     {
-        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(1f));
         StartCoroutine(SceneManagerScript.instance.FadeIn());
+        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(1f));
 
         SceneFlag.sceneName = SceneNames.Credits.ToString();
     }
@@ -31,8 +31,8 @@ public class CreditsManager : MonoBehaviour
 
     public IEnumerator HideCreditsPopup()
     {
-        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(1f));
         StartCoroutine(SceneManagerScript.instance.FadeOut());
+        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(1f));
         SceneManager.LoadScene(SceneNames.MainMenu.ToString());
     }
 }

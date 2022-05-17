@@ -83,8 +83,8 @@ public class Combat : MonoBehaviour
 
     IEnumerator Start()
     {
-        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(1f));
         StartCoroutine(SceneManagerScript.instance.FadeIn());
+        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(1f));
 
         // --- Enable this for loading effect ---
         yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(2f));

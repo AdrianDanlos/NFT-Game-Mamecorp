@@ -165,10 +165,10 @@ RectTransform:
   m_Father: {fileID: 1757575450567137891}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -953.51, y: -544}
-  m_SizeDelta: {x: 12.0024, y: 0.8216}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: -1913.51, y: -4}
+  m_SizeDelta: {x: 12.00238, y: 0.82159424}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &1757575449493630705
 MeshRenderer:
@@ -666,7 +666,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1757575450567137891
 RectTransform:
   m_ObjectHideFlags: 0
@@ -676,7 +676,7 @@ RectTransform:
   m_GameObject: {fileID: 1757575450567137895}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1757575448846378439}
   - {fileID: 1757575449471339867}
@@ -699,7 +699,7 @@ Canvas:
   m_GameObject: {fileID: 1757575450567137895}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
+  m_RenderMode: 2
   m_Camera: {fileID: 0}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
@@ -723,17 +723,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!114 &1757575450567137892
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -772,19 +772,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2524278760906487566, guid: c9c14c4f438a6a247bf1999654cf4a14, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2524278760906487566, guid: c9c14c4f438a6a247bf1999654cf4a14, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2524278760906487566, guid: c9c14c4f438a6a247bf1999654cf4a14, type: 3}
       propertyPath: m_AnchorMin.x
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2524278760906487566, guid: c9c14c4f438a6a247bf1999654cf4a14, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2524278760906487566, guid: c9c14c4f438a6a247bf1999654cf4a14, type: 3}
       propertyPath: m_SizeDelta.x
@@ -836,11 +836,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2524278760906487566, guid: c9c14c4f438a6a247bf1999654cf4a14, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -966.69
+      value: -6.6900024
       objectReference: {fileID: 0}
     - target: {fileID: 2524278760906487566, guid: c9c14c4f438a6a247bf1999654cf4a14, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -541
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 2524278760906487566, guid: c9c14c4f438a6a247bf1999654cf4a14, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -865,6 +865,10 @@ PrefabInstance:
     - target: {fileID: 3686329620624386752, guid: c9c14c4f438a6a247bf1999654cf4a14, type: 3}
       propertyPath: m_TagString
       value: Fighter
+      objectReference: {fileID: 0}
+    - target: {fileID: 9172367779820382542, guid: c9c14c4f438a6a247bf1999654cf4a14, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c9c14c4f438a6a247bf1999654cf4a14, type: 3}
@@ -923,7 +927,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 25.6, y: 14.4}
+  m_Size: {x: 9, y: 9}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 0

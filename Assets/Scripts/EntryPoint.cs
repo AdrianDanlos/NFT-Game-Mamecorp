@@ -34,8 +34,8 @@ public class EntryPoint : MonoBehaviour
         yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(1f));
 
         // --- Enable this for loading effect ---
-        StartCoroutine(FakeDelay());
-        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(3.5f));
+        // StartCoroutine(FakeDelay());
+        // yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(3.5f));
         yield return null; //remove
 
         bool saveFilesFound = File.Exists(JsonDataManager.getFilePath(JsonDataManager.UserFileName)) &&

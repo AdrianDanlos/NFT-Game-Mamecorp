@@ -37,7 +37,7 @@ public class DeleteGame : MonoBehaviour
     private IEnumerator GoToEntryPoint()
     {
         StartCoroutine(SceneManagerScript.instance.FadeOut());
-        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(1f));
+        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(SceneFlag.FADE_DURATION));
         UnityEngine.SceneManagement.SceneManager.LoadScene(SceneNames.EntryPoint.ToString());
     }
 

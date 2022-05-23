@@ -68,6 +68,4 @@ public class LoadingScreen : MonoBehaviour
         botLevels = GameObject.Find("BotLoadingScreenLevels");
         spinner = GameObject.FindGameObjectWithTag("CombatLoadingScreenSpinner");
     }
-
-
 }

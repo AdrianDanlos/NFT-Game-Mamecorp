@@ -31,7 +31,7 @@ public class EntryPoint : MonoBehaviour
         GenerateTip();
 
         StartCoroutine(SceneManagerScript.instance.FadeIn());
-        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(1f));
+        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(SceneFlag.FADE_DURATION));
 
         // --- Enable this for loading effect ---
         // StartCoroutine(FakeDelay());
@@ -47,14 +47,14 @@ public class EntryPoint : MonoBehaviour
             JsonDataManager.ReadFighterFile();
 
             StartCoroutine(SceneManagerScript.instance.FadeOut());
-            yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(1f));
+            yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(SceneFlag.FADE_DURATION));
             UnityEngine.SceneManagement.SceneManager.LoadScene(SceneNames.MainMenu.ToString());
         }
 
         else
         {
             StartCoroutine(SceneManagerScript.instance.FadeOut());
-            yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(1f));
+            yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(SceneFlag.FADE_DURATION));
             UnityEngine.SceneManagement.SceneManager.LoadScene(SceneNames.ChooseFirstFighter.ToString());
         }
 

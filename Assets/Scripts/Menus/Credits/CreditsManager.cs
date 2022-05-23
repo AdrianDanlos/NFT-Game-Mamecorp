@@ -51,7 +51,7 @@ public class CreditsManager : MonoBehaviour
     IEnumerator Start()
     {
         StartCoroutine(SceneManagerScript.instance.FadeIn());
-        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(1f));
+        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(SceneFlag.FADE_DURATION));
 
         SceneFlag.sceneName = SceneNames.Credits.ToString();
 
@@ -182,7 +182,7 @@ public class CreditsManager : MonoBehaviour
     private IEnumerator HideCreditsPopup()
     {
         StartCoroutine(SceneManagerScript.instance.FadeOut());
-        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(1f));
+        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(SceneFlag.FADE_DURATION));
         SceneManager.LoadScene(SceneNames.MainMenu.ToString());
     }
 

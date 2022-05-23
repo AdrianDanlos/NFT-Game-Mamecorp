@@ -7,7 +7,7 @@ public class SceneManagerScript : MonoBehaviour
     public static SceneManagerScript instance;
 
     private CanvasGroup fadeCanvasGroup;
-    public const float FADE_DURATION = 1f;
+    public const float FADE_DURATION = SceneFlag.FADE_DURATION;
     public const float FADE_INCREMENT = 0.04f;
     public const float ANIMATION_SPEED = 2f;
     public bool hasFadingEnded;

@@ -104252,7 +104252,6 @@ MonoBehaviour:
   buttonDelete: {fileID: 0}
   buttonAbout: {fileID: 0}
   buttonCredits: {fileID: 0}
-  buttonCloseCredits: {fileID: 0}
   buttonCloseConfirmation: {fileID: 0}
   buttonCloseAbout: {fileID: 0}
   attack: {fileID: 0}

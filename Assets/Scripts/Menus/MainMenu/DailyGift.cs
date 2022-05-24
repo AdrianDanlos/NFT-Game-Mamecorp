@@ -46,6 +46,7 @@ public class DailyGift : MonoBehaviour
 
     // variables
     string lastButtonClicked = "";
+    const int GIFT_TIME = 1;
 
     private void Awake()
     {
@@ -252,8 +253,7 @@ public class DailyGift : MonoBehaviour
 
     private void StartCountdown()
     {
-        // TODO change to real date
-        PlayerPrefs.SetString("giftCountdown", DateTime.Now.AddSeconds(4).ToBinary().ToString());
+        PlayerPrefs.SetString("giftCountdown", DateTime.Now.AddDays(GIFT_TIME).ToBinary().ToString());
         PlayerPrefs.Save();
     }
 

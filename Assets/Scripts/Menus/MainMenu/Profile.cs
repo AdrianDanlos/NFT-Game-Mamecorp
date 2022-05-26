@@ -4,12 +4,14 @@ using UnityEngine;
 public class Profile : MonoBehaviour
 {
     // UI
-    GameObject levelBar;
-    GameObject levelExp;
+    public GameObject playerLevelSlider;
+    public GameObject playerExpGO;
     GameObject trophiesText;
     GameObject cupsText;
     GameObject nCombatsText;
-    GameObject highestEnemyText;
+    GameObject winrate;
+    GameObject wins;
+    GameObject loses;
     GameObject userName;
     GameObject characterProfilePicture;
     GameObject userIcon;
@@ -22,12 +24,12 @@ public class Profile : MonoBehaviour
         player = PlayerUtils.FindInactiveFighter();
 
         // UI
-        levelBar = GameObject.Find("LevelBar");
-        levelExp = GameObject.Find("Level_Text_Exp");
         trophiesText = GameObject.Find("Trophies_Text_Value");
         cupsText = GameObject.Find("Cups_Text_Value");
         nCombatsText = GameObject.Find("NCombats_Text_Value");
-        highestEnemyText = GameObject.Find("Highest_Enemy_Text_Value");
+        winrate = GameObject.Find("winrate");
+        wins = GameObject.Find("wins");
+        loses = GameObject.Find("loses");
         userName = GameObject.Find("Text_UserName");
         characterProfilePicture = GameObject.Find("Character_Picture");
         userIcon = GameObject.Find("UserIconImage");
@@ -36,17 +38,24 @@ public class Profile : MonoBehaviour
     }
 
     private void LoadStats()
-    {
-        MenuUtils.SetLevelSlider(levelExp, levelBar, player.level, player.experiencePoints);
-        MenuUtils.DisplayLevelIcon(player.level, levelBar);
+    {      
+        MenuUtils.SetLevelSlider(playerExpGO, playerLevelSlider, player.level, player.experiencePoints);
+        MenuUtils.DisplayLevelIcon(player.level, GameObject.Find("Levels_Profile"));
         MenuUtils.SetName(userName, player.fighterName);
         MenuUtils.SetProfilePicture(characterProfilePicture);
         MenuUtils.SetProfileUserIcon(userIcon);
 
-        
-        cupsText.GetComponent<TextMeshProUGUI>().text = PlayerPrefs.GetFloat("cups").ToString();
-        nCombatsText.GetComponent<TextMeshProUGUI>().text = PlayerPrefs.GetFloat("fights").ToString();
+        //FIXME: Are these saved in playerprefs?
         trophiesText.GetComponent<TextMeshProUGUI>().text = PlayerPrefs.GetFloat("maxTrophies").ToString();
-        highestEnemyText.GetComponent<TextMeshProUGUI>().text = PlayerPrefs.GetFloat("highestEnemy").ToString();
+        cupsText.GetComponent<TextMeshProUGUI>().text = PlayerPrefs.GetFloat("cups").ToString();
+        winrate.GetComponent<TextMeshProUGUI>().text = GetWinrate().ToString();
+        nCombatsText.GetComponent<TextMeshProUGUI>().text = (User.Instance.wins + User.Instance.loses).ToString();
+        wins.GetComponent<TextMeshProUGUI>().text = User.Instance.wins.ToString();
+        loses.GetComponent<TextMeshProUGUI>().text = User.Instance.loses.ToString();
+
+    }
+
+    private int GetWinrate(){
+        return User.Instance.wins / (User.Instance.wins + User.Instance.loses) * 100;
     }
 }

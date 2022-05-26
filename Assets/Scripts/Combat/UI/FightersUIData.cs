@@ -53,7 +53,7 @@ public class FightersUIData : MonoBehaviour
     }
 
     private void OnClickNextHandler(bool isLevelUp){
-        if(isLevelUp) 
+        if(isLevelUp)
             UnityEngine.SceneManagement.SceneManager.LoadScene(SceneNames.LevelUp.ToString());
         else
         {
@@ -228,7 +228,7 @@ public class FightersUIData : MonoBehaviour
     private IEnumerator GoToScene(SceneNames sceneName)
     {
         StartCoroutine(SceneManagerScript.instance.FadeOut());
-        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(1f));
+        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(SceneFlag.FADE_DURATION));
         UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName.ToString());
     }
 

@@ -49,24 +49,24 @@ public class Movement : MonoBehaviour
 
     //FIXME: Is there a way to reuse the "Move" functions that belong to each attack? Or do we need to do very specific things on each one?
     // Its not easy to reuse MoveShuriken as its complicated to have a function that accepts a param of different types (Fighter and Gameobject)
-    public IEnumerator MoveSlide(Fighter fighter)
+    public IEnumerator MoveSlide(Fighter fighter, Vector3 target)
     {
         float elapsedTime = 0;
 
         while (elapsedTime < runningDurationInSeconds)
         {
             if (elapsedTime >= runningDurationInSeconds / 2) FighterAnimations.ChangeAnimation(fighter, FighterAnimations.AnimationNames.SLIDE);
-            fighter.transform.position = Vector3.Lerp(fighter.initialPosition, fighter.destinationPosition, (float)(elapsedTime / runningDurationInSeconds));
+            fighter.transform.position = Vector3.Lerp(fighter.initialPosition, target, (float)(elapsedTime / runningDurationInSeconds));
             elapsedTime += Time.deltaTime;
             yield return null;
         }
     }
 
-    public IEnumerator MoveJumpStrike(Fighter fighter)
+    public IEnumerator MoveJumpStrike(Fighter fighter, Vector3 target)
     {
         float elapsedTime = 0;
 
-        Vector3 destinationPosition = fighter.destinationPosition;
+        Vector3 destinationPosition = target;
 
         while (elapsedTime < runningDurationInSeconds)
         {

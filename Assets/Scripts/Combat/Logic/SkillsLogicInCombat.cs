@@ -17,7 +17,7 @@ public class SkillsLogicInCombat : MonoBehaviour
     }
     public IEnumerator AttackWithoutSkills(Fighter attacker, Fighter defender)
     {
-        yield return combatScript.MoveForwardHandler(attacker);
+        yield return combatScript.MoveForwardHandler(attacker, defender);
 
         //Counter attack
         if (attackScript.IsCounterAttack(defender)) yield return BasicAttackLogic(defender, attacker);
@@ -46,20 +46,18 @@ public class SkillsLogicInCombat : MonoBehaviour
     }
     public IEnumerator LowBlow(Fighter attacker, Fighter defender)
     {
-        combatScript.SetFightersDestinationPositions(0.8f);
         FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.RUN);
-        yield return movementScript.MoveSlide(attacker);
+        yield return movementScript.MoveSlide(attacker, Combat.GetAttackerDestinationPosition(defender, 0.8f));
         yield return StartCoroutine(attackScript.PerformLowBlow(attacker, defender));
         yield return combatScript.MoveBackHandler(attacker);
-        combatScript.ResetFightersDestinationPosition();
     }
 
     public IEnumerator JumpStrike(Fighter attacker, Fighter defender)
     {
-        combatScript.SetFightersDestinationPositions(1f);
         FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.RUN);
+        Vector3 attackerDestinationPosition = Combat.GetAttackerDestinationPosition(defender, 1f);
 
-        yield return movementScript.MoveJumpStrike(attacker);
+        yield return movementScript.MoveJumpStrike(attacker, attackerDestinationPosition);
 
         float rotationDegrees = attacker == Combat.player ? -35f : 35f;
         movementScript.Rotate(attacker, rotationDegrees);
@@ -74,11 +72,10 @@ public class SkillsLogicInCombat : MonoBehaviour
         if (!Combat.isGameOver) FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.IDLE);
 
         //Go back to the ground
-        yield return StartCoroutine(movementScript.Move(attacker, attacker.transform.position, attacker.destinationPosition, 0.1f));
+        yield return StartCoroutine(movementScript.Move(attacker, attacker.transform.position, attackerDestinationPosition, 0.1f));
         movementScript.ResetRotation(attacker);
 
         yield return combatScript.MoveBackHandler(attacker);
-        combatScript.ResetFightersDestinationPosition();
     }
 
     public IEnumerator ShurikenFury(Fighter attacker, Fighter defender)
@@ -95,8 +92,7 @@ public class SkillsLogicInCombat : MonoBehaviour
 
     public IEnumerator CosmicKicks(Fighter attacker, Fighter defender)
     {
-        combatScript.SetFightersDestinationPositions(1.5f);
-        yield return combatScript.MoveForwardHandler(attacker);
+        yield return combatScript.MoveForwardHandler(attacker, defender, 1.5f);
 
         int nKicks = UnityEngine.Random.Range(4, 9); // 4-8 kicks
 
@@ -108,7 +104,6 @@ public class SkillsLogicInCombat : MonoBehaviour
         if (!Combat.isGameOver) FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.IDLE);
 
         yield return combatScript.MoveBackHandler(attacker);
-        combatScript.ResetFightersDestinationPosition();
     }
     public IEnumerator ExplosiveBomb(Fighter attacker, Fighter defender)
     {
@@ -121,7 +116,7 @@ public class SkillsLogicInCombat : MonoBehaviour
         //Wait for blinking animation to finish
         yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(1.2f));
         SetOpacityOfFighterAndShadow(attacker, 0.15f);
-        yield return combatScript.MoveForwardHandler(attacker);
+        yield return combatScript.MoveForwardHandler(attacker, defender);
         SetOpacityOfFighterAndShadow(attacker, 1);
         yield return StartCoroutine(attackScript.PerformAttack(attacker, defender));
         if (!Combat.isGameOver) FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.IDLE);

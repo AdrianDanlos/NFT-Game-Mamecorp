@@ -95,7 +95,7 @@ public class Combat : MonoBehaviour
 
         // UI
         fightersUIDataScript.ShowPortraitsUI();
-        
+
         ToggleLoadingScreenVisibility(false);
         StartCoroutine(InitiateCombat());
 
@@ -169,25 +169,6 @@ public class Combat : MonoBehaviour
         //Set Objects
         player.initialPosition = playerStartingPosition;
         bot.initialPosition = botStartingPosition;
-
-        SetFightersDestinationPositions(DefaultDistanceFromEachotherOnAttack);
-    }
-
-    public void ResetFightersDestinationPosition()
-    {
-        SetFightersDestinationPositions(DefaultDistanceFromEachotherOnAttack);
-    }
-
-    public void SetFightersDestinationPositions(float distanceAwayFromEachOtherOnAttack)
-    {
-        Vector3 playerDestinationPosition = botStartingPosition;
-        Vector3 botDestinationPosition = playerStartingPosition;
-
-        playerDestinationPosition.x -= distanceAwayFromEachOtherOnAttack;
-        player.destinationPosition = playerDestinationPosition;
-
-        botDestinationPosition.x += distanceAwayFromEachOtherOnAttack;
-        bot.destinationPosition = botDestinationPosition;
     }
 
     public void SetFightersPortrait(GameObject playerPortrait, GameObject botPortrait)
@@ -229,7 +210,6 @@ public class Combat : MonoBehaviour
 
     IEnumerator StartTurn(Fighter attacker, Fighter defender)
     {
-        // TODO bugs if no skill
         if (WillUseSkillThisTurn(attacker))
         {
             yield return StartCoroutine(UseRandomSkill(attacker, defender, attacker));
@@ -249,54 +229,64 @@ public class Combat : MonoBehaviour
             Where(skill => skill.category == SkillCollection.SkillType.SUPER.ToString()).
             Select(skill => skill.skillName).ToList();
 
-        int randomSkillIndex = UnityEngine.Random.Range(0, skillNamesList.Count());
-
-        switch (skillNamesList[randomSkillIndex])
+        // Can be 0 in some edge cases e.g. when ViciousTheft is used and the opponent does not have skills left.
+        if (skillNamesList.Count() > 0)
         {
-            case SkillNames.JumpStrike:
-                yield return skillsLogicScript.JumpStrike(attacker, defender);
-                fighterWeTakeTheSkillFrom.removeUsedSkill(SkillNames.JumpStrike);
-                break;
-            case SkillNames.CosmicKicks:
-                yield return skillsLogicScript.CosmicKicks(attacker, defender);
-                fighterWeTakeTheSkillFrom.removeUsedSkill(SkillNames.CosmicKicks);
-                break;
-            case SkillNames.ShurikenFury:
-                yield return skillsLogicScript.ShurikenFury(attacker, defender);
-                fighterWeTakeTheSkillFrom.removeUsedSkill(SkillNames.ShurikenFury);
-                break;
-            case SkillNames.LowBlow:
-                yield return skillsLogicScript.LowBlow(attacker, defender);
-                fighterWeTakeTheSkillFrom.removeUsedSkill(SkillNames.LowBlow);
-                break;
-            case SkillNames.ExplosiveBomb:
-                yield return skillsLogicScript.ExplosiveBomb(attacker, defender);
-                fighterWeTakeTheSkillFrom.removeUsedSkill(SkillNames.ExplosiveBomb);
-                break;
-            case SkillNames.ShadowTravel:
-                yield return skillsLogicScript.ShadowTravel(attacker, defender);
-                fighterWeTakeTheSkillFrom.removeUsedSkill(SkillNames.ShadowTravel);
-                break;
-            case SkillNames.HealingPotion:
-                yield return skillsLogicScript.HealingPotion(attacker);
-                fighterWeTakeTheSkillFrom.removeUsedSkill(SkillNames.HealingPotion);
-                break;
-            case SkillNames.ViciousTheft:
-                fighterWeTakeTheSkillFrom.removeUsedSkill(SkillNames.ViciousTheft);
-                yield return UseRandomSkill(attacker, defender, defender);
-                break;
-        }
+            int randomSkillIndex = UnityEngine.Random.Range(0, skillNamesList.Count());
 
+            switch (skillNamesList[randomSkillIndex])
+            {
+                case SkillNames.JumpStrike:
+                    yield return skillsLogicScript.JumpStrike(attacker, defender);
+                    fighterWeTakeTheSkillFrom.removeUsedSkill(SkillNames.JumpStrike);
+                    break;
+                case SkillNames.CosmicKicks:
+                    yield return skillsLogicScript.CosmicKicks(attacker, defender);
+                    fighterWeTakeTheSkillFrom.removeUsedSkill(SkillNames.CosmicKicks);
+                    break;
+                case SkillNames.ShurikenFury:
+                    yield return skillsLogicScript.ShurikenFury(attacker, defender);
+                    fighterWeTakeTheSkillFrom.removeUsedSkill(SkillNames.ShurikenFury);
+                    break;
+                case SkillNames.LowBlow:
+                    yield return skillsLogicScript.LowBlow(attacker, defender);
+                    fighterWeTakeTheSkillFrom.removeUsedSkill(SkillNames.LowBlow);
+                    break;
+                case SkillNames.ExplosiveBomb:
+                    yield return skillsLogicScript.ExplosiveBomb(attacker, defender);
+                    fighterWeTakeTheSkillFrom.removeUsedSkill(SkillNames.ExplosiveBomb);
+                    break;
+                case SkillNames.ShadowTravel:
+                    yield return skillsLogicScript.ShadowTravel(attacker, defender);
+                    fighterWeTakeTheSkillFrom.removeUsedSkill(SkillNames.ShadowTravel);
+                    break;
+                case SkillNames.HealingPotion:
+                    yield return skillsLogicScript.HealingPotion(attacker);
+                    fighterWeTakeTheSkillFrom.removeUsedSkill(SkillNames.HealingPotion);
+                    break;
+                case SkillNames.ViciousTheft:
+                    fighterWeTakeTheSkillFrom.removeUsedSkill(SkillNames.ViciousTheft);
+                    yield return UseRandomSkill(attacker, defender, defender);
+                    break;
+            }
+        }
         FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.IDLE);
     }
 
     public static Func<Fighter, bool> WillUseSkillThisTurn = attacker =>
         attacker.skills.Count() > 0 && Probabilities.IsHappening(ProbabilityOfUsingSkillEachTurn);
 
-    public IEnumerator MoveForwardHandler(Fighter attacker)
+    public IEnumerator MoveForwardHandler(Fighter attacker, Fighter defender, float distanceFromEachOtherOnAttack = DefaultDistanceFromEachotherOnAttack)
     {
         FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.RUN);
-        yield return StartCoroutine(movementScript.MoveForward(attacker, attacker.destinationPosition));
+        yield return StartCoroutine(movementScript.MoveForward(attacker, GetAttackerDestinationPosition(defender, distanceFromEachOtherOnAttack)));
+    }
+
+    public static Vector3 GetAttackerDestinationPosition(Fighter defender, float distanceFromEachOtherOnAttack)
+    {
+        Vector3 attackerDestinationPosition = defender.transform.position;
+        attackerDestinationPosition.x = attackerDestinationPosition.x + (player == defender ? + distanceFromEachOtherOnAttack : - distanceFromEachOtherOnAttack);
+        return attackerDestinationPosition;
     }
 
     public IEnumerator MoveBackHandler(Fighter attacker)
@@ -337,8 +327,6 @@ public class Combat : MonoBehaviour
 
     private void StartPostGameActions()
     {
-        ResetPlayerObject();
-
         bool isPlayerWinner = PostGameActions.HasPlayerWon(player);
         int eloChange = MatchMaking.CalculateEloChange(User.Instance.elo, botElo, isPlayerWinner);
         int playerUpdatedExperience = player.experiencePoints + Levels.GetXpGain(isPlayerWinner);
@@ -346,14 +334,15 @@ public class Combat : MonoBehaviour
         int goldReward = PostGameActions.GoldReward(isPlayerWinner);
         int gemsReward = PostGameActions.GemsReward();
 
+        //Reset fighter values that were modified in combat e.g. hp
+        ResetPlayerObject();
+
         //PlayerData
         PostGameActions.SetElo(eloChange);
         PostGameActions.SetWinLoseCounter(isPlayerWinner);
         PostGameActions.SetExperience(player, isPlayerWinner);
-        if (isLevelUp) 
-            PostGameActions.SetLevelUpSideEffects(player);
-        if(CombatMode.isSoloqEnabled)
-            EnergyManager.SubtractOneEnergyPoint(); // tournament doesn't cost energy
+        if (isLevelUp) PostGameActions.SetLevelUpSideEffects(player);
+        if (CombatMode.isSoloqEnabled) EnergyManager.SubtractOneEnergyPoint(); // tournament doesn't cost energy
 
         //Rewards
         PostGameActions.SetCurrencies(goldReward, gemsReward);

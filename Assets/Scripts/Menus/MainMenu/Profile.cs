@@ -56,8 +56,9 @@ public class Profile : MonoBehaviour
     }
 
     private int GetWinrate(){
-        if(User.Instance.wins + User.Instance.loses > 0)
+        if((User.Instance.wins + User.Instance.loses) > 0)
             return User.Instance.wins / (User.Instance.wins + User.Instance.loses) * 100;
-        return 0;    
+
+        return 0;
     }
 }

@@ -169,25 +169,6 @@ public class Combat : MonoBehaviour
         //Set Objects
         player.initialPosition = playerStartingPosition;
         bot.initialPosition = botStartingPosition;
-
-        SetFightersDestinationPositions(DefaultDistanceFromEachotherOnAttack);
-    }
-
-    public void ResetFightersDestinationPosition()
-    {
-        SetFightersDestinationPositions(DefaultDistanceFromEachotherOnAttack);
-    }
-
-    public void SetFightersDestinationPositions(float distanceAwayFromEachOtherOnAttack)
-    {
-        Vector3 playerDestinationPosition = botStartingPosition;
-        Vector3 botDestinationPosition = playerStartingPosition;
-
-        playerDestinationPosition.x -= distanceAwayFromEachOtherOnAttack;
-        player.destinationPosition = playerDestinationPosition;
-
-        botDestinationPosition.x += distanceAwayFromEachOtherOnAttack;
-        bot.destinationPosition = botDestinationPosition;
     }
 
     public void SetFightersPortrait(GameObject playerPortrait, GameObject botPortrait)
@@ -295,10 +276,17 @@ public class Combat : MonoBehaviour
     public static Func<Fighter, bool> WillUseSkillThisTurn = attacker =>
         attacker.skills.Count() > 0 && Probabilities.IsHappening(ProbabilityOfUsingSkillEachTurn);
 
-    public IEnumerator MoveForwardHandler(Fighter attacker)
+    public IEnumerator MoveForwardHandler(Fighter attacker, Fighter defender, float distanceFromEachOtherOnAttack = DefaultDistanceFromEachotherOnAttack)
     {
         FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.RUN);
-        yield return StartCoroutine(movementScript.MoveForward(attacker, attacker.destinationPosition));
+        yield return StartCoroutine(movementScript.MoveForward(attacker, GetAttackerDestinationPosition(defender, distanceFromEachOtherOnAttack)));
+    }
+
+    public static Vector3 GetAttackerDestinationPosition(Fighter defender, float distanceFromEachOtherOnAttack)
+    {
+        Vector3 attackerDestinationPosition = defender.transform.position;
+        attackerDestinationPosition.x = attackerDestinationPosition.x + (player == defender ? + distanceFromEachOtherOnAttack : - distanceFromEachOtherOnAttack);
+        return attackerDestinationPosition;
     }
 
     public IEnumerator MoveBackHandler(Fighter attacker)

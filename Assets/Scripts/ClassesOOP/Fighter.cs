@@ -16,7 +16,6 @@ public class Fighter : MonoBehaviour
     private int _experiencePoints;
     private List<Skill> _skills;
     private Vector2 _initialPosition;
-    private Vector2 _destinationPosition;
     private float _repeatAttackChance = 10;
     private float _dodgeChance = 10;
     private float _criticalChance = 10;
@@ -105,7 +104,6 @@ public class Fighter : MonoBehaviour
         }
     }
     public Vector2 initialPosition { get => _initialPosition; set => _initialPosition = value; }
-    public Vector2 destinationPosition { get => _destinationPosition; set => _destinationPosition = value; }
     public float repeatAttackChance
     {
         get => _repeatAttackChance;

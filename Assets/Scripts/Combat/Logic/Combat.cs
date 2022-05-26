@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Collections.Specialized;
 using System;
+using UnityEngine.UI;
+using TMPro;
 
 public class Combat : MonoBehaviour
 {
@@ -21,6 +23,7 @@ public class Combat : MonoBehaviour
     public GameObject combatUI;
     public GameObject combatLoadingScreenUI;
     public GameObject combatLoadingScreenSprites;
+    private TextMeshProUGUI levelTextBot;
 
     // Script references
     public static Movement movementScript;
@@ -28,6 +31,7 @@ public class Combat : MonoBehaviour
     SkillsLogicInCombat skillsLogicScript;
     Attack attackScript;
     LoadingScreen loadingScreen;
+    CupManager cupManager;
 
     // Positions data
     static Vector3 playerStartingPosition = new Vector3(-6, -0.7f, 0);
@@ -45,13 +49,20 @@ public class Combat : MonoBehaviour
 
     private void Awake()
     {
+        SetupUI();
+
         isGameOver = false;
 
         FindGameObjects();
         GetComponentReferences();
-        MatchMaking.GenerateBotData(player, bot);
-        SetMaxHpValues();
 
+        // cup mode
+        if (Cup.Instance.isActive && !CombatMode.isSoloqEnabled)
+            MatchMaking.GenerateCupBotData(player, bot);
+        if (CombatMode.isSoloqEnabled)
+            MatchMaking.GenerateBotData(player, bot);
+
+        SetMaxHpValues();
         // LoadingScreen
         loadingScreen.SetPlayerLoadingScreenData(player);
         loadingScreen.DisplayLoaderForEnemy();
@@ -63,22 +74,38 @@ public class Combat : MonoBehaviour
         SetVisibilityOfGameObjects();
         SetFighterPositions();
         SetOrderOfAttacks();
-        GetRandomArena();
+        GetRandomArena(); // TODO specific arena for tournament?
         FighterSkin.SetFightersSkin(player, bot);
         FighterAnimations.ResetToDefaultAnimation(player);
         fightersUIDataScript.SetFightersUIInfo(player, bot, botElo);
+        fightersUIDataScript.HidePortraitsUI();
     }
 
     IEnumerator Start()
     {
+        StartCoroutine(SceneManagerScript.instance.FadeIn());
+        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(1f));
+
         // --- Enable this for loading effect ---
-        // yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(2f));
-        // loadingScreen.SetBotLoadingScreenData(bot);
-        // yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(2f));
+        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(2f));
+        loadingScreen.SetBotLoadingScreenData(bot);
+        levelTextBot.enabled = true;
+        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(3f));
         yield return null; //remove
+
+        // UI
+        fightersUIDataScript.ShowPortraitsUI();
         
         ToggleLoadingScreenVisibility(false);
         StartCoroutine(InitiateCombat());
+
+        SceneFlag.sceneName = SceneNames.Combat.ToString();
+    }
+
+    private void SetupUI()
+    {
+        levelTextBot = GameObject.Find("LevelTextBot").GetComponent<TextMeshProUGUI>();
+        levelTextBot.enabled = false;
     }
 
     private void BoostFightersStatsBasedOnPassiveSkills()
@@ -89,14 +116,14 @@ public class Combat : MonoBehaviour
 
     private void GetComponentReferences()
     {
-        // From the current gameobject (this) access the movement component which is a script.
-        movementScript = this.GetComponent<Movement>();
-        fightersUIDataScript = this.GetComponent<FightersUIData>();
-        skillsLogicScript = this.GetComponent<SkillsLogicInCombat>();
-        attackScript = this.GetComponent<Attack>();
-        loadingScreen = this.GetComponent<LoadingScreen>();
+        movementScript = GetComponent<Movement>();
+        fightersUIDataScript = GetComponent<FightersUIData>();
+        skillsLogicScript = GetComponent<SkillsLogicInCombat>();
+        attackScript = GetComponent<Attack>();
+        loadingScreen = GetComponent<LoadingScreen>();
         player = playerGameObject.GetComponent<Fighter>();
         bot = botGameObject.GetComponent<Fighter>();
+        cupManager = GameObject.Find("CupManager").GetComponent<CupManager>();
     }
 
     private void ToggleLoadingScreenVisibility(bool displayLoadingScreen)
@@ -163,6 +190,12 @@ public class Combat : MonoBehaviour
         bot.destinationPosition = botDestinationPosition;
     }
 
+    public void SetFightersPortrait(GameObject playerPortrait, GameObject botPortrait)
+    {
+        playerPortrait.GetComponent<Image>().sprite = Resources.Load<Sprite>("CharacterProfilePicture/" + player.species);
+        botPortrait.GetComponent<Image>().sprite = Resources.Load<Sprite>("CharacterProfilePicture/" + bot.species);
+    }
+
     IEnumerator InitiateCombat()
     {
         Fighter firstAttacker = fightersOrderOfAttack[0];
@@ -196,6 +229,7 @@ public class Combat : MonoBehaviour
 
     IEnumerator StartTurn(Fighter attacker, Fighter defender)
     {
+        // TODO bugs if no skill
         if (WillUseSkillThisTurn(attacker))
         {
             yield return StartCoroutine(UseRandomSkill(attacker, defender, attacker));
@@ -316,8 +350,10 @@ public class Combat : MonoBehaviour
         PostGameActions.SetElo(eloChange);
         PostGameActions.SetWinLoseCounter(isPlayerWinner);
         PostGameActions.SetExperience(player, isPlayerWinner);
-        if (isLevelUp) PostGameActions.SetLevelUpSideEffects(player);
-        EnergyManager.SubtractOneEnergyPoint();
+        if (isLevelUp) 
+            PostGameActions.SetLevelUpSideEffects(player);
+        if(CombatMode.isSoloqEnabled)
+            EnergyManager.SubtractOneEnergyPoint(); // tournament doesn't cost energy
 
         //Rewards
         PostGameActions.SetCurrencies(goldReward, gemsReward);
@@ -332,6 +368,35 @@ public class Combat : MonoBehaviour
         ProfileData.SaveFights();
         ProfileData.SaveHighestTrophies(User.Instance.elo);
         ProfileData.SaveHighestEnemy(botElo);
+
+        if (Cup.Instance.isActive && !CombatMode.isSoloqEnabled)
+        {
+            switch (Cup.Instance.round)
+            {
+                case "QUARTERS":
+                    cupManager.SimulateQuarters(isPlayerWinner);
+                    break;
+                case "SEMIS":
+                    cupManager.SimulateSemis(isPlayerWinner);
+                    break;
+                case "FINALS":
+                    cupManager.SimulateFinals(isPlayerWinner);
+                    break;
+            }
+
+            if (!isPlayerWinner)
+            {
+                // enable rewards button on cup menu
+                // disable battle button
+                Cup.Instance.isActive = false;
+                Cup.Instance.SaveCup();
+            }
+        }
+    }
+
+    public bool GetGameStatus()
+    {
+        return isGameOver;
     }
 
     //During the combat the player object experiences a lot of changes so we need to set it back to its default state after the combat.

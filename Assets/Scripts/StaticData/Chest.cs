@@ -28,10 +28,10 @@ public static class Chest
     public static readonly Dictionary<BattleChestRarities, float> battleChestsProbabilities =
         new Dictionary<BattleChestRarities, float>()
         {
-            { BattleChestRarities.COMMON, 40},
-            { BattleChestRarities.RARE, 30},
-            { BattleChestRarities.EPIC, 20},
-            { BattleChestRarities.LEGENDARY, 10}
+            { BattleChestRarities.COMMON, 1}, // 60
+            { BattleChestRarities.RARE, 1}, // 25
+            { BattleChestRarities.EPIC, 98},    // 12
+            { BattleChestRarities.LEGENDARY, 2} // 3
         };
 
     //Battle chests contain either gold & gems OR a skill
@@ -76,47 +76,47 @@ public static class Chest
             },
         };
 
-    public static readonly Dictionary<ShopChestTypes, Dictionary<string, float>> shopChests =
-        new Dictionary<ShopChestTypes, Dictionary<string, float>>
+    public static readonly Dictionary<ShopChestTypes, Dictionary<SkillCollection.SkillRarity, float>> shopChests =
+        new Dictionary<ShopChestTypes, Dictionary<SkillCollection.SkillRarity, float>>
         {
             {
-                ShopChestTypes.NORMAL, new Dictionary<string, float>
+                ShopChestTypes.NORMAL, new Dictionary<SkillCollection.SkillRarity, float>
                 {
                     // chances of SkillRarity
-                    {SkillCollection.SkillRarity.COMMON.ToString(), 0},
-                    {SkillCollection.SkillRarity.RARE.ToString(), 94},
-                    {SkillCollection.SkillRarity.EPIC.ToString(), 5},
-                    {SkillCollection.SkillRarity.LEGENDARY.ToString(), 1}
+                    {SkillCollection.SkillRarity.COMMON, 1},
+                    {SkillCollection.SkillRarity.RARE, 94},
+                    {SkillCollection.SkillRarity.EPIC, 4},
+                    {SkillCollection.SkillRarity.LEGENDARY, 1}
                 }
             },
             {
-                ShopChestTypes.EPIC, new Dictionary<string, float>
+                ShopChestTypes.EPIC, new Dictionary<SkillCollection.SkillRarity, float>
                 {
                     // chances of SkillRarity
-                    {SkillCollection.SkillRarity.COMMON.ToString(), 0},
-                    {SkillCollection.SkillRarity.RARE.ToString(), 0},
-                    {SkillCollection.SkillRarity.EPIC.ToString(), 95},
-                    {SkillCollection.SkillRarity.LEGENDARY.ToString(), 5}
+                    {SkillCollection.SkillRarity.COMMON, 0},
+                    {SkillCollection.SkillRarity.RARE, 0},
+                    {SkillCollection.SkillRarity.EPIC, 95},
+                    {SkillCollection.SkillRarity.LEGENDARY, 5}
                 }
             },
             {
-                ShopChestTypes.LEGENDARY, new Dictionary<string, float>
+                ShopChestTypes.LEGENDARY, new Dictionary<SkillCollection.SkillRarity, float>
                 {
                     // chances of SkillRarity
-                    {SkillCollection.SkillRarity.COMMON.ToString(), 0},
-                    {SkillCollection.SkillRarity.RARE.ToString(), 0},
-                    {SkillCollection.SkillRarity.EPIC.ToString(), 0},
-                    {SkillCollection.SkillRarity.LEGENDARY.ToString(), 100}
+                    {SkillCollection.SkillRarity.COMMON, 0},
+                    {SkillCollection.SkillRarity.RARE, 0},
+                    {SkillCollection.SkillRarity.EPIC, 0},
+                    {SkillCollection.SkillRarity.LEGENDARY, 100}
                 }
             },
             {
-                ShopChestTypes.SPECIAL, new Dictionary<string, float>
+                ShopChestTypes.SPECIAL, new Dictionary<SkillCollection.SkillRarity, float>
                 {
                     // chances of SkillRarity
-                    {SkillCollection.SkillRarity.COMMON.ToString(), 0},
-                    {SkillCollection.SkillRarity.RARE.ToString(), 30},
-                    {SkillCollection.SkillRarity.EPIC.ToString(), 60},
-                    {SkillCollection.SkillRarity.LEGENDARY.ToString(), 10}
+                    {SkillCollection.SkillRarity.COMMON, 0},
+                    {SkillCollection.SkillRarity.RARE, 30},
+                    {SkillCollection.SkillRarity.EPIC, 60},
+                    {SkillCollection.SkillRarity.LEGENDARY, 10}
                 }
             },
         };

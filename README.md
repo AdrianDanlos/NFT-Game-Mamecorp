@@ -1,1 +1,1 @@
-# NFT-Game
+# 2D Auto-battler RPG

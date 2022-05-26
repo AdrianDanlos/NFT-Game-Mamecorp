@@ -1,47 +1,95 @@
 using UnityEngine;
-using Newtonsoft.Json.Linq;
-using TMPro;
-using System.Collections.Generic;
-
 
 public class ChooseFirstFighter : MonoBehaviour
 {
-    public GameObject fighterNameInput;
-    private string fighterName;
-    private static string skinName;
-    private static string species;
+    // scripts
+    ChooseFirstFighterUI chooseFirstFighterUI;
+
+    private void Awake()
+    {
+        chooseFirstFighterUI = GameObject.Find("UIManager").GetComponent<ChooseFirstFighterUI>();
+    }
 
     public void OnSelectFighter()
     {
-        GameObject.FindGameObjectWithTag("FighterNamePopup").GetComponent<Canvas>().enabled = true;
-        FighterSkinData fighterSkin = this.transform.Find("Fighter").GetComponent<FighterSkinData>();
-        skinName = fighterSkin.skinName;
-        species = fighterSkin.species;
+        switch (transform.name)
+        {
+            case "Container_Fighter_Left":
+                SetFighter(transform.Find("Fighter_Left").GetComponent<FighterSkinData>());
+                chooseFirstFighterUI.EnableFighterHighlight("left");
+                break;
+            case "Container_Fighter_Mid":
+                SetFighter(transform.Find("Fighter_Mid").GetComponent<FighterSkinData>());
+                chooseFirstFighterUI.EnableFighterHighlight("mid");
+                break;
+            case "Container_Fighter_Right":
+                SetFighter(transform.Find("Fighter_Right").GetComponent<FighterSkinData>());
+                chooseFirstFighterUI.EnableFighterHighlight("right");
+                break;
+        }
     }
 
-    public void OnConfirmFighterName()
+    public void MoveToNextState()
     {
-        fighterName = fighterNameInput.GetComponent<TextMeshProUGUI>().text;
-        CreateFighterFile();
-        UnityEngine.SceneManagement.SceneManager.LoadScene(SceneNames.MainMenu.ToString());
+        switch (FirstPlayTempData.state.ToString())
+        {
+            case "FIGHTER":
+                chooseFirstFighterUI.ChooseFighter();
+                break;
+            case "NAME":
+                chooseFirstFighterUI.CheckName();
+                break;
+            case "COUNTRY":
+                chooseFirstFighterUI.CheckFlag();
+                break;
+        }
     }
 
-    private void CreateFighterFile()
+    public void MoveToPreviousState()
     {
-        SpeciesNames speciesEnumMember = GeneralUtils.StringToSpeciesNamesEnum(species); 
-        JObject serializableFighter = JObject.FromObject(JsonDataManager.CreateSerializableFighterInstance(FighterFactory.CreatePlayerFighterInstance(
-            fighterName, skinName, species,
-            Species.defaultStats[speciesEnumMember]["hp"],
-            Species.defaultStats[speciesEnumMember]["damage"],
-            Species.defaultStats[speciesEnumMember]["speed"],
-            new List<Skill>())));
-        JsonDataManager.SaveData(serializableFighter, JsonDataManager.FighterFileName);
-
-        ResetAllPrefs();
+        switch (FirstPlayTempData.state.ToString())
+        {
+            case "NAME":
+                chooseFirstFighterUI.BackToChooseFighter();
+                break;
+            case "COUNTRY":
+                chooseFirstFighterUI.BackToName();
+                break;
+        }
     }
 
-    private void ResetAllPrefs()
+    private void SetFighter(FighterSkinData fighterSkin)
     {
-        PlayerPrefs.DeleteAll();
+        FirstPlayTempData.skinName = fighterSkin.skinName;
+        FirstPlayTempData.species = fighterSkin.species;
+    }
+
+    // used on set focus on input
+    public void ResetRegexText()
+    {
+        chooseFirstFighterUI.regexText.gameObject.SetActive(false);
+        chooseFirstFighterUI.regexText.text = "";
+    }
+
+    public void GetFlagClicked()
+    {
+        if (FirstPlayTempData.firstFlag)
+            FirstPlayTempData.lastFlag = FirstPlayTempData.countryFlag;
+        else
+            FirstPlayTempData.firstFlag = true;
+
+        chooseFirstFighterUI.EnableCheckOnFlag(transform.name);
+        FirstPlayTempData.countryFlag = transform.name;
+
+        if (FirstPlayTempData.lastFlag != "")
+            if (FirstPlayTempData.lastFlag != FirstPlayTempData.countryFlag)
+                chooseFirstFighterUI.DisableCheckOnFlag(FirstPlayTempData.lastFlag);
+
+        FirstPlayTempData.lastFlag = FirstPlayTempData.countryFlag;
+    }
+
+    public void DisableFlagError()
+    {
+        chooseFirstFighterUI.flagErrorOk.SetActive(false);
     }
 }

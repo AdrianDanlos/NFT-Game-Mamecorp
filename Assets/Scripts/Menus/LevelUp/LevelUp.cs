@@ -34,6 +34,7 @@ public class LevelUp : MonoBehaviour
     public GameObject epicSkill;
     public GameObject legendarySkill;
     private Chest.BattleChestRarities chestRarityAwarded;
+
     void Start()
     {
         AddListenerToButtons();
@@ -43,6 +44,8 @@ public class LevelUp : MonoBehaviour
         SetStatRewardValue(healthNumber, "hp");
         SetStatRewardValue(speedNumber, "speed");
         chestRarityAwarded = ChestManager.GetRandomBattleChestRarity();
+
+        SceneFlag.sceneName = SceneNames.LevelUp.ToString();
     }
 
     private void SetStatRewardValue(GameObject element, string stat)
@@ -132,7 +135,10 @@ public class LevelUp : MonoBehaviour
     {
         SkillCollection.SkillRarity skillRarityAwarded = GetRandomSkillRarityBasedOnChest();
         Skill skillInstance = GetAwardedSkill(skillRarityAwarded);
-        Combat.player.skills.Add(skillInstance);
+        PlayerUtils.FindInactiveFighter().skills.Add(skillInstance);
+        PlayerUtils.FindInactiveFighter().skills = PlayerUtils.FindInactiveFighter().skills;
+        Notifications.TurnOnNotification();
+        Notifications.IncreaseCardsUnseen();
 
         ShowSkillData(skillInstance);
         ShowSkillIcon(skillInstance);
@@ -158,9 +164,7 @@ public class LevelUp : MonoBehaviour
     }
     private bool HasSkillAlready(OrderedDictionary skill)
     {
-        Debug.Log(Combat.player);
-        Debug.Log(Combat.player.skills);
-        return Combat.player.skills.Any(playerSkill => playerSkill.skillName == skill["skillName"].ToString());
+        return Combat.player.skills.Any(playerSkill => playerSkill.skillName == skill["name"].ToString());
     }
     private Skill GetAwardedSkill(SkillCollection.SkillRarity skillRarityAwarded)
     {
@@ -170,6 +174,9 @@ public class LevelUp : MonoBehaviour
             .Where(skill => (string)skill["skillRarity"] == skillRarityAwarded.ToString())
             .Where(skill => !HasSkillAlready(skill))
             .ToList();
+
+        Debug.Log(SkillCollection.skills
+            .Where(skill => !HasSkillAlready(skill)).ToList().Count);
 
         //If player has all skill for the current rarity get skills from a rarity above. 
         //Does not matter that they might not belong to the current chest
@@ -181,7 +188,7 @@ public class LevelUp : MonoBehaviour
             int skillRarityIndex = (int)skillRarityAwarded;
 
             //If value for the next index in the enum exists return that rarity. Otherwise return the first value of the enum (COMMON)
-            SkillCollection.SkillRarity newRarity = Enum.IsDefined(typeof(Enum), (SkillCollection.SkillRarity)skillRarityIndex++)
+            SkillCollection.SkillRarity newRarity = Enum.IsDefined(typeof(SkillCollection.SkillRarity), (SkillCollection.SkillRarity)skillRarityIndex++)
             ? (SkillCollection.SkillRarity)skillRarityIndex++
             : (SkillCollection.SkillRarity)0;
 

@@ -12,19 +12,26 @@ public class EntryPoint : MonoBehaviour
     Slider loadingBar;
     TextMeshProUGUI tipText;
 
+    // fighter
+    public static GameObject fighterGameObject;
+
     private void Awake()
     {
         loadingBarGO = GameObject.Find("Slider_LoadingBar");
         loadingText = loadingBarGO.GetComponentInChildren<TextMeshProUGUI>();
         loadingBar = loadingBarGO.GetComponent<Slider>();
         tipText = GameObject.Find("TipText").GetComponentInChildren<TextMeshProUGUI>();
+
+        ResetBar();
     }
 
-    public static GameObject fighterGameObject;
     IEnumerator Start()
     {
         HideFighter();
         GenerateTip();
+
+        StartCoroutine(SceneManagerScript.instance.FadeIn());
+        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(SceneFlag.FADE_DURATION));
 
         // --- Enable this for loading effect ---
         // StartCoroutine(FakeDelay());
@@ -38,10 +45,28 @@ public class EntryPoint : MonoBehaviour
         {
             JsonDataManager.ReadUserFile();
             JsonDataManager.ReadFighterFile();
+
+            StartCoroutine(SceneManagerScript.instance.FadeOut());
+            yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(SceneFlag.FADE_DURATION));
             UnityEngine.SceneManagement.SceneManager.LoadScene(SceneNames.MainMenu.ToString());
         }
 
-        else UnityEngine.SceneManagement.SceneManager.LoadScene(SceneNames.ChooseFirstFighter.ToString());
+        else
+        {
+            StartCoroutine(SceneManagerScript.instance.FadeOut());
+            yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(SceneFlag.FADE_DURATION));
+            UnityEngine.SceneManagement.SceneManager.LoadScene(SceneNames.ChooseFirstFighter.ToString());
+        }
+
+        Notifications.InitiateCardsUnseen();
+        SceneFlag.sceneName = SceneNames.EntryPoint.ToString();
+    }
+
+    private void ResetBar()
+    {
+        // set up bar
+        loadingText.text = "0%";
+        loadingBar.value = 0f;
     }
 
     IEnumerator FakeDelay()
@@ -60,7 +85,7 @@ public class EntryPoint : MonoBehaviour
 
         loadingText.text = "100%";
         loadingBar.value = 1f;
-        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(1f));
+        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(0.25f));
     }
 
     private void HideFighter()

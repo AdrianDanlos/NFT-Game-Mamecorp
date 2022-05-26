@@ -1,8 +1,6 @@
 using System.Collections;
-using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class DeleteGame : MonoBehaviour
@@ -12,7 +10,7 @@ public class DeleteGame : MonoBehaviour
 
     private void Awake()
     {
-        resetGame = GameObject.Find("Button_Delete");
+        resetGame = GameObject.Find("Button_Delete_Confirmation");
         resetGame.GetComponent<Button>().onClick.AddListener(() => RestartGame());
     }
 
@@ -20,7 +18,7 @@ public class DeleteGame : MonoBehaviour
     {
         DeleteSaves();
         ResetAllPrefs();
-        SceneManager.LoadScene(SceneNames.ChooseFirstFighter.ToString());
+        IGoToEntryPoint();
     }
 
     private void DeleteSaves()
@@ -28,13 +26,23 @@ public class DeleteGame : MonoBehaviour
         string[] files =  Directory.GetFiles(Application.persistentDataPath);
 
         for (int i = 0; i < files.Length; i++)
-        {
             File.Delete(files[i]);
-        }
     }
 
     private void ResetAllPrefs()
     {
         PlayerPrefs.DeleteAll();
+    }
+
+    private IEnumerator GoToEntryPoint()
+    {
+        StartCoroutine(SceneManagerScript.instance.FadeOut());
+        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(SceneFlag.FADE_DURATION));
+        UnityEngine.SceneManagement.SceneManager.LoadScene(SceneNames.EntryPoint.ToString());
+    }
+
+    private void IGoToEntryPoint()
+    {
+        StartCoroutine(GoToEntryPoint());
     }
 }

@@ -1,22 +1,37 @@
+using UnityEngine;
+
 public static class Notifications
 {
-    static int inventoryNotifications = 0;
+    public static int cardsUnseen;
     public static bool isInventoryNotificationsOn = false;
 
-    public static void IncreaseInventory()
+    public static void TurnOnNotification()
     {
-        inventoryNotifications++;
+        isInventoryNotificationsOn = true;
     }
 
-    public static void DecreaseInventory()
+    public static void TurnOffNotification()
     {
-        if(inventoryNotifications >= 0)
-            inventoryNotifications--;
+        isInventoryNotificationsOn = false;
     }
 
-    public static void ChangeIsInventoryNotificationsOn()
+    public static void InitiateCardsUnseen()
     {
-        isInventoryNotificationsOn = !isInventoryNotificationsOn;
+        cardsUnseen = PlayerPrefs.GetInt("cardsUnseen");
+    }
+
+    public static void IncreaseCardsUnseen()
+    {
+        cardsUnseen = PlayerPrefs.GetInt("cardsUnseen") + 1;
+        PlayerPrefs.SetInt("cardsUnseen", cardsUnseen);
+        PlayerPrefs.Save();
+    }
+
+    public static void ResetCardsUnseen()
+    {
+        cardsUnseen = 0;
+        PlayerPrefs.SetInt("cardsUnseen", 0);
+        PlayerPrefs.Save();
     }
 }
 

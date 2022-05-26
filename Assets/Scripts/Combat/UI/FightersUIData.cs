@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using System.Collections;
 
 public class FightersUIData : MonoBehaviour
 {
@@ -25,14 +26,42 @@ public class FightersUIData : MonoBehaviour
     public GameObject gemsRewardGO;
     public GameObject chestRewardGO;
     public GameObject nextButtonGO;
+    
+    // health bar animations
+    public GameObject playerHealthBarFadeGO;
+    public GameObject botHealthBarFadeGO;
+    public GameObject playerPortrait;
+    public GameObject botPortrait;
+    public GameObject playerPortraitFrame;
+    public GameObject botPortraitFrame;
+    private float previousPlayerHp = 1f;
+    private float previousBotHp = 1f;
+
+    // usericons
+    public GameObject playerIcon;
+    public GameObject botIcon;
+
+    private Combat combatScript;
+
+    private void Awake()
+    {
+        combatScript = GetComponent<Combat>();
+    }
 
     private void AddListenerToNextBtn(bool isLevelUp) {
         nextButtonGO.GetComponent<Button>().onClick.AddListener(() => OnClickNextHandler(isLevelUp));
     }
 
     private void OnClickNextHandler(bool isLevelUp){
-        if(isLevelUp) UnityEngine.SceneManagement.SceneManager.LoadScene(SceneNames.LevelUp.ToString());
-        else UnityEngine.SceneManagement.SceneManager.LoadScene(SceneNames.MainMenu.ToString());
+        if(isLevelUp) 
+            UnityEngine.SceneManagement.SceneManager.LoadScene(SceneNames.LevelUp.ToString());
+        else
+        {
+            if(Cup.Instance.isActive && !CombatMode.isSoloqEnabled)
+                IGoToScene(SceneNames.Cup);
+            if(CombatMode.isSoloqEnabled)
+                IGoToScene(SceneNames.MainMenu);
+        }
     }
 
     public void ShowPostCombatInfo(Fighter player, bool isPlayerWinner, int eloChange, bool isLevelUp, int goldReward, int gemsReward, Canvas results)
@@ -52,6 +81,8 @@ public class FightersUIData : MonoBehaviour
         SetFightersElo(botElo);
         SetFightersName(player.fighterName, bot.fighterName);
         SetFightersMaxHealth(player.hp, bot.hp);
+        GetComponent<Combat>().SetFightersPortrait(playerPortrait, botPortrait);
+        SetPlayerIcons(playerIcon, botIcon);
     }
 
     private void SetFightersElo(int botElo)
@@ -72,20 +103,91 @@ public class FightersUIData : MonoBehaviour
         this.botMaxHealth = botMaxHealth;
     }
 
+    private void SetPlayerIcons(GameObject playerIcon, GameObject botIcon)
+    {
+        playerIcon.GetComponent<Image>().sprite = Resources.Load<Sprite>("Icons/UserIcons/" + User.Instance.userIcon);
+        botIcon.GetComponent<Image>().sprite = Resources.Load<Sprite>("Icons/UserIcons/" + (UnityEngine.Random.Range(0, Resources.LoadAll<Sprite>("Icons/UserIcons/").Length) + 1));
+    }
+
+    public void HidePortraitsUI()
+    {
+        playerPortrait.SetActive(false);
+        botPortrait.SetActive(false);
+        playerPortraitFrame.SetActive(false);
+        botPortraitFrame.SetActive(false);
+    }
+
+    public void ShowPortraitsUI()
+    {
+        playerPortrait.SetActive(true);
+        botPortrait.SetActive(true);
+        playerPortraitFrame.SetActive(true);
+        botPortraitFrame.SetActive(true);
+    }
+
     public void ModifyHealthBar(Fighter fighter, bool isPlayerTargetOfHealthChange)
     {
         if (isPlayerTargetOfHealthChange)
         {
-            SetHealthBarValue(playerHealthBarGO, fighter, playerMaxHealth);
+            SetHealthBarValue(isPlayerTargetOfHealthChange, playerHealthBarFadeGO, playerHealthBarGO, fighter, playerMaxHealth);
+            FighterHitPortraitAnimation(isPlayerTargetOfHealthChange);
             return;
         }
 
-        SetHealthBarValue(botHealthBarGO, fighter, botMaxHealth);
+        SetHealthBarValue(isPlayerTargetOfHealthChange, botHealthBarFadeGO, botHealthBarGO, fighter, botMaxHealth);
+        FighterHitPortraitAnimation(isPlayerTargetOfHealthChange);
     }
 
-    private void SetHealthBarValue(GameObject healthBar, Fighter fighter, float maxHealth)
+    private void SetHealthBarValue(bool isPlayer, GameObject healthBarFade, GameObject healthBar, Fighter fighter, float maxHealth)
     {
+        StartCoroutine(HealthAnimation(isPlayer, fighter.hp, maxHealth, healthBarFade));
         healthBar.GetComponent<Slider>().value = fighter.hp / maxHealth;
+    }
+
+    IEnumerator HealthAnimation(bool isPlayer, float health, float maxHealth, GameObject healthBarFade)
+    {
+        Image healthBarFadeSliderValue = healthBarFade.GetComponent<Image>();
+        float newHp = health / maxHealth;
+
+        // TODO if damage is lethal it needs to go to 0
+
+        if (newHp > 0)
+        {
+            do
+            {
+                yield return new WaitForSeconds(0.2f);
+                if (isPlayer)
+                    healthBarFadeSliderValue.fillAmount -= (previousPlayerHp - newHp) / 5;
+                else
+                    healthBarFadeSliderValue.fillAmount -= (previousBotHp - newHp) / 5;
+
+            } while (healthBarFadeSliderValue.fillAmount > newHp && !combatScript.GetGameStatus());
+        }
+
+        if(newHp <= 0 && !combatScript.GetGameStatus())
+        {
+            healthBarFadeSliderValue.fillAmount = newHp;
+        }
+
+        if (isPlayer)
+            previousPlayerHp = newHp;
+        else
+            previousBotHp = newHp;
+    }
+
+    public void FighterHitPortraitAnimation(bool isPlayerTargetOfHealthChange)
+    {
+        // TODO dont do animation when health restored
+        // need to do double animation to fix not playing onAwake
+        if (isPlayerTargetOfHealthChange)
+        {
+            playerPortraitFrame.GetComponent<Animator>().SetTrigger("GetDamage");
+            playerPortraitFrame.GetComponent<Animator>().SetTrigger("GetDamage");
+            return;
+        }
+
+        botPortraitFrame.GetComponent<Animator>().SetTrigger("GetDamage");
+        botPortraitFrame.GetComponent<Animator>().SetTrigger("GetDamage");
     }
 
     public void SetResultsEloChange(int eloChange)
@@ -121,5 +223,17 @@ public class FightersUIData : MonoBehaviour
         gemsRewardGO.SetActive(Convert.ToBoolean(gemsReward));
         goldRewardGO.transform.Find("TextValue").gameObject.GetComponent<TextMeshProUGUI>().text = goldReward.ToString();
         if (Convert.ToBoolean(gemsReward)) gemsRewardGO.transform.Find("TextValue").gameObject.GetComponent<TextMeshProUGUI>().text = gemsReward.ToString();
+    }
+
+    private IEnumerator GoToScene(SceneNames sceneName)
+    {
+        StartCoroutine(SceneManagerScript.instance.FadeOut());
+        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(1f));
+        UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName.ToString());
+    }
+
+    private void IGoToScene(SceneNames sceneName)
+    {
+        StartCoroutine(GoToScene(sceneName));
     }
 }

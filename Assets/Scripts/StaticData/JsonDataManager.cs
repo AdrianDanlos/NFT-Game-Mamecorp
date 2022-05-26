@@ -9,6 +9,7 @@ public static class JsonDataManager
     private static string savePath = Application.persistentDataPath;
     public const string UserFileName = "user";
     public const string FighterFileName = "fighter";
+    public const string CupFileName = "cup";
     public static void SaveData(JObject data, string fileName)
     {
         System.IO.Directory.CreateDirectory(savePath);
@@ -19,7 +20,7 @@ public static class JsonDataManager
     public static void ReadUserFile()
     {
         JObject userData = JsonDataManager.ReadData(JsonDataManager.UserFileName);
-        UserFactory.CreateUserInstance((string)userData["userName"], (int)userData["energy"], (int)userData["wins"], (int)userData["loses"], (int)userData["elo"], (int)userData["gold"], (int)userData["gems"]);
+        UserFactory.CreateUserInstance((string)userData["flag"], (string)userData["userIcon"], (int)userData["energy"], (int)userData["wins"], (int)userData["loses"], (int)userData["elo"], (int)userData["gold"], (int)userData["gems"]);
     }
     public static Fighter ReadFighterFile()
     {
@@ -27,6 +28,11 @@ public static class JsonDataManager
         return FighterFactory.CreatePlayerFighterInstance((string)fighterData["fighterName"], (string)fighterData["skin"], (string)fighterData["species"],
             (float)fighterData["hp"], (float)fighterData["damage"], (float)fighterData["speed"], fighterData["skills"].ToObject<List<Skill>>(),
             (int)fighterData["level"], (int)fighterData["experiencePoints"]);
+    }
+    public static void ReadCupFile()
+    {
+        JObject cupData = JsonDataManager.ReadData(JsonDataManager.CupFileName);
+        CupFactory.CreateCupInstance((string)cupData["cupName"],(bool)cupData["isActive"], (string)cupData["round"], cupData["participants"].ToObject<List<CupFighter>>(), cupData["cupInfo"].ToObject<Dictionary<string, Dictionary<string, Dictionary<string, string>>>>());
     }
 
     public static JObject ReadData(string fileName)
@@ -46,6 +52,7 @@ public static class JsonDataManager
     //We need to create a fighter class that is not monobehaviour to be able to serialize and save the data into the JSON file.
     public static SerializableFighter CreateSerializableFighterInstance(Fighter fighter)
     {
+
         return new SerializableFighter(fighter);
     }
 }

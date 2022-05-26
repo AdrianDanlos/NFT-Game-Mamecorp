@@ -21,7 +21,8 @@ public class User
         }
     }
 
-    private string _userName;
+    private string _flag;
+    private string _userIcon;
     private int _wins;
     private int _loses;
     private int _elo;
@@ -29,12 +30,23 @@ public class User
     private int _gems;
     private int _energy;
     private bool _saveEnabled = false;
-    public string userName
+
+    public string flag
     {
-        get => _userName;
+        get => _flag;
         set
         {
-            _userName = value;
+            _flag = value;
+            SaveUser();
+        }
+    }
+
+    public string userIcon
+    {
+        get => _userIcon;
+        set
+        {
+            _userIcon = value;
             SaveUser();
         }
     }
@@ -101,9 +113,10 @@ public class User
             _saveEnabled = value;
         }
     }
-    public void SetUserValues(string userName, int wins, int loses, int elo, int gold, int gems, int energy)
+    public void SetUserValues(string flag, string userIcon, int wins, int loses, int elo, int gold, int gems, int energy)
     {
-        this.userName = userName;
+        this.flag = flag;
+        this.userIcon = userIcon;
         this.wins = wins;
         this.loses = loses;
         this.elo = elo;

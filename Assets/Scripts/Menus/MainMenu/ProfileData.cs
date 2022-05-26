@@ -19,8 +19,7 @@ public class ProfileData
 
     public static void SaveCups()
     {
-        // TODO
-        PlayerPrefs.SetFloat("cups", 0);
+        PlayerPrefs.SetFloat("cups", PlayerPrefs.GetFloat("cups") + 1);
         PlayerPrefs.Save();
     }
 

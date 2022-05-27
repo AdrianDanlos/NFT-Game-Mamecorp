@@ -47,7 +47,7 @@ public class Movement : MonoBehaviour
         }
     }
 
-    //FIXME: Is there a way to reuse the "Move" functions that belong to each attack? Or do we need to do very specific things on each one?
+    //FIXME v2: Is there a way to reuse the "Move" functions that belong to each attack? Or do we need to do very specific things on each one?
     // Its not easy to reuse MoveShuriken as its complicated to have a function that accepts a param of different types (Fighter and Gameobject)
     public IEnumerator MoveSlide(Fighter fighter, Vector3 target)
     {

@@ -41,13 +41,6 @@ public class FightersUIData : MonoBehaviour
     public GameObject playerIcon;
     public GameObject botIcon;
 
-    private Combat combatScript;
-
-    private void Awake()
-    {
-        combatScript = GetComponent<Combat>();
-    }
-
     private void AddListenerToNextBtn(bool isLevelUp) {
         nextButtonGO.GetComponent<Button>().onClick.AddListener(() => OnClickNextHandler(isLevelUp));
     }
@@ -160,11 +153,11 @@ public class FightersUIData : MonoBehaviour
                     healthBarFadeSliderValue.fillAmount -= (previousPlayerHp - newHp) / 5;
                 else
                     healthBarFadeSliderValue.fillAmount -= (previousBotHp - newHp) / 5;
-
-            } while (healthBarFadeSliderValue.fillAmount > newHp && !combatScript.GetGameStatus());
+            
+            } while (healthBarFadeSliderValue.fillAmount > newHp && !Combat.isGameOver); //TODO: Remove !Combat.isGameOver condition
         }
 
-        if(newHp <= 0 && !combatScript.GetGameStatus())
+        if(newHp <= 0 && !Combat.isGameOver)
         {
             healthBarFadeSliderValue.fillAmount = newHp;
         }

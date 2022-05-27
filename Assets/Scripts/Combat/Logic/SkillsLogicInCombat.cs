@@ -7,7 +7,7 @@ public class SkillsLogicInCombat : MonoBehaviour
     private Combat combatScript;
     private Movement movementScript;
     private Attack attackScript;
-    //TODO: This should be encapsulated on a class whenever we have a class for each skill
+    //TODO v2: This should be encapsulated on a class whenever we have a class for each skill
     private const float PassiveSkillsModifier = 1.05f;
     private void Awake()
     {

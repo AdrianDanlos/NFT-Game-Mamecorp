@@ -498,7 +498,7 @@ public class CupUIManager : MonoBehaviour
     }
 
     // handle chest
-    // TODO same code in shop, levelup & dailygift
+    // TODO: reuse, same code in shop, levelup & dailygift & cup
     // create a static script with all 4?
     private void SkillPopUpLogic(Dictionary<string, string> reward)
     {

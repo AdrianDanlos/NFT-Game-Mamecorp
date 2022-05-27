@@ -8,7 +8,6 @@ public class Attack : MonoBehaviour
     public GameObject potion;
     public IEnumerator PerformAttack(Fighter attacker, Fighter defender)
     {
-        //FIXME: Is adding this to every type of attack the solution to the bug?: https://trello.com/c/Hi2aaaoD/284-bug-dodge-shuriken-then-slide
         if (Combat.movementScript.FighterShouldAdvanceToAttack(attacker)) yield return StartCoroutine(Combat.movementScript.MoveToMeleeRangeAgain(attacker, defender));
 
         FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.ATTACK);
@@ -162,7 +161,8 @@ public class Attack : MonoBehaviour
     private float GetShurikenEndPositionX(bool dodged, Fighter attacker, Vector3 shurikenEndPos)
     {
         if (dodged) return Combat.player == attacker ? shurikenEndPos.x + 10 : shurikenEndPos.x - 10;
-        return Combat.player == attacker ? shurikenEndPos.x - 1f : shurikenEndPos.x + 1f; //To move the hitbox a bit upfront
+        //To move the hitbox a bit upfront
+        return Combat.player == attacker ? shurikenEndPos.x - 1f : shurikenEndPos.x + 1f; 
     }
 
 

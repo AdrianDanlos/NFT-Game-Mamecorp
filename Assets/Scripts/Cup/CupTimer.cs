@@ -48,8 +48,8 @@ public class CupTimer : MonoBehaviour
         {
             DisableCup();
             timerGO.SetActive(true);
-
-            textTimer.text = UpdateTimer().ToString(@"d\:hh\:mm\:ss");
+            TimeSpan timer = UpdateTimer();
+            textTimer.text = $"{timer.Days}d {timer.Hours}h {timer.Minutes}m";
         }
     }
 

@@ -38,7 +38,7 @@ public class Profile : MonoBehaviour
     }
 
     private void LoadStats()
-    {      
+    {
         MenuUtils.SetLevelSlider(playerExpGO, playerLevelSlider, player.level, player.experiencePoints);
         MenuUtils.DisplayLevelIcon(player.level, GameObject.Find("Levels_Profile"));
         MenuUtils.SetName(userName, player.fighterName);
@@ -54,10 +54,9 @@ public class Profile : MonoBehaviour
 
     }
 
-    private int GetWinrate(){
-        if((User.Instance.wins + User.Instance.loses) > 0)
-            return User.Instance.wins / (User.Instance.wins + User.Instance.loses) * 100;
-
-        return 0;
+    private int GetWinrate()
+    {
+        int gamesPlayed = User.Instance.wins + User.Instance.loses;
+        return gamesPlayed == 0 ? 0 : User.Instance.wins / (gamesPlayed) * 100;
     }
 }

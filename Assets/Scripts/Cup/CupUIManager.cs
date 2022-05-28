@@ -497,9 +497,10 @@ public class CupUIManager : MonoBehaviour
         SkillPopUpLogic(reward);
     }
 
-    // handle chest
-    // TODO: reuse, same code in shop, levelup & dailygift & cup
-    // create a static script with all 4?
+    // Handle chest
+    // TODO v2: This function is declared in 4 different places: Cup, shop, levelup & dailygift
+    // We could create a static class to reuse all of this logic. 
+    // Its a bit of a mess because the functions called inside this function are different on each class
     private void SkillPopUpLogic(Dictionary<string, string> reward)
     {
         SkillCollection.SkillRarity skillRarityAwarded = GetRandomSkillRarityBasedOnChest(reward);

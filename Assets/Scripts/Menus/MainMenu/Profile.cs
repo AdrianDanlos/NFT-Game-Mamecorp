@@ -6,9 +6,9 @@ public class Profile : MonoBehaviour
     // UI
     public GameObject playerLevelSlider;
     public GameObject playerExpGO;
-    GameObject trophiesText;
-    GameObject cupsText;
-    GameObject nCombatsText;
+    GameObject peakElo;
+    GameObject cups;
+    GameObject nCombats;
     GameObject winrate;
     GameObject wins;
     GameObject loses;
@@ -24,9 +24,9 @@ public class Profile : MonoBehaviour
         player = PlayerUtils.FindInactiveFighter();
 
         // UI
-        trophiesText = GameObject.Find("Trophies_Text_Value");
-        cupsText = GameObject.Find("Cups_Text_Value");
-        nCombatsText = GameObject.Find("NCombats_Text_Value");
+        peakElo = GameObject.Find("Trophies_Text_Value");
+        cups = GameObject.Find("Cups_Text_Value");
+        nCombats = GameObject.Find("NCombats_Text_Value");
         winrate = GameObject.Find("winrate");
         wins = GameObject.Find("wins");
         loses = GameObject.Find("loses");
@@ -45,18 +45,18 @@ public class Profile : MonoBehaviour
         MenuUtils.SetProfilePicture(characterProfilePicture);
         MenuUtils.SetProfileUserIcon(userIcon);
 
-        trophiesText.GetComponent<TextMeshProUGUI>().text = PlayerPrefs.GetFloat("maxTrophies").ToString();
-        cupsText.GetComponent<TextMeshProUGUI>().text = PlayerPrefs.GetFloat("cups").ToString();
-        winrate.GetComponent<TextMeshProUGUI>().text = GetWinrate().ToString();
-        nCombatsText.GetComponent<TextMeshProUGUI>().text = (User.Instance.wins + User.Instance.loses).ToString();
+        peakElo.GetComponent<TextMeshProUGUI>().text = User.Instance.peakElo.ToString();
+        cups.GetComponent<TextMeshProUGUI>().text = User.Instance.cups.ToString();
+        winrate.GetComponent<TextMeshProUGUI>().text = GetWinrate().ToString() + " %";
+        nCombats.GetComponent<TextMeshProUGUI>().text = (User.Instance.wins + User.Instance.loses).ToString();
         wins.GetComponent<TextMeshProUGUI>().text = User.Instance.wins.ToString();
         loses.GetComponent<TextMeshProUGUI>().text = User.Instance.loses.ToString();
 
     }
 
-    private int GetWinrate()
+    private float GetWinrate()
     {
         int gamesPlayed = User.Instance.wins + User.Instance.loses;
-        return gamesPlayed == 0 ? 0 : User.Instance.wins / (gamesPlayed) * 100;
+        return gamesPlayed == 0 ? 0 : Mathf.Floor((float)User.Instance.wins / (gamesPlayed) * 100);
     }
 }

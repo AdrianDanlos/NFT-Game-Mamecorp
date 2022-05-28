@@ -32,7 +32,7 @@ public static class MatchMaking
         bot.FighterConstructor(botName, botStats["hp"], botStats["damage"], botStats["speed"],
             randomSpecies.ToString(), randomSpecies.ToString(), botLevel, 0, botSkills);
 
-        //FIXME: We should remove the skin concept from the fighters and use the species name for the skin.
+        //FIXME v2: We should remove the skin concept from the fighters and use the species name for the skin.
     }
 
     public static void GenerateCupBotData(Fighter player, Fighter bot)

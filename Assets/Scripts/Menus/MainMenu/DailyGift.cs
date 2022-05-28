@@ -291,9 +291,6 @@ public class DailyGift : MonoBehaviour
         return TimeSpan.Zero;
     }
 
-    // handle chest
-    // TODO same code in shop and similar(or same) in level up
-    // create a static script with all 3?
     private void SkillPopUpLogic(Dictionary<string, string> reward)
     {
         SkillCollection.SkillRarity skillRarityAwarded = GetRandomSkillRarityBasedOnChest(reward);

@@ -74,7 +74,7 @@ public class Combat : MonoBehaviour
         SetVisibilityOfGameObjects();
         SetFighterPositions();
         SetOrderOfAttacks();
-        GetRandomArena(); // TODO specific arena for tournament?
+        GetRandomArena();
         FighterSkin.SetFightersSkin(player, bot);
         FighterAnimations.ResetToDefaultAnimation(player);
         fightersUIDataScript.SetFightersUIInfo(player, bot, botElo);
@@ -222,7 +222,7 @@ public class Combat : MonoBehaviour
     //We create the fighterWeTakeTheSkillFrom param for the ViciousTheft skill as we take a skill from the opponent instead.
     IEnumerator UseRandomSkill(Fighter attacker, Fighter defender, Fighter fighterWeTakeTheSkillFrom)
     {
-        //TODO FUTURE REFACTOR: Each skill should have each own class with its own skill implementation. (methods, attributes, etc...)
+        //TODO v2: Each skill should have each own class with its own skill implementation. (methods, attributes, etc...)
         // Then we can instantiate a random class here to use a random SUPER skill this turn
 
         List<string> skillNamesList = fighterWeTakeTheSkillFrom.skills.
@@ -381,11 +381,6 @@ public class Combat : MonoBehaviour
                 Cup.Instance.SaveCup();
             }
         }
-    }
-
-    public bool GetGameStatus()
-    {
-        return isGameOver;
     }
 
     //During the combat the player object experiences a lot of changes so we need to set it back to its default state after the combat.

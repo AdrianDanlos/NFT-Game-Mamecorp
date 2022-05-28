@@ -53,7 +53,6 @@ public class AudioManager : MonoBehaviour
         // TODO
         // on main menu allow to change music & sound settings
         //if (SceneManager.GetActiveScene().name.Contains("MainMenu"))
-            // TODO
     }
 
     public void Play(string name)

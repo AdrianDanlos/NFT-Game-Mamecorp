@@ -6,7 +6,8 @@ public class Movement : MonoBehaviour
     private float runningDurationInSeconds = GeneralUtils.GetRealOrSimulationTime(0.6f);
     public double dodgeDurationInSeconds = GeneralUtils.GetRealOrSimulationTime(0.15f);
 
-    //FIXME: This value is not correct + Is it possible to get this value automatically from the canvas?
+    //FIXME v2: This value is not correct so the position of the players after dodging multiple times could not be correct.
+    // Is it possible to get this value automatically from the canvas?
     float screenEdgeX = 7;
 
     public IEnumerator MoveForward(Fighter fighter, Vector3 target)
@@ -47,7 +48,7 @@ public class Movement : MonoBehaviour
         }
     }
 
-    //FIXME: Is there a way to reuse the "Move" functions that belong to each attack? Or do we need to do very specific things on each one?
+    //FIXME v2: Is there a way to reuse the "Move" functions that belong to each attack? Or do we need to do very specific things on each one?
     // Its not easy to reuse MoveShuriken as its complicated to have a function that accepts a param of different types (Fighter and Gameobject)
     public IEnumerator MoveSlide(Fighter fighter, Vector3 target)
     {

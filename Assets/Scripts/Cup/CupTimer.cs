@@ -16,7 +16,7 @@ public class CupTimer : MonoBehaviour
     TextMeshProUGUI textTimer;
     Image lockIcon;
 
-    const int CUP_COOLDOWN = 5;
+    const int CUP_COOLDOWN = 5; //days
 
     private void Awake()
     {
@@ -91,7 +91,6 @@ public class CupTimer : MonoBehaviour
 
     private void StartCountdown()
     {
-        // TODO change to real date
         PlayerPrefs.SetString("cupCountdown", DateTime.Now.AddDays(CUP_COOLDOWN).ToBinary().ToString());
         PlayerPrefs.Save();
     }

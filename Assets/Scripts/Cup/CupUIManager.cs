@@ -464,7 +464,7 @@ public class CupUIManager : MonoBehaviour
     private void ResetCup()
     {
         string[] files = Directory.GetFiles(Path.GetDirectoryName(Application.persistentDataPath));
-        
+
         foreach (var file in files)
         {
             if (file.Contains("cup")) File.Delete(file);
@@ -554,7 +554,7 @@ public class CupUIManager : MonoBehaviour
             : (SkillCollection.SkillRarity)0;
 
             //Recursive call with the new rarity
-            GetAwardedSkill(newRarity);
+            return GetAwardedSkill(newRarity);
         }
 
         int skillIndex = UnityEngine.Random.Range(0, skills.Count());

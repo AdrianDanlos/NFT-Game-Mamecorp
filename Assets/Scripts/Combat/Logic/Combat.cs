@@ -285,7 +285,7 @@ public class Combat : MonoBehaviour
     public static Vector3 GetAttackerDestinationPosition(Fighter defender, float distanceFromEachOtherOnAttack)
     {
         Vector3 attackerDestinationPosition = defender.transform.position;
-        attackerDestinationPosition.x = attackerDestinationPosition.x + (player == defender ? + distanceFromEachOtherOnAttack : - distanceFromEachOtherOnAttack);
+        attackerDestinationPosition.x = attackerDestinationPosition.x + (player == defender ? +distanceFromEachOtherOnAttack : -distanceFromEachOtherOnAttack);
         return attackerDestinationPosition;
     }
 
@@ -355,8 +355,7 @@ public class Combat : MonoBehaviour
 
         //Profile
         ProfileData.SaveFights();
-        ProfileData.SaveHighestTrophies(User.Instance.elo);
-        ProfileData.SaveHighestEnemy(botElo);
+        ProfileData.SavePeakElo(User.Instance.elo);
 
         if (Cup.Instance.isActive && !CombatMode.isSoloqEnabled)
         {

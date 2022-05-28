@@ -13,7 +13,8 @@ public class SetFighterAnimations : MonoBehaviour
         string skinName = GetSkinNameDependingOnScene();
         fighterAnimator = GetComponent<Animator>();
 
-        //TODO v2: this should be refactored
+        //TODO v2: this should be refactored. We have different and misleading uses of idleAnimation and runAnimation.
+        //Also the className should be different. We only use this script on some places e.g. main menu
         idleAnimation = Resources.Load<AnimationClip>("Animations/Characters/" + skinName + "/01_idle");
         runAnimation = Resources.Load<AnimationClip>("Animations/Characters/" + skinName + "/02_run");
         SetAnimationClipToAnimator(fighterAnimator, idleAnimation);

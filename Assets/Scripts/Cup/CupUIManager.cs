@@ -199,7 +199,7 @@ public class CupUIManager : MonoBehaviour
                 player.GetChild(1).GetComponent<TextMeshProUGUI>().text =
                     _participants[counter].fighterName;
 
-                if(_participants[counter].id == "0")
+                if (_participants[counter].id == "0")
                     playersContainer.GetChild(8).GetChild(1).GetComponent<TextMeshProUGUI>().color = playerHihglight;
 
                 counter++;
@@ -230,9 +230,9 @@ public class CupUIManager : MonoBehaviour
             }
         }
 
-        if(round == "FINALS")
+        if (round == "FINALS")
             GrayOutLosersSemis();
-        if(round == "END")
+        if (round == "END")
             GrayOutLoserFinals();
     }
 
@@ -269,7 +269,7 @@ public class CupUIManager : MonoBehaviour
     {
         roundAnnouncer.text = CupDB.CupRounds.QUARTERS.ToString();
 
-        foreach(Transform player in participants)
+        foreach (Transform player in participants)
         {
             if (player.name.Contains("Semis") || player.name.Contains("Finals"))
             {
@@ -295,7 +295,7 @@ public class CupUIManager : MonoBehaviour
 
     private void SetUIFinals()
     {
-        roundAnnouncer.text = CupDB.CupRounds.FINALS.ToString(); 
+        roundAnnouncer.text = CupDB.CupRounds.FINALS.ToString();
     }
 
     private void SetUIFinalsEnd()
@@ -313,13 +313,13 @@ public class CupUIManager : MonoBehaviour
 
     private void HideCupLabels()
     {
-        for(int i = 0; i < labelContainer.childCount; i++)
+        for (int i = 0; i < labelContainer.childCount; i++)
             labelContainer.GetChild(i).gameObject.SetActive(false);
     }
 
     private Transform GetCupLabelByName(string name)
     {
-        switch(name)
+        switch (name)
         {
             case "FIRE":
                 return labelContainer.GetChild(0);
@@ -361,7 +361,7 @@ public class CupUIManager : MonoBehaviour
         {
             if (player.name.Contains("Quarters"))
             {
-                for(int i = 0; i < loserIds.Count; i++)
+                for (int i = 0; i < loserIds.Count; i++)
                     if (participantsList[counter].id == loserIds[i])
                         player.GetChild(2).GetComponent<Image>().enabled = true;
 
@@ -430,7 +430,7 @@ public class CupUIManager : MonoBehaviour
 
         return CupDB.CupRounds.ZERO.ToString();
     }
-        
+
     // Prizes logic
     private string GetCupRound()
     {
@@ -463,11 +463,12 @@ public class CupUIManager : MonoBehaviour
 
     private void ResetCup()
     {
-        string[] files = Directory.GetFiles(Application.persistentDataPath);
-
-        for (int i = 0; i < files.Length; i++)
-            if(files[i].Contains("cup"))
-                File.Delete(files[i]);
+        string[] files = Directory.GetFiles(Path.GetDirectoryName(Application.persistentDataPath));
+        
+        foreach (var file in files)
+        {
+            if (file.Contains("cup")) File.Delete(file);
+        }
 
         PlayerPrefs.SetString("cupCountdown", DateTime.Now.AddSeconds(20).ToBinary().ToString());
         PlayerPrefs.Save();
@@ -497,9 +498,10 @@ public class CupUIManager : MonoBehaviour
         SkillPopUpLogic(reward);
     }
 
-    // handle chest
-    // TODO: reuse, same code in shop, levelup & dailygift & cup
-    // create a static script with all 4?
+    // Handle chest
+    // TODO v2: This function is declared in 4 different places: Cup, shop, levelup & dailygift
+    // We could create a static class to reuse all of this logic. 
+    // Its a bit of a mess because the functions called inside this function are different on each class
     private void SkillPopUpLogic(Dictionary<string, string> reward)
     {
         SkillCollection.SkillRarity skillRarityAwarded = GetRandomSkillRarityBasedOnChest(reward);

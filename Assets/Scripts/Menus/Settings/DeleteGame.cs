@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class DeleteGame : MonoBehaviour
 {
     // UI
-    GameObject resetGame; 
+    GameObject resetGame;
 
     private void Awake()
     {
@@ -23,10 +23,10 @@ public class DeleteGame : MonoBehaviour
 
     private void DeleteSaves()
     {
-        string[] files =  Directory.GetFiles(Application.persistentDataPath);
-
-        for (int i = 0; i < files.Length; i++)
-            File.Delete(files[i]);
+        //On Android when reading from Application.persistentDataPath we access a symlink at /storage/emulated/0....NFTGameMamecorp/files
+        //If we want to delete the files at NFTGameMamecorp we have to get the files at the parent folder
+        string[] files = Directory.GetFiles(Path.GetDirectoryName(Application.persistentDataPath));
+        foreach (var file in files) File.Delete(file);
     }
 
     private void ResetAllPrefs()

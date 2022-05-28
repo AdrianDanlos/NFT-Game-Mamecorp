@@ -6,7 +6,8 @@ public class Movement : MonoBehaviour
     private float runningDurationInSeconds = GeneralUtils.GetRealOrSimulationTime(0.6f);
     public double dodgeDurationInSeconds = GeneralUtils.GetRealOrSimulationTime(0.15f);
 
-    //FIXME: This value is not correct + Is it possible to get this value automatically from the canvas?
+    //FIXME v2: This value is not correct so the position of the players after dodging multiple times could not be correct.
+    // Is it possible to get this value automatically from the canvas?
     float screenEdgeX = 7;
 
     public IEnumerator MoveForward(Fighter fighter, Vector3 target)

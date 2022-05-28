@@ -45,7 +45,6 @@ public class Profile : MonoBehaviour
         MenuUtils.SetProfilePicture(characterProfilePicture);
         MenuUtils.SetProfileUserIcon(userIcon);
 
-        //FIXME: Are these saved in playerprefs?
         trophiesText.GetComponent<TextMeshProUGUI>().text = PlayerPrefs.GetFloat("maxTrophies").ToString();
         cupsText.GetComponent<TextMeshProUGUI>().text = PlayerPrefs.GetFloat("cups").ToString();
         winrate.GetComponent<TextMeshProUGUI>().text = GetWinrate().ToString();

@@ -193,7 +193,7 @@ public class LevelUp : MonoBehaviour
             : (SkillCollection.SkillRarity)0;
 
             //Recursive call with the new rarity
-            GetAwardedSkill(newRarity);
+            return GetAwardedSkill(newRarity);
         }
 
         int skillIndex = UnityEngine.Random.Range(0, skills.Count());

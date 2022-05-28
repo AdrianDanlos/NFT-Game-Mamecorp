@@ -408,9 +408,6 @@ public class ShopUI : MonoBehaviour
             .Where(skill => !HasSkillAlready(skill))
             .ToList();
 
-        Debug.Log(SkillCollection.skills
-            .Where(skill => !HasSkillAlready(skill)).ToList().Count + " " + skillRarityAwarded);
-
         //If player has all skill for the current rarity get skills from a rarity above. 
         //Does not matter that they might not belong to the current chest
         if (!skills.Any())
@@ -426,12 +423,11 @@ public class ShopUI : MonoBehaviour
             : (SkillCollection.SkillRarity)0;
 
             //Recursive call with the new rarity
-            GetAwardedSkill(newRarity);
+            return GetAwardedSkill(newRarity);
         }
 
         int skillIndex = UnityEngine.Random.Range(0, skills.Count());
 
-        Debug.Log(skills.Count);
         //OrderedDictionary
         var awardedSkill = skills[skillIndex];
 

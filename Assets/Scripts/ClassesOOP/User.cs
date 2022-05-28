@@ -26,9 +26,11 @@ public class User
     private int _wins;
     private int _loses;
     private int _elo;
+    private int _peakElo;
     private int _gold;
     private int _gems;
     private int _energy;
+    private int _cups;
     private bool _saveEnabled = false;
 
     public string flag
@@ -47,6 +49,24 @@ public class User
         set
         {
             _userIcon = value;
+            SaveUser();
+        }
+    }
+    public int peakElo
+    {
+        get => _peakElo;
+        set
+        {
+            _peakElo = value;
+            SaveUser();
+        }
+    }
+    public int cups
+    {
+        get => _cups;
+        set
+        {
+            _cups = value;
             SaveUser();
         }
     }
@@ -113,16 +133,18 @@ public class User
             _saveEnabled = value;
         }
     }
-    public void SetUserValues(string flag, string userIcon, int wins, int loses, int elo, int gold, int gems, int energy)
+    public void SetUserValues(string flag, string userIcon, int wins, int loses, int elo, int peakElo, int gold, int gems, int energy, int cups)
     {
         this.flag = flag;
         this.userIcon = userIcon;
         this.wins = wins;
         this.loses = loses;
         this.elo = elo;
+        this.peakElo = peakElo;
         this.gold = gold;
         this.gems = gems;
         this.energy = energy;
+        this.cups = cups;
     }
 
     // We call it once the user has been instantiated.

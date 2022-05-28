@@ -20,7 +20,7 @@ public static class JsonDataManager
     public static void ReadUserFile()
     {
         JObject userData = JsonDataManager.ReadData(JsonDataManager.UserFileName);
-        UserFactory.CreateUserInstance((string)userData["flag"], (string)userData["userIcon"], (int)userData["energy"], (int)userData["wins"], (int)userData["loses"], (int)userData["elo"], (int)userData["gold"], (int)userData["gems"]);
+        UserFactory.CreateUserInstance((string)userData["flag"], (string)userData["userIcon"], (int)userData["energy"], (int)userData["wins"], (int)userData["loses"], (int)userData["elo"], (int)userData["peakElo"], (int)userData["gold"], (int)userData["gems"], (int)userData["cups"]);
     }
     public static Fighter ReadFighterFile()
     {

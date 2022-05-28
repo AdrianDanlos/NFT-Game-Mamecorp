@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ProfileData 
+public class ProfileData
 {
     public static void SaveFights()
     {
@@ -8,27 +8,13 @@ public class ProfileData
         PlayerPrefs.Save();
     }
 
-    public static void SaveHighestTrophies(float trophies)
+    public static void SavePeakElo(int elo)
     {
-        if (trophies > PlayerPrefs.GetFloat("maxTrophies"))
-        {
-            PlayerPrefs.SetFloat("maxTrophies", trophies);
-            PlayerPrefs.Save();
-        }
+        if (elo > User.Instance.peakElo) User.Instance.peakElo = elo;
     }
 
     public static void SaveCups()
     {
-        PlayerPrefs.SetFloat("cups", PlayerPrefs.GetFloat("cups") + 1);
-        PlayerPrefs.Save();
-    }
-
-    public static void SaveHighestEnemy(float enemyCups)
-    {
-        if(enemyCups > PlayerPrefs.GetFloat("highestEnemy"))
-        {
-            PlayerPrefs.SetFloat("highestEnemy", enemyCups);
-            PlayerPrefs.Save();
-        }
+        User.Instance.cups++;
     }
 }

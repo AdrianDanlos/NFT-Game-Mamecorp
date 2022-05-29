@@ -21,6 +21,7 @@ public static class Chest
         NORMAL,
         EPIC,
         LEGENDARY,
+        //TODO v2: This chest is unactive in the game until we create a timer for it.
         SPECIAL
     }
 

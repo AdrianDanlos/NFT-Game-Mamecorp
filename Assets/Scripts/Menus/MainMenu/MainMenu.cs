@@ -21,6 +21,9 @@ public class MainMenu : MonoBehaviour
     public GameObject buttonCredits;
     public GameObject buttonCloseConfirmation;
     public GameObject buttonCloseAbout;
+    public GameObject battleEnergyIcon;
+    public GameObject battleSwordIcon;
+    Image lockIcon;
 
     // stats
     public TextMeshProUGUI attack;
@@ -60,6 +63,7 @@ public class MainMenu : MonoBehaviour
         buttonCredits = GameObject.Find("Button_Credits");
         buttonCloseConfirmation = GameObject.Find("Button_Close_Confirmation");
         buttonCloseAbout = GameObject.Find("Button_Close_About");
+        lockIcon = GameObject.Find("Battle_Lock").GetComponent<Image>();
 
         // stats
         attack = GameObject.Find("Attack_Value").GetComponent<TextMeshProUGUI>();
@@ -72,9 +76,9 @@ public class MainMenu : MonoBehaviour
         MenuUtils.SetLevelSlider(playerExpGO, playerLevelSlider, player.level, player.experiencePoints);
         MenuUtils.DisplayLevelIcon(player.level, GameObject.Find("Levels"));
         MenuUtils.SetFighterStats(attack, hp, speed);
-        battleButtonGO.GetComponent<Button>().interactable = User.Instance.energy > 0;
         cardsButtonGO.GetComponent<Button>().interactable = player.skills.Count > 0;
         notifyCardsTxt = notifyCards.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+        SetBattleButton();
 
         // Hide poppups
         settings.SetActive(false);
@@ -94,6 +98,14 @@ public class MainMenu : MonoBehaviour
         buttonCredits.GetComponent<Button>().onClick.AddListener(() => IShowCredits());
     }
 
+    private void SetBattleButton()
+    {
+        bool userHasEnergy = User.Instance.energy > 0;
+        battleButtonGO.GetComponent<Button>().enabled = userHasEnergy;
+        lockIcon.enabled = !userHasEnergy;
+        battleEnergyIcon.SetActive(!userHasEnergy);
+        battleSwordIcon.SetActive(userHasEnergy);
+    }
     IEnumerator Start()
     {
         if (SceneFlag.sceneName == SceneNames.EntryPoint.ToString() ||
@@ -106,6 +118,7 @@ public class MainMenu : MonoBehaviour
         }
 
         //FIXME: If the user don't have any energy left check each its energy each second to activate the battle button once an energy point is given.
+        //Also, update energy icon +1
         while (User.Instance.energy == 0) yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(1f));
         battleButtonGO.GetComponent<Button>().interactable = true;
 

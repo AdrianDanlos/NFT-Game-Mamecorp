@@ -98,7 +98,7 @@ public class MainMenu : MonoBehaviour
         buttonCredits.GetComponent<Button>().onClick.AddListener(() => IShowCredits());
     }
 
-    private void SetBattleButton()
+    public void SetBattleButton()
     {
         bool userHasEnergy = User.Instance.energy > 0;
         battleButtonGO.GetComponent<Button>().enabled = userHasEnergy;
@@ -117,10 +117,7 @@ public class MainMenu : MonoBehaviour
             yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(SceneFlag.FADE_DURATION));
         }
 
-        //FIXME: If the user don't have any energy left check each its energy each second to activate the battle button once an energy point is given.
-        //Also, update energy icon +1
-        while (User.Instance.energy == 0) yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(1f));
-        battleButtonGO.GetComponent<Button>().interactable = true;
+        battleButtonGO.GetComponent<Button>().enabled = User.Instance.energy > 0;
 
         StartCoroutine(RefreshItems());
 

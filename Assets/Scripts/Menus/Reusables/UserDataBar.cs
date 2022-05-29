@@ -1,6 +1,6 @@
 using UnityEngine;
 using System.Collections;
-
+using UnityEngine.SceneManagement;
 public class UserDataBar : MonoBehaviour
 {
     public GameObject gold;
@@ -15,14 +15,19 @@ public class UserDataBar : MonoBehaviour
         Fighter player = PlayerUtils.FindInactiveFighter();
         MenuUtils.SetGold(gold);
         MenuUtils.SetGems(gems);
-        EnergyManager.RefreshEnergyBasedOnCountdown();
         MenuUtils.SetEnergy(energy);
         MenuUtils.SetName(playerNameGO, player.fighterName);
 
-        //Update timer each second
+        //Update timer, user energy, energy number on databar and battle button each second
         while (!EnergyManager.UserHasMaxEnergy())
         {
             MenuUtils.DisplayEnergyCountdown(timerContainer, timer);
+            EnergyManager.RefreshEnergyBasedOnCountdown();
+            MenuUtils.SetEnergy(energy);
+            if (SceneManager.GetActiveScene().name == SceneNames.MainMenu.ToString())
+            {
+                GameObject.Find("MainMenuManager").GetComponent<MainMenu>().SetBattleButton();
+            }
             yield return new WaitForSeconds(1f);
         }
 

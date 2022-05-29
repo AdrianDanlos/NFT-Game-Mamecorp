@@ -28204,6 +28204,7 @@ MonoBehaviour:
   rareSkill: {fileID: 2076302559}
   epicSkill: {fileID: 1903174964}
   legendarySkill: {fileID: 1309974099}
+  battleBtnContainer: {fileID: 1657448956}
   skillInventory: {fileID: 0}
   skillMainMenu: {fileID: 1473197015}
   allSkills: {fileID: 1615414573}

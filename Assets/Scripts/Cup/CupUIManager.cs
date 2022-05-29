@@ -48,7 +48,6 @@ public class CupUIManager : MonoBehaviour
     Transform playersContainer;
     List<Transform> participants;
     TextMeshProUGUI roundAnnouncer;
-    Button buttonBattle;
     Button buttonCollectRewards;
 
     // prize
@@ -72,9 +71,11 @@ public class CupUIManager : MonoBehaviour
     public GameObject rareSkill;
     public GameObject epicSkill;
     public GameObject legendarySkill;
+    public GameObject battleBtnContainer;
     public Button skillInventory;
     public Button skillMainMenu;
     public Button allSkills;
+    
 
     // data
     static Fighter player;
@@ -122,7 +123,6 @@ public class CupUIManager : MonoBehaviour
         labelContainer = GameObject.Find("LabelContainer").GetComponent<Transform>();
         playersContainer = GameObject.Find("Players").GetComponent<Transform>();
         roundAnnouncer = GameObject.Find("RoundAnnouncerTxt").GetComponent<TextMeshProUGUI>();
-        buttonBattle = GameObject.Find("Button_Cup").GetComponent<Button>();
         buttonCollectRewards = GameObject.Find("Button_Rewards").GetComponent<Button>();
         cupManager = GetComponent<CupManager>();
 
@@ -154,12 +154,12 @@ public class CupUIManager : MonoBehaviour
     {
         if (Cup.Instance.round == CupDB.CupRounds.END.ToString() || !Cup.Instance.isActive)
         {
-            buttonBattle.gameObject.SetActive(false);
+            battleBtnContainer.SetActive(false);
             buttonCollectRewards.gameObject.SetActive(true);
         }
         else
         {
-            buttonBattle.gameObject.SetActive(true);
+            battleBtnContainer.SetActive(true);
             buttonCollectRewards.gameObject.SetActive(false);
         }
     }

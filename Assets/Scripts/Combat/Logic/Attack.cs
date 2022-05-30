@@ -25,7 +25,7 @@ public class Attack : MonoBehaviour
             yield return DefenderDodgesAttack(defender);
             yield break;
         }
-
+        Blood.StartAnimation(defender);
         yield return DefenderReceivesAttack(attacker, defender, attacker.damage, 0.25f, 0.05f);
     }
 

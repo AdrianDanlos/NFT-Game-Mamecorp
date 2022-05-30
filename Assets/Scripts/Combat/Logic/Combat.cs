@@ -83,14 +83,14 @@ public class Combat : MonoBehaviour
 
     IEnumerator Start()
     {
-        StartCoroutine(SceneManagerScript.instance.FadeIn());
-        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(1f));
+        // StartCoroutine(SceneManagerScript.instance.FadeIn());
+        // yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(1f));
 
         // --- Enable this for loading effect ---
-        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(2f));
-        loadingScreen.SetBotLoadingScreenData(bot);
-        levelTextBot.enabled = true;
-        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(3f));
+        //yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(2f));
+        // loadingScreen.SetBotLoadingScreenData(bot);
+        // levelTextBot.enabled = true;
+        //yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(3f));
         yield return null; //remove
 
         // UI
@@ -210,11 +210,11 @@ public class Combat : MonoBehaviour
 
     IEnumerator StartTurn(Fighter attacker, Fighter defender)
     {
-        if (WillUseSkillThisTurn(attacker))
-        {
-            yield return StartCoroutine(UseRandomSkill(attacker, defender, attacker));
-            yield break;
-        }
+        // if (WillUseSkillThisTurn(attacker))
+        // {
+        //     yield return StartCoroutine(UseRandomSkill(attacker, defender, attacker));
+        //     yield break;
+        // }
         yield return skillsLogicScript.AttackWithoutSkills(attacker, defender);
         FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.IDLE);
     }

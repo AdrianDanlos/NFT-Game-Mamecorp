@@ -197,7 +197,7 @@ public static class SkillCollection
         new OrderedDictionary
         {
             {"name", SkillNames.ShadowTravel},
-            {"description", "Become invisble for a brief time to catch your opponent by surprise and deal extra damage."},
+            {"description", "The fury of Zeus strikes you with a lightning that grants invisibility and charges your body with electricity making your next attack deadly."},
             {"skillRarity", SkillRarity.RARE.ToString()},
             {"category", SkillType.SUPER.ToString()},
             {"icon", "18" }

@@ -1,5 +1,5 @@
 using UnityEngine;
-
+//Utility class for VFX 
 public class VFXManager
 {
     public static string GetRandomBloodClipName()

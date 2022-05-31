@@ -3,7 +3,9 @@ using System.Reflection;
 using System.Collections.Generic;
 public static class Levels
 {
-    public static float levelsUntilIconUpgrade = 3;
+    //Max level icon will be reached at level: totalIconsForLevels x levelsUntilIconUpgrade
+    public static float totalIconsForLevels = 6;
+    public static float levelsUntilIconUpgrade = 5;
     //This constant is used to calculate the total xp of each level. Formula: Level x LevelMultiplier.
     const int LevelMultiplier = 15;
     public static int MaxXpOfCurrentLevel(int playerLevel)

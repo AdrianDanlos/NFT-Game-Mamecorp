@@ -176,9 +176,10 @@ public class Attack : MonoBehaviour
     IEnumerator DefenderReceivesAttack(Fighter attacker, Fighter defender, float damagePerHit, float secondsToWaitForHurtAnim, float secondsUntilHitMarker)
     {
         //TODO: Add VFX to show that the attack missed
-        if (defender.HasSkill(SkillNames.BalletShoes))
+        if (defender.HasSkill(SkillNames.EarlyBubble))
         {
-            defender.removeUsedSkill(SkillNames.BalletShoes);
+            defender.removeUsedSkill(SkillNames.EarlyBubble);
+            Bubble.StartAnimation(defender);
             //Wait for attack animation to finish
             yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(.3f));
             yield break;

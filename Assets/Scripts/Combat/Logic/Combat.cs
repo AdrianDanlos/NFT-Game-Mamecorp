@@ -63,6 +63,7 @@ public class Combat : MonoBehaviour
             MatchMaking.GenerateBotData(player, bot);
 
         SetMaxHpValues();
+
         // LoadingScreen
         loadingScreen.SetPlayerLoadingScreenData(player);
         loadingScreen.DisplayLoaderForEnemy();
@@ -79,6 +80,12 @@ public class Combat : MonoBehaviour
         FighterAnimations.ResetToDefaultAnimation(player);
         fightersUIDataScript.SetFightersUIInfo(player, bot, botElo);
         fightersUIDataScript.HidePortraitsUI();
+        StopExplosionParticlesAutoPlay();
+    }
+
+    private void StopExplosionParticlesAutoPlay(){
+        playerGameObject.transform.Find("VFX/Explosion_VFX").GetComponent<ParticleSystem>().Stop();
+        botGameObject.transform.Find("VFX/Explosion_VFX").GetComponent<ParticleSystem>().Stop();
     }
 
     IEnumerator Start()

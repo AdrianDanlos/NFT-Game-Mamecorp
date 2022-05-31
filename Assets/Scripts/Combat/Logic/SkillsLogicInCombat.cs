@@ -112,6 +112,7 @@ public class SkillsLogicInCombat : MonoBehaviour
     }
     public IEnumerator ShadowTravel(Fighter attacker, Fighter defender)
     {
+        Lightning.StartAnimation(attacker);
         FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.IDLE_BLINKING);
         //Wait for blinking animation to finish
         yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(1.2f));

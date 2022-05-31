@@ -53,14 +53,24 @@ public class Movement : MonoBehaviour
     public IEnumerator MoveSlide(Fighter fighter, Vector3 target)
     {
         float elapsedTime = 0;
+        bool slideAnimationsOn = false;
 
         while (elapsedTime < runningDurationInSeconds)
         {
-            if (elapsedTime >= runningDurationInSeconds / 2) FighterAnimations.ChangeAnimation(fighter, FighterAnimations.AnimationNames.SLIDE);
+            if (elapsedTime >= runningDurationInSeconds / 2)
+            {
+                if (!slideAnimationsOn)
+                {
+                    Spark.StartAnimation(fighter);
+                    FighterAnimations.ChangeAnimation(fighter, FighterAnimations.AnimationNames.SLIDE);
+                }
+                slideAnimationsOn = true;
+            }
             fighter.transform.position = Vector3.Lerp(fighter.initialPosition, target, (float)(elapsedTime / runningDurationInSeconds));
             elapsedTime += Time.deltaTime;
             yield return null;
         }
+        Spark.StopAnimation(fighter);
     }
 
     public IEnumerator MoveJumpStrike(Fighter fighter, Vector3 target)

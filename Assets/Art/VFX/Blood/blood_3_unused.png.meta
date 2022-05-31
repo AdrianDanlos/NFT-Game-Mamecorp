@@ -1,49 +1,40 @@
 fileFormatVersion: 2
-guid: e24fe40865e755d4c8618b0cbe038984
+guid: aa79c685c0a00f44c811f24307667005
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -4936069524903683808
-    second: hit 1_0
+      213: 3440738400754046169
+    second: blood_2_0
   - first:
-      213: -4264738462759935618
-    second: hit 1_1
+      213: -3097660201380622860
+    second: blood_2_1
   - first:
-      213: -7801542090369997566
-    second: hit 1_2
+      213: 9101906850235627190
+    second: blood_2_2
   - first:
-      213: 2900988386324816856
-    second: hit 1_3
+      213: -4257558098185689701
+    second: blood_2_3
   - first:
-      213: -4631036750019574969
-    second: hit 1_4
+      213: -3657696285623744870
+    second: blood_2_4
   - first:
-      213: 480004233718379863
-    second: hit 1_5
+      213: -993794950642002787
+    second: blood_2_5
   - first:
-      213: -5915123931181886019
-    second: hit 1_6
+      213: 8766986795494907116
+    second: blood_2_6
   - first:
-      213: -5841274758884802666
-    second: hit 1_7
+      213: -4741149156537894863
+    second: blood_2_7
   - first:
-      213: -5573568525072287232
-    second: hit 1_8
+      213: 8740888367095483477
+    second: blood_2_8
   - first:
-      213: -7533540841629698228
-    second: hit 1_9
+      213: -1748474217433914184
+    second: blood_2_9
   - first:
-      213: 8558991156705602610
-    second: hit 1_10
-  - first:
-      213: 1130483466248518983
-    second: hit 1_11
-  - first:
-      213: -832964219821828701
-    second: hit 1_12
-  - first:
-      213: 5328892498735629072
-    second: hit 1_13
+      213: 4845006280826516004
+    second: blood_2_10
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -74,7 +65,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -145,13 +136,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: hit 1_0
+      name: blood_2_0
       rect:
         serializedVersion: 2
-        x: 960
-        y: 1440
-        width: 480
-        height: 480
+        x: 512
+        y: 1536
+        width: 512
+        height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -159,20 +150,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0291c756bee8f7bb0800000000000000
-      internalID: -4936069524903683808
+      spriteID: 9d49dfd7855ffbf20800000000000000
+      internalID: 3440738400754046169
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: hit 1_1
+      name: blood_2_1
       rect:
         serializedVersion: 2
-        x: 1440
-        y: 1440
-        width: 480
-        height: 480
+        x: 1024
+        y: 1536
+        width: 512
+        height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -180,20 +171,41 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e71af33b6fa90d4c0800000000000000
-      internalID: -4264738462759935618
+      spriteID: 4fdc7dd7576e205d0800000000000000
+      internalID: -3097660201380622860
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: hit 1_2
+      name: blood_2_2
+      rect:
+        serializedVersion: 2
+        x: 1536
+        y: 1536
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6b63dfa6e08705e70800000000000000
+      internalID: 9101906850235627190
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blood_2_3
       rect:
         serializedVersion: 2
         x: 0
-        y: 960
-        width: 480
-        height: 480
+        y: 1024
+        width: 512
+        height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -201,20 +213,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 205ec3b9dca5bb390800000000000000
-      internalID: -7801542090369997566
+      spriteID: b95ed0b977d1ae4c0800000000000000
+      internalID: -4257558098185689701
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: hit 1_3
+      name: blood_2_4
       rect:
         serializedVersion: 2
-        x: 480
-        y: 960
-        width: 480
-        height: 480
+        x: 512
+        y: 1024
+        width: 512
+        height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -222,20 +234,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8d3ac683191624820800000000000000
-      internalID: 2900988386324816856
+      spriteID: a9681278b904d3dc0800000000000000
+      internalID: -3657696285623744870
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: hit 1_4
+      name: blood_2_5
       rect:
         serializedVersion: 2
-        x: 960
-        y: 960
-        width: 480
-        height: 480
+        x: 1024
+        y: 1024
+        width: 512
+        height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -243,20 +255,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 743cd45bc904bbfb0800000000000000
-      internalID: -4631036750019574969
+      spriteID: d94186bf1c45532f0800000000000000
+      internalID: -993794950642002787
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: hit 1_5
+      name: blood_2_6
       rect:
         serializedVersion: 2
-        x: 1440
-        y: 960
-        width: 480
-        height: 480
+        x: 1536
+        y: 1024
+        width: 512
+        height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -264,104 +276,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 755b771be4159a600800000000000000
-      internalID: 480004233718379863
+      spriteID: cec93008a089aa970800000000000000
+      internalID: 8766986795494907116
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: hit 1_6
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 480
-        width: 480
-        height: 480
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: db5dd7fcf1249eda0800000000000000
-      internalID: -5915123931181886019
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: hit 1_7
-      rect:
-        serializedVersion: 2
-        x: 480
-        y: 480
-        width: 480
-        height: 480
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 69f37312e8f9feea0800000000000000
-      internalID: -5841274758884802666
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: hit 1_8
-      rect:
-        serializedVersion: 2
-        x: 960
-        y: 480
-        width: 480
-        height: 480
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 00ab4cbd4f4b6a2b0800000000000000
-      internalID: -5573568525072287232
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: hit 1_9
-      rect:
-        serializedVersion: 2
-        x: 1440
-        y: 480
-        width: 480
-        height: 480
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: c47b3c9d48c737790800000000000000
-      internalID: -7533540841629698228
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: hit 1_10
+      name: blood_2_7
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
-        width: 480
-        height: 480
+        y: 512
+        width: 512
+        height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -369,20 +297,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 23ca52b0c15a7c670800000000000000
-      internalID: 8558991156705602610
+      spriteID: 1387a6936fd043eb0800000000000000
+      internalID: -4741149156537894863
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: hit 1_11
+      name: blood_2_8
       rect:
         serializedVersion: 2
-        x: 480
-        y: 0
-        width: 480
-        height: 480
+        x: 512
+        y: 512
+        width: 512
+        height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -390,20 +318,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 74df13619b840bf00800000000000000
-      internalID: 1130483466248518983
+      spriteID: 55c021e98afdd4970800000000000000
+      internalID: 8740888367095483477
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: hit 1_12
+      name: blood_2_9
       rect:
         serializedVersion: 2
-        x: 960
-        y: 0
-        width: 480
-        height: 480
+        x: 1024
+        y: 512
+        width: 512
+        height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -411,20 +339,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3a5d8ee8477b074f0800000000000000
-      internalID: -832964219821828701
+      spriteID: 8b42cea86fb2cb7e0800000000000000
+      internalID: -1748474217433914184
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: hit 1_13
+      name: blood_2_10
       rect:
         serializedVersion: 2
-        x: 1440
-        y: 0
-        width: 480
-        height: 480
+        x: 1540
+        y: 513
+        width: 508
+        height: 506
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -432,8 +360,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 01381617e7704f940800000000000000
-      internalID: 5328892498735629072
+      spriteID: 422733fda8bec3340800000000000000
+      internalID: 4845006280826516004
       vertices: []
       indices: 
       edges: []

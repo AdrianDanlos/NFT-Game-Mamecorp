@@ -67,7 +67,8 @@ public class MenuUtils
 
     private static double GetIconNumber(int fighterLevel)
     {
-        return Mathf.Ceil(fighterLevel / Levels.levelsUntilIconUpgrade);
+        float iconNumber = Mathf.Ceil(fighterLevel / Levels.levelsUntilIconUpgrade);
+        return iconNumber <= Levels.totalIconsForLevels ? iconNumber : Levels.totalIconsForLevels;
     }
 
     private static void HidePreviousIconImage(double nIcon)
@@ -92,8 +93,8 @@ public class MenuUtils
     public static Sprite GetProfilePicture(string specie)
     {
         List<Sprite> profilePictures = new List<Sprite>(Resources.LoadAll<Sprite>("CharacterProfilePicture/"));
-        
-        foreach(Sprite picture in profilePictures)
+
+        foreach (Sprite picture in profilePictures)
         {
             if (picture.name.Contains(specie))
                 return picture;
@@ -104,6 +105,6 @@ public class MenuUtils
 
     public static void SetProfileUserIcon(GameObject iconGO)
     {
-        iconGO.GetComponent<Image>().sprite = Resources.Load<Sprite>("Icons/UserIcons/" + User.Instance.userIcon);   
+        iconGO.GetComponent<Image>().sprite = Resources.Load<Sprite>("Icons/UserIcons/" + User.Instance.userIcon);
     }
 }

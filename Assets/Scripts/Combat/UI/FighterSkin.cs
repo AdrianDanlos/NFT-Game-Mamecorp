@@ -36,7 +36,6 @@ public static class FighterSkin
             anims.Add(new KeyValuePair<AnimationClip, AnimationClip>(defaultClip, fighter.skinAnimations[index]));
             index++;
         }
-
         aoc.ApplyOverrides(anims);
         fighter.animator.runtimeAnimatorController = aoc;
     }

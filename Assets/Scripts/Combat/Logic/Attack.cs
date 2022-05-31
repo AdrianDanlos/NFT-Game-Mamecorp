@@ -137,11 +137,13 @@ public class Attack : MonoBehaviour
             yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(.2f));
             yield break;
         }
-
+        
         //Wait bomb travel time
-        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(.6f));
+        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(.55f));
+        defender.transform.Find("VFX/Explosion_VFX").GetComponent<ParticleSystem>().Play();
+        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(.05f));
 
-        yield return DefenderReceivesAttack(attacker, defender, attacker.damage, 0.25f, 0);
+        yield return DefenderReceivesAttack(attacker, defender, attacker.damage, 0.4f, 0.1f);
     }
 
     public IEnumerator PerformHealingPotion(Fighter attacker)
@@ -161,7 +163,7 @@ public class Attack : MonoBehaviour
     {
         if (dodged) return Combat.player == attacker ? shurikenEndPos.x + 10 : shurikenEndPos.x - 10;
         //To move the hitbox a bit upfront
-        return Combat.player == attacker ? shurikenEndPos.x - 1f : shurikenEndPos.x + 1f; 
+        return Combat.player == attacker ? shurikenEndPos.x - 1f : shurikenEndPos.x + 1f;
     }
 
 

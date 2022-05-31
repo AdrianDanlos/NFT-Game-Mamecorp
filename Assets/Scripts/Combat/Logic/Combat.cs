@@ -216,7 +216,13 @@ public class Combat : MonoBehaviour
             yield break;
         }
         yield return skillsLogicScript.AttackWithoutSkills(attacker, defender);
-        FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.IDLE);
+        FighterAnimations.ChangeAnimation(GetAttackerIfAlive(attacker, defender), FighterAnimations.AnimationNames.IDLE);
+    }
+
+    // This check is important as the attacker might have lost due to a counter or reversal attack
+    private Fighter GetAttackerIfAlive(Fighter attacker, Fighter defender)
+    {
+        return attacker.hp > 0 ? attacker : defender;
     }
 
     //We create the fighterWeTakeTheSkillFrom param for the ViciousTheft skill as we take a skill from the opponent instead.
@@ -270,7 +276,7 @@ public class Combat : MonoBehaviour
                     break;
             }
         }
-        FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.IDLE);
+        FighterAnimations.ChangeAnimation(GetAttackerIfAlive(attacker, defender), FighterAnimations.AnimationNames.IDLE);
     }
 
     public static Func<Fighter, bool> WillUseSkillThisTurn = attacker =>

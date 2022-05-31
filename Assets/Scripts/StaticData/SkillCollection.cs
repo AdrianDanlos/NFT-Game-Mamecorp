@@ -15,7 +15,7 @@ public struct SkillNames
     public const string Reversal = "Reversal";
     public const string CounterAttack = "Counter Attack";
     public const string Survival = "Survival";
-    public const string BalletShoes = "Ballet Shoes";
+    public const string EarlyBubble = "Early Bubble";
     public const string Initiator = "Initiator";
     public const string CosmicKicks = "Cosmic Kicks";
     public const string ShurikenFury = "Shuriken Fury";
@@ -140,8 +140,8 @@ public static class SkillCollection
         },
         new OrderedDictionary
         {
-            {"name", SkillNames.BalletShoes},
-            {"description", "The opponent has a very high chance of missing it's first attack."},
+            {"name", SkillNames.EarlyBubble},
+            {"description", "At the start of the combat a protective bubble surrounds you to grant inmunity against the first attack."},
             {"skillRarity", SkillRarity.COMMON.ToString()},
             {"category", SkillType.SPONTANEOUS.ToString()},
             {"icon", "11" }

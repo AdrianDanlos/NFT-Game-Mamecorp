@@ -25,7 +25,6 @@ public class Attack : MonoBehaviour
             yield return DefenderDodgesAttack(defender);
             yield break;
         }
-        Blood.StartAnimation(defender);
         yield return DefenderReceivesAttack(attacker, defender, attacker.damage, 0.25f, 0.05f);
     }
 
@@ -229,6 +228,7 @@ public class Attack : MonoBehaviour
 
     IEnumerator ReceiveDamageAnimation(Fighter defender, float secondsUntilHitMarker)
     {
+        Blood.StartAnimation(defender);
         yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(secondsUntilHitMarker));
         Renderer defenderRenderer = defender.GetComponent<Renderer>();
         defenderRenderer.material.color = new Color(255, 1, 1);

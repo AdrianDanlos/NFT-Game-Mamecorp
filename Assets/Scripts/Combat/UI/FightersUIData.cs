@@ -119,24 +119,33 @@ public class FightersUIData : MonoBehaviour
         Image healthBarFadeSliderValue = healthBarFade.GetComponent<Image>();
         float newHp = health / maxHealth;
 
-        // TODO if damage is lethal it needs to go to 0
+        Debug.Log(newHp);
 
-        if (newHp > 0)
+        if (newHp > 0 && !Combat.isGameOver)
         {
             do
             {
-                yield return new WaitForSeconds(0.2f);
+                yield return new WaitForSeconds(0.1f);
                 if (isPlayer)
-                    healthBarFadeSliderValue.fillAmount -= (previousPlayerHp - newHp) / 5;
+                    healthBarFadeSliderValue.fillAmount -= (previousPlayerHp - newHp) / 10;
                 else
-                    healthBarFadeSliderValue.fillAmount -= (previousBotHp - newHp) / 5;
-            
-            } while (healthBarFadeSliderValue.fillAmount > newHp && !Combat.isGameOver); //TODO: Remove !Combat.isGameOver condition
-        }
+                    healthBarFadeSliderValue.fillAmount -= (previousBotHp - newHp) / 10;
 
-        if(newHp <= 0 && !Combat.isGameOver)
+            } while (healthBarFadeSliderValue.fillAmount > newHp);
+        }
+        else
         {
-            healthBarFadeSliderValue.fillAmount = newHp;
+            double noHp = -0.5;
+
+            do
+            {
+                yield return new WaitForSeconds(0.1f);
+                if (isPlayer)
+                    healthBarFadeSliderValue.fillAmount -= (previousPlayerHp - newHp) / 10;
+                else
+                    healthBarFadeSliderValue.fillAmount -= (previousBotHp - newHp) / 10;
+
+            } while (healthBarFadeSliderValue.fillAmount > noHp);
         }
 
         if (isPlayer)

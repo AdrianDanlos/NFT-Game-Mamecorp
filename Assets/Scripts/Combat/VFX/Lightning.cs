@@ -13,6 +13,6 @@ public class Lightning : MonoBehaviour
 
     private void StartParticlesAnimation()
     {
-        Combat.player.transform.Find("VFX/Explosion_VFX").GetComponent<ParticleSystem>().Play();
+        Combat.player.transform.Find("VFX/Boost_VFX/Particles_VFX").GetComponent<ParticleSystem>().Play();
     }
 }

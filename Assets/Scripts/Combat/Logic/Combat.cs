@@ -75,12 +75,6 @@ public class Combat : MonoBehaviour
         FighterSkin.SetFightersSkin(player, bot);
         FighterAnimations.ResetToDefaultAnimation(player);
         fightersUIDataScript.SetFightersUIInfo(player, bot, botElo);
-        StopLightningParticlesAutoPlay();
-    }
-
-    private void StopLightningParticlesAutoPlay(){
-        playerGameObject.transform.Find("VFX/Boost_VFX/Particles_VFX").GetComponent<ParticleSystem>().Stop();
-        botGameObject.transform.Find("VFX/Boost_VFX/Particles_VFX").GetComponent<ParticleSystem>().Stop();
     }
 
     IEnumerator Start()

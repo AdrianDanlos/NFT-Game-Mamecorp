@@ -92,6 +92,12 @@ public class SkillsLogicInCombat : MonoBehaviour
 
     public IEnumerator CosmicKicks(Fighter attacker, Fighter defender)
     {
+        //Move blood position down
+        Vector3 bloodPosition = defender.transform.Find("VFX/Hit_VFX").transform.position;
+        float defaultBloodPositionY = bloodPosition.y;
+        bloodPosition.y -= 1.2f;
+        defender.transform.Find("VFX/Hit_VFX").transform.position = new Vector3(bloodPosition.x, bloodPosition.y, bloodPosition.z);
+
         yield return combatScript.MoveForwardHandler(attacker, defender, 1.5f);
 
         int nKicks = UnityEngine.Random.Range(4, 9); // 4-8 kicks
@@ -104,6 +110,9 @@ public class SkillsLogicInCombat : MonoBehaviour
         if (!Combat.isGameOver) FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.IDLE);
 
         yield return combatScript.MoveBackHandler(attacker);
+
+        //Reset blood position
+        defender.transform.Find("VFX/Hit_VFX").transform.position = new Vector3(bloodPosition.x, defaultBloodPositionY, bloodPosition.z);
     }
     public IEnumerator ExplosiveBomb(Fighter attacker, Fighter defender)
     {

@@ -1,15 +1,18 @@
 using UnityEngine;
+using UnityEngine.UI;
 
-public class Boost : MonoBehaviour
+public class Lightning : MonoBehaviour
 {
-    public static void StartLightningAnimation(Fighter fighter)
+    public void OnClickStartLightningAnimation()
     {
-        Animator lightningAnimator = fighter.transform.Find("VFX/Boost_VFX/Lightning_VFX").GetComponent<Animator>();
+        this.GetComponent<Button>().interactable = false;
+        Animator lightningAnimator = Combat.player.transform.Find("VFX/Boost_VFX/Lightning_VFX").GetComponent<Animator>();
         lightningAnimator.Play("lightning_0", -1, 0f);
+        StartParticlesAnimation();
     }
 
-    public static void StartParticlesAnimation(Fighter fighter)
+    private void StartParticlesAnimation()
     {
-        fighter.transform.Find("VFX/Explosion_VFX").GetComponent<ParticleSystem>().Play();
+        Combat.player.transform.Find("VFX/Explosion_VFX").GetComponent<ParticleSystem>().Play();
     }
 }

@@ -30,10 +30,6 @@ public class FightersUIData : MonoBehaviour
     // health bar animations
     public GameObject playerHealthBarFadeGO;
     public GameObject botHealthBarFadeGO;
-    public GameObject playerPortrait;
-    public GameObject botPortrait;
-    public GameObject playerPortraitFrame;
-    public GameObject botPortraitFrame;
     private float previousPlayerHp = 1f;
     private float previousBotHp = 1f;
 
@@ -74,7 +70,6 @@ public class FightersUIData : MonoBehaviour
         SetFightersElo(botElo);
         SetFightersName(player.fighterName, bot.fighterName);
         SetFightersMaxHealth(player.hp, bot.hp);
-        GetComponent<Combat>().SetFightersPortrait(playerPortrait, botPortrait);
         SetPlayerIcons(playerIcon, botIcon);
     }
 
@@ -102,33 +97,15 @@ public class FightersUIData : MonoBehaviour
         botIcon.GetComponent<Image>().sprite = Resources.Load<Sprite>("Icons/UserIcons/" + (UnityEngine.Random.Range(0, Resources.LoadAll<Sprite>("Icons/UserIcons/").Length) + 1));
     }
 
-    public void HidePortraitsUI()
-    {
-        playerPortrait.SetActive(false);
-        botPortrait.SetActive(false);
-        playerPortraitFrame.SetActive(false);
-        botPortraitFrame.SetActive(false);
-    }
-
-    public void ShowPortraitsUI()
-    {
-        playerPortrait.SetActive(true);
-        botPortrait.SetActive(true);
-        playerPortraitFrame.SetActive(true);
-        botPortraitFrame.SetActive(true);
-    }
-
     public void ModifyHealthBar(Fighter fighter, bool isPlayerTargetOfHealthChange)
     {
         if (isPlayerTargetOfHealthChange)
         {
             SetHealthBarValue(isPlayerTargetOfHealthChange, playerHealthBarFadeGO, playerHealthBarGO, fighter, playerMaxHealth);
-            FighterHitPortraitAnimation(isPlayerTargetOfHealthChange);
             return;
         }
 
         SetHealthBarValue(isPlayerTargetOfHealthChange, botHealthBarFadeGO, botHealthBarGO, fighter, botMaxHealth);
-        FighterHitPortraitAnimation(isPlayerTargetOfHealthChange);
     }
 
     private void SetHealthBarValue(bool isPlayer, GameObject healthBarFade, GameObject healthBar, Fighter fighter, float maxHealth)
@@ -166,21 +143,6 @@ public class FightersUIData : MonoBehaviour
             previousPlayerHp = newHp;
         else
             previousBotHp = newHp;
-    }
-
-    public void FighterHitPortraitAnimation(bool isPlayerTargetOfHealthChange)
-    {
-        // TODO dont do animation when health restored
-        // need to do double animation to fix not playing onAwake
-        if (isPlayerTargetOfHealthChange)
-        {
-            playerPortraitFrame.GetComponent<Animator>().SetTrigger("GetDamage");
-            playerPortraitFrame.GetComponent<Animator>().SetTrigger("GetDamage");
-            return;
-        }
-
-        botPortraitFrame.GetComponent<Animator>().SetTrigger("GetDamage");
-        botPortraitFrame.GetComponent<Animator>().SetTrigger("GetDamage");
     }
 
     public void SetResultsEloChange(int eloChange)

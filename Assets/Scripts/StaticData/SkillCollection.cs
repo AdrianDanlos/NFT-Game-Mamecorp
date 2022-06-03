@@ -8,6 +8,7 @@ public struct SkillNames
 {
     public const string DangerousStrength = "Dangerous Strength";
     public const string Heavyweight = "Heavyweight";
+    //TODO V2: Change skill name as it collides with one of our VFX names that has nothing to do with this skill
     public const string Lightning = "Lightning";
     public const string Persistant = "Persistant";
     public const string FelineAgility = "Feline Agility";

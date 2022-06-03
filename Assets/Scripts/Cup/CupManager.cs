@@ -16,9 +16,8 @@ public class CupManager : MonoBehaviour
 
     private void CreateCupFile()
     {
-        Array cupNames = Enum.GetValues(typeof(CupDB.CupNames));
-        System.Random random = new System.Random();
-        string cupName = cupNames.GetValue(random.Next(cupNames.Length)).ToString();
+        // only 1 cup in v1
+        string cupName = CupDB.CupNames.DIVINE.ToString(); ;
         string round = CupDB.CupRounds.QUARTERS.ToString();
         bool isActive = false;
         List<CupFighter> participants = GenerateParticipants();

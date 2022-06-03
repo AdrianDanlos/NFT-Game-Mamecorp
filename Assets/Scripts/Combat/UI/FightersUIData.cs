@@ -117,44 +117,75 @@ public class FightersUIData : MonoBehaviour
     IEnumerator HealthAnimation(bool isPlayer, float health, float maxHealth, GameObject healthBarFade)
     {
         const int ANIMATION_FRAMES = 10;
-        const float SECONDS_PER_FRAME = 0.1f;
+        const float SECONDS_PER_FRAME = 0.075f;
         Slider healthBarFadeSliderValue = healthBarFade.GetComponent<Slider>();
 
         float newHp = health / maxHealth;
 
-        // do health animation
-        if (newHp > 0 && !Combat.isGameOver)
-        {
-            do
-            {
-                yield return new WaitForSeconds(SECONDS_PER_FRAME);
-                if (isPlayer)
-                    healthBarFadeSliderValue.value -= (previousPlayerHp - newHp) / ANIMATION_FRAMES;
-                else
-                    healthBarFadeSliderValue.value -= (previousBotHp - newHp) / ANIMATION_FRAMES;
+        Debug.Log("newhp: " + newHp + " previous player: " + previousPlayerHp + " previous bot: " + previousBotHp);
 
-            } while (healthBarFadeSliderValue.value > newHp);
-        }
+        if(isPlayer)
+        {
+            if (newHp > 0 && !Combat.isGameOver)
+            {
+                if(newHp > previousPlayerHp)
+                {
+                    healthBarFadeSliderValue.value = newHp;
+                }
+                else
+                {
+                    do
+                    {
+                        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(SECONDS_PER_FRAME));
+                        healthBarFadeSliderValue.value -= (previousPlayerHp - newHp) / ANIMATION_FRAMES;
+                    } while (healthBarFadeSliderValue.value >= newHp);
+                }
+
+                previousPlayerHp = newHp;
+            }
+            else
+            {
+                double noHp = -0.5;
+
+                do
+                {
+                    yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(SECONDS_PER_FRAME));
+                    healthBarFadeSliderValue.value -= (previousPlayerHp - newHp) / ANIMATION_FRAMES;
+                } while (healthBarFadeSliderValue.value >= noHp);
+            }
+        } 
         else
         {
-            double noHp = -0.5;
-
-            do
+            if (newHp > 0 && !Combat.isGameOver)
             {
-                yield return new WaitForSeconds(SECONDS_PER_FRAME);
-                if (isPlayer)
-                    healthBarFadeSliderValue.value -= (previousPlayerHp - newHp) / ANIMATION_FRAMES;
+                if(newHp > previousBotHp)
+                {
+                    healthBarFadeSliderValue.value = newHp;
+                }
                 else
-                    healthBarFadeSliderValue.value -= (previousBotHp - newHp) / ANIMATION_FRAMES;
+                {
+                    do
+                    {
+                        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(SECONDS_PER_FRAME));
+                        healthBarFadeSliderValue.value -= (previousBotHp - newHp) / ANIMATION_FRAMES;
+                    } while (healthBarFadeSliderValue.value >= newHp);
+                }
 
-            } while (healthBarFadeSliderValue.value > noHp);
+                previousBotHp = newHp;
+            }
+            else
+            {
+                double noHp = -0.5;
+
+                do
+                {
+                    yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(SECONDS_PER_FRAME));
+                    healthBarFadeSliderValue.value -= (previousBotHp - newHp) / ANIMATION_FRAMES;
+                } while (healthBarFadeSliderValue.value >= noHp);
+            }
         }
-        
-        // set values for next animation
-        if (isPlayer)
-            previousPlayerHp = newHp;
-        else
-            previousBotHp = newHp;
+
+        Debug.Log("newhp: " + newHp + " previous player: " + previousPlayerHp + " previous bot: " + previousBotHp);
     }
 
     public void SetResultsEloChange(int eloChange)

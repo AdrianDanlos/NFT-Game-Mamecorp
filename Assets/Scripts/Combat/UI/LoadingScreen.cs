@@ -51,7 +51,7 @@ public class LoadingScreen : MonoBehaviour
     }
 
     public void ToggleSpinnerAndBotData(bool showBot, bool showSpinner, bool shadow)
-    { 
+    {
         botSprite.SetActive(showBot);
         if (shadow)
             botSprite.GetComponent<SpriteRenderer>().color = new Color32(0, 0, 0, 255);
@@ -67,5 +67,10 @@ public class LoadingScreen : MonoBehaviour
         botData = GameObject.FindGameObjectWithTag("CombatLoadingScreenBotData");
         botLevels = GameObject.Find("BotLoadingScreenLevels");
         spinner = GameObject.FindGameObjectWithTag("CombatLoadingScreenSpinner");
+    }
+
+    public void HideBotLevelText(TextMeshProUGUI levelTextBot)
+    {
+        levelTextBot.GetComponent<TextMeshProUGUI>().enabled = false;
     }
 }

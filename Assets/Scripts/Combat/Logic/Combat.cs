@@ -53,6 +53,7 @@ public class Combat : MonoBehaviour
     // Countdown timer
     const float COUNTDOWN_ANIMATION = 3f;
     const float ENTER_ARENA_ANIMATION = 2.5f;
+    const float TIME_ANNOUNCEMENT = 2.5f;
 
     private void Awake()
     {
@@ -168,10 +169,6 @@ public class Combat : MonoBehaviour
 
     private void SetFighterPositions()
     {
-        //Set GameObjects
-        playerGameObject.transform.position = playerCombatPosition;
-        botGameObject.transform.position = botCombatPosition;
-
         //Set Objects
         player.initialPosition = playerCombatPosition;
         bot.initialPosition = botCombatPosition;
@@ -216,7 +213,8 @@ public class Combat : MonoBehaviour
             yield return StartCoroutine(StartTurn(secondAttacker, firstAttacker));
             while (!isGameOver && attackScript.IsExtraTurn(secondAttacker)) yield return StartCoroutine(StartTurn(secondAttacker, firstAttacker));
         }
-        StartPostGameActions();
+        
+        StartCoroutine(StartPostGameActions());
     }
 
     //TODO: Remove this on production
@@ -356,7 +354,7 @@ public class Combat : MonoBehaviour
         }
     }
 
-    private void StartPostGameActions()
+    private IEnumerator StartPostGameActions()
     {
         bool isPlayerWinner = PostGameActions.HasPlayerWon(player);
         int eloChange = MatchMaking.CalculateEloChange(User.Instance.elo, botElo, isPlayerWinner);
@@ -377,6 +375,10 @@ public class Combat : MonoBehaviour
 
         //Rewards
         PostGameActions.SetCurrencies(goldReward, gemsReward);
+
+        // Show winner
+        StartCoroutine(fightersUIDataScript.AnnounceWinner(isPlayerWinner, player, bot));
+        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(TIME_ANNOUNCEMENT));
 
         //UI
         fightersUIDataScript.ShowPostCombatInfo(player, isPlayerWinner, eloChange, isLevelUp, goldReward, gemsReward, results);

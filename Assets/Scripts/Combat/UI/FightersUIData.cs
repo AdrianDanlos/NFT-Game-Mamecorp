@@ -120,6 +120,26 @@ public class FightersUIData : MonoBehaviour
         countdownText.enabled = false;
     }
 
+    public IEnumerator AnnounceWinner(bool isPlayerWinner, Fighter player, Fighter bot)
+    {
+        const float TIME_ANNOUNCEMENT = 2f;
+        TextMeshProUGUI countdownText = countdownGO.GetComponent<TextMeshProUGUI>();
+
+        countdownText.enabled = true;
+
+        if (isPlayerWinner)
+        {
+            countdownText.text = player.fighterName + " WINS!";
+        }
+        else
+        {
+            countdownText.text = bot.fighterName + " WINS!";
+        }
+        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(TIME_ANNOUNCEMENT));
+
+        countdownText.enabled = false;
+    }
+
     public void ModifyHealthBar(Fighter fighter, bool isPlayerTargetOfHealthChange)
     {
         if (isPlayerTargetOfHealthChange)

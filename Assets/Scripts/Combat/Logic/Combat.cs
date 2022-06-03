@@ -49,24 +49,20 @@ public class Combat : MonoBehaviour
 
     private void Awake()
     {
-        SetupUI();
-
         isGameOver = false;
-
         FindGameObjects();
         GetComponentReferences();
 
-        // cup mode
-        if (Cup.Instance.isActive && !CombatMode.isSoloqEnabled)
-            MatchMaking.GenerateCupBotData(player, bot);
-        if (CombatMode.isSoloqEnabled)
-            MatchMaking.GenerateBotData(player, bot);
+        // Generate bot data
+        if (Cup.Instance.isActive && !CombatMode.isSoloqEnabled) MatchMaking.GenerateCupBotData(player, bot);
+        else MatchMaking.GenerateBotData(player, bot);            
 
         SetMaxHpValues();
 
         // LoadingScreen
         loadingScreen.SetPlayerLoadingScreenData(player);
         loadingScreen.DisplayLoaderForEnemy();
+        loadingScreen.HideBotLevelText(levelTextBot);
         ToggleLoadingScreenVisibility(true);
 
         //Load everything needed for the combat
@@ -79,12 +75,6 @@ public class Combat : MonoBehaviour
         FighterSkin.SetFightersSkin(player, bot);
         FighterAnimations.ResetToDefaultAnimation(player);
         fightersUIDataScript.SetFightersUIInfo(player, bot, botElo);
-        StopLightningParticlesAutoPlay();
-    }
-
-    private void StopLightningParticlesAutoPlay(){
-        playerGameObject.transform.Find("VFX/Boost_VFX/Particles_VFX").GetComponent<ParticleSystem>().Stop();
-        botGameObject.transform.Find("VFX/Boost_VFX/Particles_VFX").GetComponent<ParticleSystem>().Stop();
     }
 
     IEnumerator Start()
@@ -92,23 +82,19 @@ public class Combat : MonoBehaviour
         // StartCoroutine(SceneManagerScript.instance.FadeIn());
         // yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(1f));
 
-        // --- Enable this for loading effect ---
-        //yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(2f));
+        // //--- Enable this for loading effect ---
+        // yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(2f));
         // loadingScreen.SetBotLoadingScreenData(bot);
         // levelTextBot.enabled = true;
-        //yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(3f));
+        
+        // yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(3f));
         yield return null; //remove
 
         ToggleLoadingScreenVisibility(false);
+        //TODO: Show boost and elixir buttons
         StartCoroutine(InitiateCombat());
 
         SceneFlag.sceneName = SceneNames.Combat.ToString();
-    }
-
-    private void SetupUI()
-    {
-        levelTextBot = GameObject.Find("LevelTextBot").GetComponent<TextMeshProUGUI>();
-        levelTextBot.enabled = false;
     }
 
     private void BoostFightersStatsBasedOnPassiveSkills()
@@ -161,6 +147,7 @@ public class Combat : MonoBehaviour
         combatUI = GameObject.FindGameObjectWithTag("CombatUI");
         combatLoadingScreenUI = GameObject.FindGameObjectWithTag("CombatLoadingScreenUI");
         combatLoadingScreenSprites = GameObject.FindGameObjectWithTag("CombatLoadingScreenSprites");
+        levelTextBot = GameObject.Find("LevelTextBot").GetComponent<TextMeshProUGUI>();
     }
 
     private void SetFighterPositions()
@@ -213,12 +200,13 @@ public class Combat : MonoBehaviour
 
     IEnumerator StartTurn(Fighter attacker, Fighter defender)
     {
-        if (WillUseSkillThisTurn(attacker))
-        {
-            yield return StartCoroutine(UseRandomSkill(attacker, defender, attacker));
-            yield break;
-        }
-        yield return skillsLogicScript.AttackWithoutSkills(attacker, defender);
+        yield return skillsLogicScript.LowBlow(attacker, defender);
+        // if (WillUseSkillThisTurn(attacker))
+        // {
+        //     yield return StartCoroutine(UseRandomSkill(attacker, defender, attacker));
+        //     yield break;
+        // }
+        // yield return skillsLogicScript.AttackWithoutSkills(attacker, defender);
         FighterAnimations.ChangeAnimation(GetAttackerIfAlive(attacker, defender), FighterAnimations.AnimationNames.IDLE);
     }
 

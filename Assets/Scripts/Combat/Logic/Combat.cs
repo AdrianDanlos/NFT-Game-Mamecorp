@@ -200,12 +200,13 @@ public class Combat : MonoBehaviour
 
     IEnumerator StartTurn(Fighter attacker, Fighter defender)
     {
-        if (WillUseSkillThisTurn(attacker))
-        {
-            yield return StartCoroutine(UseRandomSkill(attacker, defender, attacker));
-            yield break;
-        }
-        yield return skillsLogicScript.AttackWithoutSkills(attacker, defender);
+        yield return skillsLogicScript.LowBlow(attacker, defender);
+        // if (WillUseSkillThisTurn(attacker))
+        // {
+        //     yield return StartCoroutine(UseRandomSkill(attacker, defender, attacker));
+        //     yield break;
+        // }
+        // yield return skillsLogicScript.AttackWithoutSkills(attacker, defender);
         FighterAnimations.ChangeAnimation(GetAttackerIfAlive(attacker, defender), FighterAnimations.AnimationNames.IDLE);
     }
 

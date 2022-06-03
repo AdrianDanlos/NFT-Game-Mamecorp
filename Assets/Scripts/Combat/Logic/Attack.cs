@@ -6,6 +6,7 @@ public class Attack : MonoBehaviour
     public GameObject shuriken;
     public GameObject bomb;
     public GameObject potion;
+    Color noColor = new Color(1, 1, 1);
     public IEnumerator PerformAttack(Fighter attacker, Fighter defender)
     {
         if (Combat.movementScript.FighterShouldAdvanceToAttack(attacker)) yield return StartCoroutine(Combat.movementScript.MoveToMeleeRangeAgain(attacker, defender));
@@ -137,7 +138,7 @@ public class Attack : MonoBehaviour
             yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(.2f));
             yield break;
         }
-        
+
         //Wait bomb travel time        
         yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(.6f));
         Explosion.StartAnimation(defender);
@@ -150,11 +151,18 @@ public class Attack : MonoBehaviour
         Vector3 potionPosition = attacker.transform.position;
         potionPosition.y += 2.5f;
         GameObject potionInstance = Instantiate(potion, potionPosition, Quaternion.identity);
-        attacker.GetComponent<SpriteRenderer>().color = new Color32(147, 255, 86, 255);
         RestoreLife(attacker, 30);
         Combat.fightersUIDataScript.ModifyHealthBar(attacker, Combat.player == attacker);
-        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(1.5f));
-        attacker.GetComponent<SpriteRenderer>().color = new Color32(255, 255, 255, 255);
+
+        Renderer attackerRenderer = attacker.GetComponent<Renderer>();
+        //Don't change color if we already have other color modifications active
+        if (attackerRenderer.material.color == noColor)
+        {
+            attackerRenderer.material.color = new Color(147 / 255f, 255 / 255f, 86 / 255f);
+            yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(1.5f));
+            attackerRenderer.material.color = noColor;
+        }
+        else yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(1.5f));
         Destroy(potionInstance);
     }
 
@@ -231,11 +239,16 @@ public class Attack : MonoBehaviour
     IEnumerator ReceiveDamageAnimation(Fighter defender, float secondsUntilHitMarker)
     {
         Blood.StartAnimation(defender);
-        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(secondsUntilHitMarker));
         Renderer defenderRenderer = defender.GetComponent<Renderer>();
-        defenderRenderer.material.color = new Color(255, 1, 1);
-        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(.08f));
-        defenderRenderer.material.color = new Color(1, 1, 1);
+
+        if (defenderRenderer.material.color == noColor)
+        {
+            yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(secondsUntilHitMarker));
+            defenderRenderer.material.color = new Color(255, 1, 1);
+            yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(.08f));
+            defenderRenderer.material.color = noColor;
+        }
+        else yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(secondsUntilHitMarker + .08f));
     }
 
     public bool IsAttackShielded()

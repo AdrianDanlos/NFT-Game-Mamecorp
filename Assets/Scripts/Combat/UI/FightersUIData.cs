@@ -145,8 +145,6 @@ public class FightersUIData : MonoBehaviour
 
         float newHp = health / maxHealth;
 
-        Debug.Log("newhp: " + newHp + " previous player: " + previousPlayerHp + " previous bot: " + previousBotHp);
-
         if(isPlayer)
         {
             if (newHp > 0 && !Combat.isGameOver)
@@ -207,8 +205,6 @@ public class FightersUIData : MonoBehaviour
                 } while (healthBarFadeSliderValue.value >= noHp);
             }
         }
-
-        Debug.Log("newhp: " + newHp + " previous player: " + previousPlayerHp + " previous bot: " + previousBotHp);
     }
 
     public void SetResultsEloChange(int eloChange)

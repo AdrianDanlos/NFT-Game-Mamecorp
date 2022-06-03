@@ -34,8 +34,11 @@ public class Combat : MonoBehaviour
     CupManager cupManager;
 
     // Positions data
-    static Vector3 playerStartingPosition = new Vector3(-6, -0.7f, 0);
-    static Vector3 botStartingPosition = new Vector3(6, -0.7f, 0);
+    static Vector3 playerCombatPosition = new Vector3(-6, -0.7f, 0);
+    static Vector3 botCombatPosition = new Vector3(6, -0.7f, 0);
+    static Vector3 playerStartingPosition = new Vector3(-20, -0.7f, 0);
+    static Vector3 botStartingPosition = new Vector3(20, -0.7f, 0);
+
     public const float DefaultDistanceFromEachotherOnAttack = 2.3f;
 
     // Game status data
@@ -48,7 +51,8 @@ public class Combat : MonoBehaviour
     private const int ProbabilityOfUsingSkillEachTurn = 50;
 
     // Countdown timer
-    const float COUNTDOWN_ANIMATION_TIME = 3f;
+    const float COUNTDOWN_ANIMATION = 3f;
+    const float ENTER_ARENA_ANIMATION = 2.5f;
 
     private void Awake()
     {
@@ -96,9 +100,13 @@ public class Combat : MonoBehaviour
         ToggleLoadingScreenVisibility(false);
         //TODO: Show boost and elixir buttons
 
+        // enter the arena animation
+        StartCoroutine(EnterArenaAnimations());
+        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(ENTER_ARENA_ANIMATION));
+
         // 3 2 1 combat before initating
         StartCoroutine(fightersUIDataScript.Countdown());
-        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(COUNTDOWN_ANIMATION_TIME));
+        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(COUNTDOWN_ANIMATION));
 
         StartCoroutine(InitiateCombat());
 
@@ -161,12 +169,30 @@ public class Combat : MonoBehaviour
     private void SetFighterPositions()
     {
         //Set GameObjects
+        playerGameObject.transform.position = playerCombatPosition;
+        botGameObject.transform.position = botCombatPosition;
+
+        //Set Objects
+        player.initialPosition = playerCombatPosition;
+        bot.initialPosition = botCombatPosition;
+    }
+
+    IEnumerator EnterArenaAnimations()
+    {
+        //Set GameObjects
         playerGameObject.transform.position = playerStartingPosition;
         botGameObject.transform.position = botStartingPosition;
 
-        //Set Objects
-        player.initialPosition = playerStartingPosition;
-        bot.initialPosition = botStartingPosition;
+        FighterAnimations.ChangeAnimation(player, FighterAnimations.AnimationNames.RUN);
+        FighterAnimations.ChangeAnimation(bot, FighterAnimations.AnimationNames.RUN);
+
+        StartCoroutine(movementScript.Move(player, playerStartingPosition, playerCombatPosition, ENTER_ARENA_ANIMATION));
+        StartCoroutine(movementScript.Move(bot, botStartingPosition, botCombatPosition, ENTER_ARENA_ANIMATION));
+
+        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(ENTER_ARENA_ANIMATION));
+
+        FighterAnimations.ChangeAnimation(player, FighterAnimations.AnimationNames.IDLE);
+        FighterAnimations.ChangeAnimation(bot, FighterAnimations.AnimationNames.IDLE);
     }
 
     public void SetFightersPortrait(GameObject playerPortrait, GameObject botPortrait)

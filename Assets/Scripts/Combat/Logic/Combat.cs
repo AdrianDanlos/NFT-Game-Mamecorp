@@ -91,7 +91,7 @@ public class Combat : MonoBehaviour
         yield return null; //remove
 
         ToggleLoadingScreenVisibility(false);
-        //TODO: Show boost and elixir buttons
+        
         StartCoroutine(InitiateCombat());
 
         SceneFlag.sceneName = SceneNames.Combat.ToString();

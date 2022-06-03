@@ -138,10 +138,9 @@ public class Attack : MonoBehaviour
             yield break;
         }
         
-        //Wait bomb travel time
-        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(.55f));
-        //TODO: ExplosionVFX here
-        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(.05f));
+        //Wait bomb travel time        
+        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(.6f));
+        Explosion.StartAnimation(defender);
 
         yield return DefenderReceivesAttack(attacker, defender, attacker.damage, 0.4f, 0.1f);
     }

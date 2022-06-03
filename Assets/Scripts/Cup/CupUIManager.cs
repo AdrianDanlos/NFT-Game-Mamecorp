@@ -321,17 +321,11 @@ public class CupUIManager : MonoBehaviour
     {
         switch (name)
         {
-            case "FIRE":
+            case "DIVINE":
                 return labelContainer.GetChild(0);
-            case "AIR":
-                return labelContainer.GetChild(1);
-            case "EARTH":
-                return labelContainer.GetChild(2);
-            case "WATER":
-                return labelContainer.GetChild(3);
         }
 
-        Debug.Log("Error!");
+        // default
         return labelContainer.GetChild(0);
     }
 

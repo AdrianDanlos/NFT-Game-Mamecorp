@@ -47,6 +47,9 @@ public class Combat : MonoBehaviour
     //Balance constants
     private const int ProbabilityOfUsingSkillEachTurn = 50;
 
+    // Countdown timer
+    const float COUNTDOWN_ANIMATION_TIME = 3f;
+
     private void Awake()
     {
         isGameOver = false;
@@ -92,6 +95,11 @@ public class Combat : MonoBehaviour
 
         ToggleLoadingScreenVisibility(false);
         //TODO: Show boost and elixir buttons
+
+        // 3 2 1 combat before initating
+        StartCoroutine(fightersUIDataScript.Countdown());
+        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(COUNTDOWN_ANIMATION_TIME));
+
         StartCoroutine(InitiateCombat());
 
         SceneFlag.sceneName = SceneNames.Combat.ToString();

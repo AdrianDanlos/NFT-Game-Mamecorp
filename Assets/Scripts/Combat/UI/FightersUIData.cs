@@ -26,6 +26,7 @@ public class FightersUIData : MonoBehaviour
     public GameObject gemsRewardGO;
     public GameObject chestRewardGO;
     public GameObject nextButtonGO;
+    public GameObject countdownGO;
     
     // health bar animations
     public GameObject playerHealthBarFadeGO;
@@ -95,6 +96,28 @@ public class FightersUIData : MonoBehaviour
     {
         playerIcon.GetComponent<Image>().sprite = Resources.Load<Sprite>("Icons/UserIcons/" + User.Instance.userIcon);
         botIcon.GetComponent<Image>().sprite = Resources.Load<Sprite>("Icons/UserIcons/" + (UnityEngine.Random.Range(0, Resources.LoadAll<Sprite>("Icons/UserIcons/").Length) + 1));
+    }
+
+    public IEnumerator Countdown()
+    {
+        const float TIME_BETWEEN_COUNTDOWN = 0.75f;
+        TextMeshProUGUI countdownText = countdownGO.GetComponent<TextMeshProUGUI>();
+
+        countdownText.enabled = true;
+
+        countdownText.text = "3!";
+        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(TIME_BETWEEN_COUNTDOWN));
+
+        countdownText.text = "2!";
+        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(TIME_BETWEEN_COUNTDOWN));
+
+        countdownText.text = "1!";
+        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(TIME_BETWEEN_COUNTDOWN));
+
+        countdownText.text = "FIGHT!";
+        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(TIME_BETWEEN_COUNTDOWN));
+
+        countdownText.enabled = false;
     }
 
     public void ModifyHealthBar(Fighter fighter, bool isPlayerTargetOfHealthChange)

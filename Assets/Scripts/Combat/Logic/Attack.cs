@@ -140,7 +140,7 @@ public class Attack : MonoBehaviour
         
         //Wait bomb travel time
         yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(.55f));
-        defender.transform.Find("VFX/Explosion_VFX").GetComponent<ParticleSystem>().Play();
+        //TODO: ExplosionVFX here
         yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(.05f));
 
         yield return DefenderReceivesAttack(attacker, defender, attacker.damage, 0.4f, 0.1f);

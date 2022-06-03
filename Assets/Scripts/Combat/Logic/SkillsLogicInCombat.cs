@@ -121,21 +121,12 @@ public class SkillsLogicInCombat : MonoBehaviour
     }
     public IEnumerator ShadowTravel(Fighter attacker, Fighter defender)
     {
-        Lightning.StartAnimation(attacker);
         FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.IDLE_BLINKING);
-        //Wait for lightning to land
-        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(0.1f));
-        //Switch fighter to blue
-        Renderer attackerRenderer = attacker.GetComponent<Renderer>();
-        attackerRenderer.material.color = new Color(96 / 255f, 227 / 255f, 227 / 255f);
-        //Wait for lightning animation to finish
-        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(0.5f));
+        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(1f));
         SetOpacityOfFighterAndShadow(attacker, 0.15f);
         yield return combatScript.MoveForwardHandler(attacker, defender);
         SetOpacityOfFighterAndShadow(attacker, 1f);
         yield return StartCoroutine(attackScript.PerformAttack(attacker, defender));
-
-        attackerRenderer.material.color = new Color(1, 1, 1);
 
         if (!Combat.isGameOver) FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.IDLE);
         yield return combatScript.MoveBackHandler(attacker);

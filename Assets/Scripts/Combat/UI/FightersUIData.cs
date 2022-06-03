@@ -116,20 +116,22 @@ public class FightersUIData : MonoBehaviour
 
     IEnumerator HealthAnimation(bool isPlayer, float health, float maxHealth, GameObject healthBarFade)
     {
+        const int ANIMATION_FRAMES = 10;
+        const float SECONDS_PER_FRAME = 0.1f;
         Slider healthBarFadeSliderValue = healthBarFade.GetComponent<Slider>();
+
         float newHp = health / maxHealth;
 
-        Debug.Log(newHp);
-
+        // do health animation
         if (newHp > 0 && !Combat.isGameOver)
         {
             do
             {
-                yield return new WaitForSeconds(0.1f);
+                yield return new WaitForSeconds(SECONDS_PER_FRAME);
                 if (isPlayer)
-                    healthBarFadeSliderValue.value -= (previousPlayerHp - newHp) / 10;
+                    healthBarFadeSliderValue.value -= (previousPlayerHp - newHp) / ANIMATION_FRAMES;
                 else
-                    healthBarFadeSliderValue.value -= (previousBotHp - newHp) / 10;
+                    healthBarFadeSliderValue.value -= (previousBotHp - newHp) / ANIMATION_FRAMES;
 
             } while (healthBarFadeSliderValue.value > newHp);
         }
@@ -139,15 +141,16 @@ public class FightersUIData : MonoBehaviour
 
             do
             {
-                yield return new WaitForSeconds(0.1f);
+                yield return new WaitForSeconds(SECONDS_PER_FRAME);
                 if (isPlayer)
-                    healthBarFadeSliderValue.value -= (previousPlayerHp - newHp) / 10;
+                    healthBarFadeSliderValue.value -= (previousPlayerHp - newHp) / ANIMATION_FRAMES;
                 else
-                    healthBarFadeSliderValue.value -= (previousBotHp - newHp) / 10;
+                    healthBarFadeSliderValue.value -= (previousBotHp - newHp) / ANIMATION_FRAMES;
 
             } while (healthBarFadeSliderValue.value > noHp);
         }
-
+        
+        // set values for next animation
         if (isPlayer)
             previousPlayerHp = newHp;
         else

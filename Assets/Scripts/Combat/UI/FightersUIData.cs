@@ -116,29 +116,41 @@ public class FightersUIData : MonoBehaviour
 
     IEnumerator HealthAnimation(bool isPlayer, float health, float maxHealth, GameObject healthBarFade)
     {
-        Image healthBarFadeSliderValue = healthBarFade.GetComponent<Image>();
+        const int ANIMATION_FRAMES = 10;
+        const float SECONDS_PER_FRAME = 0.1f;
+        Slider healthBarFadeSliderValue = healthBarFade.GetComponent<Slider>();
+
         float newHp = health / maxHealth;
 
-        // TODO if damage is lethal it needs to go to 0
-
-        if (newHp > 0)
+        // do health animation
+        if (newHp > 0 && !Combat.isGameOver)
         {
             do
             {
-                yield return new WaitForSeconds(0.2f);
+                yield return new WaitForSeconds(SECONDS_PER_FRAME);
                 if (isPlayer)
-                    healthBarFadeSliderValue.fillAmount -= (previousPlayerHp - newHp) / 5;
+                    healthBarFadeSliderValue.value -= (previousPlayerHp - newHp) / ANIMATION_FRAMES;
                 else
-                    healthBarFadeSliderValue.fillAmount -= (previousBotHp - newHp) / 5;
-            
-            } while (healthBarFadeSliderValue.fillAmount > newHp && !Combat.isGameOver); //TODO: Remove !Combat.isGameOver condition
-        }
+                    healthBarFadeSliderValue.value -= (previousBotHp - newHp) / ANIMATION_FRAMES;
 
-        if(newHp <= 0 && !Combat.isGameOver)
+            } while (healthBarFadeSliderValue.value > newHp);
+        }
+        else
         {
-            healthBarFadeSliderValue.fillAmount = newHp;
-        }
+            double noHp = -0.5;
 
+            do
+            {
+                yield return new WaitForSeconds(SECONDS_PER_FRAME);
+                if (isPlayer)
+                    healthBarFadeSliderValue.value -= (previousPlayerHp - newHp) / ANIMATION_FRAMES;
+                else
+                    healthBarFadeSliderValue.value -= (previousBotHp - newHp) / ANIMATION_FRAMES;
+
+            } while (healthBarFadeSliderValue.value > noHp);
+        }
+        
+        // set values for next animation
         if (isPlayer)
             previousPlayerHp = newHp;
         else

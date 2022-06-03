@@ -85,8 +85,8 @@ public class Attack : MonoBehaviour
 
         Vector3 shurikenStartPos = attacker.transform.position;
         Vector3 shurikenEndPos = defender.transform.position;
-        shurikenStartPos.y -= 0.7f;
-        shurikenEndPos.y -= 0.7f;
+        shurikenStartPos.y -= 0.4f;
+        shurikenEndPos.y -= 0.4f;
         shurikenEndPos.x = GetShurikenEndPositionX(dodged, attacker, shurikenEndPos);
 
         FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.THROW);

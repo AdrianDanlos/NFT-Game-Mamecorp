@@ -92,6 +92,12 @@ public class SkillsLogicInCombat : MonoBehaviour
 
     public IEnumerator CosmicKicks(Fighter attacker, Fighter defender)
     {
+        //Move blood position down
+        Vector3 bloodPosition = defender.transform.Find("VFX/Hit_VFX").transform.position;
+        float defaultBloodPositionY = bloodPosition.y;
+        bloodPosition.y -= 1.2f;
+        defender.transform.Find("VFX/Hit_VFX").transform.position = new Vector3(bloodPosition.x, bloodPosition.y, bloodPosition.z);
+
         yield return combatScript.MoveForwardHandler(attacker, defender, 1.5f);
 
         int nKicks = UnityEngine.Random.Range(4, 9); // 4-8 kicks
@@ -104,6 +110,9 @@ public class SkillsLogicInCombat : MonoBehaviour
         if (!Combat.isGameOver) FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.IDLE);
 
         yield return combatScript.MoveBackHandler(attacker);
+
+        //Reset blood position
+        defender.transform.Find("VFX/Hit_VFX").transform.position = new Vector3(bloodPosition.x, defaultBloodPositionY, bloodPosition.z);
     }
     public IEnumerator ExplosiveBomb(Fighter attacker, Fighter defender)
     {
@@ -112,21 +121,12 @@ public class SkillsLogicInCombat : MonoBehaviour
     }
     public IEnumerator ShadowTravel(Fighter attacker, Fighter defender)
     {
-        Lightning.StartAnimation(attacker);
         FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.IDLE_BLINKING);
-        //Wait for lightning to land
-        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(0.1f));
-        //Switch fighter to blue
-        Renderer attackerRenderer = attacker.GetComponent<Renderer>();
-        attackerRenderer.material.color = new Color(96 / 255f, 227 / 255f, 227 / 255f);
-        //Wait for lightning animation to finish
-        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(0.5f));
+        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(1f));
         SetOpacityOfFighterAndShadow(attacker, 0.15f);
         yield return combatScript.MoveForwardHandler(attacker, defender);
         SetOpacityOfFighterAndShadow(attacker, 1f);
         yield return StartCoroutine(attackScript.PerformAttack(attacker, defender));
-
-        attackerRenderer.material.color = new Color(1, 1, 1);
 
         if (!Combat.isGameOver) FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.IDLE);
         yield return combatScript.MoveBackHandler(attacker);

@@ -79,13 +79,12 @@ public class Combat : MonoBehaviour
         FighterSkin.SetFightersSkin(player, bot);
         FighterAnimations.ResetToDefaultAnimation(player);
         fightersUIDataScript.SetFightersUIInfo(player, bot, botElo);
-        fightersUIDataScript.HidePortraitsUI();
-        StopExplosionParticlesAutoPlay();
+        StopLightningParticlesAutoPlay();
     }
 
-    private void StopExplosionParticlesAutoPlay(){
-        playerGameObject.transform.Find("VFX/Explosion_VFX").GetComponent<ParticleSystem>().Stop();
-        botGameObject.transform.Find("VFX/Explosion_VFX").GetComponent<ParticleSystem>().Stop();
+    private void StopLightningParticlesAutoPlay(){
+        playerGameObject.transform.Find("VFX/Boost_VFX/Particles_VFX").GetComponent<ParticleSystem>().Stop();
+        botGameObject.transform.Find("VFX/Boost_VFX/Particles_VFX").GetComponent<ParticleSystem>().Stop();
     }
 
     IEnumerator Start()
@@ -99,9 +98,6 @@ public class Combat : MonoBehaviour
         // levelTextBot.enabled = true;
         //yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(3f));
         yield return null; //remove
-
-        // UI
-        fightersUIDataScript.ShowPortraitsUI();
 
         ToggleLoadingScreenVisibility(false);
         StartCoroutine(InitiateCombat());

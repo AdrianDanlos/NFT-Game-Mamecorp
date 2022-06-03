@@ -5,6 +5,7 @@ public class BombAnimation : MonoBehaviour
     public Vector3 targetPos; //Accesed from PerformExplosiveBomb method
     private float speed = 20;
     private float arcHeight = 1.5f;
+    private float targetPositionYModifier = - 1; //The Bomb lands -1f on the Y axis from where it started 
     Vector3 startPos;
 
     void Start()
@@ -12,6 +13,7 @@ public class BombAnimation : MonoBehaviour
         // Cache our start position, which is really the only thing we need
         // (in addition to our current position, and the target).
         startPos = transform.position;
+        targetPos.y += targetPositionYModifier;
     }
 
     void Update()

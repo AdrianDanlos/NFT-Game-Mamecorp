@@ -24,6 +24,8 @@ public class Combat : MonoBehaviour
     public GameObject combatLoadingScreenUI;
     public GameObject combatLoadingScreenSprites;
     private TextMeshProUGUI levelTextBot;
+    public GameObject boostButton;
+    public GameObject elixirButton;
 
     // Script references
     public static Movement movementScript;
@@ -72,19 +74,20 @@ public class Combat : MonoBehaviour
         loadingScreen.SetPlayerLoadingScreenData(player);
         loadingScreen.DisplayLoaderForEnemy();
         loadingScreen.HideBotLevelText(levelTextBot);
+        boostButton.SetActive(false);
+        elixirButton.SetActive(false);
         ShowLoadingScreen(true);
 
         //Load everything needed for the combat
         GenerateSkillsFixturesForPlayer();
         BoostFightersStatsBasedOnPassiveSkills();
-        SetVisibilityOfGameObjects();
+        SetCombatGameObjectsVisibility();
         SetFighterPositions();
         SetOrderOfAttacks();
         GetRandomArena();
         FighterSkin.SetFightersSkin(player, bot);
         FighterAnimations.ResetToDefaultAnimation(player);
         fightersUIDataScript.SetFightersUIInfo(player, bot, botElo);
-        results.SetActive(false);
     }
 
     IEnumerator Start()
@@ -153,8 +156,9 @@ public class Combat : MonoBehaviour
         arena.sprite = arenas[chosenArena];
     }
 
-    private void SetVisibilityOfGameObjects()
+    private void SetCombatGameObjectsVisibility()
     {
+        results.SetActive(false);
         playerGameObject.SetActive(true);
     }
     private void FindGameObjects()
@@ -169,6 +173,8 @@ public class Combat : MonoBehaviour
         combatLoadingScreenSprites = GameObject.FindGameObjectWithTag("CombatLoadingScreenSprites");
         levelTextBot = GameObject.Find("LevelTextBot").GetComponent<TextMeshProUGUI>();
         defaultBloodPositionY = GameObject.Find("VFX/Hit_VFX").transform.position.y;
+        boostButton =  GameObject.Find("Button_Boost");
+        elixirButton =  GameObject.Find("Button_Elixir");
     }
 
     private void SetFighterPositions()
@@ -204,6 +210,9 @@ public class Combat : MonoBehaviour
 
     IEnumerator InitiateCombat()
     {
+        boostButton.SetActive(true);
+        elixirButton.SetActive(true);
+
         Fighter firstAttacker = fightersOrderOfAttack[0];
         Fighter secondAttacker = fightersOrderOfAttack[1];
 

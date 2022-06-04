@@ -54,8 +54,9 @@ public class FightersUIData : MonoBehaviour
         }
     }
 
-    public void ShowPostCombatInfo(Fighter player, bool isPlayerWinner, int eloChange, bool isLevelUp, int goldReward, int gemsReward, Canvas results)
+    public void ShowPostCombatInfo(Fighter player, bool isPlayerWinner, int eloChange, bool isLevelUp, int goldReward, int gemsReward, GameObject results)
     {
+        EnableResults(results);
         AddListenerToNextBtn(isLevelUp);
         SetResultsBanner(isPlayerWinner);
         SetResultsEloChange(eloChange);
@@ -63,7 +64,6 @@ public class FightersUIData : MonoBehaviour
         SetResultsExpGainText(isPlayerWinner);
         ShowLevelUpIcon(isLevelUp);
         ShowRewards(goldReward, gemsReward);
-        EnableResults(results);
     }
 
     public void SetFightersUIInfo(Fighter player, Fighter bot, int botElo)
@@ -245,9 +245,9 @@ public class FightersUIData : MonoBehaviour
         levelUpIcon.SetActive(isLevelUp);
     }
 
-    public void EnableResults(Canvas results)
+    public void EnableResults(GameObject results)
     {
-        results.enabled = true;
+        results.SetActive(true);
     }
     public void SetResultsBanner(bool isPlayerWinner)
     {

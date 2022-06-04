@@ -220,6 +220,7 @@ public class Attack : MonoBehaviour
 
         if (defender.hp <= 0 && defender.HasSkill(SkillNames.Survival))
         {
+            Aura.StartAnimation(defender);
             defender.hp = 1;
             defender.removeUsedSkill(SkillNames.Survival);
         }

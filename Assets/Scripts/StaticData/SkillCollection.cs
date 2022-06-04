@@ -150,7 +150,7 @@ public static class SkillCollection
         new OrderedDictionary
         {
             {"name", SkillNames.Survival},
-            {"description", "Whenever you take lethal damage you survive with 1 health point."},
+            {"description", "Whenever you take lethal damage invoke the power of dark matter to survive with 1 health point."},
             {"skillRarity", SkillRarity.EPIC.ToString()},
             {"category", SkillType.SPONTANEOUS.ToString()},
             {"icon", "12" }

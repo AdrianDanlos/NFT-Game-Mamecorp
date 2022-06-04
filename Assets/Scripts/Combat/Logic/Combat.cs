@@ -18,7 +18,7 @@ public class Combat : MonoBehaviour
     public static GameObject playerGameObject;
     public GameObject playerWrapper;
     public static GameObject botGameObject;
-    public Canvas results;
+    public GameObject results;
     public SpriteRenderer arena;
     public GameObject combatUI;
     public GameObject combatLoadingScreenUI;
@@ -68,11 +68,11 @@ public class Combat : MonoBehaviour
 
         SetMaxHpValues();
 
-        // LoadingScreen
+        // Set LoadingScreen
         loadingScreen.SetPlayerLoadingScreenData(player);
         loadingScreen.DisplayLoaderForEnemy();
         loadingScreen.HideBotLevelText(levelTextBot);
-        ToggleLoadingScreenVisibility(true);
+        ShowLoadingScreen(true);
 
         //Load everything needed for the combat
         GenerateSkillsFixturesForPlayer();
@@ -84,35 +84,38 @@ public class Combat : MonoBehaviour
         FighterSkin.SetFightersSkin(player, bot);
         FighterAnimations.ResetToDefaultAnimation(player);
         fightersUIDataScript.SetFightersUIInfo(player, bot, botElo);
+        results.SetActive(false);
     }
 
     IEnumerator Start()
     {
-        // StartCoroutine(SceneManagerScript.instance.FadeIn());
-        // yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(1f));
+        StartCoroutine(SceneManagerScript.instance.FadeIn());
 
-        // //--- Enable this for loading effect ---
-        // yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(2f));
-        // loadingScreen.SetBotLoadingScreenData(bot);
-        // levelTextBot.enabled = true;
-        
-        // yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(3f));
-        yield return null; //remove
+        //Comment this line to remove loading screen
+        //yield return StartCoroutine(LoadingScreenLogic());
 
-        ToggleLoadingScreenVisibility(false);
+        ShowLoadingScreen(false);
 
         // enter the arena animation
         StartCoroutine(EnterArenaAnimations());
         yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(ENTER_ARENA_ANIMATION));
 
         // 3 2 1 combat before initating
-        StartCoroutine(fightersUIDataScript.Countdown());
-        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(COUNTDOWN_ANIMATION));
+        // StartCoroutine(fightersUIDataScript.Countdown());
+        // yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(COUNTDOWN_ANIMATION));
 
         StartCoroutine(InitiateCombat());
 
         SceneFlag.sceneName = SceneNames.Combat.ToString();
     }
+
+    IEnumerator LoadingScreenLogic(){
+        float timeUntilOpponentIsFound = 3f;
+        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(timeUntilOpponentIsFound));
+        loadingScreen.SetBotLoadingScreenData(bot);
+        levelTextBot.enabled = true;
+        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(3f));
+    }   
 
     private void BoostFightersStatsBasedOnPassiveSkills()
     {
@@ -132,7 +135,7 @@ public class Combat : MonoBehaviour
         cupManager = GameObject.Find("CupManager").GetComponent<CupManager>();
     }
 
-    private void ToggleLoadingScreenVisibility(bool displayLoadingScreen)
+    private void ShowLoadingScreen(bool displayLoadingScreen)
     {
         combatLoadingScreenUI.SetActive(displayLoadingScreen);
         combatLoadingScreenSprites.SetActive(displayLoadingScreen);
@@ -159,7 +162,7 @@ public class Combat : MonoBehaviour
         playerWrapper = GameObject.Find("FighterWrapper");
         playerGameObject = playerWrapper.transform.Find("Fighter").gameObject;
         botGameObject = GameObject.FindGameObjectWithTag("FighterBot");
-        results = GameObject.FindGameObjectWithTag("Results").GetComponent<Canvas>();
+        results = GameObject.FindGameObjectWithTag("Results");
         arena = GameObject.FindGameObjectWithTag("Arena").GetComponent<SpriteRenderer>();
         combatUI = GameObject.FindGameObjectWithTag("CombatUI");
         combatLoadingScreenUI = GameObject.FindGameObjectWithTag("CombatLoadingScreenUI");

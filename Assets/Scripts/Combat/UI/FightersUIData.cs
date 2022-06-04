@@ -100,19 +100,23 @@ public class FightersUIData : MonoBehaviour
 
     public IEnumerator Countdown()
     {
-        const float TIME_BETWEEN_COUNTDOWN = 0.75f;
+        const float TIME_BETWEEN_COUNTDOWN = 1f;
         TextMeshProUGUI countdownText = countdownGO.GetComponent<TextMeshProUGUI>();
+        countdownGO.GetComponent<Animator>().enabled = true;
 
         countdownText.enabled = true;
 
-        countdownText.text = "3!";
+        countdownText.text = "3";
         yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(TIME_BETWEEN_COUNTDOWN));
 
-        countdownText.text = "2!";
+        countdownText.text = "2";
         yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(TIME_BETWEEN_COUNTDOWN));
 
-        countdownText.text = "1!";
+        countdownText.text = "1";
         yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(TIME_BETWEEN_COUNTDOWN));
+
+        countdownGO.GetComponent<Animator>().enabled = false;
+        countdownGO.GetComponent<Transform>().localScale = new Vector3(1.5f, 1.5f, 1.5f);
 
         countdownText.text = "FIGHT!";
         yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(TIME_BETWEEN_COUNTDOWN));

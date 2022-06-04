@@ -26,6 +26,7 @@ public class FightersUIData : MonoBehaviour
     public GameObject gemsRewardGO;
     public GameObject chestRewardGO;
     public GameObject nextButtonGO;
+    public GameObject countdownGO;
     
     // health bar animations
     public GameObject playerHealthBarFadeGO;
@@ -97,6 +98,48 @@ public class FightersUIData : MonoBehaviour
         botIcon.GetComponent<Image>().sprite = Resources.Load<Sprite>("Icons/UserIcons/" + (UnityEngine.Random.Range(0, Resources.LoadAll<Sprite>("Icons/UserIcons/").Length) + 1));
     }
 
+    public IEnumerator Countdown()
+    {
+        const float TIME_BETWEEN_COUNTDOWN = 1f;
+        TextMeshProUGUI countdownText = countdownGO.GetComponent<TextMeshProUGUI>();
+        countdownGO.GetComponent<Animator>().enabled = true;
+
+        countdownText.enabled = true;
+
+        countdownText.text = "3";
+        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(TIME_BETWEEN_COUNTDOWN));
+
+        countdownText.text = "2";
+        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(TIME_BETWEEN_COUNTDOWN));
+
+        countdownText.text = "1";
+        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(TIME_BETWEEN_COUNTDOWN));
+
+        countdownGO.GetComponent<Animator>().enabled = false;
+        countdownGO.GetComponent<Transform>().localScale = new Vector3(1.5f, 1.5f, 1.5f);
+
+        countdownText.text = "FIGHT!";
+        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(TIME_BETWEEN_COUNTDOWN));
+
+        countdownText.enabled = false;
+    }
+
+    public IEnumerator AnnounceWinner(bool isPlayerWinner, Fighter player, Fighter bot)
+    {
+        const float TIME_ANNOUNCEMENT = 2f;
+        TextMeshProUGUI countdownText = countdownGO.GetComponent<TextMeshProUGUI>();
+
+        countdownText.enabled = true;
+
+        if (isPlayerWinner)
+            countdownText.text = player.fighterName + " WINS!";
+        else
+            countdownText.text = bot.fighterName + " WINS!";
+        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(TIME_ANNOUNCEMENT));
+
+        countdownText.enabled = false;
+    }
+
     public void ModifyHealthBar(Fighter fighter, bool isPlayerTargetOfHealthChange)
     {
         if (isPlayerTargetOfHealthChange)
@@ -117,44 +160,71 @@ public class FightersUIData : MonoBehaviour
     IEnumerator HealthAnimation(bool isPlayer, float health, float maxHealth, GameObject healthBarFade)
     {
         const int ANIMATION_FRAMES = 10;
-        const float SECONDS_PER_FRAME = 0.1f;
+        const float SECONDS_PER_FRAME = 0.075f;
         Slider healthBarFadeSliderValue = healthBarFade.GetComponent<Slider>();
 
         float newHp = health / maxHealth;
 
-        // do health animation
-        if (newHp > 0 && !Combat.isGameOver)
+        if(isPlayer)
         {
-            do
+            if (newHp > 0 && !Combat.isGameOver)
             {
-                yield return new WaitForSeconds(SECONDS_PER_FRAME);
-                if (isPlayer)
-                    healthBarFadeSliderValue.value -= (previousPlayerHp - newHp) / ANIMATION_FRAMES;
+                if(newHp > previousPlayerHp)
+                {
+                    healthBarFadeSliderValue.value = newHp;
+                }
                 else
-                    healthBarFadeSliderValue.value -= (previousBotHp - newHp) / ANIMATION_FRAMES;
+                {
+                    do
+                    {
+                        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(SECONDS_PER_FRAME));
+                        healthBarFadeSliderValue.value -= (previousPlayerHp - newHp) / ANIMATION_FRAMES;
+                    } while (healthBarFadeSliderValue.value >= newHp);
+                }
 
-            } while (healthBarFadeSliderValue.value > newHp);
-        }
+                previousPlayerHp = newHp;
+            }
+            else
+            {
+                double noHp = -0.5;
+
+                do
+                {
+                    yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(SECONDS_PER_FRAME));
+                    healthBarFadeSliderValue.value -= (previousPlayerHp - newHp) / ANIMATION_FRAMES;
+                } while (healthBarFadeSliderValue.value >= noHp);
+            }
+        } 
         else
         {
-            double noHp = -0.5;
-
-            do
+            if (newHp > 0 && !Combat.isGameOver)
             {
-                yield return new WaitForSeconds(SECONDS_PER_FRAME);
-                if (isPlayer)
-                    healthBarFadeSliderValue.value -= (previousPlayerHp - newHp) / ANIMATION_FRAMES;
+                if(newHp > previousBotHp)
+                {
+                    healthBarFadeSliderValue.value = newHp;
+                }
                 else
-                    healthBarFadeSliderValue.value -= (previousBotHp - newHp) / ANIMATION_FRAMES;
+                {
+                    do
+                    {
+                        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(SECONDS_PER_FRAME));
+                        healthBarFadeSliderValue.value -= (previousBotHp - newHp) / ANIMATION_FRAMES;
+                    } while (healthBarFadeSliderValue.value >= newHp);
+                }
 
-            } while (healthBarFadeSliderValue.value > noHp);
+                previousBotHp = newHp;
+            }
+            else
+            {
+                double noHp = -0.5;
+
+                do
+                {
+                    yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(SECONDS_PER_FRAME));
+                    healthBarFadeSliderValue.value -= (previousBotHp - newHp) / ANIMATION_FRAMES;
+                } while (healthBarFadeSliderValue.value >= noHp);
+            }
         }
-        
-        // set values for next animation
-        if (isPlayer)
-            previousPlayerHp = newHp;
-        else
-            previousBotHp = newHp;
     }
 
     public void SetResultsEloChange(int eloChange)

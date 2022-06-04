@@ -116,7 +116,7 @@ public class FightersUIData : MonoBehaviour
         yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(TIME_BETWEEN_COUNTDOWN));
 
         countdownGO.GetComponent<Animator>().enabled = false;
-        countdownGO.GetComponent<Transform>().localScale = new Vector3(1.5f, 1.5f, 1.5f);
+        countdownGO.GetComponent<Transform>().localScale = new Vector3(1f, 1f, 1f);
 
         countdownText.text = "FIGHT!";
         yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(TIME_BETWEEN_COUNTDOWN));
@@ -132,9 +132,9 @@ public class FightersUIData : MonoBehaviour
         countdownText.enabled = true;
 
         if (isPlayerWinner)
-            countdownText.text = player.fighterName + " WINS!";
+            countdownText.text = player.fighterName + "<br>WINS!";
         else
-            countdownText.text = bot.fighterName + " WINS!";
+            countdownText.text = bot.fighterName + "<br>WINS!";
         yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(TIME_ANNOUNCEMENT));
 
         countdownText.enabled = false;

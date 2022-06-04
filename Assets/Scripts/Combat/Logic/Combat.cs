@@ -221,12 +221,12 @@ public class Combat : MonoBehaviour
     }
     IEnumerator StartBotElixirTimer(){
         //Between x and y seconds
-        float elixirTimeRange = UnityEngine.Random.Range(10, 20);
+        float elixirTimeRange = UnityEngine.Random.Range(15, 25);
         yield return new WaitForSeconds(elixirTimeRange); 
         elixirScript.TriggerElixirEffects(bot);     
     }
     IEnumerator StartBotBoostTimer(){
-        float boostTimeRange = UnityEngine.Random.Range(1, 15);
+        float boostTimeRange = UnityEngine.Random.Range(1, 20);
         yield return new WaitForSeconds(boostTimeRange);  
         boostScript.TriggerBoostEffects(bot);      
     }

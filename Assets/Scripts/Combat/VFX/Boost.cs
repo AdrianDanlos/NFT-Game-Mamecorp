@@ -13,7 +13,7 @@ public class Boost : MonoBehaviour
         lightningAnimator.Play("lightning_0", -1, 0f);
         StartParticlesAnimation();
         Renderer playerRenderer = Combat.player.GetComponent<Renderer>();
-        playerRenderer.material.color = new Color(96 / 255f, 227 / 255f, 227 / 255f);
+        playerRenderer.material.color = new Color(155 / 255f, 0 / 255f, 255 / 255f);
         Combat.player.damage *= 1.5f;
         StartCoroutine(RemoveBoostEffects(playerRenderer));
     }

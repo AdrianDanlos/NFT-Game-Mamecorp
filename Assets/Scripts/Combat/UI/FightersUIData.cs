@@ -140,20 +140,20 @@ public class FightersUIData : MonoBehaviour
         countdownText.enabled = false;
     }
 
-    public void ModifyHealthBar(Fighter fighter, bool isPlayerTargetOfHealthChange)
+    public void ModifyHealthBar(Fighter fighter)
     {
-        if (isPlayerTargetOfHealthChange)
+        if (Combat.player == fighter)
         {
-            SetHealthBarValue(isPlayerTargetOfHealthChange, playerHealthBarFadeGO, playerHealthBarGO, fighter, playerMaxHealth);
+            SetHealthBarValue(playerHealthBarFadeGO, playerHealthBarGO, fighter, playerMaxHealth);
             return;
         }
 
-        SetHealthBarValue(isPlayerTargetOfHealthChange, botHealthBarFadeGO, botHealthBarGO, fighter, botMaxHealth);
+        SetHealthBarValue(botHealthBarFadeGO, botHealthBarGO, fighter, botMaxHealth);
     }
 
-    private void SetHealthBarValue(bool isPlayer, GameObject healthBarFade, GameObject healthBar, Fighter fighter, float maxHealth)
+    private void SetHealthBarValue(GameObject healthBarFade, GameObject healthBar, Fighter fighter, float maxHealth)
     {
-        StartCoroutine(HealthAnimation(isPlayer, fighter.hp, maxHealth, healthBarFade));
+        StartCoroutine(HealthAnimation(Combat.player == fighter, fighter.hp, maxHealth, healthBarFade));
         healthBar.GetComponent<Slider>().value = fighter.hp / maxHealth;
     }
 

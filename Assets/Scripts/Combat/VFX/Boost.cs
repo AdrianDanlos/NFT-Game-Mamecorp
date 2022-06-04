@@ -9,23 +9,28 @@ public class Boost : MonoBehaviour
     public void OnClickTriggerBoostEffects()
     {
         this.GetComponent<Button>().interactable = false;
-        Animator lightningAnimator = Combat.player.transform.Find("VFX/Boost_VFX/Lightning_VFX").GetComponent<Animator>();
-        lightningAnimator.Play("lightning_0", -1, 0f);
-        StartParticlesAnimation();
-        Renderer playerRenderer = Combat.player.GetComponent<Renderer>();
-        playerRenderer.material.color = new Color(155 / 255f, 0 / 255f, 255 / 255f);
-        Combat.player.damage *= 1.5f;
-        StartCoroutine(RemoveBoostEffects(playerRenderer));
+        TriggerBoostEffects(Combat.player);
     }
 
-    IEnumerator RemoveBoostEffects(Renderer playerRenderer){
+    IEnumerator RemoveBoostEffects(Fighter fighter){
         yield return new WaitForSeconds(boostDuration);
-        playerRenderer.material.color = new Color(1, 1, 1);
-        Combat.player.damage /= 1.5f;
+        fighter.GetComponent<Renderer>().material.color = new Color(1, 1, 1);
+        fighter.damage /= 1.5f;
     }
 
-    private void StartParticlesAnimation()
+    private void StartParticlesAnimation(Fighter fighter)
     {
-        Combat.player.transform.Find("VFX/Boost_VFX/Particles_VFX").GetComponent<ParticleSystem>().Play();
+        fighter.transform.Find("VFX/Boost_VFX/Particles_VFX").GetComponent<ParticleSystem>().Play();
+    }
+
+    public void TriggerBoostEffects(Fighter fighter)
+    {
+        Animator lightningAnimator = fighter.transform.Find("VFX/Boost_VFX/Lightning_VFX").GetComponent<Animator>();
+        lightningAnimator.Play("lightning_0", -1, 0f);
+        StartParticlesAnimation(fighter);
+        Renderer fighterRenderer = fighter.GetComponent<Renderer>();
+        fighterRenderer.material.color = new Color(155 / 255f, 0 / 255f, 255 / 255f);
+        fighter.damage *= 1.5f;
+        StartCoroutine(RemoveBoostEffects(fighter));
     }
 }

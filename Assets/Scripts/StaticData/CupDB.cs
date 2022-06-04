@@ -4,10 +4,7 @@ public static class CupDB
 {
     public enum CupNames
     {
-        EARTH,
-        WATER,
-        AIR,
-        FIRE
+        DIVINE
     }
 
     public enum CupRounds

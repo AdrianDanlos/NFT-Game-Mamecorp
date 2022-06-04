@@ -134,6 +134,7 @@ public class SkillsLogicInCombat : MonoBehaviour
     public IEnumerator ShadowTravel(Fighter attacker, Fighter defender)
     {
         FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.IDLE_BLINKING);
+        Clock.StartAnimation(attacker);
         yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(1f));
         SetOpacityOfFighterAndShadow(attacker, 0.15f);
         yield return combatScript.MoveForwardHandler(attacker, defender);

@@ -40,6 +40,7 @@ public class Combat : MonoBehaviour
     static Vector3 botStartingPosition = new Vector3(20, -0.7f, 0);
 
     public const float DefaultDistanceFromEachotherOnAttack = 2.3f;
+    public static float defaultBloodPositionY;
 
     // Game status data
     public static bool isGameOver;
@@ -99,7 +100,6 @@ public class Combat : MonoBehaviour
         yield return null; //remove
 
         ToggleLoadingScreenVisibility(false);
-        //TODO: Show boost and elixir buttons
 
         // enter the arena animation
         StartCoroutine(EnterArenaAnimations());
@@ -165,6 +165,7 @@ public class Combat : MonoBehaviour
         combatLoadingScreenUI = GameObject.FindGameObjectWithTag("CombatLoadingScreenUI");
         combatLoadingScreenSprites = GameObject.FindGameObjectWithTag("CombatLoadingScreenSprites");
         levelTextBot = GameObject.Find("LevelTextBot").GetComponent<TextMeshProUGUI>();
+        defaultBloodPositionY = GameObject.Find("VFX/Hit_VFX").transform.position.y;
     }
 
     private void SetFighterPositions()

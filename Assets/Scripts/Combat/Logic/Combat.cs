@@ -137,7 +137,7 @@ public class Combat : MonoBehaviour
         player = playerGameObject.GetComponent<Fighter>();
         bot = botGameObject.GetComponent<Fighter>();
         cupManager = GameObject.Find("CupManager").GetComponent<CupManager>();
-        boostScript = elixirButton.GetComponent<Boost>();
+        boostScript = boostButton.GetComponent<Boost>();
         elixirScript = elixirButton.GetComponent<Elixir>();
     }
 
@@ -220,14 +220,15 @@ public class Combat : MonoBehaviour
         StartCoroutine(StartBotElixirTimer());     
     }
     IEnumerator StartBotElixirTimer(){
-        float elixirTimeRange = UnityEngine.Random.Range(6, 16);
+        //Between x and y seconds
+        float elixirTimeRange = UnityEngine.Random.Range(10, 20);
         yield return new WaitForSeconds(elixirTimeRange); 
         elixirScript.TriggerElixirEffects(bot);     
     }
     IEnumerator StartBotBoostTimer(){
-        float boostTimeRange = UnityEngine.Random.Range(1, 12);
+        float boostTimeRange = UnityEngine.Random.Range(1, 15);
         yield return new WaitForSeconds(boostTimeRange);  
-        // boostScript.TriggerBoostEffects(bot);      
+        boostScript.TriggerBoostEffects(bot);      
     }
 
     IEnumerator InitiateCombat()

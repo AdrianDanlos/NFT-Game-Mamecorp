@@ -78,7 +78,7 @@ public class Attack : MonoBehaviour
 
         yield return DefenderReceivesAttack(attacker, defender, attacker.damage, 0.15f, 0.05f);
         RestoreLife(attacker, 3);
-        Combat.fightersUIDataScript.ModifyHealthBar(attacker, Combat.player == attacker);
+        Combat.fightersUIDataScript.ModifyHealthBar(attacker);
     }
     public IEnumerator PerformShurikenFury(Fighter attacker, Fighter defender)
     {
@@ -152,7 +152,7 @@ public class Attack : MonoBehaviour
         potionPosition.y += 2.5f;
         GameObject potionInstance = Instantiate(potion, potionPosition, Quaternion.identity);
         RestoreLife(attacker, 30);
-        Combat.fightersUIDataScript.ModifyHealthBar(attacker, Combat.player == attacker);
+        Combat.fightersUIDataScript.ModifyHealthBar(attacker);
 
         Renderer attackerRenderer = attacker.GetComponent<Renderer>();
         //Don't change color if we already have other color modifications active
@@ -225,7 +225,7 @@ public class Attack : MonoBehaviour
             defender.removeUsedSkill(SkillNames.Survival);
         }
 
-        Combat.fightersUIDataScript.ModifyHealthBar(defender, Combat.player == defender);
+        Combat.fightersUIDataScript.ModifyHealthBar(defender);
     }
 
     //Restores x % of total health

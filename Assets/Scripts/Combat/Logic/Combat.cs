@@ -34,6 +34,8 @@ public class Combat : MonoBehaviour
     Attack attackScript;
     LoadingScreen loadingScreen;
     CupManager cupManager;
+    Boost boostScript;
+    Elixir elixirScript;
 
     // Positions data
     static Vector3 playerCombatPosition = new Vector3(-6, -0.7f, 0);
@@ -74,8 +76,7 @@ public class Combat : MonoBehaviour
         loadingScreen.SetPlayerLoadingScreenData(player);
         loadingScreen.DisplayLoaderForEnemy();
         loadingScreen.HideBotLevelText(levelTextBot);
-        boostButton.SetActive(false);
-        elixirButton.SetActive(false);
+        SetBoostElixirBtns(false);
         ShowLoadingScreen(true);
 
         //Load everything needed for the combat
@@ -136,6 +137,8 @@ public class Combat : MonoBehaviour
         player = playerGameObject.GetComponent<Fighter>();
         bot = botGameObject.GetComponent<Fighter>();
         cupManager = GameObject.Find("CupManager").GetComponent<CupManager>();
+        boostScript = elixirButton.GetComponent<Boost>();
+        elixirScript = elixirButton.GetComponent<Elixir>();
     }
 
     private void ShowLoadingScreen(bool displayLoadingScreen)
@@ -208,10 +211,29 @@ public class Combat : MonoBehaviour
         botPortrait.GetComponent<Image>().sprite = Resources.Load<Sprite>("CharacterProfilePicture/" + bot.species);
     }
 
+    private void SetBoostElixirBtns(bool isEnabled){
+        boostButton.SetActive(isEnabled);
+        elixirButton.SetActive(isEnabled);
+    }
+    private void StartBotElixirAndBoostTimer(){
+        StartCoroutine(StartBotBoostTimer());     
+        StartCoroutine(StartBotElixirTimer());     
+    }
+    IEnumerator StartBotElixirTimer(){
+        float elixirTimeRange = UnityEngine.Random.Range(6, 16);
+        yield return new WaitForSeconds(elixirTimeRange); 
+        elixirScript.TriggerElixirEffects(bot);     
+    }
+    IEnumerator StartBotBoostTimer(){
+        float boostTimeRange = UnityEngine.Random.Range(1, 12);
+        yield return new WaitForSeconds(boostTimeRange);  
+        // boostScript.TriggerBoostEffects(bot);      
+    }
+
     IEnumerator InitiateCombat()
     {
-        boostButton.SetActive(true);
-        elixirButton.SetActive(true);
+        SetBoostElixirBtns(true);
+        StartBotElixirAndBoostTimer();
 
         Fighter firstAttacker = fightersOrderOfAttack[0];
         Fighter secondAttacker = fightersOrderOfAttack[1];

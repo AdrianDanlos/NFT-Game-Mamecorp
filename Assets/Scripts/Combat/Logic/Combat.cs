@@ -37,6 +37,7 @@ public class Combat : MonoBehaviour
     static Vector3 playerStartingPosition = new Vector3(-6, -0.7f, 0);
     static Vector3 botStartingPosition = new Vector3(6, -0.7f, 0);
     public const float DefaultDistanceFromEachotherOnAttack = 2.3f;
+    public static float defaultBloodPositionY;
 
     // Game status data
     public static bool isGameOver;
@@ -148,6 +149,7 @@ public class Combat : MonoBehaviour
         combatLoadingScreenUI = GameObject.FindGameObjectWithTag("CombatLoadingScreenUI");
         combatLoadingScreenSprites = GameObject.FindGameObjectWithTag("CombatLoadingScreenSprites");
         levelTextBot = GameObject.Find("LevelTextBot").GetComponent<TextMeshProUGUI>();
+        defaultBloodPositionY = GameObject.Find("VFX/Hit_VFX").transform.position.y;
     }
 
     private void SetFighterPositions()

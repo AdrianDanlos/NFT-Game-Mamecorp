@@ -46,10 +46,12 @@ public class SkillsLogicInCombat : MonoBehaviour
     }
     public IEnumerator LowBlow(Fighter attacker, Fighter defender)
     {
+        MoveBloodPosition(defender);
         FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.RUN);
         yield return movementScript.MoveSlide(attacker, Combat.GetAttackerDestinationPosition(defender, 0.8f));
         yield return StartCoroutine(attackScript.PerformLowBlow(attacker, defender));
         yield return combatScript.MoveBackHandler(attacker);
+        ResetBloodPosition(defender);
     }
 
     public IEnumerator JumpStrike(Fighter attacker, Fighter defender)
@@ -92,11 +94,7 @@ public class SkillsLogicInCombat : MonoBehaviour
 
     public IEnumerator CosmicKicks(Fighter attacker, Fighter defender)
     {
-        //Move blood position down
-        Vector3 bloodPosition = defender.transform.Find("VFX/Hit_VFX").transform.position;
-        float defaultBloodPositionY = bloodPosition.y;
-        bloodPosition.y -= 1.2f;
-        defender.transform.Find("VFX/Hit_VFX").transform.position = new Vector3(bloodPosition.x, bloodPosition.y, bloodPosition.z);
+        MoveBloodPosition(defender);
 
         yield return combatScript.MoveForwardHandler(attacker, defender, 1.5f);
 
@@ -111,8 +109,22 @@ public class SkillsLogicInCombat : MonoBehaviour
 
         yield return combatScript.MoveBackHandler(attacker);
 
-        //Reset blood position
-        defender.transform.Find("VFX/Hit_VFX").transform.position = new Vector3(bloodPosition.x, defaultBloodPositionY, bloodPosition.z);
+        ResetBloodPosition(defender);
+    }
+
+    private void ResetBloodPosition(Fighter defender)
+    {
+        Transform blood = defender.transform.Find("VFX/Hit_VFX");
+        Vector3 bloodPosition = blood.transform.position;
+        blood.transform.position = new Vector3(bloodPosition.x, Combat.defaultBloodPositionY, bloodPosition.z);
+    }
+
+    private void MoveBloodPosition(Fighter defender)
+    {
+        Transform blood = defender.transform.Find("VFX/Hit_VFX");
+        Vector3 bloodPosition = blood.transform.position;
+        bloodPosition.y -= 1.2f;
+        blood.transform.position = new Vector3(bloodPosition.x, bloodPosition.y, bloodPosition.z);
     }
     public IEnumerator ExplosiveBomb(Fighter attacker, Fighter defender)
     {

@@ -245,7 +245,7 @@ public class Combat : MonoBehaviour
 
     IEnumerator StartTurn(Fighter attacker, Fighter defender)
     {
-        yield return skillsLogicScript.LowBlow(attacker, defender);
+        yield return skillsLogicScript.ShadowTravel(attacker, defender);
         // if (WillUseSkillThisTurn(attacker))
         // {
         //     yield return StartCoroutine(UseRandomSkill(attacker, defender, attacker));

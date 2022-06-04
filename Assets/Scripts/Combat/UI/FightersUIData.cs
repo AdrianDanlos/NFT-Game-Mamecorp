@@ -128,13 +128,9 @@ public class FightersUIData : MonoBehaviour
         countdownText.enabled = true;
 
         if (isPlayerWinner)
-        {
             countdownText.text = player.fighterName + " WINS!";
-        }
         else
-        {
             countdownText.text = bot.fighterName + " WINS!";
-        }
         yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(TIME_ANNOUNCEMENT));
 
         countdownText.enabled = false;

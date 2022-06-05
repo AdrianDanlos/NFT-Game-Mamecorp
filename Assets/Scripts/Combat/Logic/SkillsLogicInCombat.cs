@@ -1,6 +1,6 @@
 using System.Collections;
-using System;
 using UnityEngine;
+using TMPro;
 
 public class SkillsLogicInCombat : MonoBehaviour
 {
@@ -51,6 +51,7 @@ public class SkillsLogicInCombat : MonoBehaviour
         yield return movementScript.MoveSlide(attacker, Combat.GetAttackerDestinationPosition(defender, 0.8f));
         yield return StartCoroutine(attackScript.PerformLowBlow(attacker, defender));
         yield return combatScript.MoveBackHandler(attacker);
+        if (!Combat.isGameOver) FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.IDLE);
         ResetBloodPosition(defender);
     }
 
@@ -148,6 +149,28 @@ public class SkillsLogicInCombat : MonoBehaviour
     {
         FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.IDLE_BLINKING);
         yield return StartCoroutine(attackScript.PerformHealingPotion(attacker));
+    }
+
+    public IEnumerator ViciousTheft(Fighter attacker, string stolenSkill)
+    {
+
+        Anomaly.StartAnimation(attacker);
+
+        TextMeshPro anomalyInfoText = attacker.transform.Find("VFX/Anomaly_VFX/TextContainer/Text").GetComponent<TextMeshPro>();
+        TextMeshPro anomalySkillText = attacker.transform.Find("VFX/Anomaly_VFX/TextContainer/Skill").GetComponent<TextMeshPro>();
+
+        anomalyInfoText.text = "STEALING.";
+        yield return new WaitForSeconds(.5f);
+        anomalyInfoText.text = "STEALING..";
+        yield return new WaitForSeconds(.5f);
+        anomalyInfoText.text = "STEALING...";
+        yield return new WaitForSeconds(.5f);
+        anomalyInfoText.text = "STOLEN!";
+        anomalySkillText.text = stolenSkill.ToUpper();
+        yield return new WaitForSeconds(1.3f);
+
+        attacker.transform.Find("VFX/Anomaly_VFX/TextContainer").gameObject.SetActive(false);
+        Anomaly.StopAnimation(attacker);
     }
     private void SetOpacityOfFighterAndShadow(Fighter attacker, float opacity)
     {

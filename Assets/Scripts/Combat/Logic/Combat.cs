@@ -55,6 +55,10 @@ public class Combat : MonoBehaviour
     //Balance constants
     private const int ProbabilityOfUsingSkillEachTurn = 50;
 
+    //Sorting layers
+    public static int fighterSortingOrder;
+    public static int bloodSortingOrder;
+
     // Countdown timer
     const float COUNTDOWN_ANIMATION = 3f;
     const float ENTER_ARENA_ANIMATION = 2.5f;
@@ -68,7 +72,7 @@ public class Combat : MonoBehaviour
 
         // Generate bot data
         if (Cup.Instance.isActive && !CombatMode.isSoloqEnabled) MatchMaking.GenerateCupBotData(player, bot);
-        else MatchMaking.GenerateBotData(player, bot);            
+        else MatchMaking.GenerateBotData(player, bot);
 
         SetMaxHpValues();
 
@@ -86,6 +90,7 @@ public class Combat : MonoBehaviour
         SetFighterPositions();
         SetOrderOfAttacks();
         GetRandomArena();
+        GetLayersOrder();
         FighterSkin.SetFightersSkin(player, bot);
         FighterAnimations.ResetToDefaultAnimation(player);
         fightersUIDataScript.SetFightersUIInfo(player, bot, botElo);
@@ -113,13 +118,20 @@ public class Combat : MonoBehaviour
         SceneFlag.sceneName = SceneNames.Combat.ToString();
     }
 
-    IEnumerator LoadingScreenLogic(){
+    private void GetLayersOrder()
+    {
+        fighterSortingOrder = botGameObject.GetComponent<Renderer>().sortingOrder;
+        bloodSortingOrder = bot.transform.Find("VFX/Hit_VFX").GetComponent<Renderer>().sortingOrder;
+    }
+
+    IEnumerator LoadingScreenLogic()
+    {
         float timeUntilOpponentIsFound = 3f;
         yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(timeUntilOpponentIsFound));
         loadingScreen.SetBotLoadingScreenData(bot);
         levelTextBot.enabled = true;
         yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(3f));
-    }   
+    }
 
     private void BoostFightersStatsBasedOnPassiveSkills()
     {
@@ -176,8 +188,8 @@ public class Combat : MonoBehaviour
         combatLoadingScreenSprites = GameObject.FindGameObjectWithTag("CombatLoadingScreenSprites");
         levelTextBot = GameObject.Find("LevelTextBot").GetComponent<TextMeshProUGUI>();
         defaultBloodPositionY = GameObject.Find("VFX/Hit_VFX").transform.position.y;
-        boostButton =  GameObject.Find("Button_Boost");
-        elixirButton =  GameObject.Find("Button_Elixir");
+        boostButton = GameObject.Find("Button_Boost");
+        elixirButton = GameObject.Find("Button_Elixir");
     }
 
     private void SetFighterPositions()
@@ -211,24 +223,28 @@ public class Combat : MonoBehaviour
         botPortrait.GetComponent<Image>().sprite = Resources.Load<Sprite>("CharacterProfilePicture/" + bot.species);
     }
 
-    private void SetBoostElixirBtns(bool isEnabled){
+    private void SetBoostElixirBtns(bool isEnabled)
+    {
         boostButton.SetActive(isEnabled);
         elixirButton.SetActive(isEnabled);
     }
-    private void StartBotElixirAndBoostTimer(){
-        StartCoroutine(StartBotBoostTimer());     
-        StartCoroutine(StartBotElixirTimer());     
+    private void StartBotElixirAndBoostTimer()
+    {
+        StartCoroutine(StartBotBoostTimer());
+        StartCoroutine(StartBotElixirTimer());
     }
-    IEnumerator StartBotElixirTimer(){
+    IEnumerator StartBotElixirTimer()
+    {
         //Between x and y seconds
         float elixirTimeRange = UnityEngine.Random.Range(15, 25);
-        yield return new WaitForSeconds(elixirTimeRange); 
-        elixirScript.TriggerElixirEffects(bot);     
+        yield return new WaitForSeconds(elixirTimeRange);
+        elixirScript.TriggerElixirEffects(bot);
     }
-    IEnumerator StartBotBoostTimer(){
+    IEnumerator StartBotBoostTimer()
+    {
         float boostTimeRange = UnityEngine.Random.Range(1, 20);
-        yield return new WaitForSeconds(boostTimeRange);  
-        boostScript.TriggerBoostEffects(bot);      
+        yield return new WaitForSeconds(boostTimeRange);
+        boostScript.TriggerBoostEffects(bot);
     }
 
     IEnumerator InitiateCombat()
@@ -249,7 +265,7 @@ public class Combat : MonoBehaviour
             yield return StartCoroutine(StartTurn(secondAttacker, firstAttacker));
             while (!isGameOver && attackScript.IsExtraTurn(secondAttacker)) yield return StartCoroutine(StartTurn(secondAttacker, firstAttacker));
         }
-        
+
         StartCoroutine(StartPostGameActions());
     }
 
@@ -268,13 +284,12 @@ public class Combat : MonoBehaviour
 
     IEnumerator StartTurn(Fighter attacker, Fighter defender)
     {
-        yield return skillsLogicScript.ShadowTravel(attacker, defender);
-        // if (WillUseSkillThisTurn(attacker))
-        // {
-        //     yield return StartCoroutine(UseRandomSkill(attacker, defender, attacker));
-        //     yield break;
-        // }
-        // yield return skillsLogicScript.AttackWithoutSkills(attacker, defender);
+        if (WillUseSkillThisTurn(attacker))
+        {
+            yield return StartCoroutine(UseRandomSkill(attacker, defender, attacker));
+            yield break;
+        }
+        yield return skillsLogicScript.AttackWithoutSkills(attacker, defender);
         FighterAnimations.ChangeAnimation(GetAttackerIfAlive(attacker, defender), FighterAnimations.AnimationNames.IDLE);
     }
 
@@ -298,8 +313,13 @@ public class Combat : MonoBehaviour
         if (skillNamesList.Count() > 0)
         {
             int randomSkillIndex = UnityEngine.Random.Range(0, skillNamesList.Count());
+            string skillToCastThisTurn = skillNamesList[randomSkillIndex];
+            bool isStolenSkill = defender == fighterWeTakeTheSkillFrom;
 
-            switch (skillNamesList[randomSkillIndex])
+            if (isStolenSkill & skillToCastThisTurn != SkillNames.ViciousTheft)
+                yield return StartCoroutine(skillsLogicScript.ViciousTheft(attacker, skillToCastThisTurn));
+
+            switch (skillToCastThisTurn)
             {
                 case SkillNames.JumpStrike:
                     yield return skillsLogicScript.JumpStrike(attacker, defender);
@@ -453,4 +473,11 @@ public class Combat : MonoBehaviour
 
     //During the combat the player object experiences a lot of changes so we need to set it back to its default state after the combat.
     private Action ResetPlayerObject = () => player = JsonDataManager.ReadFighterFile();
+
+    //TODO: Remove this. Testing purposes. + Remember to remove gameobject from scene.
+    public static void ShowLifeChangesOnUI(float lifeChange)
+    {
+        string prefix = lifeChange > 0 ? "HEAL" : "DMG";
+        GameObject.Find("DummyText").GetComponent<TextMeshProUGUI>().text = $"{prefix}: {Math.Round(lifeChange, 1)}";
+    }
 }

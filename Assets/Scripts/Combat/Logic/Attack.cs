@@ -215,7 +215,7 @@ public class Attack : MonoBehaviour
     private void DealDamage(Fighter attacker, Fighter defender, float damagePerHit)
     {
         if (IsAttackCritical(attacker)) damagePerHit = damagePerHit * 1.5f;
-
+        Combat.ShowLifeChangesOnUI(-damagePerHit);
         defender.hp -= damagePerHit;
 
         if (defender.hp <= 0 && defender.HasSkill(SkillNames.Survival))
@@ -235,6 +235,7 @@ public class Attack : MonoBehaviour
         float hpToRestore = percentage * maxHp / 100;
         float hpAfterHeal = attacker.hp + hpToRestore;
         attacker.hp = hpAfterHeal > maxHp ? maxHp : hpAfterHeal;
+        Combat.ShowLifeChangesOnUI(hpToRestore);
     }
 
     IEnumerator ReceiveDamageAnimation(Fighter defender, float secondsUntilHitMarker)

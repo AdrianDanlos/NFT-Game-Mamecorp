@@ -1,6 +1,6 @@
 using System.Collections;
-using System;
 using UnityEngine;
+using TMPro;
 
 public class SkillsLogicInCombat : MonoBehaviour
 {
@@ -148,6 +148,25 @@ public class SkillsLogicInCombat : MonoBehaviour
     {
         FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.IDLE_BLINKING);
         yield return StartCoroutine(attackScript.PerformHealingPotion(attacker));
+    }
+
+    public IEnumerator ViciousTheft(Fighter attacker, string stolenSkill)
+    {
+
+        Anomaly.StartAnimation(attacker);
+        
+        TextMeshPro anomalyTextMeshPro = attacker.transform.Find("VFX/Anomaly_VFX/AnomalyText").GetComponent<TextMeshPro>();
+        anomalyTextMeshPro.GetComponent<TextMeshPro>().text = "Stealing.";
+        yield return new WaitForSeconds(.35f);
+        anomalyTextMeshPro.GetComponent<TextMeshPro>().text = "Stealing..";
+        yield return new WaitForSeconds(.35f);
+        anomalyTextMeshPro.GetComponent<TextMeshPro>().text = "Stealing...";
+        yield return new WaitForSeconds(.35f);
+        anomalyTextMeshPro.GetComponent<TextMeshPro>().text = $"{stolenSkill}\n Stolen!";
+        yield return new WaitForSeconds(1f);
+
+        anomalyTextMeshPro.GetComponent<TextMeshPro>().enabled = false;
+        Anomaly.StopAnimation(attacker);
     }
     private void SetOpacityOfFighterAndShadow(Fighter attacker, float opacity)
     {

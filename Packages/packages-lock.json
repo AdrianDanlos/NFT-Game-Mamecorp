@@ -16,6 +16,13 @@
       },
       "url": "https://packages.unity.com"
     },
+    "com.unity.device-simulator": {
+      "version": "https://github.com/needle-mirror/com.unity.device-simulator.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "7f58199a517f6f15a4e9a67b07b90a24fcd7cc7b"
+    },
     "com.unity.ext.nunit": {
       "version": "1.0.6",
       "depth": 1,

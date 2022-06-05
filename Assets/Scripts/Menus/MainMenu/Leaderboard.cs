@@ -40,8 +40,12 @@ public class Leaderboard : MonoBehaviour
 
         // ranking
         GetDB();
-        LeaderboardDB.UpdateDB();
+
+        if (LeaderboardDB.IsFirstTimeUsingDB())
+            LeaderboardDB.GenerateBaseDB();
+
         GenerateDB();
+        UpdatePlayerPosition();
     }
 
     private void Update()
@@ -52,7 +56,6 @@ public class Leaderboard : MonoBehaviour
             LeaderboardDB.UpdateDB();
             UpdateDB();
             GenerateDB();
-            Debug.Log("Ladder updated");
         }
     }
 
@@ -155,8 +158,12 @@ public class Leaderboard : MonoBehaviour
         SetUpUserFlag(User.Instance.flag);
         SetupUserName();
         SetupUserTrophies();
-        SetupUserRanking();
         SetupUserSprite();
+
+        if (CheckForPosition())
+            SetupUserPosition(GetInitialPosition());
+        else
+            UpdatePlayerPosition();
     }
 
     private void SetUpUserFlag(string flagName)
@@ -179,10 +186,9 @@ public class Leaderboard : MonoBehaviour
         playerProfile.transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = User.Instance.elo.ToString();
     }
 
-    private void SetupUserRanking()
+    private void SetupUserPosition(int newPosition)
     {
-        // TODO calc ranking
-        playerProfile.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = 50.ToString();
+        playerProfile.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = newPosition.ToString();
     }
 
     private void SetupUserSprite()
@@ -192,7 +198,6 @@ public class Leaderboard : MonoBehaviour
 
     private void ResetLadder()
     {
-        // TODO update player too
         List<Transform> users = new List<Transform>();
 
         for(int i = 0; i < playersContainer.transform.childCount; i++)
@@ -202,5 +207,56 @@ public class Leaderboard : MonoBehaviour
         {
             user.gameObject.SetActive(false);
         }
+    }
+
+    private int GetInitialPosition()
+    {
+        int initialPosition = 100;
+        PlayerPrefs.SetInt("userInitialPosition", 1);
+        PlayerPrefs.SetInt("userPosition", initialPosition);
+        return initialPosition;
+    }
+
+    private int GetPlayerPosition()
+    {
+        return PlayerPrefs.GetInt("userPosition");
+    }
+
+    private bool CheckForPosition()
+    {
+        return PlayerPrefs.GetInt("userInitialPosition") == 0;
+    }
+
+    private void SavePlayerLastUpdate()
+    {
+        PlayerPrefs.SetInt("userLastTrophies", User.Instance.cups);
+    }
+
+    private int GetPlayerLastUpdateDiff()
+    {
+        return PlayerPrefs.GetInt("userLastTrophies") - User.Instance.cups;
+    }
+
+    private void UpdatePlayerPosition()
+    {
+        if (GetPlayerLastUpdateDiff() > 0 && GetPlayerLastUpdateDiff() < 30)
+        {
+            PlayerPrefs.SetInt("userPosition", GetPlayerPosition() - 1);
+        }
+        else if(GetPlayerLastUpdateDiff() > 30)
+        {
+            PlayerPrefs.SetInt("userPosition", GetPlayerPosition() - 2);
+        }
+        else if (GetPlayerLastUpdateDiff() < 0)
+        {
+            PlayerPrefs.SetInt("userPosition", GetPlayerPosition() + 1);
+        } 
+        else
+        {
+            PlayerPrefs.SetInt("userPosition", GetPlayerPosition());
+        }
+
+
+        SavePlayerLastUpdate();
     }
 }

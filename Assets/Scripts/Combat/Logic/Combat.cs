@@ -68,7 +68,7 @@ public class Combat : MonoBehaviour
 
         // Generate bot data
         if (Cup.Instance.isActive && !CombatMode.isSoloqEnabled) MatchMaking.GenerateCupBotData(player, bot);
-        else MatchMaking.GenerateBotData(player, bot);            
+        else MatchMaking.GenerateBotData(player, bot);
 
         SetMaxHpValues();
 
@@ -113,13 +113,14 @@ public class Combat : MonoBehaviour
         SceneFlag.sceneName = SceneNames.Combat.ToString();
     }
 
-    IEnumerator LoadingScreenLogic(){
+    IEnumerator LoadingScreenLogic()
+    {
         float timeUntilOpponentIsFound = 3f;
         yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(timeUntilOpponentIsFound));
         loadingScreen.SetBotLoadingScreenData(bot);
         levelTextBot.enabled = true;
         yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(3f));
-    }   
+    }
 
     private void BoostFightersStatsBasedOnPassiveSkills()
     {
@@ -176,8 +177,8 @@ public class Combat : MonoBehaviour
         combatLoadingScreenSprites = GameObject.FindGameObjectWithTag("CombatLoadingScreenSprites");
         levelTextBot = GameObject.Find("LevelTextBot").GetComponent<TextMeshProUGUI>();
         defaultBloodPositionY = GameObject.Find("VFX/Hit_VFX").transform.position.y;
-        boostButton =  GameObject.Find("Button_Boost");
-        elixirButton =  GameObject.Find("Button_Elixir");
+        boostButton = GameObject.Find("Button_Boost");
+        elixirButton = GameObject.Find("Button_Elixir");
     }
 
     private void SetFighterPositions()
@@ -211,24 +212,28 @@ public class Combat : MonoBehaviour
         botPortrait.GetComponent<Image>().sprite = Resources.Load<Sprite>("CharacterProfilePicture/" + bot.species);
     }
 
-    private void SetBoostElixirBtns(bool isEnabled){
+    private void SetBoostElixirBtns(bool isEnabled)
+    {
         boostButton.SetActive(isEnabled);
         elixirButton.SetActive(isEnabled);
     }
-    private void StartBotElixirAndBoostTimer(){
-        StartCoroutine(StartBotBoostTimer());     
-        StartCoroutine(StartBotElixirTimer());     
+    private void StartBotElixirAndBoostTimer()
+    {
+        StartCoroutine(StartBotBoostTimer());
+        StartCoroutine(StartBotElixirTimer());
     }
-    IEnumerator StartBotElixirTimer(){
+    IEnumerator StartBotElixirTimer()
+    {
         //Between x and y seconds
         float elixirTimeRange = UnityEngine.Random.Range(15, 25);
-        yield return new WaitForSeconds(elixirTimeRange); 
-        elixirScript.TriggerElixirEffects(bot);     
+        yield return new WaitForSeconds(elixirTimeRange);
+        elixirScript.TriggerElixirEffects(bot);
     }
-    IEnumerator StartBotBoostTimer(){
+    IEnumerator StartBotBoostTimer()
+    {
         float boostTimeRange = UnityEngine.Random.Range(1, 20);
-        yield return new WaitForSeconds(boostTimeRange);  
-        boostScript.TriggerBoostEffects(bot);      
+        yield return new WaitForSeconds(boostTimeRange);
+        boostScript.TriggerBoostEffects(bot);
     }
 
     IEnumerator InitiateCombat()
@@ -249,7 +254,7 @@ public class Combat : MonoBehaviour
             yield return StartCoroutine(StartTurn(secondAttacker, firstAttacker));
             while (!isGameOver && attackScript.IsExtraTurn(secondAttacker)) yield return StartCoroutine(StartTurn(secondAttacker, firstAttacker));
         }
-        
+
         StartCoroutine(StartPostGameActions());
     }
 
@@ -268,13 +273,12 @@ public class Combat : MonoBehaviour
 
     IEnumerator StartTurn(Fighter attacker, Fighter defender)
     {
-        yield return skillsLogicScript.ShadowTravel(attacker, defender);
-        // if (WillUseSkillThisTurn(attacker))
-        // {
-        //     yield return StartCoroutine(UseRandomSkill(attacker, defender, attacker));
-        //     yield break;
-        // }
-        // yield return skillsLogicScript.AttackWithoutSkills(attacker, defender);
+        if (WillUseSkillThisTurn(attacker))
+        {
+            yield return StartCoroutine(UseRandomSkill(attacker, defender, attacker));
+            yield break;
+        }
+        yield return skillsLogicScript.AttackWithoutSkills(attacker, defender);
         FighterAnimations.ChangeAnimation(GetAttackerIfAlive(attacker, defender), FighterAnimations.AnimationNames.IDLE);
     }
 
@@ -298,8 +302,14 @@ public class Combat : MonoBehaviour
         if (skillNamesList.Count() > 0)
         {
             int randomSkillIndex = UnityEngine.Random.Range(0, skillNamesList.Count());
+            string skillToCastThisTurn = skillNamesList[randomSkillIndex];
+            bool isStolenSkill = defender == fighterWeTakeTheSkillFrom;
+            if (isStolenSkill & skillToCastThisTurn != SkillNames.ViciousTheft)
+            {
+                yield return StartCoroutine(skillsLogicScript.ViciousTheft(attacker, skillToCastThisTurn));
+            }
 
-            switch (skillNamesList[randomSkillIndex])
+            switch (skillToCastThisTurn)
             {
                 case SkillNames.JumpStrike:
                     yield return skillsLogicScript.JumpStrike(attacker, defender);

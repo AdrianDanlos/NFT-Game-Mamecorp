@@ -22,6 +22,7 @@ public class FighterAnimations : MonoBehaviour
 
     public static void ChangeAnimation(Fighter fighter, AnimationNames newAnimation)
     {
+        if(fighter.currentAnimation == newAnimation.ToString() && AnimationNames.IDLE == newAnimation) return; 
         fighter.GetComponent<Animator>().Play(newAnimation.ToString(), -1, 0f);
         fighter.currentAnimation = newAnimation.ToString();
     }

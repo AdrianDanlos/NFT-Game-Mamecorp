@@ -55,6 +55,10 @@ public class Combat : MonoBehaviour
     //Balance constants
     private const int ProbabilityOfUsingSkillEachTurn = 50;
 
+    //Sorting layers
+    public static int fighterSortingOrder;
+    public static int bloodSortingOrder;
+
     // Countdown timer
     const float COUNTDOWN_ANIMATION = 3f;
     const float ENTER_ARENA_ANIMATION = 2.5f;
@@ -86,6 +90,7 @@ public class Combat : MonoBehaviour
         SetFighterPositions();
         SetOrderOfAttacks();
         GetRandomArena();
+        GetLayersOrder();
         FighterSkin.SetFightersSkin(player, bot);
         FighterAnimations.ResetToDefaultAnimation(player);
         fightersUIDataScript.SetFightersUIInfo(player, bot, botElo);
@@ -111,6 +116,12 @@ public class Combat : MonoBehaviour
         StartCoroutine(InitiateCombat());
 
         SceneFlag.sceneName = SceneNames.Combat.ToString();
+    }
+
+    private void GetLayersOrder()
+    {
+        fighterSortingOrder = botGameObject.GetComponent<Renderer>().sortingOrder;
+        bloodSortingOrder = bot.transform.Find("VFX/Hit_VFX").GetComponent<Renderer>().sortingOrder;
     }
 
     IEnumerator LoadingScreenLogic()
@@ -304,10 +315,9 @@ public class Combat : MonoBehaviour
             int randomSkillIndex = UnityEngine.Random.Range(0, skillNamesList.Count());
             string skillToCastThisTurn = skillNamesList[randomSkillIndex];
             bool isStolenSkill = defender == fighterWeTakeTheSkillFrom;
+
             if (isStolenSkill & skillToCastThisTurn != SkillNames.ViciousTheft)
-            {
                 yield return StartCoroutine(skillsLogicScript.ViciousTheft(attacker, skillToCastThisTurn));
-            }
 
             switch (skillToCastThisTurn)
             {
@@ -463,4 +473,11 @@ public class Combat : MonoBehaviour
 
     //During the combat the player object experiences a lot of changes so we need to set it back to its default state after the combat.
     private Action ResetPlayerObject = () => player = JsonDataManager.ReadFighterFile();
+
+    //TODO: Remove this. Testing purposes. + Remember to remove gameobject from scene.
+    public static void ShowLifeChangesOnUI(float lifeChange)
+    {
+        string prefix = lifeChange > 0 ? "HEAL" : "DMG";
+        GameObject.Find("DummyText").GetComponent<TextMeshProUGUI>().text = $"{prefix}: {Math.Round(lifeChange, 1)}";
+    }
 }

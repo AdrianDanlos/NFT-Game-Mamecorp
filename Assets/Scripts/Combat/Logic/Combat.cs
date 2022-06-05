@@ -315,10 +315,9 @@ public class Combat : MonoBehaviour
             int randomSkillIndex = UnityEngine.Random.Range(0, skillNamesList.Count());
             string skillToCastThisTurn = skillNamesList[randomSkillIndex];
             bool isStolenSkill = defender == fighterWeTakeTheSkillFrom;
-            if (isStolenSkill & skillToCastThisTurn != SkillNames.ViciousTheft)
-            {
+
+            if (isStolenSkill & skillToCastThisTurn != SkillNames.ViciousTheft) 
                 yield return StartCoroutine(skillsLogicScript.ViciousTheft(attacker, skillToCastThisTurn));
-            }
 
             switch (skillToCastThisTurn)
             {

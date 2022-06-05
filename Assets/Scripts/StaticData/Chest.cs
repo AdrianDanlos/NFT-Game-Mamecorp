@@ -42,20 +42,20 @@ public static class Chest
             {
                 BattleChestRarities.COMMON, new Dictionary<string, int>
                 {
-                    {"minGold", 10},
-                    {"maxGold", 51},
-                    {"minGems", 1},
-                    {"maxGems", 6},
+                    {"minGold", 400},
+                    {"maxGold", 600},
+                    {"minGems", 5},
+                    {"maxGems", 10},
                 }
 
             },
             {
                 BattleChestRarities.RARE, new Dictionary<string, int>
                 {
-                    {"minGold", 40},
-                    {"maxGold", 81},
-                    {"minGems", 7},
-                    {"maxGems", 14},
+                    {"minGold", 500},
+                    {"maxGold", 800},
+                    {"minGems", 10},
+                    {"maxGems", 20},
                 }
             },
         };

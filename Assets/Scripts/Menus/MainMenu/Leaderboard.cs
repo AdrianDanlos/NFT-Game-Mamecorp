@@ -19,6 +19,7 @@ public class Leaderboard : MonoBehaviour
     Dictionary<string, int> orderedDB;
     List<KeyValuePair<string, int>> newDict;
     const int DAYS_BETWEEN_UPDATE = 1;
+    const int MINUTES_BETWEEN_USER_RANKING_UPDATE = 1; 
 
     // Player GameObject Structure
     // - List_Me
@@ -46,7 +47,7 @@ public class Leaderboard : MonoBehaviour
             LeaderboardDB.GenerateBaseDB();
 
         GenerateDB();
-        UpdatePlayerPosition();
+        SetupUserPosition(GetUserPosition());
     }
 
     private void Update()
@@ -59,7 +60,13 @@ public class Leaderboard : MonoBehaviour
             GenerateDB();
         }
 
-        if(canupd)
+        if (CheckForUserLadderUpdate())
+        {
+            SetNewUserRankingPositionTimestamp();
+            SetUserPosition(GetTrophiesChange());
+            SetupUserPosition(GetUserPosition());
+            Debug.Log("user position update");
+        }
     }
 
     private void GetDB()
@@ -193,6 +200,71 @@ public class Leaderboard : MonoBehaviour
     private void SetupUserPosition(int newPosition)
     {
         playerProfile.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = newPosition.ToString();
+    }
+
+    private bool CheckForUserLadderUpdate()
+    {
+        if (PlayerPrefs.HasKey("userRankingTimestamp"))
+            return DateTime.Compare(DateTime.FromBinary(Convert.ToInt64(PlayerPrefs.GetString("userRankingTimestamp"))), DateTime.Now) <= 0;
+        return false;
+    }
+
+    private void SetNewUserRankingPositionTimestamp()
+    {
+        PlayerPrefs.SetString("userRankingTimestamp", DateTime.Now.AddMinutes(MINUTES_BETWEEN_USER_RANKING_UPDATE).ToBinary().ToString());
+        PlayerPrefs.Save();
+    }
+
+    private int GetUserPosition()
+    {
+        return PlayerPrefs.GetInt("userRankingPosition");
+    }
+
+    private void SetUserPosition(int newPosition)
+    {
+        PlayerPrefs.SetInt("userRankingPosition", newPosition);
+        PlayerPrefs.Save();
+    }
+
+    private int GetUserCups()
+    {
+        return PlayerPrefs.GetInt("userCups");
+    }
+
+    private void SetUserCups(int newCups)
+    {
+        PlayerPrefs.SetInt("userCups", newCups);
+        PlayerPrefs.Save();
+    }
+
+    private int GetTrophiesChange()
+    {
+        int lastTrophies = GetUserCups();
+        int lastPosition = GetUserPosition();
+
+        if(User.Instance.elo > lastTrophies)
+        {
+            SetUserCups(User.Instance.elo);
+            SetUserPosition(lastPosition - GenerateRandomRankingPositionChange(2, 6));
+            return GetUserPosition();
+        }
+        else if(User.Instance.elo < lastTrophies)
+        {
+            SetUserCups(User.Instance.elo);
+            SetUserPosition(lastPosition + GenerateRandomRankingPositionChange(2, 6));
+            return GetUserPosition();
+        }
+        else if(User.Instance.elo == lastTrophies)
+        {
+            return lastPosition;
+        }
+
+        return lastPosition;
+    }
+
+    private int GenerateRandomRankingPositionChange(int min, int max)
+    {
+        return UnityEngine.Random.Range(min, max);
     }
 
     private void ResetLadder()

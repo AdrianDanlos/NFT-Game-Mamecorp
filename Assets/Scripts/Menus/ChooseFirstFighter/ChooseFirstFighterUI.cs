@@ -51,8 +51,8 @@ public class ChooseFirstFighterUI : MonoBehaviour
     // Shadow fighters and UI
     private Color32 shadowedColor = new Color32(90, 90, 90, 255);
     private Color32 visibleColor = new Color32(255, 255, 255, 255);
-    private float initialAlphaUI = 0.5f;
-    private float visibleAlphaUI = 1f;
+    private readonly float initialAlphaUI = 0.5f;
+    private readonly float visibleAlphaUI = 1f;
 
     private Button prev;
     private Button next;
@@ -68,7 +68,7 @@ public class ChooseFirstFighterUI : MonoBehaviour
     public GameObject flagErrorOk;
 
     // RANKING
-    const int HOURS_BETWEEN_USER_RANKING_UPDATE = 12;
+    const int MINUTES_BETWEEN_USER_RANKING_UPDATE = 1;
     const int RANKING_MIN_STARTING_POSITION = 1100;
     const int RANKING_MAX_STARTING_POSITION = 1500;
 
@@ -397,8 +397,11 @@ public class ChooseFirstFighterUI : MonoBehaviour
 
     private void CreateLeaderboardPosition()
     {
-        PlayerPrefs.SetString("userRankingTimestamp", DateTime.Now.AddHours(HOURS_BETWEEN_USER_RANKING_UPDATE).ToBinary().ToString());
+        // TODO change to days
+        PlayerPrefs.SetString("userRankingTimestamp", DateTime.Now.AddMinutes(MINUTES_BETWEEN_USER_RANKING_UPDATE).ToBinary().ToString());
         PlayerPrefs.SetInt("userRankingPosition", GenerateRandomRankingPosition());
+        PlayerPrefs.SetInt("userCups", 0);
+        PlayerPrefs.Save();
     }
 
     private int GenerateRandomRankingPosition()

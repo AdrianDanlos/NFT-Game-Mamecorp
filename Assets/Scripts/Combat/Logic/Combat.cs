@@ -55,6 +55,10 @@ public class Combat : MonoBehaviour
     //Balance constants
     private const int ProbabilityOfUsingSkillEachTurn = 50;
 
+    //Sorting layers
+    public static int fighterSortingOrder;
+    public static int bloodSortingOrder;
+
     // Countdown timer
     const float COUNTDOWN_ANIMATION = 3f;
     const float ENTER_ARENA_ANIMATION = 2.5f;
@@ -86,6 +90,7 @@ public class Combat : MonoBehaviour
         SetFighterPositions();
         SetOrderOfAttacks();
         GetRandomArena();
+        GetLayersOrder();
         FighterSkin.SetFightersSkin(player, bot);
         FighterAnimations.ResetToDefaultAnimation(player);
         fightersUIDataScript.SetFightersUIInfo(player, bot, botElo);
@@ -111,6 +116,12 @@ public class Combat : MonoBehaviour
         StartCoroutine(InitiateCombat());
 
         SceneFlag.sceneName = SceneNames.Combat.ToString();
+    }
+
+    private void GetLayersOrder()
+    {
+        fighterSortingOrder = botGameObject.GetComponent<Renderer>().sortingOrder;
+        bloodSortingOrder = bot.transform.Find("VFX/Hit_VFX").GetComponent<Renderer>().sortingOrder;
     }
 
     IEnumerator LoadingScreenLogic()

@@ -316,7 +316,7 @@ public class Combat : MonoBehaviour
             string skillToCastThisTurn = skillNamesList[randomSkillIndex];
             bool isStolenSkill = defender == fighterWeTakeTheSkillFrom;
 
-            if (isStolenSkill & skillToCastThisTurn != SkillNames.ViciousTheft) 
+            if (isStolenSkill & skillToCastThisTurn != SkillNames.ViciousTheft)
                 yield return StartCoroutine(skillsLogicScript.ViciousTheft(attacker, skillToCastThisTurn));
 
             switch (skillToCastThisTurn)
@@ -473,4 +473,11 @@ public class Combat : MonoBehaviour
 
     //During the combat the player object experiences a lot of changes so we need to set it back to its default state after the combat.
     private Action ResetPlayerObject = () => player = JsonDataManager.ReadFighterFile();
+
+    //TODO: Remove this. Testing purposes. + Remember to remove gameobject from scene.
+    public static void ShowLifeChangesOnUI(float lifeChange)
+    {
+        string prefix = lifeChange > 0 ? "HEAL" : "DMG";
+        GameObject.Find("DummyText").GetComponent<TextMeshProUGUI>().text = $"{prefix}: {Math.Round(lifeChange, 1)}";
+    }
 }

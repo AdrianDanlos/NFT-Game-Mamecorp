@@ -25,6 +25,7 @@ public class Elixir : MonoBehaviour
         float missingHp = fighter == Combat.player ? Combat.playerMaxHp - fighter.hp : Combat.botMaxHp - fighter.hp;
         //Heals for 50% of the missing hp
         fighter.hp += missingHp * 0.5f;
+        Combat.ShowLifeChangesOnUI(missingHp * 0.5f);
         Combat.fightersUIDataScript.ModifyHealthBar(fighter);
         StartCoroutine(StopElixirAnimation(elixir));
     }

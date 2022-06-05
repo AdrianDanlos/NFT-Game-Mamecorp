@@ -33,6 +33,8 @@ public static class MatchMaking
             randomSpecies.ToString(), randomSpecies.ToString(), botLevel, 0, botSkills);
 
         //FIXME v2: We should remove the skin concept from the fighters and use the species name for the skin.
+
+        Debug.Log("hp: " + botStats["hp"] + " damage: " + botStats["damage"] + " speed: " + botStats["speed"]);
     }
 
     public static void GenerateCupBotData(Fighter player, Fighter bot)
@@ -88,9 +90,9 @@ public static class MatchMaking
 
     private static Dictionary<string, float> GenerateBotRandomStats(SpeciesNames randomSpecies)
     {
-        float hp = Species.defaultStats[randomSpecies]["hp"] + (Species.statsPerLevel[randomSpecies]["hp"] * Combat.player.level);
-        float damage = Species.defaultStats[randomSpecies]["damage"] + (Species.statsPerLevel[randomSpecies]["damage"] * Combat.player.level);
-        float speed = Species.defaultStats[randomSpecies]["speed"] + (Species.statsPerLevel[randomSpecies]["speed"] * Combat.player.level);
+        float hp = Species.defaultStats[randomSpecies]["hp"] + (Species.statsPerLevel[randomSpecies]["hp"] * (Combat.player.level - 1));
+        float damage = Species.defaultStats[randomSpecies]["damage"] + (Species.statsPerLevel[randomSpecies]["damage"] * (Combat.player.level - 1));
+        float speed = Species.defaultStats[randomSpecies]["speed"] + (Species.statsPerLevel[randomSpecies]["speed"] * (Combat.player.level - 1));
 
         return new Dictionary<string, float>
         {

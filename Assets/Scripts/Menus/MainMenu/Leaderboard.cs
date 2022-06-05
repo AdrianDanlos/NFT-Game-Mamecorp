@@ -18,6 +18,7 @@ public class Leaderboard : MonoBehaviour
     Dictionary<string, Dictionary<string, string>> usersDB;
     Dictionary<string, int> orderedDB;
     List<KeyValuePair<string, int>> newDict;
+    const int DAYS_BETWEEN_UPDATE = 1;
 
     // Player GameObject Structure
     // - List_Me
@@ -98,7 +99,7 @@ public class Leaderboard : MonoBehaviour
 
     private void UpdateDB()
     {
-        PlayerPrefs.SetString("leaderboardUpdate", DateTime.Now.AddSeconds(3).ToBinary().ToString());
+        PlayerPrefs.SetString("leaderboardUpdate", DateTime.Now.AddDays(DAYS_BETWEEN_UPDATE).ToBinary().ToString());
         PlayerPrefs.Save();
     }
 
@@ -106,8 +107,7 @@ public class Leaderboard : MonoBehaviour
     {
         if (!PlayerPrefs.HasKey("leaderboardUpdate"))
         {
-            PlayerPrefs.SetString("leaderboardUpdate", DateTime.Now.AddSeconds(3).ToBinary().ToString());
-            PlayerPrefs.Save();
+            UpdateDB();
         }
 
         if (PlayerPrefs.HasKey("leaderboardUpdate"))

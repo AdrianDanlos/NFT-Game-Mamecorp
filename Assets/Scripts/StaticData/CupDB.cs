@@ -46,7 +46,7 @@ public static class CupDB
                 CupRounds.FINALS, new Dictionary<string, string>
                 {
                     {"reward", "chest"},
-                    {"value", "EPIC"}
+                    {"value", "LEGENDARY"}
                 }
             },
         };

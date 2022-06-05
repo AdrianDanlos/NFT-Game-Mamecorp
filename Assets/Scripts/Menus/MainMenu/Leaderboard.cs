@@ -65,7 +65,6 @@ public class Leaderboard : MonoBehaviour
             SetNewUserRankingPositionTimestamp();
             SetUserPosition(GetTrophiesChange());
             SetupUserPosition(GetUserPosition());
-            Debug.Log("user position update");
         }
     }
 

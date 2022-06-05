@@ -40,7 +40,10 @@ public class Leaderboard : MonoBehaviour
 
         // ranking
         GetDB();
-        LeaderboardDB.UpdateDB();
+
+        if (LeaderboardDB.IsFirstTimeUsingDB())
+            LeaderboardDB.GenerateBaseDB();
+
         GenerateDB();
     }
 
@@ -52,7 +55,6 @@ public class Leaderboard : MonoBehaviour
             LeaderboardDB.UpdateDB();
             UpdateDB();
             GenerateDB();
-            Debug.Log("Ladder updated");
         }
     }
 
@@ -192,7 +194,6 @@ public class Leaderboard : MonoBehaviour
 
     private void ResetLadder()
     {
-        // TODO update player too
         List<Transform> users = new List<Transform>();
 
         for(int i = 0; i < playersContainer.transform.childCount; i++)

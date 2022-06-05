@@ -49,7 +49,7 @@ public class LeaderboardDB
             new Dictionary<string, string>{
                 {"name", "monstersarius"},
                 {"country", "GRE"},
-                {"trophies", GenerateInitialTrophies().ToString()},
+                {"trophies", "0"},
                 {"specie", "Orc"},
             }
         },
@@ -58,7 +58,7 @@ public class LeaderboardDB
             new Dictionary<string, string>{
                 {"name", "Turges"},
                 {"country", "ITA"},
-                {"trophies", GenerateInitialTrophies().ToString()},
+                {"trophies", "0"},
                 {"specie", "Ogre"},
             }
         },
@@ -67,7 +67,7 @@ public class LeaderboardDB
             new Dictionary<string, string>{
                 {"name", "adamqa"},
                 {"country", "ESP"},
-                {"trophies", GenerateInitialTrophies().ToString()},
+                {"trophies", "0"},
                 {"specie", "FallenAngel1"},
             }
         },
@@ -76,7 +76,7 @@ public class LeaderboardDB
             new Dictionary<string, string>{
                 {"name", "ellster16"},
                 {"country", "DEU"},
-                {"trophies", GenerateInitialTrophies().ToString()},
+                {"trophies", "0"},
                 {"specie", "Golem1"},
             }
         },
@@ -85,7 +85,7 @@ public class LeaderboardDB
             new Dictionary<string, string>{
                 {"name", "thenameisG"},
                 {"country", "CHN"},
-                {"trophies", GenerateInitialTrophies().ToString()},
+                {"trophies", "0"},
                 {"specie", "FallenAngel2"},
             }
         },
@@ -94,7 +94,7 @@ public class LeaderboardDB
             new Dictionary<string, string>{
                 {"name", "Yorphudi"},
                 {"country", "PRT"},
-                {"trophies", GenerateInitialTrophies().ToString()},
+                {"trophies", "0"},
                 {"specie", "Goblin"},
             }
         },
@@ -103,7 +103,7 @@ public class LeaderboardDB
             new Dictionary<string, string>{
                 {"name", "emf44"},
                 {"country", "KOR"},
-                {"trophies", GenerateInitialTrophies().ToString()},
+                {"trophies", "0"},
                 {"specie", "FallenAngel3"},
             }
         },
@@ -112,7 +112,7 @@ public class LeaderboardDB
             new Dictionary<string, string>{
                 {"name", "kirisunaKUN"},
                 {"country", "FRA"},
-                {"trophies", GenerateInitialTrophies().ToString()},
+                {"trophies", "0"},
                 {"specie", "Goblin"},
             }
         },
@@ -121,7 +121,7 @@ public class LeaderboardDB
             new Dictionary<string, string>{
                 {"name", "inkkkk8"},
                 {"country", "RUS"},
-                {"trophies", GenerateInitialTrophies().ToString()},
+                {"trophies", "0"},
                 {"specie", "Golem2"},
             }
         },
@@ -130,7 +130,7 @@ public class LeaderboardDB
             new Dictionary<string, string>{
                 {"name", "jeje6789"},
                 {"country", "ESP"},
-                {"trophies", GenerateInitialTrophies().ToString()},
+                {"trophies", "0"},
                 {"specie", "Golem1"},
             }
         },
@@ -139,7 +139,7 @@ public class LeaderboardDB
             new Dictionary<string, string>{
                 {"name", "Crowcifer"},
                 {"country", "fra"},
-                {"trophies", GenerateInitialTrophies().ToString()},
+                {"trophies", "0"},
                 {"specie", "Orc"},
             }
         },
@@ -148,7 +148,7 @@ public class LeaderboardDB
             new Dictionary<string, string>{
                 {"name", "IISilverIII"},
                 {"country", "SWE"},
-                {"trophies", GenerateInitialTrophies().ToString()},
+                {"trophies", "0"},
                 {"specie", "FallenAngel1"},
             }
         },
@@ -157,7 +157,7 @@ public class LeaderboardDB
             new Dictionary<string, string>{
                 {"name", "Stoner8008"},
                 {"country", "ITA"},
-                {"trophies", GenerateInitialTrophies().ToString()},
+                {"trophies", "0"},
                 {"specie", "Golem3"},
             }
         },
@@ -166,7 +166,7 @@ public class LeaderboardDB
             new Dictionary<string, string>{
                 {"name", "EloiseJolie"},
                 {"country", "FRA"},
-                {"trophies", GenerateInitialTrophies().ToString()},
+                {"trophies", "0"},
                 {"specie", "Goblin"},
             }
         },
@@ -175,69 +175,20 @@ public class LeaderboardDB
             new Dictionary<string, string>{
                 {"name", "huda khatib"},
                 {"country", "TUR"},
-                {"trophies", GenerateInitialTrophies().ToString()},
+                {"trophies", "0"},
                 {"specie", "Ogre"},
             }
         },
     };
 
-    public static void UpdateDB(int player)
-    {
-        switch (player)
-        {
-            case 1:
-                PlayerPrefs.SetInt("player" + player, PlayerPrefs.GetInt("player" + player) + GetBigTrophyGains());
-                break;
-            case 2:
-                PlayerPrefs.SetInt("player" + player, PlayerPrefs.GetInt("player" + player) + GetLowTrophyGains());
-                break;
-            case 3:
-                PlayerPrefs.SetInt("player" + player, PlayerPrefs.GetInt("player" + player) + GetBigTrophyGains());
-                break;
-            case 4:
-                PlayerPrefs.SetInt("player" + player, PlayerPrefs.GetInt("player" + player) + GetBigTrophyGains());
-                break;
-            case 5:
-                PlayerPrefs.SetInt("player" + player, PlayerPrefs.GetInt("player" + player) + GetLowTrophyGains());
-                break;
-            case 6:
-                PlayerPrefs.SetInt("player" + player, PlayerPrefs.GetInt("player" + player) + GetBigTrophyGains());
-                break;
-            case 7:
-                PlayerPrefs.SetInt("player" + player, PlayerPrefs.GetInt("player" + player) + GetMediumTrophyGains());
-                break;
-            case 8:
-                PlayerPrefs.SetInt("player" + player, PlayerPrefs.GetInt("player" + player) + GetBigTrophyGains());
-                break;
-            case 9:
-                PlayerPrefs.SetInt("player" + player, PlayerPrefs.GetInt("player" + player) + GetBigTrophyGains());
-                break;
-            case 10:
-                PlayerPrefs.SetInt("player" + player, PlayerPrefs.GetInt("player" + player) + GetLowTrophyGains());
-                break;
-            case 11:
-                PlayerPrefs.SetInt("player" + player, PlayerPrefs.GetInt("player" + player) + GetMediumTrophyGains());
-                break;
-            case 12:
-                PlayerPrefs.SetInt("player" + player, PlayerPrefs.GetInt("player" + player) + GetLowTrophyGains());
-                break;
-            case 13:
-                PlayerPrefs.SetInt("player" + player, PlayerPrefs.GetInt("player" + player) + GetLowTrophyGains());
-                break;
-            case 14:
-                PlayerPrefs.SetInt("player" + player, PlayerPrefs.GetInt("player" + player) + GetMediumTrophyGains());
-                break;
-            case 15:
-                PlayerPrefs.SetInt("player" + player, PlayerPrefs.GetInt("player" + player) + GetLowTrophyGains());
-                break;
-        }
-
-        PlayerPrefs.Save();
-    }
-
     public static int GetUserTrophies(string id)
     {
         return PlayerPrefs.GetInt("player" + id);
+    }
+
+    public static bool IsFirstTimeUsingDB()
+    {
+        return PlayerPrefs.GetInt("player15") == 0;
     }
 
     public static void UpdateDB()
@@ -257,6 +208,27 @@ public class LeaderboardDB
         PlayerPrefs.SetInt("player13", PlayerPrefs.GetInt("player13") + GetLowTrophyGains());
         PlayerPrefs.SetInt("player14", PlayerPrefs.GetInt("player14") + GetMediumTrophyGains());
         PlayerPrefs.SetInt("player15", PlayerPrefs.GetInt("player15") + GetLowTrophyGains());
+
+        PlayerPrefs.Save();
+    }
+
+    public static void GenerateBaseDB()
+    {
+        PlayerPrefs.SetInt("player1", GenerateInitialTrophies());
+        PlayerPrefs.SetInt("player2", GenerateInitialTrophies());
+        PlayerPrefs.SetInt("player3", GenerateInitialTrophies());
+        PlayerPrefs.SetInt("player4", GenerateInitialTrophies());
+        PlayerPrefs.SetInt("player5", GenerateInitialTrophies());
+        PlayerPrefs.SetInt("player6", GenerateInitialTrophies());
+        PlayerPrefs.SetInt("player7", GenerateInitialTrophies());
+        PlayerPrefs.SetInt("player8", GenerateInitialTrophies());
+        PlayerPrefs.SetInt("player9", GenerateInitialTrophies());
+        PlayerPrefs.SetInt("player10", GenerateInitialTrophies());
+        PlayerPrefs.SetInt("player11", GenerateInitialTrophies());
+        PlayerPrefs.SetInt("player12", GenerateInitialTrophies());
+        PlayerPrefs.SetInt("player13", GenerateInitialTrophies());
+        PlayerPrefs.SetInt("player14", GenerateInitialTrophies());
+        PlayerPrefs.SetInt("player15", GenerateInitialTrophies());
 
         PlayerPrefs.Save();
     }

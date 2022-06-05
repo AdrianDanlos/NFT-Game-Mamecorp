@@ -58,6 +58,8 @@ public class Leaderboard : MonoBehaviour
             UpdateDB();
             GenerateDB();
         }
+
+        if(canupd)
     }
 
     private void GetDB()
@@ -160,10 +162,7 @@ public class Leaderboard : MonoBehaviour
         SetupUserTrophies();
         SetupUserSprite();
 
-        if (CheckForPosition())
-            SetupUserPosition(GetInitialPosition());
-        else
-            UpdatePlayerPosition();
+        // todo change position
     }
 
     private void SetUpUserFlag(string flagName)
@@ -186,14 +185,14 @@ public class Leaderboard : MonoBehaviour
         playerProfile.transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = User.Instance.elo.ToString();
     }
 
-    private void SetupUserPosition(int newPosition)
-    {
-        playerProfile.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = newPosition.ToString();
-    }
-
     private void SetupUserSprite()
     {
         playerProfile.transform.GetChild(1).GetChild(0).GetChild(0).gameObject.GetComponent<Image>().sprite = MenuUtils.GetProfilePicture(player.species);
+    }
+
+    private void SetupUserPosition(int newPosition)
+    {
+        playerProfile.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = newPosition.ToString();
     }
 
     private void ResetLadder()
@@ -207,56 +206,5 @@ public class Leaderboard : MonoBehaviour
         {
             user.gameObject.SetActive(false);
         }
-    }
-
-    private int GetInitialPosition()
-    {
-        int initialPosition = 100;
-        PlayerPrefs.SetInt("userInitialPosition", 1);
-        PlayerPrefs.SetInt("userPosition", initialPosition);
-        return initialPosition;
-    }
-
-    private int GetPlayerPosition()
-    {
-        return PlayerPrefs.GetInt("userPosition");
-    }
-
-    private bool CheckForPosition()
-    {
-        return PlayerPrefs.GetInt("userInitialPosition") == 0;
-    }
-
-    private void SavePlayerLastUpdate()
-    {
-        PlayerPrefs.SetInt("userLastTrophies", User.Instance.cups);
-    }
-
-    private int GetPlayerLastUpdateDiff()
-    {
-        return PlayerPrefs.GetInt("userLastTrophies") - User.Instance.cups;
-    }
-
-    private void UpdatePlayerPosition()
-    {
-        if (GetPlayerLastUpdateDiff() > 0 && GetPlayerLastUpdateDiff() < 30)
-        {
-            PlayerPrefs.SetInt("userPosition", GetPlayerPosition() - 1);
-        }
-        else if(GetPlayerLastUpdateDiff() > 30)
-        {
-            PlayerPrefs.SetInt("userPosition", GetPlayerPosition() - 2);
-        }
-        else if (GetPlayerLastUpdateDiff() < 0)
-        {
-            PlayerPrefs.SetInt("userPosition", GetPlayerPosition() + 1);
-        } 
-        else
-        {
-            PlayerPrefs.SetInt("userPosition", GetPlayerPosition());
-        }
-
-
-        SavePlayerLastUpdate();
     }
 }

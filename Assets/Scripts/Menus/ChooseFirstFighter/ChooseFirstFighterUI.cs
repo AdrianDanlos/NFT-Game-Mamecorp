@@ -67,6 +67,11 @@ public class ChooseFirstFighterUI : MonoBehaviour
 
     public GameObject flagErrorOk;
 
+    // RANKING
+    const int HOURS_BETWEEN_USER_RANKING_UPDATE = 12;
+    const int RANKING_MIN_STARTING_POSITION = 1100;
+    const int RANKING_MAX_STARTING_POSITION = 1500;
+
     private void Awake()
     {
         HandleUIOnAwake();
@@ -377,6 +382,8 @@ public class ChooseFirstFighterUI : MonoBehaviour
         JsonDataManager.SaveData(serializableFighter, JsonDataManager.FighterFileName);
 
         ResetAllPrefs();
+
+        CreateLeaderboardPosition();
     }
 
     public void CreateUserFile()
@@ -386,6 +393,17 @@ public class ChooseFirstFighterUI : MonoBehaviour
         UserFactory.CreateUserInstance(flag, userIcon, PlayerUtils.maxEnergy);
         JObject user = JObject.FromObject(User.Instance);
         JsonDataManager.SaveData(user, JsonDataManager.UserFileName);
+    }
+
+    private void CreateLeaderboardPosition()
+    {
+        PlayerPrefs.SetString("userRankingTimestamp", DateTime.Now.AddHours(HOURS_BETWEEN_USER_RANKING_UPDATE).ToBinary().ToString());
+        PlayerPrefs.SetInt("userRankingPosition", GenerateRandomRankingPosition());
+    }
+
+    private int GenerateRandomRankingPosition()
+    {
+        return UnityEngine.Random.Range(RANKING_MIN_STARTING_POSITION, RANKING_MAX_STARTING_POSITION);
     }
 
     private int GenerateIcon()

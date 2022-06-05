@@ -3,6 +3,11 @@ using System;
 
 public class PostGameActions
 {
+    const int MIN_GOLD = 100;
+    const int MAX_GOLD = 150;
+    const int MIN_GEMS = 10;
+    const int MAX_GEMS = 30;
+
     public static void SetElo(int eloChange)
     {
         User.Instance.elo += eloChange;
@@ -37,11 +42,11 @@ public class PostGameActions
 
     public static int GoldReward(bool isPlayerWinner)
     {
-        return isPlayerWinner ? 20 : 10;
+        return isPlayerWinner ? MIN_GOLD : MAX_GOLD;
     }
 
     public static int GemsReward()
     {
-        return Probabilities.IsHappening(10) ? UnityEngine.Random.Range(20, 40) : 0;
+        return Probabilities.IsHappening(10) ? UnityEngine.Random.Range(MIN_GEMS, MAX_GEMS) : 0;
     }
 }

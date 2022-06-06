@@ -6,7 +6,6 @@ public class Attack : MonoBehaviour
     public GameObject shuriken;
     public GameObject bomb;
     public GameObject potion;
-    Color noColor = new Color(1, 1, 1);
 
     public IEnumerator PerformAttack(Fighter attacker, Fighter defender)
     {
@@ -134,6 +133,7 @@ public class Attack : MonoBehaviour
             yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(.4f));
             yield return StartCoroutine(ShieldAttack(attacker, defender));
             yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(.2f));
+            Explosion.StartAnimation(defender);
             yield break;
         }
 
@@ -154,11 +154,11 @@ public class Attack : MonoBehaviour
 
         Renderer attackerRenderer = attacker.GetComponent<Renderer>();
         //Don't change color if we already have other color modifications active
-        if (attackerRenderer.material.color == noColor)
+        if (attackerRenderer.material.color == Combat.noColor)
         {
             attackerRenderer.material.color = new Color(147 / 255f, 255 / 255f, 86 / 255f);
             yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(1.5f));
-            attackerRenderer.material.color = noColor;
+            attackerRenderer.material.color = Combat.noColor;
         }
         else yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(1.5f));
         Destroy(potionInstance);
@@ -213,7 +213,7 @@ public class Attack : MonoBehaviour
     private void DealDamage(Fighter attacker, Fighter defender, float damagePerHit)
     {
         if (IsAttackCritical(attacker)) damagePerHit = damagePerHit * 1.5f;
-        Combat.ShowLifeChangesOnUI(-damagePerHit);
+        defender.transform.Find("FloatingHp").GetComponent<FloatingHp>().StartAnimation(damagePerHit);
         defender.hp -= damagePerHit;
 
         if (defender.hp <= 0 && defender.HasSkill(SkillNames.Survival))
@@ -233,7 +233,7 @@ public class Attack : MonoBehaviour
         float hpToRestore = percentage * maxHp / 100;
         float hpAfterHeal = attacker.hp + hpToRestore;
         attacker.hp = hpAfterHeal > maxHp ? maxHp : hpAfterHeal;
-        Combat.ShowLifeChangesOnUI(hpToRestore);
+        attacker.transform.Find("FloatingHp").GetComponent<FloatingHp>().StartAnimation(hpToRestore, Combat.healColor);
     }
 
     IEnumerator ReceiveDamageAnimation(Fighter defender, float secondsUntilHitMarker)
@@ -241,12 +241,12 @@ public class Attack : MonoBehaviour
         Blood.StartAnimation(defender);
         Renderer defenderRenderer = defender.GetComponent<Renderer>();
 
-        if (defenderRenderer.material.color == noColor)
+        if (defenderRenderer.material.color == Combat.noColor)
         {
             yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(secondsUntilHitMarker));
             defenderRenderer.material.color = new Color(255, 1, 1);
             yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(.08f));
-            defenderRenderer.material.color = noColor;
+            defenderRenderer.material.color = Combat.noColor;
         }
         else yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(secondsUntilHitMarker + .08f));
     }

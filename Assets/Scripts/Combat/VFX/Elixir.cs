@@ -24,10 +24,11 @@ public class Elixir : MonoBehaviour
         Transform elixir = fighter.transform.Find("VFX/Elixir_VFX");
         elixir.GetComponent<Animator>().Play("elixir_0", -1, 0f);
 
-        float missingHp = fighter == Combat.player ? Combat.playerMaxHp - fighter.hp : Combat.botMaxHp - fighter.hp;
         //Heals for 50% of the missing hp
-        fighter.hp += missingHp * 0.5f;
-        Combat.ShowLifeChangesOnUI(missingHp * 0.5f);
+        float missingHp = fighter == Combat.player ? Combat.playerMaxHp - fighter.hp : Combat.botMaxHp - fighter.hp;
+        float hpToRestore = missingHp * 0.5f;
+        fighter.hp += hpToRestore;
+        fighter.transform.Find("FloatingHp").GetComponent<FloatingHp>().StartAnimation(hpToRestore, new Color32(134, 255, 117, 1));
         Combat.fightersUIDataScript.ModifyHealthBar(fighter);
         StartCoroutine(StopElixirAnimation(elixir));
     }

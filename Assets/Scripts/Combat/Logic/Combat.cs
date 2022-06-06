@@ -63,6 +63,10 @@ public class Combat : MonoBehaviour
     const float ENTER_ARENA_ANIMATION = 2.5f;
     const float TIME_ANNOUNCEMENT = 2.5f;
 
+    //Colors
+    public static Color noColor = new Color(1, 1, 1);
+    public static Color healColor = new Color32(134, 255, 117, 255);
+
     private void Awake()
     {
         isGameOver = false;
@@ -471,11 +475,4 @@ public class Combat : MonoBehaviour
 
     //During the combat the player object experiences a lot of changes so we need to set it back to its default state after the combat.
     private Action ResetPlayerObject = () => player = JsonDataManager.ReadFighterFile();
-
-    //TODO: Remove this. Testing purposes. + Remember to remove gameobject from scene.
-    public static void ShowLifeChangesOnUI(float lifeChange)
-    {
-        string prefix = lifeChange > 0 ? "HEAL" : "DMG";
-        GameObject.Find("DummyText").GetComponent<TextMeshProUGUI>().text = $"{prefix}: {Math.Round(lifeChange, 1)}";
-    }
 }

@@ -8,12 +8,6 @@ public class Attack : MonoBehaviour
     public GameObject potion;
     Color noColor = new Color(1, 1, 1);
 
-    const int SKILL_POTION_ID = 1;
-    const int SMALL_LIFESTEAL_ID = 2;
-
-    const int SKILL_POTION_VALUE = 6;
-    const int SMALL_LIFESTEAL_VALUE = 1;
-
     public IEnumerator PerformAttack(Fighter attacker, Fighter defender)
     {
         if (Combat.movementScript.FighterShouldAdvanceToAttack(attacker)) yield return StartCoroutine(Combat.movementScript.MoveToMeleeRangeAgain(attacker, defender));
@@ -84,7 +78,7 @@ public class Attack : MonoBehaviour
         }
 
         yield return DefenderReceivesAttack(attacker, defender, attacker.damage, 0.15f, 0.05f);
-        RestoreLife(attacker, SMALL_LIFESTEAL_ID);
+        RestoreLife(attacker, 3);
         Combat.fightersUIDataScript.ModifyHealthBar(attacker);
     }
     public IEnumerator PerformShurikenFury(Fighter attacker, Fighter defender)
@@ -158,7 +152,7 @@ public class Attack : MonoBehaviour
         Vector3 potionPosition = attacker.transform.position;
         potionPosition.y += 2.5f;
         GameObject potionInstance = Instantiate(potion, potionPosition, Quaternion.identity);
-        RestoreLife(attacker, SKILL_POTION_ID);
+        RestoreLife(attacker, 30);
         Combat.fightersUIDataScript.ModifyHealthBar(attacker);
 
         Renderer attackerRenderer = attacker.GetComponent<Renderer>();
@@ -235,19 +229,11 @@ public class Attack : MonoBehaviour
         Combat.fightersUIDataScript.ModifyHealthBar(defender);
     }
 
-    //Restores flat of total health
-    private void RestoreLife(Fighter attacker, int healTypeID)
+    //Restores x % of total health
+    private void RestoreLife(Fighter attacker, int percentage)
     {
-        float hpToRestore = 0;
-
-        if (healTypeID == SKILL_POTION_ID)
-            hpToRestore = SKILL_POTION_VALUE * attacker.level;
-        else if (healTypeID == SMALL_LIFESTEAL_ID)
-            hpToRestore = SMALL_LIFESTEAL_VALUE * attacker.level;
-
-        Debug.Log(hpToRestore + " lv: " + attacker.level);
-
         float maxHp = Combat.player == attacker ? Combat.playerMaxHp : Combat.botMaxHp;
+        float hpToRestore = percentage * maxHp / 100;
         float hpAfterHeal = attacker.hp + hpToRestore;
         attacker.hp = hpAfterHeal > maxHp ? maxHp : hpAfterHeal;
         Combat.ShowLifeChangesOnUI(hpToRestore);

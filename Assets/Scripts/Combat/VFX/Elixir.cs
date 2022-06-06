@@ -4,10 +4,10 @@ using System.Collections;
 
 public class Elixir : MonoBehaviour
 {
-    const int BOOST_ELIXIR_HP_VALUE = 8;
-
     public void OnClickTriggerElixirEffects()
     {
+        Image iconImage = this.transform.Find("Icon").GetComponent<Image>();
+        iconImage.color = VFXUtils.GetUsedButtonColor(iconImage.color);
         this.GetComponent<Button>().interactable = false;
         TriggerElixirEffects(Combat.player);
     }
@@ -24,11 +24,13 @@ public class Elixir : MonoBehaviour
         Transform elixir = fighter.transform.Find("VFX/Elixir_VFX");
         elixir.GetComponent<Animator>().Play("elixir_0", -1, 0f);
 
-        // Heal = [BOOST_ELIXIR_HP_VALUE * Level] 
-        float hpToRestore = BOOST_ELIXIR_HP_VALUE * fighter.level;
-        Debug.Log(hpToRestore + " lv: " + fighter.level);
+        //Heals for 50% of the missing hp
+        float missingHp = fighter == Combat.player ? Combat.playerMaxHp - fighter.hp : Combat.botMaxHp - fighter.hp;
+        float hpToRestore = missingHp * 0.5f;
         fighter.hp += hpToRestore;
-        Combat.ShowLifeChangesOnUI(fighter.hp);
+
+        VFXUtils.DisplayFloatingHp(fighter, GameObject.Find("CombatManager").GetComponent<Combat>().floatingHp, hpToRestore, GlobalConstants.healColor);
+
         Combat.fightersUIDataScript.ModifyHealthBar(fighter);
         StartCoroutine(StopElixirAnimation(elixir));
     }

@@ -33,8 +33,7 @@ public static class MatchMaking
             randomSpecies.ToString(), randomSpecies.ToString(), botLevel, 0, botSkills);
 
         //FIXME v2: We should remove the skin concept from the fighters and use the species name for the skin.
-
-        Debug.Log("hp: " + botStats["hp"] + " damage: " + botStats["damage"] + " speed: " + botStats["speed"]);
+        Debug.Log("BOT STATS -> hp: " + botStats["hp"] + " damage: " + botStats["damage"] + " speed: " + botStats["speed"]);
     }
 
     public static void GenerateCupBotData(Fighter player, Fighter bot)

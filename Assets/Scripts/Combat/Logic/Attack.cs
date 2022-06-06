@@ -6,13 +6,6 @@ public class Attack : MonoBehaviour
     public GameObject shuriken;
     public GameObject bomb;
     public GameObject potion;
-    Color noColor = new Color(1, 1, 1);
-
-    const int SKILL_POTION_ID = 1;
-    const int SMALL_LIFESTEAL_ID = 2;
-
-    const int SKILL_POTION_VALUE = 6;
-    const int SMALL_LIFESTEAL_VALUE = 1;
 
     public IEnumerator PerformAttack(Fighter attacker, Fighter defender)
     {
@@ -20,11 +13,10 @@ public class Attack : MonoBehaviour
 
         FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.ATTACK);
 
-        //FIXME: Visual bug when shielding a counter or reversal attack. 
-        //Options to fix: 1.Fix shield animation (weird rotation). 2. Dont allow to shield on counter or reversal attacks by passing a parameter. 3. Dont allow shield on performattack 
+        //TODO V2: To fix how shield looks visually when using it on a counter or reversal attack we could just rotate the sprite on paint and save it rotated.
         if (IsAttackShielded())
         {
-            yield return StartCoroutine(ShieldAttack(defender));
+            yield return StartCoroutine(ShieldAttack(attacker, defender));
             yield break;
         }
 
@@ -36,20 +28,18 @@ public class Attack : MonoBehaviour
         yield return DefenderReceivesAttack(attacker, defender, attacker.damage, 0.25f, 0.05f);
     }
 
-    IEnumerator ShieldAttack(Fighter defender, float secondsToWaitForAttackAnim = 0.35f)
+    IEnumerator ShieldAttack(Fighter attacker, Fighter defender, float secondsToWaitForAttackAnim = 0.4f)
     {
+        Renderer attackerRenderer = attacker.GetComponent<Renderer>();
+        //Change sorting order so attack sword goes over defender shield
+        attackerRenderer.sortingOrder = Combat.fighterSortingOrder + 2;
         FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.JUMP);
-        Transform shield = defender.transform.Find("Shield");
-        SpriteRenderer shieldSprite = shield.GetComponent<SpriteRenderer>();
-        float xShieldDisplacement = Combat.player == defender ? 0.8f : -0.8f;
-        Vector3 shieldDisplacement = new Vector3(xShieldDisplacement, -0.7f, 0);
-
-        shield.transform.position = defender.transform.position;
-        shield.transform.position += shieldDisplacement;
+        SpriteRenderer shieldSprite = defender.transform.Find("Shield").GetComponent<SpriteRenderer>();
         shieldSprite.enabled = true;
         yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(secondsToWaitForAttackAnim));
         shieldSprite.enabled = false;
         FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.IDLE);
+        attackerRenderer.sortingOrder = Combat.fighterSortingOrder;
     }
 
     public IEnumerator PerformCosmicKicks(Fighter attacker, Fighter defender)
@@ -61,7 +51,7 @@ public class Attack : MonoBehaviour
     {
         if (IsAttackShielded())
         {
-            yield return StartCoroutine(ShieldAttack(defender, 0.22f));
+            yield return StartCoroutine(ShieldAttack(attacker, defender, 0.22f));
             yield break;
         }
 
@@ -79,12 +69,12 @@ public class Attack : MonoBehaviour
 
         if (IsAttackShielded())
         {
-            yield return StartCoroutine(ShieldAttack(defender));
+            yield return StartCoroutine(ShieldAttack(attacker, defender));
             yield break;
         }
 
         yield return DefenderReceivesAttack(attacker, defender, attacker.damage, 0.15f, 0.05f);
-        RestoreLife(attacker, SMALL_LIFESTEAL_ID);
+        RestoreLife(attacker, 3);
         Combat.fightersUIDataScript.ModifyHealthBar(attacker);
     }
     public IEnumerator PerformShurikenFury(Fighter attacker, Fighter defender)
@@ -119,7 +109,7 @@ public class Attack : MonoBehaviour
 
         if (IsAttackShielded())
         {
-            yield return StartCoroutine(ShieldAttack(defender));
+            yield return StartCoroutine(ShieldAttack(attacker, defender));
             yield break;
         }
 
@@ -141,8 +131,9 @@ public class Attack : MonoBehaviour
         {
             //Cast shield when bomb is mid air
             yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(.4f));
-            yield return StartCoroutine(ShieldAttack(defender));
+            yield return StartCoroutine(ShieldAttack(attacker, defender));
             yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(.2f));
+            Explosion.StartAnimation(defender);
             yield break;
         }
 
@@ -158,16 +149,16 @@ public class Attack : MonoBehaviour
         Vector3 potionPosition = attacker.transform.position;
         potionPosition.y += 2.5f;
         GameObject potionInstance = Instantiate(potion, potionPosition, Quaternion.identity);
-        RestoreLife(attacker, SKILL_POTION_ID);
+        RestoreLife(attacker, 30);
         Combat.fightersUIDataScript.ModifyHealthBar(attacker);
 
         Renderer attackerRenderer = attacker.GetComponent<Renderer>();
         //Don't change color if we already have other color modifications active
-        if (attackerRenderer.material.color == noColor)
+        if (attackerRenderer.material.color == GlobalConstants.noColor)
         {
             attackerRenderer.material.color = new Color(147 / 255f, 255 / 255f, 86 / 255f);
             yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(1.5f));
-            attackerRenderer.material.color = noColor;
+            attackerRenderer.material.color = GlobalConstants.noColor;
         }
         else yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(1.5f));
         Destroy(potionInstance);
@@ -222,7 +213,9 @@ public class Attack : MonoBehaviour
     private void DealDamage(Fighter attacker, Fighter defender, float damagePerHit)
     {
         if (IsAttackCritical(attacker)) damagePerHit = damagePerHit * 1.5f;
-        Combat.ShowLifeChangesOnUI(-damagePerHit);
+
+        VFXUtils.DisplayFloatingHp(defender, this.gameObject.GetComponent<Combat>().floatingHp, damagePerHit);
+
         defender.hp -= damagePerHit;
 
         if (defender.hp <= 0 && defender.HasSkill(SkillNames.Survival))
@@ -235,22 +228,15 @@ public class Attack : MonoBehaviour
         Combat.fightersUIDataScript.ModifyHealthBar(defender);
     }
 
-    //Restores flat of total health
-    private void RestoreLife(Fighter attacker, int healTypeID)
+    //Restores x % of total health
+    private void RestoreLife(Fighter attacker, double percentage)
     {
-        float hpToRestore = 0;
-
-        if (healTypeID == SKILL_POTION_ID)
-            hpToRestore = SKILL_POTION_VALUE * attacker.level;
-        else if (healTypeID == SMALL_LIFESTEAL_ID)
-            hpToRestore = SMALL_LIFESTEAL_VALUE * attacker.level;
-
-        Debug.Log(hpToRestore + " lv: " + attacker.level);
-
         float maxHp = Combat.player == attacker ? Combat.playerMaxHp : Combat.botMaxHp;
-        float hpAfterHeal = attacker.hp + hpToRestore;
-        attacker.hp = hpAfterHeal > maxHp ? maxHp : hpAfterHeal;
-        Combat.ShowLifeChangesOnUI(hpToRestore);
+        double hpAfterHeal = attacker.hp + (percentage / 100 *  maxHp);
+        double updatedHp = hpAfterHeal > maxHp ? maxHp : hpAfterHeal;
+        float hpToRestore = (float)updatedHp - attacker.hp;
+        VFXUtils.DisplayFloatingHp(attacker, this.gameObject.GetComponent<Combat>().floatingHp, hpToRestore, GlobalConstants.healColor);
+        attacker.hp += hpToRestore;       
     }
 
     IEnumerator ReceiveDamageAnimation(Fighter defender, float secondsUntilHitMarker)
@@ -258,19 +244,19 @@ public class Attack : MonoBehaviour
         Blood.StartAnimation(defender);
         Renderer defenderRenderer = defender.GetComponent<Renderer>();
 
-        if (defenderRenderer.material.color == noColor)
+        if (defenderRenderer.material.color == GlobalConstants.noColor)
         {
             yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(secondsUntilHitMarker));
             defenderRenderer.material.color = new Color(255, 1, 1);
             yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(.08f));
-            defenderRenderer.material.color = noColor;
+            defenderRenderer.material.color = GlobalConstants.noColor;
         }
         else yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(secondsUntilHitMarker + .08f));
     }
 
     public bool IsAttackShielded()
     {
-        int probabilityOfShielding = 10;
+        int probabilityOfShielding = 15;
         return Probabilities.IsHappening(probabilityOfShielding);
     }
 

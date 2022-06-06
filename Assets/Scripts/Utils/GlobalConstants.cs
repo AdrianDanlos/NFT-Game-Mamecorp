@@ -13,4 +13,5 @@ public class GlobalConstants
     //Colors
     public static Color noColor = new Color(1, 1, 1);
     public static Color healColor = new Color32(134, 255, 117, 255);
+    public static Color criticalAttackColor = new Color32(240, 164, 0, 255);
 }

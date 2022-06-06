@@ -9,25 +9,28 @@ public class FloatingHp : MonoBehaviour
     TextMeshPro floatingHp;
     Animator floatingHpTravelAnimator;
 
-    private void Start()
+    private void Awake()
     {
+        //this = FloatingHp script
         floatingHp = this.gameObject.GetComponent<TextMeshPro>();
         floatingHpTravelAnimator = this.gameObject.GetComponent<Animator>();
+
+        //Make each floating text appear in front of the previous one
+        int otherPrefabsCount = GameObject.FindGameObjectsWithTag("FloatingHp").Length;
+        floatingHp.sortingOrder += otherPrefabsCount * 10;
+        
     }
     public void StartAnimation(float hpChange, Color? color = null)
     {
-        //this = FloatingHp script
-        floatingHp.enabled = true;
         floatingHp.text = Math.Round(hpChange).ToString();
         floatingHp.color = color ?? Globals.noColor;
         floatingHpTravelAnimator.Play("floating_hp", -1, 0f);
-        StartCoroutine(HideFloatingHp());
+        StartCoroutine(DestroyFloatingText());
     }
 
-    IEnumerator HideFloatingHp()
+    IEnumerator DestroyFloatingText()
     {
         yield return new WaitForSeconds(.6f);
-        floatingHp.enabled = false;
-
+        Destroy(this.gameObject);
     }
 }

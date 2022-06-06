@@ -1,6 +1,6 @@
 using UnityEngine;
-using UnityEngine.UI;
-//Game config
+
+//Game config variables
 public class Globals
 {
     //Simulation mode
@@ -13,5 +13,4 @@ public class Globals
     //Colors
     public static Color noColor = new Color(1, 1, 1);
     public static Color healColor = new Color32(134, 255, 117, 255);
-
 }

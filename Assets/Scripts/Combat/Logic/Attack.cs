@@ -213,7 +213,9 @@ public class Attack : MonoBehaviour
     private void DealDamage(Fighter attacker, Fighter defender, float damagePerHit)
     {
         if (IsAttackCritical(attacker)) damagePerHit = damagePerHit * 1.5f;
-        defender.transform.Find("FloatingHp").GetComponent<FloatingHp>().StartAnimation(damagePerHit);
+
+        VFXUtils.DisplayFloatingHp(defender, this.gameObject.GetComponent<Combat>().floatingHp, damagePerHit);
+
         defender.hp -= damagePerHit;
 
         if (defender.hp <= 0 && defender.HasSkill(SkillNames.Survival))
@@ -230,10 +232,10 @@ public class Attack : MonoBehaviour
     private void RestoreLife(Fighter attacker, int percentage)
     {
         float maxHp = Combat.player == attacker ? Combat.playerMaxHp : Combat.botMaxHp;
-        float hpToRestore = percentage * maxHp / 100;
-        float hpAfterHeal = attacker.hp + hpToRestore;
-        attacker.hp = hpAfterHeal > maxHp ? maxHp : hpAfterHeal;
-        attacker.transform.Find("FloatingHp").GetComponent<FloatingHp>().StartAnimation(hpToRestore, Globals.healColor);
+        float hpAfterHeal = attacker.hp + (percentage * maxHp / 100);
+        float hpToRestore =  hpAfterHeal > maxHp ? maxHp : hpAfterHeal;
+        attacker.hp = hpToRestore;
+        VFXUtils.DisplayFloatingHp(attacker, this.gameObject.GetComponent<Combat>().floatingHp, hpToRestore, Globals.healColor);
     }
 
     IEnumerator ReceiveDamageAnimation(Fighter defender, float secondsUntilHitMarker)

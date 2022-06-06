@@ -26,6 +26,7 @@ public class Combat : MonoBehaviour
     private TextMeshProUGUI levelTextBot;
     public GameObject boostButton;
     public GameObject elixirButton;
+    public GameObject floatingHp;
 
     // Script references
     public static Movement movementScript;
@@ -279,7 +280,7 @@ public class Combat : MonoBehaviour
 
     IEnumerator StartTurn(Fighter attacker, Fighter defender)
     {
-        yield return skillsLogicScript.JumpStrike(attacker, defender);
+        yield return skillsLogicScript.CosmicKicks(attacker, defender);
         // if (WillUseSkillThisTurn(attacker))
         // {
         //     yield return StartCoroutine(UseRandomSkill(attacker, defender, attacker));

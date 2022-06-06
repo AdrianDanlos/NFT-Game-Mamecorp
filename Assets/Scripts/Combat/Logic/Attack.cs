@@ -212,9 +212,15 @@ public class Attack : MonoBehaviour
 
     private void DealDamage(Fighter attacker, Fighter defender, float damagePerHit)
     {
-        if (IsAttackCritical(attacker)) damagePerHit = damagePerHit * 1.5f;
+        bool isAttackCritical = IsAttackCritical(attacker);
+        Color floatingHpColor = GlobalConstants.noColor;
+        
+        if (isAttackCritical) {
+            damagePerHit = damagePerHit * 1.5f;
+            floatingHpColor = GlobalConstants.criticalAttackColor;
+        }
 
-        VFXUtils.DisplayFloatingHp(defender, this.gameObject.GetComponent<Combat>().floatingHp, damagePerHit);
+        VFXUtils.DisplayFloatingHp(defender, this.gameObject.GetComponent<Combat>().floatingHp, damagePerHit, floatingHpColor);
 
         defender.hp -= damagePerHit;
 

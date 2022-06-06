@@ -51,8 +51,8 @@ public class ChooseFirstFighterUI : MonoBehaviour
     // Shadow fighters and UI
     private Color32 shadowedColor = new Color32(90, 90, 90, 255);
     private Color32 visibleColor = new Color32(255, 255, 255, 255);
-    private float initialAlphaUI = 0.5f;
-    private float visibleAlphaUI = 1f;
+    private readonly float initialAlphaUI = 0.5f;
+    private readonly float visibleAlphaUI = 1f;
 
     private Button prev;
     private Button next;
@@ -66,6 +66,11 @@ public class ChooseFirstFighterUI : MonoBehaviour
     private Transform flagsContainer;
 
     public GameObject flagErrorOk;
+
+    // RANKING
+    const int MINUTES_BETWEEN_USER_RANKING_UPDATE = 1;
+    const int RANKING_MIN_STARTING_POSITION = 1100;
+    const int RANKING_MAX_STARTING_POSITION = 1500;
 
     private void Awake()
     {
@@ -377,6 +382,8 @@ public class ChooseFirstFighterUI : MonoBehaviour
         JsonDataManager.SaveData(serializableFighter, JsonDataManager.FighterFileName);
 
         ResetAllPrefs();
+
+        CreateLeaderboardPosition();
     }
 
     public void CreateUserFile()
@@ -386,6 +393,20 @@ public class ChooseFirstFighterUI : MonoBehaviour
         UserFactory.CreateUserInstance(flag, userIcon, PlayerUtils.maxEnergy);
         JObject user = JObject.FromObject(User.Instance);
         JsonDataManager.SaveData(user, JsonDataManager.UserFileName);
+    }
+
+    private void CreateLeaderboardPosition()
+    {
+        // TODO change to days
+        PlayerPrefs.SetString("userRankingTimestamp", DateTime.Now.AddMinutes(MINUTES_BETWEEN_USER_RANKING_UPDATE).ToBinary().ToString());
+        PlayerPrefs.SetInt("userRankingPosition", GenerateRandomRankingPosition());
+        PlayerPrefs.SetInt("userCups", 0);
+        PlayerPrefs.Save();
+    }
+
+    private int GenerateRandomRankingPosition()
+    {
+        return UnityEngine.Random.Range(RANKING_MIN_STARTING_POSITION, RANKING_MAX_STARTING_POSITION);
     }
 
     private int GenerateIcon()

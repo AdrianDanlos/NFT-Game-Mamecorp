@@ -2,7 +2,7 @@ using UnityEngine;
 using System;
 public static class EnergyManager
 {
-    public static int defaultEnergyRefreshTimeInMinutes = 5;
+    public static int defaultEnergyRefreshTimeInMinutes = 240;
     public static void SubtractOneEnergyPoint()
     {
         if (User.Instance.energy == PlayerUtils.maxEnergy) StartCountdown();

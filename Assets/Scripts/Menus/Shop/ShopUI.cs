@@ -344,31 +344,31 @@ public class ShopUI : MonoBehaviour
 
     public void GetChestValueFromType(string chestType)
     {
-        goldValue = Chest.shopChestsValue[(Chest.ShopChestTypes)System.Enum.Parse
+        goldValue = Chest.shopChestsValue[(Chest.ShopChestTypes)Enum.Parse
             (typeof(Chest.ShopChestTypes), chestType.ToUpper())]["gold"];
     }
 
     public void GetEnergyCostFromType(string energyBundle)
     {
-        gemsValue = Energy.shopEnergyBundlesCost[(Energy.ShopEnergyBundles)System.Enum.Parse
+        gemsValue = Energy.shopEnergyBundlesCost[(Energy.ShopEnergyBundles)Enum.Parse
             (typeof(Energy.ShopEnergyBundles), energyBundle.ToUpper())]["gems"];
     }
 
     public int GetEnergyValueFromType(string energyBundle)
     {
-        return Energy.shopEnergyBundlesValue[(Energy.ShopEnergyBundles)System.Enum.Parse
+        return Energy.shopEnergyBundlesValue[(Energy.ShopEnergyBundles)Enum.Parse
             (typeof(Energy.ShopEnergyBundles), energyBundle.ToUpper())]["energy"];
     }
 
     public void GetGoldCostFromType(string goldBundle)
     {
-        gemsValue = Gold.shopGoldBundlesCost[(Gold.ShopGoldBundles)System.Enum.Parse
+        gemsValue = Gold.shopGoldBundlesCost[(Gold.ShopGoldBundles)Enum.Parse
             (typeof(Gold.ShopGoldBundles), goldBundle.ToUpper())]["gems"];
     }
 
     public int GetGoldValueFromType(string goldBundle)
     {
-        return Gold.shopGoldBundlesValue[(Gold.ShopGoldBundles)System.Enum.Parse
+        return Gold.shopGoldBundlesValue[(Gold.ShopGoldBundles)Enum.Parse
             (typeof(Gold.ShopGoldBundles), goldBundle.ToUpper())]["gold"];
     }
 

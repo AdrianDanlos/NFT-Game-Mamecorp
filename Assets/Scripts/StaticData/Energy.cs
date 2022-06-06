@@ -44,13 +44,13 @@ public static class Energy
                 {
                     ShopEnergyBundles.MEDIUMENERGY, new Dictionary<string, int>
                     {
-                        {"energy", 5},
+                        {"energy", 2},
                     }
                 },
                 {
                     ShopEnergyBundles.BIGENERGY, new Dictionary<string, int>
                     {
-                        {"energy", 10},
+                        {"energy", 5},
                     }
                 }
         };

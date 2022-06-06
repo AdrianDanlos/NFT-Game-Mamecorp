@@ -184,6 +184,10 @@ public class FightersUIData : MonoBehaviour
 
                 previousPlayerHp = newHp;
             }
+            else if (newHp == maxHealth && !Combat.isGameOver)
+            {
+                // don't do anything
+            }
             else
             {
                 double noHp = -0.5;
@@ -213,6 +217,10 @@ public class FightersUIData : MonoBehaviour
                 }
 
                 previousBotHp = newHp;
+            }
+            else if (newHp == maxHealth && !Combat.isGameOver)
+            {
+                // don't do anything
             }
             else
             {

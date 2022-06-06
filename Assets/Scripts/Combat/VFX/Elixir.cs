@@ -6,6 +6,8 @@ public class Elixir : MonoBehaviour
 {
     public void OnClickTriggerElixirEffects()
     {
+        Image iconImage = this.transform.Find("Icon").GetComponent<Image>();
+        iconImage.color = VFXUtils.GetUsedButtonColor(iconImage.color);
         this.GetComponent<Button>().interactable = false;
         TriggerElixirEffects(Combat.player);
     }

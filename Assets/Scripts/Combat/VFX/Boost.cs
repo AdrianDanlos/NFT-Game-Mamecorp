@@ -11,7 +11,9 @@ public class Boost : MonoBehaviour
 
     //Entrypoint for user
     public void OnClickTriggerBoostEffects()
-    {
+    {        
+        Image iconImage = this.transform.Find("Icon").GetComponent<Image>();
+        iconImage.color = VFXUtils.GetUsedButtonColor(iconImage.color);
         this.GetComponent<Button>().interactable = false;
         TriggerBoostEffects(Combat.player);
     }

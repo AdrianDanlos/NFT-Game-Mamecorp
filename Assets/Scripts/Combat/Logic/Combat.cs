@@ -52,7 +52,8 @@ public class Combat : MonoBehaviour
     List<Fighter> fightersOrderOfAttack = new List<Fighter> { };
     public static float playerMaxHp;
     public static float botMaxHp;
-    
+    public static int floatingHpInstancesCount; //We track the amount of texts displayed so we can sort them on top of eachother.
+
     //Sorting layers
     public static int fighterSortingOrder;
 
@@ -71,8 +72,6 @@ public class Combat : MonoBehaviour
         if (Cup.Instance.isActive && !CombatMode.isSoloqEnabled) MatchMaking.GenerateCupBotData(player, bot);
         else MatchMaking.GenerateBotData(player, bot);
 
-        SetMaxHpValues();
-
         // Set LoadingScreen
         loadingScreen.SetPlayerLoadingScreenData(player);
         loadingScreen.DisplayLoaderForEnemy();
@@ -83,6 +82,7 @@ public class Combat : MonoBehaviour
         //Load everything needed for the combat
         GenerateSkillsFixturesForPlayer();
         BoostFightersStatsBasedOnPassiveSkills();
+        SetMaxHpValues();
         SetCombatGameObjectsVisibility();
         SetFighterPositions();
         SetOrderOfAttacks();
@@ -234,13 +234,13 @@ public class Combat : MonoBehaviour
         //Between x and y seconds
         float elixirTimeRange = UnityEngine.Random.Range(15, 25);
         yield return new WaitForSeconds(elixirTimeRange);
-        if(!isGameOver) elixirScript.TriggerElixirEffects(bot);
+        if (!isGameOver) elixirScript.TriggerElixirEffects(bot);
     }
     IEnumerator StartBotBoostTimer()
     {
         float boostTimeRange = UnityEngine.Random.Range(1, 20);
         yield return new WaitForSeconds(boostTimeRange);
-        if(!isGameOver) boostScript.TriggerBoostEffects(bot);
+        if (!isGameOver) boostScript.TriggerBoostEffects(bot);
     }
 
     IEnumerator InitiateCombat()
@@ -280,7 +280,7 @@ public class Combat : MonoBehaviour
 
     IEnumerator StartTurn(Fighter attacker, Fighter defender)
     {
-        yield return skillsLogicScript.CosmicKicks(attacker, defender);
+        yield return skillsLogicScript.JumpStrike(attacker, defender);
         // if (WillUseSkillThisTurn(attacker))
         // {
         //     yield return StartCoroutine(UseRandomSkill(attacker, defender, attacker));
@@ -356,7 +356,7 @@ public class Combat : MonoBehaviour
     }
 
     public static Func<Fighter, bool> WillUseSkillThisTurn = attacker =>
-        attacker.skills.Count() > 0 && Probabilities.IsHappening(Globals.ProbabilityOfUsingSkillEachTurn);
+        attacker.skills.Count() > 0 && Probabilities.IsHappening(GlobalConstants.ProbabilityOfUsingSkillEachTurn);
 
     public IEnumerator MoveForwardHandler(Fighter attacker, Fighter defender, float distanceFromEachOtherOnAttack = DefaultDistanceFromEachotherOnAttack)
     {

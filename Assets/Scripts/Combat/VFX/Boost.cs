@@ -30,7 +30,9 @@ public class Boost : MonoBehaviour
 
         Animator lightningAnimator = fighter.transform.Find("VFX/Boost_VFX/Lightning_VFX").GetComponent<Animator>();
         lightningAnimator.Play("lightning_0", -1, 0f);
-        fighter.damage *= 1.5f;
+        Debug.Log(fighter.damage);
+        fighter.damage *= 2f;
+        Debug.Log(fighter.damage);
         fighter.GetComponent<Renderer>().material.color = new Color32(255, 192, 0, 255);
         StartCoroutine(StartBoostTimer(fighter));
         StartCoroutine(ShowParticlesWhileBoostLast(fighter));
@@ -62,7 +64,10 @@ public class Boost : MonoBehaviour
 
     IEnumerator RemoveBoostEffects(Fighter fighter)
     {
-        fighter.damage /= 1.5f;
+        Debug.Log("Reset");
+        Debug.Log(fighter.damage);
+        fighter.damage /= 2f;
+        Debug.Log(fighter.damage);
         fighter.GetComponent<Renderer>().material.color = new Color32(255, 255, 255, 255);
         //Wait for particles animation to finish
         yield return new WaitForSeconds(1f);

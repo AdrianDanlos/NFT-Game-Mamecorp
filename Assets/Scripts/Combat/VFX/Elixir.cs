@@ -29,7 +29,7 @@ public class Elixir : MonoBehaviour
         float hpToRestore = missingHp * 0.5f;
         fighter.hp += hpToRestore;
 
-        VFXUtils.DisplayFloatingHp(fighter, GameObject.Find("CombatManager").GetComponent<Combat>().floatingHp, hpToRestore, Globals.healColor);
+        VFXUtils.DisplayFloatingHp(fighter, GameObject.Find("CombatManager").GetComponent<Combat>().floatingHp, hpToRestore, GlobalConstants.healColor);
 
         Combat.fightersUIDataScript.ModifyHealthBar(fighter);
         StartCoroutine(StopElixirAnimation(elixir));

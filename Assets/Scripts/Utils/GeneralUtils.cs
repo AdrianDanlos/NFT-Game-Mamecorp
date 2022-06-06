@@ -24,7 +24,7 @@ public class GeneralUtils
 
     public static float GetRealOrSimulationTime(float realTimeWait)
     {
-        return Globals.SimulationEnabled ? Globals.SimulationTime : realTimeWait;
+        return GlobalConstants.SimulationEnabled ? GlobalConstants.SimulationTime : realTimeWait;
     }
 
     public static string GetRandomSpecies()

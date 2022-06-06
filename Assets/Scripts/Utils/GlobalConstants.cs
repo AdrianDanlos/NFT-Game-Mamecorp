@@ -1,7 +1,7 @@
 using UnityEngine;
 
 //Game config variables
-public class Globals
+public class GlobalConstants
 {
     //Simulation mode
     public static bool SimulationEnabled = false;

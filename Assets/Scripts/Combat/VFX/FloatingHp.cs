@@ -17,13 +17,14 @@ public class FloatingHp : MonoBehaviour
 
         //Make each floating text appear in front of the previous one
         int otherPrefabsCount = GameObject.FindGameObjectsWithTag("FloatingHp").Length;
-        floatingHp.sortingOrder += otherPrefabsCount * 10;
-        
+        floatingHp.sortingOrder = Combat.floatingHpInstancesCount;
+
+        Combat.floatingHpInstancesCount++;
     }
     public void StartAnimation(float hpChange, Color? color = null)
     {
         floatingHp.text = Math.Round(hpChange).ToString();
-        floatingHp.color = color ?? Globals.noColor;
+        floatingHp.color = color ?? GlobalConstants.noColor;
         floatingHpTravelAnimator.Play("floating_hp", -1, 0f);
         StartCoroutine(DestroyFloatingText());
     }

@@ -154,11 +154,11 @@ public class Attack : MonoBehaviour
 
         Renderer attackerRenderer = attacker.GetComponent<Renderer>();
         //Don't change color if we already have other color modifications active
-        if (attackerRenderer.material.color == Globals.noColor)
+        if (attackerRenderer.material.color == GlobalConstants.noColor)
         {
             attackerRenderer.material.color = new Color(147 / 255f, 255 / 255f, 86 / 255f);
             yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(1.5f));
-            attackerRenderer.material.color = Globals.noColor;
+            attackerRenderer.material.color = GlobalConstants.noColor;
         }
         else yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(1.5f));
         Destroy(potionInstance);
@@ -229,13 +229,14 @@ public class Attack : MonoBehaviour
     }
 
     //Restores x % of total health
-    private void RestoreLife(Fighter attacker, int percentage)
+    private void RestoreLife(Fighter attacker, double percentage)
     {
         float maxHp = Combat.player == attacker ? Combat.playerMaxHp : Combat.botMaxHp;
-        float hpAfterHeal = attacker.hp + (percentage * maxHp / 100);
-        float hpToRestore =  hpAfterHeal > maxHp ? maxHp : hpAfterHeal;
-        attacker.hp = hpToRestore;
-        VFXUtils.DisplayFloatingHp(attacker, this.gameObject.GetComponent<Combat>().floatingHp, hpToRestore, Globals.healColor);
+        double hpAfterHeal = attacker.hp + (percentage / 100 *  maxHp);
+        double updatedHp = hpAfterHeal > maxHp ? maxHp : hpAfterHeal;
+        float hpToRestore = (float)updatedHp - attacker.hp;
+        VFXUtils.DisplayFloatingHp(attacker, this.gameObject.GetComponent<Combat>().floatingHp, hpToRestore, GlobalConstants.healColor);
+        attacker.hp += hpToRestore;       
     }
 
     IEnumerator ReceiveDamageAnimation(Fighter defender, float secondsUntilHitMarker)
@@ -243,12 +244,12 @@ public class Attack : MonoBehaviour
         Blood.StartAnimation(defender);
         Renderer defenderRenderer = defender.GetComponent<Renderer>();
 
-        if (defenderRenderer.material.color == Globals.noColor)
+        if (defenderRenderer.material.color == GlobalConstants.noColor)
         {
             yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(secondsUntilHitMarker));
             defenderRenderer.material.color = new Color(255, 1, 1);
             yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(.08f));
-            defenderRenderer.material.color = Globals.noColor;
+            defenderRenderer.material.color = GlobalConstants.noColor;
         }
         else yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(secondsUntilHitMarker + .08f));
     }

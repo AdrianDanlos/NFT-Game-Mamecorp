@@ -2,9 +2,6 @@ using System;
 
 public class GeneralUtils
 {
-    //To disable simulation set this to false
-    public const bool SimulationEnabled = false;
-    public const float SimulationTime = 0f;
     public static double ToSingleDecimal(double number)
     {
         string numberAsString = number.ToString();
@@ -26,7 +23,7 @@ public class GeneralUtils
 
     public static float GetRealOrSimulationTime(float realTimeWait)
     {
-        return SimulationEnabled ? SimulationTime : realTimeWait;
+        return Globals.SimulationEnabled ? Globals.SimulationTime : realTimeWait;
     }
 
     public static string GetRandomSpecies()

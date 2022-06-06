@@ -19,7 +19,7 @@ public class FloatingHp : MonoBehaviour
         //this = FloatingHp script
         floatingHp.enabled = true;
         floatingHp.text = Math.Round(hpChange).ToString();
-        floatingHp.color = color ?? Combat.noColor;
+        floatingHp.color = color ?? Globals.noColor;
         floatingHpTravelAnimator.Play("floating_hp", -1, 0f);
         StartCoroutine(HideFloatingHp());
     }

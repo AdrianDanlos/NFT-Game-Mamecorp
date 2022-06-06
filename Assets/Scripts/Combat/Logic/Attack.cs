@@ -154,11 +154,11 @@ public class Attack : MonoBehaviour
 
         Renderer attackerRenderer = attacker.GetComponent<Renderer>();
         //Don't change color if we already have other color modifications active
-        if (attackerRenderer.material.color == Combat.noColor)
+        if (attackerRenderer.material.color == Globals.noColor)
         {
             attackerRenderer.material.color = new Color(147 / 255f, 255 / 255f, 86 / 255f);
             yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(1.5f));
-            attackerRenderer.material.color = Combat.noColor;
+            attackerRenderer.material.color = Globals.noColor;
         }
         else yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(1.5f));
         Destroy(potionInstance);
@@ -241,12 +241,12 @@ public class Attack : MonoBehaviour
         Blood.StartAnimation(defender);
         Renderer defenderRenderer = defender.GetComponent<Renderer>();
 
-        if (defenderRenderer.material.color == Combat.noColor)
+        if (defenderRenderer.material.color == Globals.noColor)
         {
             yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(secondsUntilHitMarker));
             defenderRenderer.material.color = new Color(255, 1, 1);
             yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(.08f));
-            defenderRenderer.material.color = Combat.noColor;
+            defenderRenderer.material.color = Globals.noColor;
         }
         else yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(secondsUntilHitMarker + .08f));
     }

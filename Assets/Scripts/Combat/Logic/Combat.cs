@@ -51,21 +51,14 @@ public class Combat : MonoBehaviour
     List<Fighter> fightersOrderOfAttack = new List<Fighter> { };
     public static float playerMaxHp;
     public static float botMaxHp;
-
-    //Balance constants
-    private const int ProbabilityOfUsingSkillEachTurn = 50;
-
+    
     //Sorting layers
     public static int fighterSortingOrder;
 
-    // Countdown timer
+    // Combat countdown timer
     const float COUNTDOWN_ANIMATION = 3f;
     const float ENTER_ARENA_ANIMATION = 2.5f;
     const float TIME_ANNOUNCEMENT = 2.5f;
-
-    //Colors
-    public static Color noColor = new Color(1, 1, 1);
-    public static Color healColor = new Color32(134, 255, 117, 255);
 
     private void Awake()
     {
@@ -286,12 +279,13 @@ public class Combat : MonoBehaviour
 
     IEnumerator StartTurn(Fighter attacker, Fighter defender)
     {
-        if (WillUseSkillThisTurn(attacker))
-        {
-            yield return StartCoroutine(UseRandomSkill(attacker, defender, attacker));
-            yield break;
-        }
-        yield return skillsLogicScript.AttackWithoutSkills(attacker, defender);
+        yield return skillsLogicScript.JumpStrike(attacker, defender);
+        // if (WillUseSkillThisTurn(attacker))
+        // {
+        //     yield return StartCoroutine(UseRandomSkill(attacker, defender, attacker));
+        //     yield break;
+        // }
+        // yield return skillsLogicScript.AttackWithoutSkills(attacker, defender);
         FighterAnimations.ChangeAnimation(GetAttackerIfAlive(attacker, defender), FighterAnimations.AnimationNames.IDLE);
     }
 
@@ -361,7 +355,7 @@ public class Combat : MonoBehaviour
     }
 
     public static Func<Fighter, bool> WillUseSkillThisTurn = attacker =>
-        attacker.skills.Count() > 0 && Probabilities.IsHappening(ProbabilityOfUsingSkillEachTurn);
+        attacker.skills.Count() > 0 && Probabilities.IsHappening(Globals.ProbabilityOfUsingSkillEachTurn);
 
     public IEnumerator MoveForwardHandler(Fighter attacker, Fighter defender, float distanceFromEachOtherOnAttack = DefaultDistanceFromEachotherOnAttack)
     {

@@ -5,7 +5,7 @@ using UnityEngine;
 
 public static class MatchMaking
 {
-    private static int baseEloGain = 15;
+    private static readonly int baseEloGain = 15;
     public static CupFighter bot; // use for cup mode
 
     public static void GenerateBotData(Fighter player, Fighter bot)

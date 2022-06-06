@@ -28,6 +28,9 @@ public class DeleteGame : MonoBehaviour
         string[] filesAndroid = Directory.GetFiles(Path.GetDirectoryName(Application.persistentDataPath));
         foreach (var file in filesAndroid) File.Delete(file);
 
+        
+        // Debug.Log(Directory.GetFiles(Application.persistentDataPath)[0]);
+
         string[] filesPC =  Directory.GetFiles(Application.persistentDataPath);
         foreach (var file in filesPC) File.Delete(file);
     }

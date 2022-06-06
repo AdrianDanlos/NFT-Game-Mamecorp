@@ -26,6 +26,7 @@ public class Combat : MonoBehaviour
     private TextMeshProUGUI levelTextBot;
     public GameObject boostButton;
     public GameObject elixirButton;
+    public GameObject floatingHp;
 
     // Script references
     public static Movement movementScript;
@@ -51,15 +52,12 @@ public class Combat : MonoBehaviour
     List<Fighter> fightersOrderOfAttack = new List<Fighter> { };
     public static float playerMaxHp;
     public static float botMaxHp;
-
-    //Balance constants
-    private const int ProbabilityOfUsingSkillEachTurn = 50;
+    public static int floatingHpInstancesCount; //We track the amount of texts displayed so we can sort them on top of eachother.
 
     //Sorting layers
     public static int fighterSortingOrder;
-    public static int bloodSortingOrder;
 
-    // Countdown timer
+    // Combat countdown timer
     const float COUNTDOWN_ANIMATION = 3f;
     const float ENTER_ARENA_ANIMATION = 2.5f;
     const float TIME_ANNOUNCEMENT = 2.5f;
@@ -74,8 +72,6 @@ public class Combat : MonoBehaviour
         if (Cup.Instance.isActive && !CombatMode.isSoloqEnabled) MatchMaking.GenerateCupBotData(player, bot);
         else MatchMaking.GenerateBotData(player, bot);
 
-        SetMaxHpValues();
-
         // Set LoadingScreen
         loadingScreen.SetPlayerLoadingScreenData(player);
         loadingScreen.DisplayLoaderForEnemy();
@@ -86,6 +82,7 @@ public class Combat : MonoBehaviour
         //Load everything needed for the combat
         GenerateSkillsFixturesForPlayer();
         BoostFightersStatsBasedOnPassiveSkills();
+        SetMaxHpValues();
         SetCombatGameObjectsVisibility();
         SetFighterPositions();
         SetOrderOfAttacks();
@@ -121,7 +118,6 @@ public class Combat : MonoBehaviour
     private void GetLayersOrder()
     {
         fighterSortingOrder = botGameObject.GetComponent<Renderer>().sortingOrder;
-        bloodSortingOrder = bot.transform.Find("VFX/Hit_VFX").GetComponent<Renderer>().sortingOrder;
     }
 
     IEnumerator LoadingScreenLogic()
@@ -238,13 +234,13 @@ public class Combat : MonoBehaviour
         //Between x and y seconds
         float elixirTimeRange = UnityEngine.Random.Range(15, 25);
         yield return new WaitForSeconds(elixirTimeRange);
-        elixirScript.TriggerElixirEffects(bot);
+        if (!isGameOver) elixirScript.TriggerElixirEffects(bot);
     }
     IEnumerator StartBotBoostTimer()
     {
         float boostTimeRange = UnityEngine.Random.Range(1, 20);
         yield return new WaitForSeconds(boostTimeRange);
-        boostScript.TriggerBoostEffects(bot);
+        if (!isGameOver) boostScript.TriggerBoostEffects(bot);
     }
 
     IEnumerator InitiateCombat()
@@ -359,7 +355,7 @@ public class Combat : MonoBehaviour
     }
 
     public static Func<Fighter, bool> WillUseSkillThisTurn = attacker =>
-        attacker.skills.Count() > 0 && Probabilities.IsHappening(ProbabilityOfUsingSkillEachTurn);
+        attacker.skills.Count() > 0 && Probabilities.IsHappening(GlobalConstants.ProbabilityOfUsingSkillEachTurn);
 
     public IEnumerator MoveForwardHandler(Fighter attacker, Fighter defender, float distanceFromEachOtherOnAttack = DefaultDistanceFromEachotherOnAttack)
     {
@@ -473,11 +469,4 @@ public class Combat : MonoBehaviour
 
     //During the combat the player object experiences a lot of changes so we need to set it back to its default state after the combat.
     private Action ResetPlayerObject = () => player = JsonDataManager.ReadFighterFile();
-
-    //TODO: Remove this. Testing purposes. + Remember to remove gameobject from scene.
-    public static void ShowLifeChangesOnUI(float lifeChange)
-    {
-        string prefix = lifeChange > 0 ? "HEAL" : "DMG";
-        GameObject.Find("DummyText").GetComponent<TextMeshProUGUI>().text = $"{prefix}: {Math.Round(lifeChange, 1)}";
-    }
 }

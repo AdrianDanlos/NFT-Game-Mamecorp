@@ -33,10 +33,4 @@ public class UserDataBar : MonoBehaviour
 
         timerContainer.SetActive(false);
     }
-
-    void OutputTime()
-    {
-        Debug.Log(Time.time);
-    }
-
 }

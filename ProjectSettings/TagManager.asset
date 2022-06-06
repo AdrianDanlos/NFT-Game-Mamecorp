@@ -22,6 +22,8 @@ TagManager:
   - PlayerShadow
   - BotShadow
   - SkillsContainer
+  - HitVFX
+  - FloatingHp
   layers:
   - Default
   - TransparentFX

@@ -11,7 +11,9 @@ public class Boost : MonoBehaviour
 
     //Entrypoint for user
     public void OnClickTriggerBoostEffects()
-    {
+    {        
+        Image iconImage = this.transform.Find("Icon").GetComponent<Image>();
+        iconImage.color = VFXUtils.GetUsedButtonColor(iconImage.color);
         this.GetComponent<Button>().interactable = false;
         TriggerBoostEffects(Combat.player);
     }
@@ -28,9 +30,8 @@ public class Boost : MonoBehaviour
 
         Animator lightningAnimator = fighter.transform.Find("VFX/Boost_VFX/Lightning_VFX").GetComponent<Animator>();
         lightningAnimator.Play("lightning_0", -1, 0f);
-        fighter.damage *= 1.5f;
+        fighter.damage *= 2f;
         fighter.GetComponent<Renderer>().material.color = new Color32(255, 192, 0, 255);
-        UpdateFightersSortingOrder(1, 2);
         StartCoroutine(StartBoostTimer(fighter));
         StartCoroutine(ShowParticlesWhileBoostLast(fighter));
     }
@@ -61,20 +62,10 @@ public class Boost : MonoBehaviour
 
     IEnumerator RemoveBoostEffects(Fighter fighter)
     {
-        fighter.damage /= 1.5f;
+        fighter.damage /= 2f;
         fighter.GetComponent<Renderer>().material.color = new Color32(255, 255, 255, 255);
         //Wait for particles animation to finish
         yield return new WaitForSeconds(1f);
-        //Only reset sorting order if no fighters have an active boost
-        if (!isPlayerBoostActive && !isBotBoostActive) UpdateFightersSortingOrder(Combat.fighterSortingOrder, Combat.bloodSortingOrder);
-    }
-
-    private void UpdateFightersSortingOrder(int fighterSortingOrder, int bloodSortingOrder)
-    {
-        Combat.player.GetComponent<Renderer>().sortingOrder = fighterSortingOrder;
-        Combat.bot.GetComponent<Renderer>().sortingOrder = fighterSortingOrder;
-        Combat.player.transform.Find("VFX/Hit_VFX").GetComponent<Renderer>().sortingOrder = bloodSortingOrder;
-        Combat.bot.transform.Find("VFX/Hit_VFX").GetComponent<Renderer>().sortingOrder = bloodSortingOrder;
     }
 
     private bool isBoostActive(Fighter fighter)

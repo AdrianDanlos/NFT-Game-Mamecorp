@@ -25,8 +25,11 @@ public class DeleteGame : MonoBehaviour
     {
         //On Android when reading from Application.persistentDataPath we access a symlink at /storage/emulated/0....NFTGameMamecorp/files
         //If we want to delete the files at NFTGameMamecorp we have to get the files at the parent folder
-        string[] files = Directory.GetFiles(Path.GetDirectoryName(Application.persistentDataPath));
-        foreach (var file in files) File.Delete(file);
+        string[] filesAndroid = Directory.GetFiles(Path.GetDirectoryName(Application.persistentDataPath));
+        foreach (var file in filesAndroid) File.Delete(file);
+
+        string[] filesPC =  Directory.GetFiles(Application.persistentDataPath);
+        foreach (var file in filesPC) File.Delete(file);
     }
 
     private void ResetAllPrefs()

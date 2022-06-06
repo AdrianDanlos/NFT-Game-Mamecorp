@@ -5,7 +5,7 @@ public class FighterShadow : MonoBehaviour
     Transform player;
     Transform bot;
     string parentFighterName;
-
+    //TODO V2: We dont need this script at all. Making the shadow a child of the fighter is enough.
     void Start()
     {
         parentFighterName = transform.parent.parent.name;

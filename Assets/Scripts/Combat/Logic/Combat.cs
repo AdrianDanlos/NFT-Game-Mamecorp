@@ -57,7 +57,6 @@ public class Combat : MonoBehaviour
 
     //Sorting layers
     public static int fighterSortingOrder;
-    public static int bloodSortingOrder;
 
     // Countdown timer
     const float COUNTDOWN_ANIMATION = 3f;
@@ -121,7 +120,6 @@ public class Combat : MonoBehaviour
     private void GetLayersOrder()
     {
         fighterSortingOrder = botGameObject.GetComponent<Renderer>().sortingOrder;
-        bloodSortingOrder = bot.transform.Find("VFX/Hit_VFX").GetComponent<Renderer>().sortingOrder;
     }
 
     IEnumerator LoadingScreenLogic()

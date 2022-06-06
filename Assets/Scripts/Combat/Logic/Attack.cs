@@ -14,11 +14,10 @@ public class Attack : MonoBehaviour
 
         FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.ATTACK);
 
-        //FIXME: Visual bug when shielding a counter or reversal attack. 
-        //Options to fix: 1.Fix shield animation (weird rotation). 2. Dont allow to shield on counter or reversal attacks by passing a parameter. 3. Dont allow shield on performattack 
+        //TODO V2: To fix how shield looks visually when using it on a counter or reversal attack we could just rotate the sprite on paint and save it rotated.
         if (IsAttackShielded())
         {
-            yield return StartCoroutine(ShieldAttack(defender));
+            yield return StartCoroutine(ShieldAttack(attacker, defender));
             yield break;
         }
 
@@ -30,20 +29,18 @@ public class Attack : MonoBehaviour
         yield return DefenderReceivesAttack(attacker, defender, attacker.damage, 0.25f, 0.05f);
     }
 
-    IEnumerator ShieldAttack(Fighter defender, float secondsToWaitForAttackAnim = 0.35f)
+    IEnumerator ShieldAttack(Fighter attacker, Fighter defender, float secondsToWaitForAttackAnim = 0.4f)
     {
+        Renderer attackerRenderer = attacker.GetComponent<Renderer>();
+        //Change sorting order so attack sword goes over defender shield
+        attackerRenderer.sortingOrder = Combat.fighterSortingOrder + 2;
         FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.JUMP);
-        Transform shield = defender.transform.Find("Shield");
-        SpriteRenderer shieldSprite = shield.GetComponent<SpriteRenderer>();
-        float xShieldDisplacement = Combat.player == defender ? 0.8f : -0.8f;
-        Vector3 shieldDisplacement = new Vector3(xShieldDisplacement, -0.7f, 0);
-
-        shield.transform.position = defender.transform.position;
-        shield.transform.position += shieldDisplacement;
+        SpriteRenderer shieldSprite = defender.transform.Find("Shield").GetComponent<SpriteRenderer>();
         shieldSprite.enabled = true;
         yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(secondsToWaitForAttackAnim));
         shieldSprite.enabled = false;
         FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.IDLE);
+        attackerRenderer.sortingOrder = Combat.fighterSortingOrder;
     }
 
     public IEnumerator PerformCosmicKicks(Fighter attacker, Fighter defender)
@@ -55,7 +52,7 @@ public class Attack : MonoBehaviour
     {
         if (IsAttackShielded())
         {
-            yield return StartCoroutine(ShieldAttack(defender, 0.22f));
+            yield return StartCoroutine(ShieldAttack(attacker, defender, 0.22f));
             yield break;
         }
 
@@ -73,7 +70,7 @@ public class Attack : MonoBehaviour
 
         if (IsAttackShielded())
         {
-            yield return StartCoroutine(ShieldAttack(defender));
+            yield return StartCoroutine(ShieldAttack(attacker, defender));
             yield break;
         }
 
@@ -113,7 +110,7 @@ public class Attack : MonoBehaviour
 
         if (IsAttackShielded())
         {
-            yield return StartCoroutine(ShieldAttack(defender));
+            yield return StartCoroutine(ShieldAttack(attacker, defender));
             yield break;
         }
 
@@ -135,7 +132,7 @@ public class Attack : MonoBehaviour
         {
             //Cast shield when bomb is mid air
             yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(.4f));
-            yield return StartCoroutine(ShieldAttack(defender));
+            yield return StartCoroutine(ShieldAttack(attacker, defender));
             yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(.2f));
             yield break;
         }
@@ -256,7 +253,7 @@ public class Attack : MonoBehaviour
 
     public bool IsAttackShielded()
     {
-        int probabilityOfShielding = 10;
+        int probabilityOfShielding = 15;
         return Probabilities.IsHappening(probabilityOfShielding);
     }
 

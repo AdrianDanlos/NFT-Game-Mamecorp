@@ -233,7 +233,7 @@ public class Attack : MonoBehaviour
         float hpToRestore = percentage * maxHp / 100;
         float hpAfterHeal = attacker.hp + hpToRestore;
         attacker.hp = hpAfterHeal > maxHp ? maxHp : hpAfterHeal;
-        attacker.transform.Find("FloatingHp").GetComponent<FloatingHp>().StartAnimation(hpToRestore, Combat.healColor);
+        attacker.transform.Find("FloatingHp").GetComponent<FloatingHp>().StartAnimation(hpToRestore, Globals.healColor);
     }
 
     IEnumerator ReceiveDamageAnimation(Fighter defender, float secondsUntilHitMarker)

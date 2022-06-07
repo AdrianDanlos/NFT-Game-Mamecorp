@@ -13,7 +13,7 @@ public class Attack : MonoBehaviour
 
         FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.ATTACK);
 
-        if (IsAttackShielded())
+        if (IsAttackShielded(defender))
         {
             yield return StartCoroutine(ShieldAttack(attacker, defender));
             yield break;
@@ -55,7 +55,7 @@ public class Attack : MonoBehaviour
     }
     public IEnumerator PerformLowBlow(Fighter attacker, Fighter defender)
     {
-        if (IsAttackShielded())
+        if (IsAttackShielded(defender))
         {
             yield return StartCoroutine(ShieldAttack(attacker, defender, 0.22f));
             yield break;
@@ -73,7 +73,7 @@ public class Attack : MonoBehaviour
     {
         FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.AIR_ATTACK);
 
-        if (IsAttackShielded())
+        if (IsAttackShielded(defender))
         {
             yield return StartCoroutine(ShieldAttack(attacker, defender));
             yield break;
@@ -113,7 +113,7 @@ public class Attack : MonoBehaviour
         yield return StartCoroutine(Combat.movementScript.MoveShuriken(shurikenInstance, shurikenStartPos, shurikenEndPos, 0.35f));
         Destroy(shurikenInstance);
 
-        if (IsAttackShielded())
+        if (IsAttackShielded(defender))
         {
             yield return StartCoroutine(ShieldAttack(attacker, defender));
             yield break;
@@ -133,7 +133,7 @@ public class Attack : MonoBehaviour
         bombInstance.AddComponent(Type.GetType("BombAnimation"));
         bombInstance.GetComponent<BombAnimation>().targetPos = defender.initialPosition;
 
-        if (IsAttackShielded())
+        if (IsAttackShielded(defender))
         {
             //Cast shield when bomb is mid air
             yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(.35f));
@@ -269,10 +269,10 @@ public class Attack : MonoBehaviour
         else yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(secondsUntilHitMarker + .08f));
     }
 
-    public bool IsAttackShielded()
+    public bool IsAttackShielded(Fighter fighter)
     {
-        int probabilityOfShielding = 15;
-        return Probabilities.IsHappening(probabilityOfShielding);
+        int probabilityOfShielding = 10;
+        return fighter.HasSkill(SkillNames.GloriousShield) && Probabilities.IsHappening(probabilityOfShielding);
     }
 
     public bool IsBasicAttackRepeated(Fighter attacker)

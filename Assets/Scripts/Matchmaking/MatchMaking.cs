@@ -32,21 +32,22 @@ public static class MatchMaking
 
         List<Skill> botSkills = new List<Skill>();
 
-        //ADD ALL SKILLS
-        //FIXME: Remove this in production
-        // foreach (OrderedDictionary skill in SkillCollection.skills)
-        // {
-        //     Skill skillInstance = new Skill(skill["name"].ToString(), skill["description"].ToString(),
-        //         skill["skillRarity"].ToString(), skill["category"].ToString(), skill["icon"].ToString());
+        int skillCountBottomRange;
+        int skillCountTopRange;
 
-        //     botSkills.Add(skillInstance);
-        // }
+        //If player is lvl 0 no one has skills
+        if (player.skills.Count == 0)
+        {
+            skillCountBottomRange = 0;
+            skillCountTopRange = 0;
+        }
 
-        //Add random skills for the bot
-        int skillCountBottomRange = player.skills.Count == 0 ? 0 : player.skills.Count - 1;
-        int skillCountTopRange = player.skills.Count + 1 >= SkillCollection.skills.Count ? player.skills.Count : player.skills.Count + 2;
+        skillCountBottomRange = player.skills.Count - 1;
+        skillCountTopRange = player.skills.Count + 1 >= SkillCollection.skills.Count
+            ? player.skills.Count
+            : player.skills.Count + 2;
 
-        //-1 to +1 skill count relative to the player
+        //Add random skills for the bot, -1 to +1 skills relative to the player
         int botSkillsCount = UnityEngine.Random.Range(skillCountBottomRange, skillCountTopRange);
         int randomSkillIndex = UnityEngine.Random.Range(0, SkillCollection.skills.Count);
 
@@ -62,13 +63,10 @@ public static class MatchMaking
         Dictionary<string, float> botStats = GenerateBotRandomStats(botSpecies);
 
         //weightedHealth to give the player a little advantadge
-        float weightedHealth = UnityEngine.Random.Range(botStats["hp"] * 0.95f, botStats["hp"] * 1.03f);
-        Debug.Log(weightedHealth);
+        float weightedHealth = (float)Math.Round(UnityEngine.Random.Range(botStats["hp"] * 0.93f, botStats["hp"] * 1.04f));
 
         bot.FighterConstructor(botName, weightedHealth, botStats["damage"], botStats["speed"],
             botSpecies.ToString(), botSpecies.ToString(), botLevel, 0, botSkills);
-
-        Debug.Log("BOT STATS -> hp: " + botStats["hp"] + " damage: " + botStats["damage"] + " speed: " + botStats["speed"]);
     }
 
     private static CupFighter GetCupBotData()

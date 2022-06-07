@@ -52,7 +52,7 @@ public class Combat : MonoBehaviour
     List<Fighter> fightersOrderOfAttack = new List<Fighter> { };
     public static float playerMaxHp;
     public static float botMaxHp;
-    public static int floatingHpInstancesCount; //We track the amount of texts displayed so we can sort them on top of eachother.
+    public static int floatingTextInstancesCount; //We track the amount of texts displayed so we can sort them on top of eachother.
 
     //Sorting layers
     public static int fighterSortingOrder;

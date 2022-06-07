@@ -13,7 +13,6 @@ public class Attack : MonoBehaviour
 
         FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.ATTACK);
 
-        //TODO V2: To fix how shield looks visually when using it on a counter or reversal attack we could just rotate the sprite on paint and save it rotated.
         if (IsAttackShielded())
         {
             yield return StartCoroutine(ShieldAttack(attacker, defender));
@@ -30,6 +29,7 @@ public class Attack : MonoBehaviour
 
     IEnumerator ShieldAttack(Fighter attacker, Fighter defender, float secondsToWaitForAttackAnim = 0.4f)
     {
+        VFXUtils.DisplayFloatingText(defender, this.gameObject.GetComponent<Combat>().floatingHp, "BLOCKED!");
         Renderer attackerRenderer = attacker.GetComponent<Renderer>();
         //Change sorting order so attack sword goes over defender shield
         attackerRenderer.sortingOrder = Combat.fighterSortingOrder + 2;
@@ -174,6 +174,7 @@ public class Attack : MonoBehaviour
 
     IEnumerator DefenderDodgesAttack(Fighter defender)
     {
+        VFXUtils.DisplayFloatingText(defender, this.gameObject.GetComponent<Combat>().floatingHp, "DODGED!");
         StartCoroutine(Combat.movementScript.DodgeMovement(defender));
         FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.JUMP);
         yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(.3f));
@@ -214,8 +215,9 @@ public class Attack : MonoBehaviour
     {
         bool isAttackCritical = IsAttackCritical(attacker);
         Color floatingHpColor = GlobalConstants.noColor;
-        
-        if (isAttackCritical) {
+
+        if (isAttackCritical)
+        {
             damagePerHit = damagePerHit * 1.5f;
             floatingHpColor = GlobalConstants.criticalAttackColor;
         }
@@ -238,11 +240,11 @@ public class Attack : MonoBehaviour
     private void RestoreLife(Fighter attacker, double percentage)
     {
         float maxHp = Combat.player == attacker ? Combat.playerMaxHp : Combat.botMaxHp;
-        double hpAfterHeal = attacker.hp + (percentage / 100 *  maxHp);
+        double hpAfterHeal = attacker.hp + (percentage / 100 * maxHp);
         double updatedHp = hpAfterHeal > maxHp ? maxHp : hpAfterHeal;
         float hpToRestore = (float)updatedHp - attacker.hp;
         VFXUtils.DisplayFloatingHp(attacker, this.gameObject.GetComponent<Combat>().floatingHp, hpToRestore, GlobalConstants.healColor);
-        attacker.hp += hpToRestore;       
+        attacker.hp += hpToRestore;
     }
 
     IEnumerator ReceiveDamageAnimation(Fighter defender, float secondsUntilHitMarker)
@@ -262,7 +264,7 @@ public class Attack : MonoBehaviour
 
     public bool IsAttackShielded()
     {
-        int probabilityOfShielding = 15;
+        int probabilityOfShielding = 30;
         return Probabilities.IsHappening(probabilityOfShielding);
     }
 

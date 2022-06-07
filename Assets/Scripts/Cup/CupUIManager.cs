@@ -471,8 +471,7 @@ public class CupUIManager : MonoBehaviour
 
     private void ResetCup()
     {
-        // TODO CHANGE TO DAYS ON RELEASE
-        PlayerPrefs.SetString("cupCountdown", DateTime.Now.AddSeconds(CUP_COOLDOWN_IN_DAYS).ToBinary().ToString());
+        PlayerPrefs.SetString("cupCountdown", DateTime.Now.AddDays(CUP_COOLDOWN_IN_DAYS).ToBinary().ToString());
         PlayerPrefs.Save();
 
         cupManager.DeleteCupFile();

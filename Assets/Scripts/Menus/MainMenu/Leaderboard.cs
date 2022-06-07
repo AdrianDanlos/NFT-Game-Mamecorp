@@ -19,7 +19,7 @@ public class Leaderboard : MonoBehaviour
     Dictionary<string, int> orderedDB;
     List<KeyValuePair<string, int>> newDict;
     const int DAYS_BETWEEN_UPDATE = 1;
-    const int MINUTES_BETWEEN_USER_RANKING_UPDATE = 1; 
+    const int MINUTES_BETWEEN_USER_RANKING_UPDATE = 720; 
 
     // Player GameObject Structure
     // - List_Me
@@ -167,8 +167,6 @@ public class Leaderboard : MonoBehaviour
         SetupUserName();
         SetupUserTrophies();
         SetupUserSprite();
-
-        // todo change position
     }
 
     private void SetUpUserFlag(string flagName)

@@ -90,8 +90,7 @@ public class CupTimer : MonoBehaviour
 
     private void StartCountdown()
     {
-        // TODO CHANGE TO DAYS IN RELEASE
-        PlayerPrefs.SetString("cupCountdown", DateTime.Now.AddSeconds(CUP_COOLDOWN_IN_DAYS).ToBinary().ToString());
+        PlayerPrefs.SetString("cupCountdown", DateTime.Now.AddDays(CUP_COOLDOWN_IN_DAYS).ToBinary().ToString());
         PlayerPrefs.Save();
     }
 

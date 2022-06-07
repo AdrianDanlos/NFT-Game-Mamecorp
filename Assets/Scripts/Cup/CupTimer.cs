@@ -28,7 +28,7 @@ public class CupTimer : MonoBehaviour
         cupIcon = GameObject.Find("Icon_Cup").GetComponent<Image>();
         textCup = GameObject.Find("Text_Cup").GetComponent<TextMeshProUGUI>();
         textCupDisabled = GameObject.Find("Text_Cup_Disabled").GetComponent<TextMeshProUGUI>();
-        timerGO = GameObject.Find("Icon_Daily_Time");
+        timerGO = GameObject.Find("Icon_Daily_Time_Cup");
         textTimer = GameObject.Find("Text_Daily_Time").GetComponent<TextMeshProUGUI>();
         lockIcon = GameObject.Find("Cup_Lock").GetComponent<Image>();
     }

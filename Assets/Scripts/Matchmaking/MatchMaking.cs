@@ -30,17 +30,32 @@ public static class MatchMaking
         int botLevel = GenerateBotLevel(player.level);
         Combat.botElo = GenerateBotElo(User.Instance.elo);
 
+        List<Skill> botSkills = GenerateBotSkills(player);
+
+        Dictionary<string, float> botStats = GenerateBotRandomStats(botSpecies);
+
+        //WeightedHealth to give the player a little advantadge. We probably don't need it as the actives make the difference.
+        //float weightedHealth = (float)Math.Round(UnityEngine.Random.Range(botStats["hp"] * 0.93f, botStats["hp"] * 1.04f));
+
+        bot.FighterConstructor(botName, botStats["hp"], botStats["damage"], botStats["speed"],
+            botSpecies.ToString(), botSpecies.ToString(), botLevel, 0, botSkills);
+    }
+
+    private static List<Skill> GenerateBotSkills(Fighter player)
+    {
         List<Skill> botSkills = new List<Skill>();
 
         int skillCountBottomRange;
         int skillCountTopRange;
 
         //If player is lvl 0 no one has skills
-        if (player.skills.Count == 0){
+        if (player.skills.Count == 0)
+        {
             skillCountBottomRange = 0;
             skillCountTopRange = 0;
         }
-        else{
+        else
+        {
             skillCountBottomRange = player.skills.Count - 1;
             skillCountTopRange = player.skills.Count + 1 >= SkillCollection.skills.Count
                 ? player.skills.Count
@@ -60,13 +75,7 @@ public static class MatchMaking
             botSkills.Add(skillInstance);
         }
 
-        Dictionary<string, float> botStats = GenerateBotRandomStats(botSpecies);
-
-        //weightedHealth to give the player a little advantadge
-        float weightedHealth = (float)Math.Round(UnityEngine.Random.Range(botStats["hp"] * 0.93f, botStats["hp"] * 1.04f));
-
-        bot.FighterConstructor(botName, weightedHealth, botStats["damage"], botStats["speed"],
-            botSpecies.ToString(), botSpecies.ToString(), botLevel, 0, botSkills);
+        return botSkills;
     }
 
     private static CupFighter GetCupBotData()

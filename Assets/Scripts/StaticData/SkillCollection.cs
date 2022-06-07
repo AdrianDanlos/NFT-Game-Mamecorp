@@ -2,7 +2,6 @@
 
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using UnityEngine;
 
 public struct SkillNames
 {
@@ -158,7 +157,7 @@ public static class SkillCollection
         new OrderedDictionary
         {
             {"name", SkillNames.CosmicKicks},
-            {"description", "Land between 4 and 8 deadly kicks that can't be dodged."},
+            {"description", "Land between 4 and 6 deadly kicks that can't be dodged."},
             {"skillRarity", SkillRarity.RARE.ToString()},
             {"category", SkillType.SUPER.ToString()},
             {"icon", "13" }
@@ -166,7 +165,7 @@ public static class SkillCollection
         new OrderedDictionary
         {
             {"name", SkillNames.ShurikenFury},
-            {"description", "Throw between 4 and 8 ninja shurikens at high speed to your opponent."},
+            {"description", "Throw between 4 and 6 ninja shurikens at high speed to your opponent."},
             {"skillRarity", SkillRarity.EPIC.ToString()},
             {"category", SkillType.SUPER.ToString()},
             {"icon", "14" }

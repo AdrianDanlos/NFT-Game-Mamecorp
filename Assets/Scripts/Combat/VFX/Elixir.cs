@@ -26,7 +26,7 @@ public class Elixir : MonoBehaviour
 
         //Heals for 50% of the missing hp
         float missingHp = fighter == Combat.player ? Combat.playerMaxHp - fighter.hp : Combat.botMaxHp - fighter.hp;
-        float hpToRestore = missingHp * 0.5f;
+        float hpToRestore = missingHp * (GlobalConstants.SkillHeals.Elixir / 100);
         fighter.hp += hpToRestore;
 
         VFXUtils.DisplayFloatingHp(fighter, GameObject.Find("CombatManager").GetComponent<Combat>().floatingHp, hpToRestore, GlobalConstants.healColor);

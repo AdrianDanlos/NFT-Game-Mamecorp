@@ -70,7 +70,7 @@ public class Combat : MonoBehaviour
 
         // Generate bot data
         if (Cup.Instance.isActive && !CombatMode.isSoloqEnabled) MatchMaking.GenerateCupBotData(player, bot);
-        else MatchMaking.GenerateBotData(player, bot);
+        else MatchMaking.GenerateSoloQBotData(player, bot);
 
         // Set LoadingScreen
         loadingScreen.SetPlayerLoadingScreenData(player);
@@ -80,7 +80,7 @@ public class Combat : MonoBehaviour
         ShowLoadingScreen(true);
 
         //Load everything needed for the combat
-        GenerateSkillsFixturesForPlayer();
+        //GenerateSkillsFixtures(player);
         BoostFightersStatsBasedOnPassiveSkills();
         SetMaxHpValues();
         SetCombatGameObjectsVisibility();
@@ -95,20 +95,21 @@ public class Combat : MonoBehaviour
 
     IEnumerator Start()
     {
+        Debug.Log($"Skills count -> Player: {player.skills.Count} / Bot: {bot.skills.Count}");
         StartCoroutine(SceneManagerScript.instance.FadeIn());
 
         //Comment this line to remove loading screen
-        //yield return StartCoroutine(LoadingScreenLogic());
+        yield return StartCoroutine(LoadingScreenLogic());
 
         ShowLoadingScreen(false);
 
-        // enter the arena animation
+        // Enter the arena animation
         StartCoroutine(EnterArenaAnimations());
         yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(ENTER_ARENA_ANIMATION));
 
         // 3 2 1 combat before initating
-        // StartCoroutine(fightersUIDataScript.Countdown());
-        // yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(COUNTDOWN_ANIMATION));
+        StartCoroutine(fightersUIDataScript.Countdown());
+        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(COUNTDOWN_ANIMATION));
 
         StartCoroutine(InitiateCombat());
 
@@ -133,6 +134,8 @@ public class Combat : MonoBehaviour
     {
         skillsLogicScript.BoostStatsBasedOnPassiveSkills(player);
         skillsLogicScript.BoostStatsBasedOnPassiveSkills(bot);
+        Debug.Log("PLAYER STATS -> hp: " + player.hp + " damage: " + player.damage + " speed: " + player.speed);
+        Debug.Log("BOT STATS -> hp: " + bot.hp + " damage: " + bot.damage + " speed: " + bot.speed);
     }
 
     private void GetComponentReferences()
@@ -266,7 +269,7 @@ public class Combat : MonoBehaviour
     }
 
     //TODO: Remove this on production
-    private void GenerateSkillsFixturesForPlayer()
+    private void GenerateSkillsFixtures(Fighter fighter)
     {
         //GIVE ALL SKILLS TO THE PLAYER FOR THE COMBAT
         foreach (OrderedDictionary skill in SkillCollection.skills)
@@ -274,7 +277,7 @@ public class Combat : MonoBehaviour
             Skill skillInstance = new Skill(skill["name"].ToString(), skill["description"].ToString(),
                 skill["skillRarity"].ToString(), skill["category"].ToString(), skill["icon"].ToString());
 
-            player.skills.Add(skillInstance);
+            fighter.skills.Add(skillInstance);
         }
     }
 

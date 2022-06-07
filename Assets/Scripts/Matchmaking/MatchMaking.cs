@@ -36,16 +36,16 @@ public static class MatchMaking
         int skillCountTopRange;
 
         //If player is lvl 0 no one has skills
-        if (player.skills.Count == 0)
-        {
+        if (player.skills.Count == 0){
             skillCountBottomRange = 0;
             skillCountTopRange = 0;
         }
-
-        skillCountBottomRange = player.skills.Count - 1;
-        skillCountTopRange = player.skills.Count + 1 >= SkillCollection.skills.Count
-            ? player.skills.Count
-            : player.skills.Count + 2;
+        else{
+            skillCountBottomRange = player.skills.Count - 1;
+            skillCountTopRange = player.skills.Count + 1 >= SkillCollection.skills.Count
+                ? player.skills.Count
+                : player.skills.Count + 2;
+        }
 
         //Add random skills for the bot, -1 to +1 skills relative to the player
         int botSkillsCount = UnityEngine.Random.Range(skillCountBottomRange, skillCountTopRange);

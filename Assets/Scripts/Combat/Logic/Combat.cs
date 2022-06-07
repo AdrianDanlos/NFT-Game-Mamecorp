@@ -70,7 +70,7 @@ public class Combat : MonoBehaviour
 
         // Generate bot data
         if (Cup.Instance.isActive && !CombatMode.isSoloqEnabled) MatchMaking.GenerateCupBotData(player, bot);
-        else MatchMaking.GenerateBotData(player, bot);
+        else MatchMaking.GenerateSoloQBotData(player, bot);
 
         // Set LoadingScreen
         loadingScreen.SetPlayerLoadingScreenData(player);

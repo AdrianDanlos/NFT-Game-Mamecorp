@@ -17,7 +17,7 @@ public class Fighter : MonoBehaviour
     private List<Skill> _skills;
     private Vector2 _initialPosition;
     private float _repeatAttackChance = 10;
-    private float _dodgeChance = 30;
+    private float _dodgeChance = 10;
     private float _criticalChance = 10;
     private float _reversalChance = 10;
     private float _counterAttackChance = 10;

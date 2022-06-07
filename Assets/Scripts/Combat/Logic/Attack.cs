@@ -264,7 +264,7 @@ public class Attack : MonoBehaviour
 
     public bool IsAttackShielded()
     {
-        int probabilityOfShielding = 30;
+        int probabilityOfShielding = 15;
         return Probabilities.IsHappening(probabilityOfShielding);
     }
 

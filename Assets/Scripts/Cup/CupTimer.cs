@@ -14,7 +14,7 @@ public class CupTimer : MonoBehaviour
     TextMeshProUGUI textTimer;
     Image lockIcon;
 
-    const int CUP_COOLDOWN = 5; //days
+    const int CUP_COOLDOWN_IN_DAYS = 5; 
 
     private void Awake()
     {
@@ -80,16 +80,18 @@ public class CupTimer : MonoBehaviour
             StartCountdown();
             return false;
         }
-
-        if (PlayerPrefs.GetString("cupCountdown") != "")
+        else if (PlayerPrefs.GetString("cupCountdown") != "")
+        {
             return DateTime.Compare(DateTime.FromBinary(Convert.ToInt64(PlayerPrefs.GetString("cupCountdown"))), DateTime.Now) <= 0;
-
+        }
+            
         return false;
     }
 
     private void StartCountdown()
     {
-        PlayerPrefs.SetString("cupCountdown", DateTime.Now.AddDays(CUP_COOLDOWN).ToBinary().ToString());
+        // TODO CHANGE TO DAYS IN RELEASE
+        PlayerPrefs.SetString("cupCountdown", DateTime.Now.AddSeconds(CUP_COOLDOWN_IN_DAYS).ToBinary().ToString());
         PlayerPrefs.Save();
     }
 

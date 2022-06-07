@@ -462,6 +462,7 @@ public class Combat : MonoBehaviour
                 // enable rewards button on cup menu
                 // disable battle button
                 Cup.Instance.isActive = false;
+                Cup.Instance.playerStatus = false;
                 Cup.Instance.SaveCup();
             }
         }

@@ -9,10 +9,6 @@ public class OnClickCup : MonoBehaviour
     }
     public void OnClickHandler()
     {
-        // activate cup
-        // handles modified version of combat
-        Cup.Instance.isActive = true;
-        Cup.Instance.SaveCup();
         UnityEngine.SceneManagement.SceneManager.LoadScene(SceneNames.Cup.ToString());
     }
 }

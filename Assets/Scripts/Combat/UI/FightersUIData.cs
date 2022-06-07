@@ -47,9 +47,9 @@ public class FightersUIData : MonoBehaviour
             UnityEngine.SceneManagement.SceneManager.LoadScene(SceneNames.LevelUp.ToString());
         else
         {
-            if(Cup.Instance.isActive && !CombatMode.isSoloqEnabled)
+            if(!CombatMode.isSoloqEnabled)
                 IGoToScene(SceneNames.Cup);
-            if(CombatMode.isSoloqEnabled)
+            else
                 IGoToScene(SceneNames.MainMenu);
         }
     }

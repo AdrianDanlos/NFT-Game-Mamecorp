@@ -12,9 +12,9 @@ public static class JsonDataManager
     public const string CupFileName = "cup";
     public static void SaveData(JObject data, string fileName)
     {
-        System.IO.Directory.CreateDirectory(savePath);
+        Directory.CreateDirectory(savePath);
         string json = JsonConvert.SerializeObject(data, Formatting.Indented);
-        System.IO.File.WriteAllText(getFilePath(fileName), json);
+        File.WriteAllText(getFilePath(fileName), json);
     }
 
     public static void ReadUserFile()
@@ -32,7 +32,7 @@ public static class JsonDataManager
     public static void ReadCupFile()
     {
         JObject cupData = JsonDataManager.ReadData(JsonDataManager.CupFileName);
-        CupFactory.CreateCupInstance((string)cupData["cupName"],(bool)cupData["isActive"], (string)cupData["round"], cupData["participants"].ToObject<List<CupFighter>>(), cupData["cupInfo"].ToObject<Dictionary<string, Dictionary<string, Dictionary<string, string>>>>());
+        CupFactory.CreateCupInstance((string)cupData["cupName"],(bool)cupData["isActive"], (bool)cupData["playerStatus"], (string)cupData["round"], cupData["participants"].ToObject<List<CupFighter>>(), cupData["cupInfo"].ToObject<Dictionary<string, Dictionary<string, Dictionary<string, string>>>>());
     }
 
     public static JObject ReadData(string fileName)

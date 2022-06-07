@@ -13,9 +13,7 @@ public class UserDataBar : MonoBehaviour
     IEnumerator Start()
     {
         Fighter player = PlayerUtils.FindInactiveFighter();
-        MenuUtils.SetGold(gold);
-        MenuUtils.SetGems(gems);
-        MenuUtils.SetEnergy(energy);
+        RefreshCurrency();
         MenuUtils.SetName(playerNameGO, player.fighterName);
 
         //Update timer, user energy, energy number on databar and battle button each second
@@ -23,7 +21,10 @@ public class UserDataBar : MonoBehaviour
         {
             MenuUtils.DisplayEnergyCountdown(timerContainer, timer);
             EnergyManager.RefreshEnergyBasedOnCountdown();
-            MenuUtils.SetEnergy(energy);
+
+            // refresh currency
+            RefreshCurrency();
+
             if (SceneManager.GetActiveScene().name == SceneNames.MainMenu.ToString())
             {
                 GameObject.Find("MainMenuManager").GetComponent<MainMenu>().SetBattleButton();
@@ -32,5 +33,17 @@ public class UserDataBar : MonoBehaviour
         }
 
         timerContainer.SetActive(false);
+    }
+
+    private void Update()
+    {
+        RefreshCurrency();
+    }
+
+    private void RefreshCurrency()
+    {
+        MenuUtils.SetGold(gold);
+        MenuUtils.SetGems(gems);
+        MenuUtils.SetEnergy(energy);
     }
 }

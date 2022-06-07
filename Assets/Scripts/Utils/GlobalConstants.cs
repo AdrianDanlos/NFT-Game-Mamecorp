@@ -4,7 +4,7 @@ using UnityEngine;
 public class GlobalConstants
 {
     //Simulation mode
-    public static bool SimulationEnabled = false;
+    public static bool SimulationEnabled = true;
     public static float SimulationTime = 0f;
 
     //Skills

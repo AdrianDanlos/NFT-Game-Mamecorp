@@ -282,7 +282,7 @@ public class Combat : MonoBehaviour
     {
         if (WillUseSkillThisTurn(attacker))
         {
-            yield return StartCoroutine(UseRandomSkill(attacker, defender, attacker));
+            yield return StartCoroutine(UseSkill(attacker, defender, attacker));
             yield break;
         }
         yield return skillsLogicScript.AttackWithoutSkills(attacker, defender);
@@ -296,7 +296,7 @@ public class Combat : MonoBehaviour
     }
 
     //We create the fighterWeTakeTheSkillFrom param for the ViciousTheft skill as we take a skill from the opponent instead.
-    IEnumerator UseRandomSkill(Fighter attacker, Fighter defender, Fighter fighterWeTakeTheSkillFrom)
+    IEnumerator UseSkill(Fighter attacker, Fighter defender, Fighter fighterWeTakeTheSkillFrom)
     {
         //TODO v2: Each skill should have each own class with its own skill implementation. (methods, attributes, etc...)
         // Then we can instantiate a random class here to use a random SUPER skill this turn
@@ -305,13 +305,14 @@ public class Combat : MonoBehaviour
             Where(skill => skill.category == SkillCollection.SkillType.SUPER.ToString()).
             Select(skill => skill.skillName).ToList();
 
+        bool isStolenSkill = defender == fighterWeTakeTheSkillFrom;
+
         // Can be 0 in some edge cases e.g. when ViciousTheft is used and the opponent does not have skills left.
         if (skillNamesList.Count() > 0)
         {
-            int randomSkillIndex = UnityEngine.Random.Range(0, skillNamesList.Count());
-            string skillToCastThisTurn = skillNamesList[randomSkillIndex];
-            bool isStolenSkill = defender == fighterWeTakeTheSkillFrom;
+            string skillToCastThisTurn = GetSkillToCastThisTurn(attacker, skillNamesList);
 
+            //Start ViciousTheft animation
             if (isStolenSkill & skillToCastThisTurn != SkillNames.ViciousTheft)
                 yield return StartCoroutine(skillsLogicScript.ViciousTheft(attacker, skillToCastThisTurn));
 
@@ -347,11 +348,27 @@ public class Combat : MonoBehaviour
                     break;
                 case SkillNames.ViciousTheft:
                     fighterWeTakeTheSkillFrom.removeUsedSkill(SkillNames.ViciousTheft);
-                    yield return UseRandomSkill(attacker, defender, defender);
+                    yield return UseSkill(attacker, defender, defender);
                     break;
             }
         }
         FighterAnimations.ChangeAnimation(GetAttackerIfAlive(attacker, defender), FighterAnimations.AnimationNames.IDLE);
+    }
+
+    private string GetSkillToCastThisTurn(Fighter attacker, List<string> skillNamesList)
+    {
+        string GetRandomSkillName()
+        {
+            int randomSkillIndex = UnityEngine.Random.Range(0, skillNamesList.Count());
+            return skillNamesList[randomSkillIndex];
+        }
+
+        string skillToCastThisTurn = GetRandomSkillName();
+        float attackerMaxHp = attacker == player ? playerMaxHp : botMaxHp;
+
+        while (attacker.hp == attackerMaxHp && skillToCastThisTurn == SkillNames.HealingPotion) skillToCastThisTurn = GetRandomSkillName();
+
+        return skillToCastThisTurn;
     }
 
     public static Func<Fighter, bool> WillUseSkillThisTurn = attacker =>

@@ -8,7 +8,7 @@ public class GlobalConstants
     public static float SimulationTime = 0f;
 
     //Skills
-    public static int ProbabilityOfUsingSkillEachTurn = 50;
+    public static int ProbabilityOfUsingSkillEachTurn = 25;
 
     //Colors
     public static Color noColor = new Color(1, 1, 1);

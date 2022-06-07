@@ -89,10 +89,14 @@ public class DailyGift : MonoBehaviour
             EnableNextReward();
         if (IsOutOfRewards())
             ResetWeek();
-        if (UpdateTimer() >= TimeSpan.Zero)
+        if (UpdateTimer() > TimeSpan.Zero)
         {
             timerGO.SetActive(true);
             timer.text = UpdateTimer().ToString(@"hh\:mm\:ss");
+        }
+        else if (UpdateTimer() == TimeSpan.Zero)
+        {
+            timerGO.SetActive(false);
         }
     }
 

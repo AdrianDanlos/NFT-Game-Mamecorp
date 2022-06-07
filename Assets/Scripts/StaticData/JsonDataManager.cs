@@ -12,9 +12,9 @@ public static class JsonDataManager
     public const string CupFileName = "cup";
     public static void SaveData(JObject data, string fileName)
     {
-        System.IO.Directory.CreateDirectory(savePath);
+        Directory.CreateDirectory(savePath);
         string json = JsonConvert.SerializeObject(data, Formatting.Indented);
-        System.IO.File.WriteAllText(getFilePath(fileName), json);
+        File.WriteAllText(getFilePath(fileName), json);
     }
 
     public static void ReadUserFile()

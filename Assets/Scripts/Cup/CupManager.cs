@@ -1,5 +1,4 @@
 using Newtonsoft.Json.Linq;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
@@ -16,7 +15,6 @@ public class CupManager : MonoBehaviour
 
     private void CreateCupFile()
     {
-        // only 1 cup in v1
         string cupName = CupDB.CupNames.DIVINE.ToString(); ;
         string round = CupDB.CupRounds.QUARTERS.ToString();
         bool isActive = false;
@@ -26,6 +24,23 @@ public class CupManager : MonoBehaviour
         CupFactory.CreateCupInstance(cupName, isActive, round, participants, cupInfo);
         JObject cup = JObject.FromObject(Cup.Instance);
         JsonDataManager.SaveData(cup, JsonDataManager.CupFileName);
+    }
+
+    public void DeleteCupFile()
+    {
+        //On Android when reading from Application.persistentDataPath we access a symlink at /storage/emulated/0....NFTGameMamecorp/files
+        //If we want to delete the files at NFTGameMamecorp we have to get the files at the parent folder
+        string[] filesAndroid = Directory.GetFiles(Path.GetDirectoryName(Application.persistentDataPath));
+        foreach (var file in filesAndroid) 
+            if(file.Contains("cup"))
+                File.Delete(file);
+
+        // Debug.Log(Directory.GetFiles(Application.persistentDataPath)[0]);
+
+        string[] filesPC = Directory.GetFiles(Application.persistentDataPath);
+        foreach (var file in filesPC)
+            if (file.Contains("cup"))
+                File.Delete(file);
     }
 
     private List<CupFighter> GenerateParticipants()
@@ -170,10 +185,8 @@ public class CupManager : MonoBehaviour
 
         Cup.Instance.cupInfo = cupInfo;
         Cup.Instance.SaveCup();
-        Debug.Log("Simulated quarters!");
 
         GenerateCupSemisInfo();
-        Debug.Log("Generated semis bracket!");
     }
 
     public List<CupFighter> GenerateParticipantsBasedOnQuarters()
@@ -280,10 +293,8 @@ public class CupManager : MonoBehaviour
 
         Cup.Instance.cupInfo = cupInfo;
         Cup.Instance.SaveCup();
-        Debug.Log("Simulated semis!");
 
         GenerateCupFinalsInfo();
-        Debug.Log("Generated finals bracket!");
     }
 
     public List<CupFighter> GenerateParticipantsBasedOnSemis()
@@ -366,6 +377,5 @@ public class CupManager : MonoBehaviour
 
         Cup.Instance.cupInfo = cupInfo;
         Cup.Instance.SaveCup();
-        Debug.Log("Simulated finals!");
     }
 }

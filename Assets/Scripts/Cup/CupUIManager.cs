@@ -86,6 +86,7 @@ public class CupUIManager : MonoBehaviour
     // vars
     public string round;
     private Color32 playerHihglight = new Color32(254, 161, 0, 255);
+    const int CUP_COOLDOWN_IN_DAYS = 5;
 
     private void Awake()
     {
@@ -417,10 +418,10 @@ public class CupUIManager : MonoBehaviour
     {
         if (Cup.Instance.cupInfo[CupDB.CupRounds.FINALS.ToString()]["7"]["winner"] == "0")
             return CupDB.CupRounds.FINALS.ToString();
-        if (Cup.Instance.cupInfo[CupDB.CupRounds.FINALS.ToString()]["5"]["winner"] == "0")
-            return CupDB.CupRounds.FINALS.ToString();
-        if (Cup.Instance.cupInfo[CupDB.CupRounds.FINALS.ToString()]["1"]["winner"] == "0")
-            return CupDB.CupRounds.FINALS.ToString();
+        if (Cup.Instance.cupInfo[CupDB.CupRounds.SEMIS.ToString()]["5"]["winner"] == "0")
+            return CupDB.CupRounds.SEMIS.ToString();
+        if (Cup.Instance.cupInfo[CupDB.CupRounds.QUARTERS.ToString()]["1"]["winner"] == "0")
+            return CupDB.CupRounds.QUARTERS.ToString();
 
         return CupDB.CupRounds.ZERO.ToString();
     }
@@ -445,7 +446,6 @@ public class CupUIManager : MonoBehaviour
     private void GiveReward(Dictionary<string, string> reward)
     {
         prizeCanvas.enabled = true;
-        ResetCup();
 
         if (reward.ContainsKey("gold"))
             EnableGoldPopup(reward);
@@ -453,19 +453,17 @@ public class CupUIManager : MonoBehaviour
             EnableGemsPopup(reward);
         if (reward.ContainsKey("chest"))
             EnableChestPopup(reward);
+
+        ResetCup();
     }
 
     private void ResetCup()
     {
-        string[] files = Directory.GetFiles(Path.GetDirectoryName(Application.persistentDataPath));
-
-        foreach (var file in files)
-        {
-            if (file.Contains("cup")) File.Delete(file);
-        }
-
-        PlayerPrefs.SetString("cupCountdown", DateTime.Now.AddSeconds(20).ToBinary().ToString());
+        // TODO CHANGE TO DAYS ON RELEASE
+        PlayerPrefs.SetString("cupCountdown", DateTime.Now.AddSeconds(CUP_COOLDOWN_IN_DAYS).ToBinary().ToString());
         PlayerPrefs.Save();
+
+        cupManager.DeleteCupFile();
     }
 
     private void EnableGoldPopup(Dictionary<string, string> reward)

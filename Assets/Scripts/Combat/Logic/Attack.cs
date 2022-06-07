@@ -130,10 +130,11 @@ public class Attack : MonoBehaviour
         if (IsAttackShielded())
         {
             //Cast shield when bomb is mid air
-            yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(.4f));
-            yield return StartCoroutine(ShieldAttack(attacker, defender));
-            yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(.2f));
+            yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(.35f));
+            StartCoroutine(ShieldAttack(attacker, defender));
+            yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(.25f));
             Explosion.StartAnimation(defender);
+            yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(.6f));
             yield break;
         }
 

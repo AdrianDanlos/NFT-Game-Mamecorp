@@ -18,16 +18,18 @@ public class CupManager : MonoBehaviour
         string cupName = CupDB.CupNames.DIVINE.ToString(); ;
         string round = CupDB.CupRounds.QUARTERS.ToString();
         bool isActive = false;
+        bool playerStatus = true;
         List<CupFighter> participants = GenerateParticipants();
         Dictionary<string, Dictionary<string, Dictionary<string, string>>> cupInfo = GenerateCupInitialInfo();
 
-        CupFactory.CreateCupInstance(cupName, isActive, round, participants, cupInfo);
+        CupFactory.CreateCupInstance(cupName, isActive, playerStatus, round, participants, cupInfo);
         JObject cup = JObject.FromObject(Cup.Instance);
         JsonDataManager.SaveData(cup, JsonDataManager.CupFileName);
     }
 
     public void DeleteCupFile()
     {
+        // TODO ADD IOS
         //On Android when reading from Application.persistentDataPath we access a symlink at /storage/emulated/0....NFTGameMamecorp/files
         //If we want to delete the files at NFTGameMamecorp we have to get the files at the parent folder
         string[] filesAndroid = Directory.GetFiles(Path.GetDirectoryName(Application.persistentDataPath));

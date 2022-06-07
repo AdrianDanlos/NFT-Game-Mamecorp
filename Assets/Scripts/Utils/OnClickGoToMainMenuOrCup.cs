@@ -5,9 +5,9 @@ public class OnClickGoToMainMenuOrCup : MonoBehaviour
 {
     public void GoToMainMenu()
     {
-        if (Cup.Instance.isActive && !CombatMode.isSoloqEnabled)
+        if (!CombatMode.isSoloqEnabled)
             IGoToScene(SceneNames.Cup);
-        if (CombatMode.isSoloqEnabled)
+        else
             IGoToScene(SceneNames.MainMenu);
     }
 

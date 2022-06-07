@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.IO;
 using System.Linq;
 using TMPro;
 using UnityEngine;
@@ -153,7 +152,7 @@ public class CupUIManager : MonoBehaviour
 
     private void IsTournamentOver()
     {
-        if (Cup.Instance.round == CupDB.CupRounds.END.ToString() || !Cup.Instance.isActive)
+        if (Cup.Instance.round == CupDB.CupRounds.END.ToString() || !Cup.Instance.playerStatus)
         {
             battleBtnContainer.SetActive(false);
             buttonCollectRewards.gameObject.SetActive(true);
@@ -416,11 +415,11 @@ public class CupUIManager : MonoBehaviour
 
     private string GetPlayerFinalResult()
     {
-        if (Cup.Instance.cupInfo[CupDB.CupRounds.FINALS.ToString()]["7"]["winner"] == "0")
+        if ((Cup.Instance.cupInfo.ToString() == "FINALS" || Cup.Instance.cupInfo.ToString() == "END") && Cup.Instance.cupInfo[CupDB.CupRounds.FINALS.ToString()]["7"]["winner"] == "0")
             return CupDB.CupRounds.FINALS.ToString();
-        if (Cup.Instance.cupInfo[CupDB.CupRounds.SEMIS.ToString()]["5"]["winner"] == "0")
+        if ((Cup.Instance.cupInfo.ToString() == "SEMIS" || Cup.Instance.cupInfo.ToString() == "END") && Cup.Instance.cupInfo[CupDB.CupRounds.SEMIS.ToString()]["5"]["winner"] == "0")
             return CupDB.CupRounds.SEMIS.ToString();
-        if (Cup.Instance.cupInfo[CupDB.CupRounds.QUARTERS.ToString()]["1"]["winner"] == "0")
+        if (Cup.Instance.cupInfo.ToString() == "QUARTERS" && Cup.Instance.cupInfo[CupDB.CupRounds.QUARTERS.ToString()]["1"]["winner"] == "0")
             return CupDB.CupRounds.QUARTERS.ToString();
 
         return CupDB.CupRounds.ZERO.ToString();

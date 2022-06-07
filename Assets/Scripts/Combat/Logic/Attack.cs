@@ -7,7 +7,7 @@ public class Attack : MonoBehaviour
     public GameObject bomb;
     public GameObject potion;
 
-    public IEnumerator PerformAttack(Fighter attacker, Fighter defender)
+    public IEnumerator PerformAttack(Fighter attacker, Fighter defender, float damageWeight = 1)
     {
         if (Combat.movementScript.FighterShouldAdvanceToAttack(attacker)) yield return StartCoroutine(Combat.movementScript.MoveToMeleeRangeAgain(attacker, defender));
 
@@ -24,7 +24,7 @@ public class Attack : MonoBehaviour
             yield return DefenderDodgesAttack(defender);
             yield break;
         }
-        yield return DefenderReceivesAttack(attacker, defender, attacker.damage, 0.25f, 0.05f);
+        yield return DefenderReceivesAttack(attacker, defender, attacker.damage * damageWeight, 0.25f, 0.05f);
     }
 
     IEnumerator ShieldAttack(Fighter attacker, Fighter defender, float secondsToWaitForAttackAnim = 0.4f)
@@ -45,7 +45,13 @@ public class Attack : MonoBehaviour
     public IEnumerator PerformCosmicKicks(Fighter attacker, Fighter defender)
     {
         FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.KICK);
-        yield return DefenderReceivesAttack(attacker, defender, attacker.damage, 0.1f, 0.05f);
+        yield return DefenderReceivesAttack(attacker, defender, attacker.damage * GlobalConstants.SkillDamages.CosmicKicks, 0.1f, 0.05f);
+    }
+    //NEW
+    public IEnumerator PerformShadowTravel(Fighter attacker, Fighter defender)
+    {
+        FighterAnimations.ChangeAnimation(attacker, FighterAnimations.AnimationNames.KICK);
+        yield return DefenderReceivesAttack(attacker, defender, attacker.damage * GlobalConstants.SkillDamages.CosmicKicks, 0.1f, 0.05f);
     }
     public IEnumerator PerformLowBlow(Fighter attacker, Fighter defender)
     {
@@ -61,7 +67,7 @@ public class Attack : MonoBehaviour
             yield break;
         }
 
-        yield return DefenderReceivesAttack(attacker, defender, attacker.damage, 0, 0);
+        yield return DefenderReceivesAttack(attacker, defender, attacker.damage * GlobalConstants.SkillDamages.LowBlow, 0, 0);
     }
     public IEnumerator PerformJumpStrike(Fighter attacker, Fighter defender)
     {
@@ -73,8 +79,8 @@ public class Attack : MonoBehaviour
             yield break;
         }
 
-        yield return DefenderReceivesAttack(attacker, defender, attacker.damage, 0.15f, 0.05f);
-        RestoreLife(attacker, 3);
+        yield return DefenderReceivesAttack(attacker, defender, attacker.damage * GlobalConstants.SkillDamages.JumpStrike, 0.15f, 0.05f);
+        RestoreLife(attacker, GlobalConstants.SkillHeals.JumpStrike);
         Combat.fightersUIDataScript.ModifyHealthBar(attacker);
     }
     public IEnumerator PerformShurikenFury(Fighter attacker, Fighter defender)
@@ -113,7 +119,7 @@ public class Attack : MonoBehaviour
             yield break;
         }
 
-        yield return DefenderReceivesAttack(attacker, defender, attacker.damage, 0.25f, 0);
+        yield return DefenderReceivesAttack(attacker, defender, attacker.damage * GlobalConstants.SkillDamages.ShurikenFury, 0.25f, 0);
     }
 
     public IEnumerator PerformExplosiveBomb(Fighter attacker, Fighter defender)
@@ -142,7 +148,7 @@ public class Attack : MonoBehaviour
         yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(.6f));
         Explosion.StartAnimation(defender);
 
-        yield return DefenderReceivesAttack(attacker, defender, attacker.damage, 0.4f, 0.1f);
+        yield return DefenderReceivesAttack(attacker, defender, attacker.damage * GlobalConstants.SkillDamages.ExplosiveBomb, 0.4f, 0.1f);
     }
 
     public IEnumerator PerformHealingPotion(Fighter attacker)
@@ -150,7 +156,7 @@ public class Attack : MonoBehaviour
         Vector3 potionPosition = attacker.transform.position;
         potionPosition.y += 2.5f;
         GameObject potionInstance = Instantiate(potion, potionPosition, Quaternion.identity);
-        RestoreLife(attacker, 30);
+        RestoreLife(attacker, GlobalConstants.SkillHeals.HealingPotion);
         Combat.fightersUIDataScript.ModifyHealthBar(attacker);
 
         Renderer attackerRenderer = attacker.GetComponent<Renderer>();

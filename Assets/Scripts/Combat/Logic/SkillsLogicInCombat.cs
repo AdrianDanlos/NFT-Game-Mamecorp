@@ -65,7 +65,7 @@ public class SkillsLogicInCombat : MonoBehaviour
         float rotationDegrees = attacker == Combat.player ? -35f : 35f;
         movementScript.Rotate(attacker, rotationDegrees);
 
-        int nStrikes = UnityEngine.Random.Range(4, 9); // 4-8 attacks
+        int nStrikes = UnityEngine.Random.Range(4, 7); // 4-6 attacks
 
         for (int i = 0; i < nStrikes && !Combat.isGameOver; i++)
         {
@@ -83,7 +83,7 @@ public class SkillsLogicInCombat : MonoBehaviour
 
     public IEnumerator ShurikenFury(Fighter attacker, Fighter defender)
     {
-        int nShurikens = UnityEngine.Random.Range(4, 9); // 4-8 shurikens
+        int nShurikens = UnityEngine.Random.Range(4, 7); // 4-6 shurikens
 
         for (int i = 0; i < nShurikens && !Combat.isGameOver; i++)
         {
@@ -99,7 +99,7 @@ public class SkillsLogicInCombat : MonoBehaviour
 
         yield return combatScript.MoveForwardHandler(attacker, defender, 1.5f);
 
-        int nKicks = UnityEngine.Random.Range(4, 9); // 4-8 kicks
+        int nKicks = UnityEngine.Random.Range(4, 7); // 4-6 kicks
 
         for (int i = 0; i < nKicks && !Combat.isGameOver; i++)
         {
@@ -140,7 +140,7 @@ public class SkillsLogicInCombat : MonoBehaviour
         SetOpacityOfFighterAndShadow(attacker, 0.15f);
         yield return combatScript.MoveForwardHandler(attacker, defender);
         SetOpacityOfFighterAndShadow(attacker, 1f);
-        yield return StartCoroutine(attackScript.PerformAttack(attacker, defender));
+        yield return StartCoroutine(attackScript.PerformAttack(attacker, defender, GlobalConstants.SkillDamages.ShadowTravel));
 
         if (!Combat.isGameOver) FighterAnimations.ChangeAnimation(defender, FighterAnimations.AnimationNames.IDLE);
         yield return combatScript.MoveBackHandler(attacker);

@@ -160,14 +160,14 @@ public class SkillsLogicInCombat : MonoBehaviour
         TextMeshPro anomalySkillText = attacker.transform.Find("VFX/Anomaly_VFX/TextContainer/Skill").GetComponent<TextMeshPro>();
 
         anomalyInfoText.text = "STEALING.";
-        yield return new WaitForSeconds(.5f);
+        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(.5f));
         anomalyInfoText.text = "STEALING..";
-        yield return new WaitForSeconds(.5f);
+        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(.5f));
         anomalyInfoText.text = "STEALING...";
-        yield return new WaitForSeconds(.5f);
+        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(.5f));
         anomalyInfoText.text = "STOLEN!";
         anomalySkillText.text = stolenSkill.ToUpper();
-        yield return new WaitForSeconds(1.3f);
+        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(1.3f));
 
         attacker.transform.Find("VFX/Anomaly_VFX/TextContainer").gameObject.SetActive(false);
         Anomaly.StopAnimation(attacker);

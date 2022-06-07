@@ -3,29 +3,38 @@ using TMPro;
 using System.Collections;
 using System;
 
-
+//TODO V2: The prefab, the file and the script should probably be called floating text as it not only shows hp.
 public class FloatingHp : MonoBehaviour
 {
-    TextMeshPro floatingHp;
-    Animator floatingHpTravelAnimator;
+    TextMeshPro floatingText;
+    Animator floatingTextTravelAnimator;
 
     private void Awake()
     {
         //this = FloatingHp script
-        floatingHp = this.gameObject.GetComponent<TextMeshPro>();
-        floatingHpTravelAnimator = this.gameObject.GetComponent<Animator>();
+        floatingText = this.gameObject.GetComponent<TextMeshPro>();
+        floatingTextTravelAnimator = this.gameObject.GetComponent<Animator>();
 
         //Make each floating text appear in front of the previous one
         int otherPrefabsCount = GameObject.FindGameObjectsWithTag("FloatingHp").Length;
-        floatingHp.sortingOrder = Combat.floatingHpInstancesCount;
+        floatingText.sortingOrder = Combat.floatingTextInstancesCount;
 
-        Combat.floatingHpInstancesCount++;
+        Combat.floatingTextInstancesCount++;
     }
-    public void StartAnimation(float hpChange, Color? color = null)
+    public void StartHpAnimation(float hpChange, Color? color = null)
     {
-        floatingHp.text = Math.Round(hpChange).ToString();
-        floatingHp.color = color ?? GlobalConstants.noColor;
-        floatingHpTravelAnimator.Play("floating_hp", -1, 0f);
+        double hpChangeRounded = Math.Round(hpChange);
+        floatingText.text = color == GlobalConstants.healColor ? $"+{hpChangeRounded.ToString()}" : hpChangeRounded.ToString();
+        floatingText.color = color ?? GlobalConstants.noColor;
+        floatingTextTravelAnimator.Play("floating_text", -1, 0f);
+        StartCoroutine(DestroyFloatingText());
+    }
+
+    public void StartTextAnimation(string text)
+    {
+        floatingText.fontSize = 7;
+        floatingText.text = text;
+        floatingTextTravelAnimator.Play("floating_text", -1, 0f);
         StartCoroutine(DestroyFloatingText());
     }
 

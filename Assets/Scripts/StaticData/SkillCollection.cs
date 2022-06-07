@@ -143,7 +143,7 @@ public static class SkillCollection
         {
             {"name", SkillNames.EarlyBubble},
             {"description", "At the start of the combat a protective bubble surrounds you to grant inmunity against the first attack."},
-            {"skillRarity", SkillRarity.COMMON.ToString()},
+            {"skillRarity", SkillRarity.RARE.ToString()},
             {"category", SkillType.SPONTANEOUS.ToString()},
             {"icon", "11" }
         },

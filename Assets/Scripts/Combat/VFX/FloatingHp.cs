@@ -23,7 +23,8 @@ public class FloatingHp : MonoBehaviour
     }
     public void StartAnimation(float hpChange, Color? color = null)
     {
-        floatingHp.text = Math.Round(hpChange).ToString();
+        double hpChangeRounded = Math.Round(hpChange);
+        floatingHp.text = color == GlobalConstants.healColor ? $"+{hpChangeRounded.ToString()}" : hpChangeRounded.ToString();
         floatingHp.color = color ?? GlobalConstants.noColor;
         floatingHpTravelAnimator.Play("floating_hp", -1, 0f);
         StartCoroutine(DestroyFloatingText());

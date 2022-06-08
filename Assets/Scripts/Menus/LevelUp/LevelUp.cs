@@ -99,6 +99,7 @@ public class LevelUp : MonoBehaviour
         if (PlayerHasAllSkills())
         {
             Debug.Log("User has all skills in the game.");
+            chestRarityAwarded = Chest.BattleChestRarities.RARE;
             CurrenciesPopUpLogic();
             currenciesRewardPopUp.SetActive(true);
             return;

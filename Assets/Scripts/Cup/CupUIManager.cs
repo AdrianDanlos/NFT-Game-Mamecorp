@@ -509,8 +509,9 @@ public class CupUIManager : MonoBehaviour
     {
         SkillCollection.SkillRarity skillRarityAwarded = GetRandomSkillRarityBasedOnChest(reward);
         Skill skillInstance = GetAwardedSkill(skillRarityAwarded);
-        PlayerUtils.FindInactiveFighter().skills.Add(skillInstance);
-        PlayerUtils.FindInactiveFighter().skills = PlayerUtils.FindInactiveFighter().skills;
+        Fighter player = PlayerUtils.FindInactiveFighter();
+        player.skills.Add(skillInstance);
+        player.SaveFighter();
         Notifications.TurnOnNotification();
         Notifications.IncreaseCardsUnseen();
 

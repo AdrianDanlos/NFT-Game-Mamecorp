@@ -4,7 +4,7 @@ using UnityEngine;
 public class GlobalConstants
 {
     //Simulation mode
-    public static bool SimulationEnabled = true;
+    public static bool SimulationEnabled = false;
     public static float SimulationTime = 0f;
 
     //Skills
@@ -18,12 +18,12 @@ public class GlobalConstants
     //Skill damage weight -> attacker.damage * skillDamage
     public struct SkillDamages
     {
-        public const float CosmicKicks = 0.7f;
-        public const float ShurikenFury = 0.8f;
+        public const float CosmicKicks = 0.6f;
+        public const float ShurikenFury = 0.7f;
         public const float LowBlow = 3.5f;
         public const float JumpStrike = 0.6f;
-        public const float ExplosiveBomb = 4f;
-        public const float ShadowTravel = 4.5f;
+        public const float ExplosiveBomb = 3.5f;
+        public const float ShadowTravel = 4f;
         public const float Boost = 1.75f;
     }
 

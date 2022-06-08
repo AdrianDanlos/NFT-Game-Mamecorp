@@ -459,7 +459,6 @@ public class Combat : MonoBehaviour
         PostGameActions.Save(player);
 
         //Profile
-        ProfileData.SaveFights();
         ProfileData.SavePeakElo(User.Instance.elo);
 
         if (Cup.Instance.isActive && !CombatMode.isSoloqEnabled)

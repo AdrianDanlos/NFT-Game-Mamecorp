@@ -93,7 +93,6 @@ public class Fighter : MonoBehaviour
         get => _skills; set
         {
             _skills = value;
-            SaveFighter();
         }
     }
     public bool saveEnabled

@@ -150,31 +150,31 @@ public static class SkillCollection
         {
             {"name", SkillNames.Survival},
             {"description", "Whenever you take lethal damage invoke the power of dark matter to survive with 1 health point."},
-            {"skillRarity", SkillRarity.EPIC.ToString()},
+            {"skillRarity", SkillRarity.RARE.ToString()},
             {"category", SkillType.SPONTANEOUS.ToString()},
             {"icon", "12" }
         },
         new OrderedDictionary
         {
+            {"name", SkillNames.HealingPotion},
+            {"description", "Use a magic potion that heals a 30% of the maximum health."},
+            {"skillRarity", SkillRarity.RARE.ToString()},
+            {"category", SkillType.SUPER.ToString()},
+            {"icon", "19" }
+        },
+        new OrderedDictionary
+        {
             {"name", SkillNames.CosmicKicks},
             {"description", "Land between 4 and 6 deadly kicks that can't be dodged."},
-            {"skillRarity", SkillRarity.RARE.ToString()},
+            {"skillRarity", SkillRarity.EPIC.ToString()},
             {"category", SkillType.SUPER.ToString()},
             {"icon", "13" }
         },
         new OrderedDictionary
         {
-            {"name", SkillNames.ShurikenFury},
-            {"description", "Throw between 4 and 6 ninja shurikens at high speed to your opponent."},
-            {"skillRarity", SkillRarity.EPIC.ToString()},
-            {"category", SkillType.SUPER.ToString()},
-            {"icon", "14" }
-        },
-        new OrderedDictionary
-        {
             {"name", SkillNames.LowBlow},
             {"description", "Run and slide towards your opponent to hit a low blow that deals critical damage."},
-            {"skillRarity", SkillRarity.RARE.ToString()},
+            {"skillRarity", SkillRarity.EPIC.ToString()},
             {"category", SkillType.SUPER.ToString()},
             {"icon", "15" }
         },
@@ -190,7 +190,7 @@ public static class SkillCollection
         {
             {"name", SkillNames.ExplosiveBomb},
             {"description", "Throw an explosive bomb towards your opponent that instantly detonates to inflict severe damage."},
-            {"skillRarity", SkillRarity.RARE.ToString()},
+            {"skillRarity", SkillRarity.EPIC.ToString()},
             {"category", SkillType.SUPER.ToString()},
             {"icon", "17" }
         },
@@ -198,17 +198,17 @@ public static class SkillCollection
         {
             {"name", SkillNames.ShadowTravel},
             {"description", "The fury of Zeus strikes you with a lightning that grants invisibility and charges your body with electricity making your next attack deadly."},
-            {"skillRarity", SkillRarity.RARE.ToString()},
+            {"skillRarity", SkillRarity.LEGENDARY.ToString()},
             {"category", SkillType.SUPER.ToString()},
             {"icon", "18" }
         },
         new OrderedDictionary
         {
-            {"name", SkillNames.HealingPotion},
-            {"description", "Use a magic potion that heals a 30% of the maximum health."},
-            {"skillRarity", SkillRarity.RARE.ToString()},
+            {"name", SkillNames.ShurikenFury},
+            {"description", "Throw between 4 and 6 ninja shurikens at high speed to your opponent."},
+            {"skillRarity", SkillRarity.LEGENDARY.ToString()},
             {"category", SkillType.SUPER.ToString()},
-            {"icon", "19" }
+            {"icon", "14" }
         },
         new OrderedDictionary
         {

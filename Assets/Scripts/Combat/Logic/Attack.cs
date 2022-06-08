@@ -190,7 +190,6 @@ public class Attack : MonoBehaviour
 
     IEnumerator DefenderReceivesAttack(Fighter attacker, Fighter defender, float damagePerHit, float secondsToWaitForHurtAnim, float secondsUntilHitMarker)
     {
-        //TODO: Add VFX to show that the attack missed
         if (defender.HasSkill(SkillNames.EarlyBubble))
         {
             defender.removeUsedSkill(SkillNames.EarlyBubble);

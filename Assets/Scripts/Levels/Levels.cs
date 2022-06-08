@@ -17,7 +17,7 @@ public static class Levels
     {
         return playerLevel - 1 * LevelMultiplier;
     }
-    public static Func<bool, int> GetXpGain = isPlayerWinner => isPlayerWinner ? 20 : 10;
+    public static Func<bool, int> GetXpGain = isPlayerWinner => isPlayerWinner ? 15 : 8;
 
     public static void SetLevel(Fighter player)
     {

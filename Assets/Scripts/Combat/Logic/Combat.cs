@@ -80,7 +80,6 @@ public class Combat : MonoBehaviour
         ShowLoadingScreen(true);
 
         //Load everything needed for the combat
-        //GenerateSkillsFixtures(player);
         BoostFightersStatsBasedOnPassiveSkills();
         SetMaxHpValues();
         SetCombatGameObjectsVisibility();
@@ -268,7 +267,7 @@ public class Combat : MonoBehaviour
         StartCoroutine(StartPostGameActions());
     }
 
-    //TODO: Remove this on production
+    //ONLY FOR TESTING PURPOSES
     private void GenerateSkillsFixtures(Fighter fighter)
     {
         //GIVE ALL SKILLS TO THE PLAYER FOR THE COMBAT

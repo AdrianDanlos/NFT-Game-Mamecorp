@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PlayerUtils
 {
-    public static int maxEnergy = 5;
+    public static int maxEnergy = 8;
     public static Fighter FindInactiveFighter()
     {
         return FindInactiveFighterGameObject().GetComponent<Fighter>();

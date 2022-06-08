@@ -70,7 +70,7 @@ public class DailyGift : MonoBehaviour
     {
         // gift logic
         timer = GameObject.Find("Text_Daily_Time").GetComponent<TextMeshProUGUI>();
-        timerGO = GameObject.Find("Icon_Daily_Time");
+        timerGO = GameObject.Find("Icon_Daily_Time_Gift");
         mainMenu = GameObject.Find("MainMenuManager").GetComponent<MainMenu>(); // notifications system
 
         // collect reward popup
@@ -89,10 +89,15 @@ public class DailyGift : MonoBehaviour
             EnableNextReward();
         if (IsOutOfRewards())
             ResetWeek();
-        if (UpdateTimer() >= TimeSpan.Zero)
+
+        if (UpdateTimer() > TimeSpan.Zero)
         {
             timerGO.SetActive(true);
             timer.text = UpdateTimer().ToString(@"hh\:mm\:ss");
+        }
+        else if (UpdateTimer() == TimeSpan.Zero)
+        {
+            timerGO.SetActive(false);
         }
     }
 

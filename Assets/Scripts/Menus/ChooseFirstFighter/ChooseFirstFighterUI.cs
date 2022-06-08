@@ -68,7 +68,7 @@ public class ChooseFirstFighterUI : MonoBehaviour
     public GameObject flagErrorOk;
 
     // RANKING
-    const int MINUTES_BETWEEN_USER_RANKING_UPDATE = 1;
+    const int MINUTES_BETWEEN_USER_RANKING_UPDATE = 720;
     const int RANKING_MIN_STARTING_POSITION = 1100;
     const int RANKING_MAX_STARTING_POSITION = 1500;
 
@@ -397,7 +397,6 @@ public class ChooseFirstFighterUI : MonoBehaviour
 
     private void CreateLeaderboardPosition()
     {
-        // TODO change to days
         PlayerPrefs.SetString("userRankingTimestamp", DateTime.Now.AddMinutes(MINUTES_BETWEEN_USER_RANKING_UPDATE).ToBinary().ToString());
         PlayerPrefs.SetInt("userRankingPosition", GenerateRandomRankingPosition());
         PlayerPrefs.SetInt("userCups", 0);

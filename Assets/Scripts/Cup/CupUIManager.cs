@@ -415,14 +415,27 @@ public class CupUIManager : MonoBehaviour
 
     private string GetPlayerFinalResult()
     {
-        if ((Cup.Instance.cupInfo.ToString() == "FINALS" || Cup.Instance.cupInfo.ToString() == "END") && Cup.Instance.cupInfo[CupDB.CupRounds.FINALS.ToString()]["7"]["winner"] == "0")
-            return CupDB.CupRounds.FINALS.ToString();
-        if ((Cup.Instance.cupInfo.ToString() == "SEMIS" || Cup.Instance.cupInfo.ToString() == "END") && Cup.Instance.cupInfo[CupDB.CupRounds.SEMIS.ToString()]["5"]["winner"] == "0")
-            return CupDB.CupRounds.SEMIS.ToString();
-        if (Cup.Instance.cupInfo.ToString() == "QUARTERS" && Cup.Instance.cupInfo[CupDB.CupRounds.QUARTERS.ToString()]["1"]["winner"] == "0")
-            return CupDB.CupRounds.QUARTERS.ToString();
-
-        return CupDB.CupRounds.ZERO.ToString();
+        if (Cup.Instance.cupInfo[CupDB.CupRounds.QUARTERS.ToString()]["1"]["winner"] == "0")
+        {
+            if (Cup.Instance.cupInfo[CupDB.CupRounds.SEMIS.ToString()]["5"]["winner"] == "0")
+            {
+                if (Cup.Instance.cupInfo[CupDB.CupRounds.FINALS.ToString()]["7"]["winner"] == "0")
+                {
+                    return CupDB.CupRounds.FINALS.ToString();
+                }
+                else
+                {
+                    return CupDB.CupRounds.QUARTERS.ToString();
+                }
+            } else
+            {
+                return CupDB.CupRounds.SEMIS.ToString();
+            }
+        } 
+        else
+        {
+            return CupDB.CupRounds.ZERO.ToString();
+        }
     }
 
     // Prizes logic
@@ -458,8 +471,7 @@ public class CupUIManager : MonoBehaviour
 
     private void ResetCup()
     {
-        // TODO CHANGE TO DAYS ON RELEASE
-        PlayerPrefs.SetString("cupCountdown", DateTime.Now.AddSeconds(CUP_COOLDOWN_IN_DAYS).ToBinary().ToString());
+        PlayerPrefs.SetString("cupCountdown", DateTime.Now.AddDays(CUP_COOLDOWN_IN_DAYS).ToBinary().ToString());
         PlayerPrefs.Save();
 
         cupManager.DeleteCupFile();

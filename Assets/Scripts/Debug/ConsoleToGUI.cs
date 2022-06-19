@@ -1,3 +1,5 @@
+// ATTACH THIS SCRIPT TO AN GAMEOBJECT TO SEE OUTPUT IN A SPECIFIC SCENE
+
 using UnityEngine;
 
 public class ConsoleToGUI : MonoBehaviour

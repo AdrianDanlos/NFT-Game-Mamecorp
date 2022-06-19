@@ -68,16 +68,9 @@ public class FightersUIData : MonoBehaviour
 
     public void SetFightersUIInfo(Fighter player, Fighter bot, int botElo)
     {
-        SetFightersElo(botElo);
         SetFightersName(player.fighterName, bot.fighterName);
         SetFightersMaxHealth(player.hp, bot.hp);
         SetPlayerIcons(playerIcon, botIcon);
-    }
-
-    private void SetFightersElo(int botElo)
-    {
-        playerEloGO.GetComponent<TextMeshProUGUI>().text = User.Instance.elo.ToString();
-        botEloGO.GetComponent<TextMeshProUGUI>().text = botElo.ToString();
     }
 
     private void SetFightersName(string playerName, string botName)

@@ -14,6 +14,7 @@ public static class EnergyManager
     {
         //Save the countdownStartTime to player prefs so they can be recovered after closing the game
         PlayerPrefs.SetString("countdownStartTime", DateTime.Now.ToBinary().ToString());
+        PlayerPrefs.Save();
     }
 
     public static bool UserHasMaxEnergy()
@@ -34,15 +35,14 @@ public static class EnergyManager
 
     public static void RefreshEnergyBasedOnCountdown()
     {
-        //DebugCountdownHelper();
+        if (UserHasMaxEnergy()) return;
 
-        if (!UserHasMaxEnergy())
-        {
-            //Refresh 0-n energy. 
-            int energyToAdd = (int)Mathf.Floor(GetTimeSinceCountdownStart().Minutes / defaultEnergyRefreshTimeInMinutes);
+        //Refresh between 0 and N energy. 
+        int energyToAdd = (int)Mathf.Floor(GetTimeSinceCountdownStart().Minutes / defaultEnergyRefreshTimeInMinutes);
+
+        if(energyToAdd > 0){
             int updatedEnergy = User.Instance.energy + energyToAdd;
             User.Instance.energy = updatedEnergy > PlayerUtils.maxEnergy ? PlayerUtils.maxEnergy : updatedEnergy;
-
             UpdateCountdown();
         }
     }
@@ -55,6 +55,7 @@ public static class EnergyManager
 
         DateTime newCountdown = DateTime.FromBinary(GetCountDownStartTime()).AddMinutes(minutesToAddToPreviousCountdown);
         PlayerPrefs.SetString("countdownStartTime", newCountdown.ToBinary().ToString());
+        PlayerPrefs.Save();
     }
 
     private static void DebugCountdownHelper(){

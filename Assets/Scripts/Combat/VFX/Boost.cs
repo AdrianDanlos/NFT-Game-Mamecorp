@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
-
+using TMPro;
 
 public class Boost : MonoBehaviour
 {
@@ -27,7 +27,7 @@ public class Boost : MonoBehaviour
     public void TriggerBoostEffects(Fighter fighter)
     {
         SetIsBoostActiveValue(fighter, true);
-
+        ToggleDamageMultiplier(fighter);
         Animator lightningAnimator = fighter.transform.Find("VFX/Boost_VFX/Lightning_VFX").GetComponent<Animator>();
         lightningAnimator.Play("lightning_0", -1, 0f);
         fighter.damage *= GlobalConstants.SkillDamages.Boost;
@@ -40,6 +40,13 @@ public class Boost : MonoBehaviour
     {
         if (Combat.player == fighter) isPlayerBoostActive = isBoostActive;
         else isBotBoostActive = isBoostActive;
+    }
+
+    private void ToggleDamageMultiplier(Fighter fighter){
+        if(fighter == Combat.player) {
+            var damageBoostText = GameObject.Find("Button_Boost").transform.Find("Text").GetComponent<TextMeshProUGUI>();
+            damageBoostText.enabled = !damageBoostText.enabled; 
+        }
     }
 
 
@@ -62,6 +69,7 @@ public class Boost : MonoBehaviour
 
     IEnumerator RemoveBoostEffects(Fighter fighter)
     {
+        ToggleDamageMultiplier(fighter);
         fighter.damage /= GlobalConstants.SkillDamages.Boost;
         fighter.GetComponent<Renderer>().material.color = new Color32(255, 255, 255, 255);
         //Wait for particles animation to finish

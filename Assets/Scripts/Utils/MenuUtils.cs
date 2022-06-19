@@ -39,14 +39,14 @@ public class MenuUtils
         int energyRefreshTimeInHours = EnergyManager.defaultEnergyRefreshTimeInMinutes / 60;
         var timeSinceCountdownStart = EnergyManager.GetTimeSinceCountdownStart();
   
-        int hoursPassedOfCurrentCountdown = Math.Abs(timeSinceCountdownStart.Hours % energyRefreshTimeInHours);
-        string hoursUntilCountdownEnd = (energyRefreshTimeInHours - hoursPassedOfCurrentCountdown - 1).ToString();
+        // int hoursPassedOfCurrentCountdown = Math.Abs(timeSinceCountdownStart.Hours % energyRefreshTimeInHours);
+        // string hoursUntilCountdownEnd = (energyRefreshTimeInHours - hoursPassedOfCurrentCountdown - 1).ToString();
 
-        string minutesUntilCountdownEnd = (60 - timeSinceCountdownStart.Minutes).ToString();
-        string secondsUntilCountdownEnd = (60 - timeSinceCountdownStart.Seconds).ToString();
+        string minutesUntilCountdownEnd = (60 - timeSinceCountdownStart.Minutes - 1).ToString();
+        string secondsUntilCountdownEnd = (60 - timeSinceCountdownStart.Seconds - 1).ToString();
 
         timerContainerGO.SetActive(true);
-        timerGO.GetComponent<TextMeshProUGUI>().text = $"{hoursUntilCountdownEnd}h {minutesUntilCountdownEnd}m {secondsUntilCountdownEnd}s";
+        timerGO.GetComponent<TextMeshProUGUI>().text = $"{minutesUntilCountdownEnd}m {secondsUntilCountdownEnd}s";
         return;
     }
 

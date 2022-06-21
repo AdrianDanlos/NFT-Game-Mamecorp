@@ -1,6 +1,7 @@
 using UnityEngine;
 using System;
 using UnityEngine.SceneManagement;
+using UnityEngine.Audio;
 
 public class AudioManager : MonoBehaviour
 {
@@ -16,9 +17,11 @@ public class AudioManager : MonoBehaviour
 
     public Sound[] sounds;
     public static AudioManager instance;
+    public AudioMixer soundsMixer;
 
     private void Awake()
     {
+        // singleton
         if (instance == null)
             instance = this;
         else
@@ -28,6 +31,9 @@ public class AudioManager : MonoBehaviour
         }
 
         DontDestroyOnLoad(gameObject);
+
+        // load mixer
+        soundsMixer = Resources.Load<AudioMixer>("SFX/SoundEffects");
 
         foreach (Sound s in sounds)
         {

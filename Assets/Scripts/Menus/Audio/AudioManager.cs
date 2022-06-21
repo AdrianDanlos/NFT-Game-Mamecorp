@@ -5,6 +5,8 @@ using UnityEngine.Audio;
 
 public class AudioManager : MonoBehaviour
 {
+    // no need of using mixer, just loop through every sound and set volume manually
+
     // TODO
     // - one theme on main menu + shop, inventory...
     // - one theme for combat

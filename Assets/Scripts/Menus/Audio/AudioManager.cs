@@ -18,6 +18,7 @@ public class AudioManager : MonoBehaviour
     public Sound[] sounds;
     public static AudioManager instance;
     public AudioMixer soundsMixer;
+    private string outputMixer = "SoundEffects";
 
     private void Awake()
     {
@@ -44,7 +45,12 @@ public class AudioManager : MonoBehaviour
 
             // loop main themes, rest don't
             if (s.clip.name.Contains("main_theme") || s.clip.name.Contains("waiting"))
+            {
                 s.source.loop = true;
+            } else
+            {
+                s.source.outputAudioMixerGroup = s.audioMixerGroup;
+            }
         }
     }
 
@@ -103,6 +109,7 @@ public class AudioManager : MonoBehaviour
         return s.source.isPlaying;
     }
 
+    // TODO change volume of all 
     public void ChangeVolume(string name, float volume)
     {
         Sound s = Array.Find(sounds, sound => sound.name == name);

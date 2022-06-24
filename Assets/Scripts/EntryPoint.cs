@@ -27,6 +27,8 @@ public class EntryPoint : MonoBehaviour
 
     IEnumerator Start()
     {
+        SetupMusic(PlayerPrefs.GetFloat("musicVolume"));
+        // TODO set up sfx too
         HideFighter();
         GenerateTip();
 
@@ -148,5 +150,16 @@ public class EntryPoint : MonoBehaviour
     private void GenerateTip()
     {
         tipText.text = Tips.tips[Random.Range(0, Tips.tips.Count)];
+    }
+
+    // TODO change mixer instead of specific audio
+    public void SetupMusic(float value)
+    {
+        FindObjectOfType<AudioManager>().ChangeVolume("Waiting", value / 10);
+    }
+
+    public void SetupSFX(float value)
+    {
+        FindObjectOfType<AudioManager>().ChangeVolume("Waiting", value / 10);
     }
 }

@@ -9036,16 +9036,20 @@ MonoBehaviour:
   sounds:
   - name: Theme
     clip: {fileID: 8300000, guid: 183703280e9c06a4194164d1fa7be7d9, type: 3}
+    audioMixerGroup: {fileID: 0}
     volume: 0.5
     source: {fileID: 0}
   - name: Waiting
     clip: {fileID: 8300000, guid: bded826cb8265b545b09d3dc3d0cacdc, type: 3}
+    audioMixerGroup: {fileID: 0}
     volume: 0.5
     source: {fileID: 0}
   - name: Test
     clip: {fileID: 8300000, guid: 37a9bb49f325c744e87d6f9513c34a23, type: 3}
+    audioMixerGroup: {fileID: 0}
     volume: 0.5
     source: {fileID: 0}
+  soundsMixer: {fileID: 24100000, guid: 680d9ab562726194a9c5424c11ef268f, type: 2}
 --- !u!4 &2070570573
 Transform:
   m_ObjectHideFlags: 0

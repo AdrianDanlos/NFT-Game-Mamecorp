@@ -12,6 +12,7 @@ public class Boost : MonoBehaviour
     //Entrypoint for user
     public void OnClickTriggerBoostEffects()
     {        
+        FindObjectOfType<AudioManager>().Play("Boost_Used");
         Image iconImage = this.transform.Find("Icon").GetComponent<Image>();
         iconImage.color = VFXUtils.GetUsedButtonColor(iconImage.color);
         this.GetComponent<Button>().interactable = false;

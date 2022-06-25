@@ -45,21 +45,13 @@ public class AudioManager : MonoBehaviour
             s.source.volume = s.volume;
             s.source.playOnAwake = false;
 
-            // loop main themes, rest don't
-            if (s.clip.name.Contains("main_theme") || s.clip.name.Contains("waiting"))
+            if (s.clip.name.Contains("main_theme") || s.clip.name.Contains("combat_theme"))
             {
                 s.source.loop = true;
-            } else
-            {
-                s.source.outputAudioMixerGroup = s.audioMixerGroup;
-            }
+                continue;
+            } 
+            s.source.outputAudioMixerGroup = s.audioMixerGroup;
         }
-    }
-
-    private void Start()
-    {
-        if (!IsSourcePlaying("Waiting"))
-            Play("Waiting");
     }
 
     private void Update()
@@ -69,6 +61,7 @@ public class AudioManager : MonoBehaviour
         //if (SceneManager.GetActiveScene().name.Contains("MainMenu"))
     }
 
+    //TODO: Accept a SoundType enum instead of a string
     public void Play(string name)
     {
         Sound s = Array.Find(sounds, sound => sound.name == name);
@@ -83,6 +76,20 @@ public class AudioManager : MonoBehaviour
         if (s == null)
             return;
         s.source.Stop();
+    }
+
+    public void StopAll()
+    {
+        foreach(Sound sound in sounds){
+            if (sound == null)
+                return;
+            sound.source.Stop();
+        }
+    }
+
+    public void StopAllAndPlay(string name){
+        FindObjectOfType<AudioManager>().StopAll();
+        FindObjectOfType<AudioManager>().Play(name);
     }
 
     public void Pause(string name)

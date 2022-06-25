@@ -36,9 +36,11 @@ public static class EnergyManager
     public static void RefreshEnergyBasedOnCountdown()
     {
         if (UserHasMaxEnergy()) return;
-
+        
+        int minutesSinceCountdownStart = GetTimeSinceCountdownStart().Hours * 60 + GetTimeSinceCountdownStart().Minutes;
+        
         //Refresh between 0 and N energy. 
-        int energyToAdd = (int)Mathf.Floor(GetTimeSinceCountdownStart().Minutes / defaultEnergyRefreshTimeInMinutes);
+        int energyToAdd = (int)Mathf.Floor(minutesSinceCountdownStart / defaultEnergyRefreshTimeInMinutes);
 
         if(energyToAdd > 0){
             int updatedEnergy = User.Instance.energy + energyToAdd;
@@ -58,7 +60,7 @@ public static class EnergyManager
         PlayerPrefs.Save();
     }
 
-    private static void DebugCountdownHelper(){
+    public static void DebugCountdownHelper(){
         Debug.Log("GetTimeSinceCountdownStart");
         Debug.Log(GetTimeSinceCountdownStart());
         Debug.Log("Minutes");

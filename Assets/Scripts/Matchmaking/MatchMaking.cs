@@ -57,13 +57,11 @@ public static class MatchMaking
         else
         {
             skillCountBottomRange = player.skills.Count - 1;
-            skillCountTopRange = player.skills.Count + 1 >= SkillCollection.skills.Count
-                ? player.skills.Count
-                : player.skills.Count + 2;
+            skillCountTopRange = player.skills.Count;
         }
 
-        //Add random skills for the bot, -1 to +1 skills relative to the player
-        int botSkillsCount = UnityEngine.Random.Range(skillCountBottomRange, skillCountTopRange);
+        //Add random skills for the bot, -1 to +0 skills relative to the player
+        int botSkillsCount = UnityEngine.Random.Range(skillCountBottomRange, skillCountTopRange + 1);
         int randomSkillIndex = UnityEngine.Random.Range(0, SkillCollection.skills.Count);
 
         for (int i = 0; i < botSkillsCount; i++)

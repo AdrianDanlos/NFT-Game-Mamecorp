@@ -12,7 +12,7 @@ Now available for free on the playstore! Download (ADD LINK HERE)
     <img src="https://raw.githubusercontent.com/AdrianDanlos/NFT-Game-Mamecorp/master/Assets/Images/combat.gif" alt="Video"/>
 </p>
 
-### A Fighting Game for everyone
+## A Fighting Game for everyone :fire:
 <p>
   <img src="https://img.shields.io/badge/-fighting-red">
   <img src="https://img.shields.io/badge/-pegi7-brightgreen">
@@ -28,21 +28,20 @@ BattleHeaven is an open source 2D Fighting RPG packed with colorful animations a
 
 And much more!
 
-### Contributors
+## Contributors :computer:
 Our passion for games and programming have pushed us to bring this idea to life. I hope you like it as much as we do.
-<p><a href="https://github.com/JoelEncinas" target="_blank">Joel Encinas</a></p>
-<p><a href="https://github.com/massije" target="_blank">Jorge Martín Del Pino</a></p>
-<p><a href="https://github.com/AdrianDanlos" target="_blank">Adrian Danlos</a></p>
+<ul>
+    <li><a href="https://github.com/JoelEncinas" target="_blank">Joel Encinas</a></li>
+    <li><a href="https://github.com/massije" target="_blank">Jorge Martín Del Pino</a></li>
+    <li><a href="https://github.com/AdrianDanlos" target="_blank">Adrian Danlos</a></li>
+</ul>
 
-### Contact
+## Contact 📱
 [![Twitter URL](https://img.shields.io/twitter/url/https/twitter.com/MamecorpG.svg?style=social&label=Follow%20%40MamecorpG)](https://twitter.com/MamecorpG)
 <br>
 In case you want to contact the team to make a suggestion, report a bug or just say hi you can send us a message on twitter or by <span><a href="mailto:Mamecorp.games@gmail.com" target="_blank">email</a></span>.
 
-
-
-
-### Donations
+## Donations 💸
 Donations are not needed but much appreciated as BattleHeaven has been created completely for free. <span><a href="https://paypal.me/mamecorp?country.x=ES&locale.x=es_ES" target="_blank">Donate -> Paypal</a></span> 
 
 If you want to help in other ways it will make us very happy if you could leave a review on the play store. (ADD LINK HERE)

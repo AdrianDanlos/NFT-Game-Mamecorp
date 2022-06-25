@@ -28,6 +28,9 @@ public class EntryPoint : MonoBehaviour
     IEnumerator Start()
     {
         SetupMusic(PlayerPrefs.GetFloat("musicVolume"));
+        AudioSource audioSource = FindObjectOfType<AudioManager>().GetComponent<AudioSource>();
+        if (!audioSource.isPlaying) audioSource.Play();
+        
         // TODO set up sfx too
         HideFighter();
         GenerateTip();

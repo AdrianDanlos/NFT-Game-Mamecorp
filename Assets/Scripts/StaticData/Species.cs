@@ -40,14 +40,14 @@ public class Species
     new Dictionary<SpeciesNames, Dictionary<string, float>>
     {
         // Orcs
-        {SpeciesNames.Orc, new Dictionary<string, float>{{"hp", 30},{"damage", 2.75f},{"speed", 0.5f}}},
-        {SpeciesNames.Goblin, new Dictionary<string, float>{{"hp", 30},{"damage", 2.75f},{"speed", 0.5f}}},
-        {SpeciesNames.Ogre, new Dictionary<string, float>{{"hp", 30},{"damage", 2.75f},{"speed", 0.5f}}},
+        {SpeciesNames.Orc, new Dictionary<string, float>{{"hp", 30},{"damage", 2.8f},{"speed", 0.75f}}},
+        {SpeciesNames.Goblin, new Dictionary<string, float>{{"hp", 30},{"damage", 2.8f},{"speed", 0.75f}}},
+        {SpeciesNames.Ogre, new Dictionary<string, float>{{"hp", 30},{"damage", 2.8f},{"speed", 0.75f}}},
 
         // Golems
-        {SpeciesNames.Golem1, new Dictionary<string, float>{{"hp", 35},{"damage", 2.25f},{"speed", 1.5f}}},
-        {SpeciesNames.Golem2, new Dictionary<string, float>{{"hp", 35},{"damage", 2.25f},{"speed", 1.5f}}},
-        {SpeciesNames.Golem3, new Dictionary<string, float>{{"hp", 35},{"damage", 2.25f},{"speed", 1.5f}}},
+        {SpeciesNames.Golem1, new Dictionary<string, float>{{"hp", 35},{"damage", 2.25f},{"speed", 1.25f}}},
+        {SpeciesNames.Golem2, new Dictionary<string, float>{{"hp", 35},{"damage", 2.25f},{"speed", 1.25f}}},
+        {SpeciesNames.Golem3, new Dictionary<string, float>{{"hp", 35},{"damage", 2.25f},{"speed", 1.25f}}},
 
         // Angels
         {SpeciesNames.FallenAngel1, new Dictionary<string, float>{{"hp", 33},{"damage", 2.5f},{"speed", 1f}}},

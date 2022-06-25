@@ -76,7 +76,7 @@ public class Combat : MonoBehaviour
         loadingScreen.SetPlayerLoadingScreenData(player);
         loadingScreen.DisplayLoaderForEnemy();
         loadingScreen.HideBotLevelText(levelTextBot);
-        SetBoostElixirBtns(false);
+        EnableBoostElixirBtns(false);
         ShowLoadingScreen(true);
 
         //Load everything needed for the combat
@@ -228,7 +228,7 @@ public class Combat : MonoBehaviour
         botPortrait.GetComponent<Image>().sprite = Resources.Load<Sprite>("CharacterProfilePicture/" + bot.species);
     }
 
-    private void SetBoostElixirBtns(bool isEnabled)
+    private void EnableBoostElixirBtns(bool isEnabled)
     {
         boostButton.SetActive(isEnabled);
         elixirButton.SetActive(isEnabled);
@@ -254,7 +254,7 @@ public class Combat : MonoBehaviour
 
     IEnumerator InitiateCombat()
     {
-        SetBoostElixirBtns(true);
+        EnableBoostElixirBtns(true);
         StartBotElixirAndBoostTimer();
 
         Fighter firstAttacker = fightersOrderOfAttack[0];
@@ -434,6 +434,8 @@ public class Combat : MonoBehaviour
 
     private IEnumerator StartPostGameActions()
     {
+        EnableBoostElixirBtns(false);
+
         bool isPlayerWinner = PostGameActions.HasPlayerWon(player);
         int eloChange = MatchMaking.CalculateEloChange(User.Instance.elo, botElo, isPlayerWinner);
         int playerUpdatedExperience = player.experiencePoints + Levels.GetXpGain(isPlayerWinner);

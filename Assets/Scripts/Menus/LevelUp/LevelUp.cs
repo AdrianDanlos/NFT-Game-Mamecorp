@@ -132,8 +132,8 @@ public class LevelUp : MonoBehaviour
         ShowCurrenciesData(awardedGold, awardedGems);
 
         //Save data
-        User.Instance.gold = awardedGold;
-        User.Instance.gems = awardedGems;
+        User.Instance.gold += awardedGold;
+        User.Instance.gems += awardedGems;
     }
 
     private void SkillPopUpLogic()

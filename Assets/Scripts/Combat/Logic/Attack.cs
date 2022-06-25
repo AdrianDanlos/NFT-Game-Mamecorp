@@ -217,8 +217,16 @@ public class Attack : MonoBehaviour
         }
     }
 
+    private void PlayDamageSound(){
+        int soundIndex = UnityEngine.Random.Range(1, 4);
+        string soundName = $"Damage_Received_{soundIndex}";
+        FindObjectOfType<AudioManager>().Play(soundName);
+    }
+
     private void DealDamage(Fighter attacker, Fighter defender, float damagePerHit)
     {
+        PlayDamageSound();
+
         bool isAttackCritical = IsAttackCritical(attacker);
         Color floatingHpColor = GlobalConstants.noColor;
 

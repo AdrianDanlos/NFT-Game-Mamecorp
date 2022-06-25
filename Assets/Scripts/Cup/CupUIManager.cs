@@ -457,6 +457,8 @@ public class CupUIManager : MonoBehaviour
 
     private void GiveReward(Dictionary<string, string> reward)
     {
+        FindObjectOfType<AudioManager>().Play("Reward_Received");
+
         prizeCanvas.enabled = true;
 
         if (reward.ContainsKey("gold"))

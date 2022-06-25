@@ -58,7 +58,7 @@ public class Combat : MonoBehaviour
     public static int fighterSortingOrder;
 
     // Combat countdown timer
-    const float COUNTDOWN_ANIMATION = 3f;
+    const float COUNTDOWN_ANIMATION = 2.8f;
     const float ENTER_ARENA_ANIMATION = 2.5f;
     const float TIME_ANNOUNCEMENT = 2.5f;
 
@@ -95,6 +95,9 @@ public class Combat : MonoBehaviour
     IEnumerator Start()
     {
         Debug.Log($"Skills count -> Player: {player.skills.Count} / Bot: {bot.skills.Count}");
+
+        FindObjectOfType<AudioManager>().StopAllAndPlay("Combat_Loading_Theme");
+
         StartCoroutine(SceneManagerScript.instance.FadeIn());
 
         //Comment this line to remove loading screen
@@ -109,6 +112,10 @@ public class Combat : MonoBehaviour
         // 3 2 1 combat before initating
         StartCoroutine(fightersUIDataScript.Countdown());
         yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(COUNTDOWN_ANIMATION));
+        
+        FindObjectOfType<AudioManager>().StopAllAndPlay("Combat_Theme");
+        //Added delay to sync sound
+        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(0.2f));
 
         StartCoroutine(InitiateCombat());
 
@@ -122,7 +129,7 @@ public class Combat : MonoBehaviour
 
     IEnumerator LoadingScreenLogic()
     {
-        float timeUntilOpponentIsFound = 3f;
+        float timeUntilOpponentIsFound = 2.8f;
         yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(timeUntilOpponentIsFound));
         loadingScreen.SetBotLoadingScreenData(bot);
         levelTextBot.enabled = true;
@@ -449,7 +456,7 @@ public class Combat : MonoBehaviour
 
         // Show winner
         StartCoroutine(fightersUIDataScript.AnnounceWinner(isPlayerWinner, player, bot));
-        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(TIME_ANNOUNCEMENT));
+        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(TIME_ANNOUNCEMENT));        
 
         //UI
         fightersUIDataScript.ShowPostCombatInfo(player, isPlayerWinner, eloChange, isLevelUp, goldReward, gemsReward, results);

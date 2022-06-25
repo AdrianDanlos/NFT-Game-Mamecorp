@@ -46,9 +46,11 @@ public class MainMenu : MonoBehaviour
 
     void Awake()
     {
-        // TODO
-        // FindObjectOfType<AudioManager>().Play("Theme");
-        // FindObjectOfType<AudioManager>().PlayClipAtPoint("Test", transform.position);
+        AudioManager audioManager = FindObjectOfType<AudioManager>();
+        AudioSource audioSource = audioManager.GetComponent<AudioSource>();
+        audioManager.Stop("Combat_Theme");
+        //If Main Menu theme is already playing keep playing it
+        if (!audioSource.isPlaying) audioSource.Play();
 
         settings = GameObject.Find("Settings");
         deleteConfirmation = GameObject.Find("Delete_Confirmation");

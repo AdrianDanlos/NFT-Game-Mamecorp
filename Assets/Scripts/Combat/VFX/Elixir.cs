@@ -6,6 +6,7 @@ public class Elixir : MonoBehaviour
 {
     public void OnClickTriggerElixirEffects()
     {
+        FindObjectOfType<AudioManager>().Play("Elixir_Used");
         Image iconImage = this.transform.Find("Icon").GetComponent<Image>();
         iconImage.color = VFXUtils.GetUsedButtonColor(iconImage.color);
         this.GetComponent<Button>().interactable = false;

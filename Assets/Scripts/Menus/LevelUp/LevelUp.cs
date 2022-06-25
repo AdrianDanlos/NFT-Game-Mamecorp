@@ -37,6 +37,8 @@ public class LevelUp : MonoBehaviour
 
     void Start()
     {
+        FindObjectOfType<AudioManager>().StopAllAndPlay("Level_Up");
+
         AddListenerToButtons();
         SetDefaultVisibilityOfUIElements();
         MenuUtils.DisplayLevelIcon(Combat.player.level, GameObject.Find("Levels"));
@@ -96,6 +98,8 @@ public class LevelUp : MonoBehaviour
     }
     private void OnClickOpenChest()
     {
+        FindObjectOfType<AudioManager>().StopAllAndPlay("Reward_Received");
+
         if (PlayerHasAllSkills())
         {
             Debug.Log("User has all skills in the game.");

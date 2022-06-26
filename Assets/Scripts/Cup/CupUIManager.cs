@@ -457,7 +457,7 @@ public class CupUIManager : MonoBehaviour
 
     private void GiveReward(Dictionary<string, string> reward)
     {
-        FindObjectOfType<AudioManager>().Play("Reward_Received");
+        FindObjectOfType<AudioManager>().Play("S_Reward_Received");
 
         prizeCanvas.enabled = true;
 

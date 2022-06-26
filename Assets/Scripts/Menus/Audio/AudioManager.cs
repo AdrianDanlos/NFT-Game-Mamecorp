@@ -7,8 +7,6 @@ public class AudioManager : MonoBehaviour
 {
     public Sound[] sounds;
     public static AudioManager instance;
-    public AudioMixer soundsMixer;
-    private string outputMixer = "SoundEffects";
 
     private void Awake()
     {
@@ -23,9 +21,6 @@ public class AudioManager : MonoBehaviour
 
         DontDestroyOnLoad(gameObject);
 
-        // load mixer
-        soundsMixer = Resources.Load<AudioMixer>("SFX/SoundEffects");
-
         foreach (Sound s in sounds)
         {
             s.source = gameObject.AddComponent<AudioSource>();
@@ -33,23 +28,14 @@ public class AudioManager : MonoBehaviour
             s.source.volume = s.volume;
             s.source.playOnAwake = false;
 
-            if (s.clip.name.Contains("main_theme") || s.clip.name.Contains("combat_theme"))
+            if (s.clip.name.Contains("V_Main_Theme") || s.clip.name.Contains("V_Combat_Theme"))
             {
                 s.source.loop = true;
-                continue;
             } 
-            s.source.outputAudioMixerGroup = s.audioMixerGroup;
         }
     }
 
-    private void Update()
-    {
-        // TODO
-        // on main menu allow to change music & sound settings
-        //if (SceneManager.GetActiveScene().name.Contains("MainMenu"))
-    }
-
-    //TODO: Accept a SoundType enum instead of a string
+    //TODO v2: Accept a SoundType enum instead of a string
     public void Play(string name)
     {
         Sound s = Array.Find(sounds, sound => sound.name == name);
@@ -88,16 +74,6 @@ public class AudioManager : MonoBehaviour
         s.source.Pause();
     }
 
-    // if needed to add sounds to instantiated objects
-    public void PlayClipAtPoint(string name, Vector2 transform)
-    {
-        Sound s = Array.Find(sounds, sound => sound.name == name);
-        if (s == null)
-            return;
-
-        AudioSource.PlayClipAtPoint(s.source.clip, transform);
-    }
-
     public bool IsSourcePlaying(string name)
     {
         Sound s = Array.Find(sounds, sound => sound.name == name);
@@ -106,13 +82,12 @@ public class AudioManager : MonoBehaviour
         return s.source.isPlaying;
     }
 
-    // TODO change volume of all 
     public void ChangeVolume(string name, float volume)
     {
-        Sound s = Array.Find(sounds, sound => sound.name == name);
-        if (s == null)
-            return;
-
-        s.source.volume = volume;
+        foreach (Sound sound in sounds)
+        {
+            if(sound.name.Contains(name))
+                sound.source.volume = volume;
+        }
     }
 }

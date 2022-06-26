@@ -388,9 +388,10 @@ public class ChooseFirstFighterUI : MonoBehaviour
 
     public void CreateUserFile()
     {
+        bool firstTime = true;
         string flag = FirstPlayTempData.countryFlag;
         string userIcon = GenerateIcon().ToString();
-        UserFactory.CreateUserInstance(flag, userIcon, PlayerUtils.maxEnergy);
+        UserFactory.CreateUserInstance(firstTime, flag, userIcon, PlayerUtils.maxEnergy);
         JObject user = JObject.FromObject(User.Instance);
         JsonDataManager.SaveData(user, JsonDataManager.UserFileName);
     }

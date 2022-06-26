@@ -21,6 +21,7 @@ public class User
         }
     }
 
+    private bool _firstTime;
     private string _flag;
     private string _userIcon;
     private int _wins;
@@ -32,6 +33,16 @@ public class User
     private int _energy;
     private int _cups;
     private bool _saveEnabled = false;
+
+    public bool firstTime
+    {
+        get => _firstTime;
+        set
+        {
+            _firstTime = value;
+            SaveUser();
+        }
+    }
 
     public string flag
     {
@@ -133,8 +144,9 @@ public class User
             _saveEnabled = value;
         }
     }
-    public void SetUserValues(string flag, string userIcon, int wins, int loses, int elo, int peakElo, int gold, int gems, int energy, int cups)
+    public void SetUserValues(bool firstTime, string flag, string userIcon, int wins, int loses, int elo, int peakElo, int gold, int gems, int energy, int cups)
     {
+        this.firstTime = firstTime;
         this.flag = flag;
         this.userIcon = userIcon;
         this.wins = wins;

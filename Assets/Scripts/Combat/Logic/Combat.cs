@@ -28,6 +28,18 @@ public class Combat : MonoBehaviour
     public GameObject elixirButton;
     public GameObject floatingHp;
 
+    // tutorial 
+    public GameObject tutorialResults;
+    public GameObject message1;
+    public GameObject message2;
+    public Button message1Accept;
+    public Button message2Accept;
+    public bool isPaused1;
+    public bool isPaused2;
+    public bool message1Showed;
+    public bool message2Showed;
+    public int turnCounter;
+
     // Script references
     public static Movement movementScript;
     public static FightersUIData fightersUIDataScript;
@@ -79,7 +91,7 @@ public class Combat : MonoBehaviour
         EnableBoostElixirBtns(false);
         ShowLoadingScreen(true);
 
-        //Load everything needed for the combat
+        // Load everything needed for the combat
         BoostFightersStatsBasedOnPassiveSkills();
         SetMaxHpValues();
         SetCombatGameObjectsVisibility();
@@ -90,13 +102,47 @@ public class Combat : MonoBehaviour
         FighterSkin.SetFightersSkin(player, bot);
         FighterAnimations.ResetToDefaultAnimation(player);
         fightersUIDataScript.SetFightersUIInfo(player, bot, botElo);
+
+        // tutorial
+        SetUpTutorialFlags();
+    }
+
+    private void SetUpTutorialFlags()
+    {
+        isPaused1 = true;
+        isPaused2 = false;
+        message1Showed = false;
+        message2Showed = false;
+        turnCounter = 0;
+
+        // add listeners to buttons
+        message1Accept.onClick.AddListener(() => HideMessage1());
+        message2Accept.onClick.AddListener(() => HideMessage2());
+
+        // disable messages
+        message1.SetActive(false);
+        message2.SetActive(false);
+    }
+
+    private void HideMessage1()
+    {
+        isPaused1 = false;
+        message1Showed = true;
+        message1.SetActive(false);
+    }
+
+    private void HideMessage2()
+    {
+        isPaused2 = false;
+        message2Showed = true;
+        message2.SetActive(false);
     }
 
     IEnumerator Start()
     {
         Debug.Log($"Skills count -> Player: {player.skills.Count} / Bot: {bot.skills.Count}");
 
-        FindObjectOfType<AudioManager>().StopAllAndPlay("Combat_Loading_Theme");
+        FindObjectOfType<AudioManager>().StopAllAndPlay("V_Combat_Loading_Theme");
 
         StartCoroutine(SceneManagerScript.instance.FadeIn());
 
@@ -113,7 +159,7 @@ public class Combat : MonoBehaviour
         StartCoroutine(fightersUIDataScript.Countdown());
         yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(COUNTDOWN_ANIMATION));
         
-        FindObjectOfType<AudioManager>().StopAllAndPlay("Combat_Theme");
+        FindObjectOfType<AudioManager>().StopAllAndPlay("V_Combat_Theme");
         //Added delay to sync sound
         yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(0.2f));
 
@@ -179,6 +225,7 @@ public class Combat : MonoBehaviour
     private void SetCombatGameObjectsVisibility()
     {
         results.SetActive(false);
+        tutorialResults.SetActive(false);
         playerGameObject.SetActive(true);
     }
     private void FindGameObjects()
@@ -187,6 +234,7 @@ public class Combat : MonoBehaviour
         playerGameObject = playerWrapper.transform.Find("Fighter").gameObject;
         botGameObject = GameObject.FindGameObjectWithTag("FighterBot");
         results = GameObject.FindGameObjectWithTag("Results");
+        tutorialResults = GameObject.FindGameObjectWithTag("TutorialResults");
         arena = GameObject.FindGameObjectWithTag("Arena").GetComponent<SpriteRenderer>();
         combatUI = GameObject.FindGameObjectWithTag("CombatUI");
         combatLoadingScreenUI = GameObject.FindGameObjectWithTag("CombatLoadingScreenUI");
@@ -254,8 +302,11 @@ public class Combat : MonoBehaviour
 
     IEnumerator InitiateCombat()
     {
-        EnableBoostElixirBtns(true);
-        StartBotElixirAndBoostTimer();
+        if (!User.Instance.firstTime)
+        {
+            StartBotElixirAndBoostTimer();
+            EnableBoostElixirBtns(true);
+        }
 
         Fighter firstAttacker = fightersOrderOfAttack[0];
         Fighter secondAttacker = fightersOrderOfAttack[1];
@@ -289,6 +340,31 @@ public class Combat : MonoBehaviour
 
     IEnumerator StartTurn(Fighter attacker, Fighter defender)
     {
+        if (User.Instance.firstTime)
+        {
+            if (turnCounter >= 5 && !message2Showed)
+                isPaused2 = true;
+
+            while (isPaused1)
+            {
+                yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(0.2f));
+
+                if (!message1Showed)
+                    message1.SetActive(true);
+            }
+
+            while (isPaused2)
+            {
+                yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(0.2f));
+
+                if (!message2Showed)
+                {
+                    message2.SetActive(true);
+                    EnableBoostElixirBtns(true);
+                }    
+            }
+        }
+
         if (WillUseSkillThisTurn(attacker))
         {
             yield return StartCoroutine(UseSkill(attacker, defender, attacker));
@@ -296,6 +372,8 @@ public class Combat : MonoBehaviour
         }
         yield return skillsLogicScript.AttackWithoutSkills(attacker, defender);
         FighterAnimations.ChangeAnimation(GetAttackerIfAlive(attacker, defender), FighterAnimations.AnimationNames.IDLE);
+
+        turnCounter++;
     }
 
     // This check is important as the attacker might have lost due to a counter or reversal attack
@@ -436,63 +514,72 @@ public class Combat : MonoBehaviour
     {
         EnableBoostElixirBtns(false);
 
-        bool isPlayerWinner = PostGameActions.HasPlayerWon(player);
-        int eloChange = MatchMaking.CalculateEloChange(User.Instance.elo, botElo, isPlayerWinner);
-        int playerUpdatedExperience = player.experiencePoints + Levels.GetXpGain(isPlayerWinner);
-        bool isLevelUp = Levels.IsLevelUp(player.level, playerUpdatedExperience);
-        int goldReward = PostGameActions.GoldReward(isPlayerWinner);
-        int gemsReward = PostGameActions.GemsReward();
-
-        //Reset fighter values that were modified in combat e.g. hp
-        ResetPlayerObject();
-
-        //PlayerData
-        PostGameActions.SetElo(eloChange);
-        PostGameActions.SetWinLoseCounter(isPlayerWinner);
-        PostGameActions.SetExperience(player, isPlayerWinner);
-        if (isLevelUp) PostGameActions.SetLevelUpSideEffects(player);
-        if (CombatMode.isSoloqEnabled) EnergyManager.SubtractOneEnergyPoint(); // tournament doesn't cost energy
-
-        //Rewards
-        PostGameActions.SetCurrencies(goldReward, gemsReward);
-
-        // Show winner
-        StartCoroutine(fightersUIDataScript.AnnounceWinner(isPlayerWinner, player, bot));
-        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(TIME_ANNOUNCEMENT));        
-
-        //UI
-        fightersUIDataScript.ShowPostCombatInfo(player, isPlayerWinner, eloChange, isLevelUp, goldReward, gemsReward, results);
-
-        //Save
-        PostGameActions.Save(player);
-
-        //Profile
-        ProfileData.SavePeakElo(User.Instance.elo);
-
-        if (Cup.Instance.isActive && !CombatMode.isSoloqEnabled)
+        if (User.Instance.firstTime)
         {
-            switch (Cup.Instance.round)
-            {
-                case "QUARTERS":
-                    cupManager.SimulateQuarters(isPlayerWinner);
-                    break;
-                case "SEMIS":
-                    cupManager.SimulateSemis(isPlayerWinner);
-                    break;
-                case "FINALS":
-                    cupManager.SimulateFinals(isPlayerWinner);
-                    break;
-            }
+            yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(3f));
+            fightersUIDataScript.ShowPostTutorialInfo(tutorialResults);
+        }
+        else
+        {
+            bool isPlayerWinner = PostGameActions.HasPlayerWon(player);
+            int eloChange = MatchMaking.CalculateEloChange(User.Instance.elo, botElo, isPlayerWinner);
+            int playerUpdatedExperience = player.experiencePoints + Levels.GetXpGain(isPlayerWinner);
+            bool isLevelUp = Levels.IsLevelUp(player.level, playerUpdatedExperience);
+            int goldReward = PostGameActions.GoldReward(isPlayerWinner);
+            int gemsReward = PostGameActions.GemsReward();
 
-            if (!isPlayerWinner)
+            //Reset fighter values that were modified in combat e.g. hp
+            ResetPlayerObject();
+
+            //PlayerData
+            PostGameActions.SetElo(eloChange);
+            PostGameActions.SetWinLoseCounter(isPlayerWinner);
+            PostGameActions.SetExperience(player, isPlayerWinner);
+            if (isLevelUp) PostGameActions.SetLevelUpSideEffects(player);
+            if (CombatMode.isSoloqEnabled) EnergyManager.SubtractOneEnergyPoint(); // tournament doesn't cost energy
+
+            //Rewards
+            PostGameActions.SetCurrencies(goldReward, gemsReward);
+
+            // Show winner
+            StartCoroutine(fightersUIDataScript.AnnounceWinner(isPlayerWinner, player, bot));
+            yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(TIME_ANNOUNCEMENT));
+
+            //UI
+            fightersUIDataScript.ShowPostCombatInfo(player, isPlayerWinner, eloChange, isLevelUp, goldReward, gemsReward, results);
+
+            //Save
+            PostGameActions.Save(player);
+
+            //Profile
+            ProfileData.SavePeakElo(User.Instance.elo);
+
+            if (Cup.Instance.isActive && !CombatMode.isSoloqEnabled)
             {
-                // enable rewards button on cup menu
-                // disable battle button
-                Cup.Instance.isActive = true;
-                Cup.Instance.playerStatus = false;
-                Cup.Instance.SaveCup();
+                switch (Cup.Instance.round)
+                {
+                    case "QUARTERS":
+                        cupManager.SimulateQuarters(isPlayerWinner);
+                        break;
+                    case "SEMIS":
+                        cupManager.SimulateSemis(isPlayerWinner);
+                        break;
+                    case "FINALS":
+                        cupManager.SimulateFinals(isPlayerWinner);
+                        break;
+                }
+
+                if (!isPlayerWinner)
+                {
+                    // enable rewards button on cup menu
+                    // disable battle button
+                    Cup.Instance.isActive = true;
+                    Cup.Instance.playerStatus = false;
+                    Cup.Instance.SaveCup();
+                }
             }
         }
+
     }
 
     //During the combat the player object experiences a lot of changes so we need to set it back to its default state after the combat.

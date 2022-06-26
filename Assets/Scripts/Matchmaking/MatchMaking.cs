@@ -19,7 +19,16 @@ public static class MatchMaking
 
     public static void GenerateSoloQBotData(Fighter player, Fighter bot)
     {
-        string botName = FetchBotRandomName();
+        string botName = "";
+
+        if(User.Instance.firstTime)
+        {
+            botName = "Tutorial Bot";
+        } 
+        else
+        {
+            botName = FetchBotRandomName();
+        }
         SpeciesNames randomSpecies = GetRandomSpecies();
 
         GenerateBotData(player, bot, botName, randomSpecies);

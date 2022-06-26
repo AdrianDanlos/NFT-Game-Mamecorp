@@ -26,9 +26,23 @@ public class EntryPoint : MonoBehaviour
     }
 
     private void StartMusic(){
-        SetupMusic(PlayerPrefs.GetFloat("musicVolume"));
+        if (PlayerPrefs.HasKey("musicVolume"))
+        {
+            SetupMusic(PlayerPrefs.GetFloat("musicVolume"));
+            SetupSFX(PlayerPrefs.GetFloat("soundsVolume"));
+        } else
+        {
+            InitDefaultVolume();
+        }
         AudioSource audioSource = FindObjectOfType<AudioManager>().GetComponent<AudioSource>();
         if (!audioSource.isPlaying) audioSource.Play();
+    }
+
+    private void InitDefaultVolume()
+    {
+        PlayerPrefs.SetFloat("musicVolume", 5f);
+        PlayerPrefs.SetFloat("soundsVolume", 5f);
+        PlayerPrefs.Save();
     }
 
     IEnumerator Start()
@@ -66,9 +80,18 @@ public class EntryPoint : MonoBehaviour
             JsonDataManager.ReadUserFile();
             JsonDataManager.ReadFighterFile();
 
-            StartCoroutine(SceneManagerScript.instance.FadeOut());
-            yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(SceneFlag.FADE_DURATION));
-            UnityEngine.SceneManagement.SceneManager.LoadScene(SceneNames.MainMenu.ToString());
+            if(User.Instance.firstTime)
+            {
+                StartCoroutine(SceneManagerScript.instance.FadeOut());
+                yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(SceneFlag.FADE_DURATION));
+                UnityEngine.SceneManagement.SceneManager.LoadScene(SceneNames.Combat.ToString());
+            } 
+            else
+            {
+                StartCoroutine(SceneManagerScript.instance.FadeOut());
+                yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(SceneFlag.FADE_DURATION));
+                UnityEngine.SceneManagement.SceneManager.LoadScene(SceneNames.MainMenu.ToString());
+            }
         }
 
         else
@@ -157,14 +180,13 @@ public class EntryPoint : MonoBehaviour
         tipText.text = Tips.tips[Random.Range(0, Tips.tips.Count)];
     }
 
-    // TODO change mixer instead of specific audio
     public void SetupMusic(float value)
     {
-        FindObjectOfType<AudioManager>().ChangeVolume("Waiting", value / 10);
+        FindObjectOfType<AudioManager>().ChangeVolume("V", value / 10);
     }
 
     public void SetupSFX(float value)
     {
-        FindObjectOfType<AudioManager>().ChangeVolume("Waiting", value / 10);
+        FindObjectOfType<AudioManager>().ChangeVolume("S", value / 10);
     }
 }

@@ -219,7 +219,7 @@ public class Attack : MonoBehaviour
 
     private void PlayDamageSound(){
         int soundIndex = UnityEngine.Random.Range(1, 4);
-        string soundName = $"Damage_Received_{soundIndex}";
+        string soundName = $"S_Damage_Received_{soundIndex}";
         FindObjectOfType<AudioManager>().Play(soundName);
     }
 

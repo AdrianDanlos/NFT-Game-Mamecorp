@@ -37,7 +37,7 @@ public class LevelUp : MonoBehaviour
 
     void Start()
     {
-        FindObjectOfType<AudioManager>().StopAllAndPlay("Level_Up");
+        FindObjectOfType<AudioManager>().StopAllAndPlay("S_Level_Up");
 
         AddListenerToButtons();
         SetDefaultVisibilityOfUIElements();
@@ -98,7 +98,7 @@ public class LevelUp : MonoBehaviour
     }
     private void OnClickOpenChest()
     {
-        FindObjectOfType<AudioManager>().StopAllAndPlay("Reward_Received");
+        FindObjectOfType<AudioManager>().StopAllAndPlay("S_Reward_Received");
 
         if (PlayerHasAllSkills())
         {

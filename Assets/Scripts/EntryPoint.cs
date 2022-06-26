@@ -29,7 +29,7 @@ public class EntryPoint : MonoBehaviour
         if (PlayerPrefs.HasKey("musicVolume"))
         {
             SetupMusic(PlayerPrefs.GetFloat("musicVolume"));
-            SetupMusic(PlayerPrefs.GetFloat("soundsVolume"));
+            SetupSFX(PlayerPrefs.GetFloat("soundsVolume"));
         } else
         {
             InitDefaultVolume();

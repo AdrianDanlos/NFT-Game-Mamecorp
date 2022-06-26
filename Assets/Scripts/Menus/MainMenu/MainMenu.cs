@@ -48,7 +48,7 @@ public class MainMenu : MonoBehaviour
     {
         AudioManager audioManager = FindObjectOfType<AudioManager>();
         AudioSource audioSource = audioManager.GetComponent<AudioSource>();
-        audioManager.Stop("Combat_Theme");
+        audioManager.Stop("V_Combat_Theme");
         //If Main Menu theme is already playing keep playing it
         if (!audioSource.isPlaying) audioSource.Play();
 

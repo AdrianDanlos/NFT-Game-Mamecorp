@@ -30,6 +30,15 @@ public class Combat : MonoBehaviour
 
     // tutorial 
     public GameObject tutorialResults;
+    public GameObject message1;
+    public GameObject message2;
+    public Button message1Accept;
+    public Button message2Accept;
+    public bool isPaused1;
+    public bool isPaused2;
+    public bool message1Showed;
+    public bool message2Showed;
+    public int turnCounter;
 
     // Script references
     public static Movement movementScript;
@@ -82,7 +91,7 @@ public class Combat : MonoBehaviour
         EnableBoostElixirBtns(false);
         ShowLoadingScreen(true);
 
-        //Load everything needed for the combat
+        // Load everything needed for the combat
         BoostFightersStatsBasedOnPassiveSkills();
         SetMaxHpValues();
         SetCombatGameObjectsVisibility();
@@ -93,6 +102,40 @@ public class Combat : MonoBehaviour
         FighterSkin.SetFightersSkin(player, bot);
         FighterAnimations.ResetToDefaultAnimation(player);
         fightersUIDataScript.SetFightersUIInfo(player, bot, botElo);
+
+        // tutorial
+        SetUpTutorialFlags();
+    }
+
+    private void SetUpTutorialFlags()
+    {
+        isPaused1 = true;
+        isPaused2 = false;
+        message1Showed = false;
+        message2Showed = false;
+        turnCounter = 0;
+
+        // add listeners to buttons
+        message1Accept.onClick.AddListener(() => HideMessage1());
+        message2Accept.onClick.AddListener(() => HideMessage2());
+
+        // disable messages
+        message1.SetActive(false);
+        message2.SetActive(false);
+    }
+
+    private void HideMessage1()
+    {
+        isPaused1 = false;
+        message1Showed = true;
+        message1.SetActive(false);
+    }
+
+    private void HideMessage2()
+    {
+        isPaused2 = false;
+        message2Showed = true;
+        message2.SetActive(false);
     }
 
     IEnumerator Start()
@@ -294,6 +337,32 @@ public class Combat : MonoBehaviour
 
     IEnumerator StartTurn(Fighter attacker, Fighter defender)
     {
+        if (User.Instance.firstTime)
+        {
+            if (turnCounter >= 3 && !message2Showed)
+                isPaused2 = true;
+
+            while (isPaused1)
+            {
+                yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(0.2f));
+
+                if (!message1Showed)
+                {
+                    message1.SetActive(true);
+                }
+            }
+
+            while (isPaused2)
+            {
+                yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(0.2f));
+
+                if (!message2Showed)
+                {
+                    message2.SetActive(true);
+                }
+            }
+        }
+
         if (WillUseSkillThisTurn(attacker))
         {
             yield return StartCoroutine(UseSkill(attacker, defender, attacker));
@@ -301,6 +370,8 @@ public class Combat : MonoBehaviour
         }
         yield return skillsLogicScript.AttackWithoutSkills(attacker, defender);
         FighterAnimations.ChangeAnimation(GetAttackerIfAlive(attacker, defender), FighterAnimations.AnimationNames.IDLE);
+
+        turnCounter++;
     }
 
     // This check is important as the attacker might have lost due to a counter or reversal attack

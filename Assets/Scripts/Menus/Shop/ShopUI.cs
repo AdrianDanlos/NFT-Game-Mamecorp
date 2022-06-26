@@ -185,7 +185,7 @@ public class ShopUI : MonoBehaviour
 
     private void HandleChestPopUp()
     {
-        FindObjectOfType<AudioManager>().Play("Reward_Received");
+        FindObjectOfType<AudioManager>().Play("S_Reward_Received");
         CurrencyHandler.instance.SubstractGold(goldValue);
         buyConfirmation.SetActive(false);
         abortButton.SetActive(false);

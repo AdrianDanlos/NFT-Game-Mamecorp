@@ -160,11 +160,11 @@ public class EntryPoint : MonoBehaviour
     // TODO change mixer instead of specific audio
     public void SetupMusic(float value)
     {
-        FindObjectOfType<AudioManager>().ChangeVolume("Waiting", value / 10);
+        FindObjectOfType<AudioManager>().ChangeVolume("V", value / 10);
     }
 
     public void SetupSFX(float value)
     {
-        FindObjectOfType<AudioManager>().ChangeVolume("Waiting", value / 10);
+        FindObjectOfType<AudioManager>().ChangeVolume("S", value / 10);
     }
 }

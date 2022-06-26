@@ -37,17 +37,21 @@ public class SoundSettings : MonoBehaviour
     {
         sliderMusic.value = PlayerPrefs.GetFloat("musicVolume");
         sliderSounds.value = PlayerPrefs.GetFloat("soundsVolume");
+        MusicListener(PlayerPrefs.GetFloat("musicVolume"));
+        SoundListener(PlayerPrefs.GetFloat("soundsVolume"));
     }
 
     public void SoundListener(float value)
     {
         if (value == 0)
         {
+            FindObjectOfType<AudioManager>().ChangeVolume("S", value / 10);
             soundOn.enabled = false;
             soundOff.enabled = true;
         }
         else
         {
+            FindObjectOfType<AudioManager>().ChangeVolume("S", value / 10);
             soundOn.enabled = true;
             soundOff.enabled = false;
         }
@@ -60,15 +64,13 @@ public class SoundSettings : MonoBehaviour
     {
         if (value == 0)
         {
-            // TODO get current playing music depending on scene
-            FindObjectOfType<AudioManager>().ChangeVolume("Waiting", value / 10);
+            FindObjectOfType<AudioManager>().ChangeVolume("V", value / 10);
             musicOn.enabled = false;
             musicOff.enabled = true;
         }
         else
         {
-            // TODO get current playing music depending on scene
-            FindObjectOfType<AudioManager>().ChangeVolume("Waiting", value / 10);
+            FindObjectOfType<AudioManager>().ChangeVolume("V", value / 10);
             musicOn.enabled = true;
             musicOff.enabled = false;
         }

@@ -96,7 +96,7 @@ public class Combat : MonoBehaviour
     {
         Debug.Log($"Skills count -> Player: {player.skills.Count} / Bot: {bot.skills.Count}");
 
-        FindObjectOfType<AudioManager>().StopAllAndPlay("Combat_Loading_Theme");
+        FindObjectOfType<AudioManager>().StopAllAndPlay("V_Combat_Loading_Theme");
 
         StartCoroutine(SceneManagerScript.instance.FadeIn());
 
@@ -113,7 +113,7 @@ public class Combat : MonoBehaviour
         StartCoroutine(fightersUIDataScript.Countdown());
         yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(COUNTDOWN_ANIMATION));
         
-        FindObjectOfType<AudioManager>().StopAllAndPlay("Combat_Theme");
+        FindObjectOfType<AudioManager>().StopAllAndPlay("V_Combat_Theme");
         //Added delay to sync sound
         yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(0.2f));
 

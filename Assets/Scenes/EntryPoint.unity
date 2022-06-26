@@ -9039,6 +9039,11 @@ MonoBehaviour:
     audioMixerGroup: {fileID: 0}
     volume: 1
     source: {fileID: 0}
+  - name: V_Combat_Loading_Theme
+    clip: {fileID: 8300000, guid: 96d38acb11831714aace7b9db71ae4f8, type: 3}
+    audioMixerGroup: {fileID: 0}
+    volume: 1
+    source: {fileID: 0}
   - name: V_Combat_Theme
     clip: {fileID: 8300000, guid: c091f82a317088547b1e89353eb32e51, type: 3}
     audioMixerGroup: {fileID: 0}
@@ -9061,11 +9066,6 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: S_Boost_Used
     clip: {fileID: 8300000, guid: 5e5c4316cc42eb04abd3a74f2f9b31bb, type: 3}
-    audioMixerGroup: {fileID: 0}
-    volume: 1
-    source: {fileID: 0}
-  - name: V_Combat_Loading_Theme
-    clip: {fileID: 8300000, guid: 96d38acb11831714aace7b9db71ae4f8, type: 3}
     audioMixerGroup: {fileID: 0}
     volume: 1
     source: {fileID: 0}

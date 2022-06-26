@@ -9034,52 +9034,52 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sounds:
-  - name: Main_Theme
+  - name: V_Main_Theme
     clip: {fileID: 8300000, guid: ed0c0c828c2c4ba478d82c99bc97b04c, type: 3}
     audioMixerGroup: {fileID: 0}
     volume: 1
     source: {fileID: 0}
-  - name: Combat_Theme
+  - name: V_Combat_Theme
     clip: {fileID: 8300000, guid: c091f82a317088547b1e89353eb32e51, type: 3}
     audioMixerGroup: {fileID: 0}
     volume: 0.5
     source: {fileID: 0}
-  - name: Level_Up
+  - name: S_Level_Up
     clip: {fileID: 8300000, guid: cc6ecc4142dfcc34f87a6d5edabaca5d, type: 3}
     audioMixerGroup: {fileID: 0}
     volume: 0.5
     source: {fileID: 0}
-  - name: Reward_Received
+  - name: S_Reward_Received
     clip: {fileID: 8300000, guid: db6d136f2edd9a34b86e9894645fe7f3, type: 3}
     audioMixerGroup: {fileID: 0}
     volume: 0.5
     source: {fileID: 0}
-  - name: Elixir_Used
+  - name: S_Elixir_Used
     clip: {fileID: 8300000, guid: aa64b13396c05214f94272e8c66cbc31, type: 3}
     audioMixerGroup: {fileID: 0}
     volume: 1
     source: {fileID: 0}
-  - name: Boost_Used
+  - name: S_Boost_Used
     clip: {fileID: 8300000, guid: 5e5c4316cc42eb04abd3a74f2f9b31bb, type: 3}
     audioMixerGroup: {fileID: 0}
     volume: 1
     source: {fileID: 0}
-  - name: Combat_Loading_Theme
+  - name: V_Combat_Loading_Theme
     clip: {fileID: 8300000, guid: 96d38acb11831714aace7b9db71ae4f8, type: 3}
     audioMixerGroup: {fileID: 0}
     volume: 1
     source: {fileID: 0}
-  - name: Damage_Received_1
+  - name: S_Damage_Received_1
     clip: {fileID: 8300000, guid: d88b839bd271c7747bee6c9bd6094ab0, type: 3}
     audioMixerGroup: {fileID: 0}
     volume: 0.2
     source: {fileID: 0}
-  - name: Damage_Received_2
+  - name: S_Damage_Received_2
     clip: {fileID: 8300000, guid: 68b7bc0bc50b3de4c819a75b43807d90, type: 3}
     audioMixerGroup: {fileID: 0}
     volume: 0.2
     source: {fileID: 0}
-  - name: Damage_Received_3
+  - name: S_Damage_Received_3
     clip: {fileID: 8300000, guid: da647cfc0432b164e868c4a6a75d02f0, type: 3}
     audioMixerGroup: {fileID: 0}
     volume: 0.2

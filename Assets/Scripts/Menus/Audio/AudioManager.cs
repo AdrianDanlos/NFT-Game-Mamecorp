@@ -28,12 +28,10 @@ public class AudioManager : MonoBehaviour
             s.source.volume = s.volume;
             s.source.playOnAwake = false;
 
-            if (s.clip.name.Contains("main_theme") || s.clip.name.Contains("combat_theme"))
+            if (s.clip.name.Contains("V_Main_Theme") || s.clip.name.Contains("V_Combat_Theme") || s.clip.name.Contains("V_Combat_Loading_Theme"))
             {
                 s.source.loop = true;
-                continue;
             } 
-            s.source.outputAudioMixerGroup = s.audioMixerGroup;
         }
     }
 

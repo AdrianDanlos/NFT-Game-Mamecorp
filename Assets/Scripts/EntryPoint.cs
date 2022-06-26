@@ -80,9 +80,18 @@ public class EntryPoint : MonoBehaviour
             JsonDataManager.ReadUserFile();
             JsonDataManager.ReadFighterFile();
 
-            StartCoroutine(SceneManagerScript.instance.FadeOut());
-            yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(SceneFlag.FADE_DURATION));
-            UnityEngine.SceneManagement.SceneManager.LoadScene(SceneNames.MainMenu.ToString());
+            if(User.Instance.firstTime)
+            {
+                StartCoroutine(SceneManagerScript.instance.FadeOut());
+                yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(SceneFlag.FADE_DURATION));
+                UnityEngine.SceneManagement.SceneManager.LoadScene(SceneNames.Tutorial.ToString());
+            } 
+            else
+            {
+                StartCoroutine(SceneManagerScript.instance.FadeOut());
+                yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(SceneFlag.FADE_DURATION));
+                UnityEngine.SceneManagement.SceneManager.LoadScene(SceneNames.MainMenu.ToString());
+            }
         }
 
         else

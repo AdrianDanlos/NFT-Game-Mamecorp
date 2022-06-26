@@ -436,63 +436,72 @@ public class Combat : MonoBehaviour
     {
         EnableBoostElixirBtns(false);
 
-        bool isPlayerWinner = PostGameActions.HasPlayerWon(player);
-        int eloChange = MatchMaking.CalculateEloChange(User.Instance.elo, botElo, isPlayerWinner);
-        int playerUpdatedExperience = player.experiencePoints + Levels.GetXpGain(isPlayerWinner);
-        bool isLevelUp = Levels.IsLevelUp(player.level, playerUpdatedExperience);
-        int goldReward = PostGameActions.GoldReward(isPlayerWinner);
-        int gemsReward = PostGameActions.GemsReward();
-
-        //Reset fighter values that were modified in combat e.g. hp
-        ResetPlayerObject();
-
-        //PlayerData
-        PostGameActions.SetElo(eloChange);
-        PostGameActions.SetWinLoseCounter(isPlayerWinner);
-        PostGameActions.SetExperience(player, isPlayerWinner);
-        if (isLevelUp) PostGameActions.SetLevelUpSideEffects(player);
-        if (CombatMode.isSoloqEnabled) EnergyManager.SubtractOneEnergyPoint(); // tournament doesn't cost energy
-
-        //Rewards
-        PostGameActions.SetCurrencies(goldReward, gemsReward);
-
-        // Show winner
-        StartCoroutine(fightersUIDataScript.AnnounceWinner(isPlayerWinner, player, bot));
-        yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(TIME_ANNOUNCEMENT));        
-
-        //UI
-        fightersUIDataScript.ShowPostCombatInfo(player, isPlayerWinner, eloChange, isLevelUp, goldReward, gemsReward, results);
-
-        //Save
-        PostGameActions.Save(player);
-
-        //Profile
-        ProfileData.SavePeakElo(User.Instance.elo);
-
-        if (Cup.Instance.isActive && !CombatMode.isSoloqEnabled)
+        if (User.Instance.firstTime)
         {
-            switch (Cup.Instance.round)
-            {
-                case "QUARTERS":
-                    cupManager.SimulateQuarters(isPlayerWinner);
-                    break;
-                case "SEMIS":
-                    cupManager.SimulateSemis(isPlayerWinner);
-                    break;
-                case "FINALS":
-                    cupManager.SimulateFinals(isPlayerWinner);
-                    break;
-            }
+            User.Instance.firstTime = false;
+            // TODO show ui to exit tutorial
+        }
+        else
+        {
+            bool isPlayerWinner = PostGameActions.HasPlayerWon(player);
+            int eloChange = MatchMaking.CalculateEloChange(User.Instance.elo, botElo, isPlayerWinner);
+            int playerUpdatedExperience = player.experiencePoints + Levels.GetXpGain(isPlayerWinner);
+            bool isLevelUp = Levels.IsLevelUp(player.level, playerUpdatedExperience);
+            int goldReward = PostGameActions.GoldReward(isPlayerWinner);
+            int gemsReward = PostGameActions.GemsReward();
 
-            if (!isPlayerWinner)
+            //Reset fighter values that were modified in combat e.g. hp
+            ResetPlayerObject();
+
+            //PlayerData
+            PostGameActions.SetElo(eloChange);
+            PostGameActions.SetWinLoseCounter(isPlayerWinner);
+            PostGameActions.SetExperience(player, isPlayerWinner);
+            if (isLevelUp) PostGameActions.SetLevelUpSideEffects(player);
+            if (CombatMode.isSoloqEnabled) EnergyManager.SubtractOneEnergyPoint(); // tournament doesn't cost energy
+
+            //Rewards
+            PostGameActions.SetCurrencies(goldReward, gemsReward);
+
+            // Show winner
+            StartCoroutine(fightersUIDataScript.AnnounceWinner(isPlayerWinner, player, bot));
+            yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(TIME_ANNOUNCEMENT));
+
+            //UI
+            fightersUIDataScript.ShowPostCombatInfo(player, isPlayerWinner, eloChange, isLevelUp, goldReward, gemsReward, results);
+
+            //Save
+            PostGameActions.Save(player);
+
+            //Profile
+            ProfileData.SavePeakElo(User.Instance.elo);
+
+            if (Cup.Instance.isActive && !CombatMode.isSoloqEnabled)
             {
-                // enable rewards button on cup menu
-                // disable battle button
-                Cup.Instance.isActive = true;
-                Cup.Instance.playerStatus = false;
-                Cup.Instance.SaveCup();
+                switch (Cup.Instance.round)
+                {
+                    case "QUARTERS":
+                        cupManager.SimulateQuarters(isPlayerWinner);
+                        break;
+                    case "SEMIS":
+                        cupManager.SimulateSemis(isPlayerWinner);
+                        break;
+                    case "FINALS":
+                        cupManager.SimulateFinals(isPlayerWinner);
+                        break;
+                }
+
+                if (!isPlayerWinner)
+                {
+                    // enable rewards button on cup menu
+                    // disable battle button
+                    Cup.Instance.isActive = true;
+                    Cup.Instance.playerStatus = false;
+                    Cup.Instance.SaveCup();
+                }
             }
         }
+
     }
 
     //During the combat the player object experiences a lot of changes so we need to set it back to its default state after the combat.

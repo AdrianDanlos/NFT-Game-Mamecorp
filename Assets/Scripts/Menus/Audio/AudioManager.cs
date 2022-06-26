@@ -7,8 +7,6 @@ public class AudioManager : MonoBehaviour
 {
     public Sound[] sounds;
     public static AudioManager instance;
-    public AudioMixer soundsMixer;
-    private string outputMixer = "SoundEffects";
 
     private void Awake()
     {
@@ -22,9 +20,6 @@ public class AudioManager : MonoBehaviour
         }
 
         DontDestroyOnLoad(gameObject);
-
-        // load mixer
-        soundsMixer = Resources.Load<AudioMixer>("SFX/SoundEffects");
 
         foreach (Sound s in sounds)
         {

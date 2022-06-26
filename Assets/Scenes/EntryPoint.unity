@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311918, g: 0.3807398, b: 0.35872716, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -9037,7 +9037,7 @@ MonoBehaviour:
   - name: Main_Theme
     clip: {fileID: 8300000, guid: ed0c0c828c2c4ba478d82c99bc97b04c, type: 3}
     audioMixerGroup: {fileID: 0}
-    volume: 0.5
+    volume: 1
     source: {fileID: 0}
   - name: Combat_Theme
     clip: {fileID: 8300000, guid: c091f82a317088547b1e89353eb32e51, type: 3}
@@ -9084,7 +9084,6 @@ MonoBehaviour:
     audioMixerGroup: {fileID: 0}
     volume: 0.2
     source: {fileID: 0}
-  soundsMixer: {fileID: 24100000, guid: 680d9ab562726194a9c5424c11ef268f, type: 2}
 --- !u!4 &2070570573
 Transform:
   m_ObjectHideFlags: 0

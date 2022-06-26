@@ -7465,8 +7465,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 1}
-  m_SizeDelta: {x: 955.9419, y: 296.82092}
+  m_AnchoredPosition: {x: 0, y: -22.491104}
+  m_SizeDelta: {x: 955.9419, y: 343.8032}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &962327932
 GameObject:
@@ -22786,7 +22786,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: You are now ready for real combats. Test yourself in the arena versus other
-    players...
+    fighters and claim glory in battle...
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8d34560b6d49c4469b2174ccd34ae34b, type: 2}
   m_sharedMaterial: {fileID: 8690591861142563998, guid: 8d34560b6d49c4469b2174ccd34ae34b, type: 2}

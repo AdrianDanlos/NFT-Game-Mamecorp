@@ -302,8 +302,11 @@ public class Combat : MonoBehaviour
 
     IEnumerator InitiateCombat()
     {
-        EnableBoostElixirBtns(true);
-        StartBotElixirAndBoostTimer();
+        if (!User.Instance.firstTime)
+        {
+            StartBotElixirAndBoostTimer();
+            EnableBoostElixirBtns(true);
+        }
 
         Fighter firstAttacker = fightersOrderOfAttack[0];
         Fighter secondAttacker = fightersOrderOfAttack[1];
@@ -339,7 +342,7 @@ public class Combat : MonoBehaviour
     {
         if (User.Instance.firstTime)
         {
-            if (turnCounter >= 4 && !message2Showed)
+            if (turnCounter >= 5 && !message2Showed)
                 isPaused2 = true;
 
             while (isPaused1)
@@ -347,9 +350,7 @@ public class Combat : MonoBehaviour
                 yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(0.2f));
 
                 if (!message1Showed)
-                {
                     message1.SetActive(true);
-                }
             }
 
             while (isPaused2)
@@ -359,7 +360,8 @@ public class Combat : MonoBehaviour
                 if (!message2Showed)
                 {
                     message2.SetActive(true);
-                }
+                    EnableBoostElixirBtns(true);
+                }    
             }
         }
 

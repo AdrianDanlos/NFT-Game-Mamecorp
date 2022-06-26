@@ -9,6 +9,5 @@ enum SceneNames
     Shop,
     Inventory,
     LevelUp,
-    Credits,
-    Tutorial
+    Credits
 }

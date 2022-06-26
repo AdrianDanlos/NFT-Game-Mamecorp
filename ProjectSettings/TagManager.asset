@@ -24,6 +24,7 @@ TagManager:
   - SkillsContainer
   - HitVFX
   - FloatingHp
+  - TutorialResults
   layers:
   - Default
   - TransparentFX

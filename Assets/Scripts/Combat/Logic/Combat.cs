@@ -28,6 +28,9 @@ public class Combat : MonoBehaviour
     public GameObject elixirButton;
     public GameObject floatingHp;
 
+    // tutorial 
+    public GameObject tutorialResults;
+
     // Script references
     public static Movement movementScript;
     public static FightersUIData fightersUIDataScript;
@@ -179,6 +182,7 @@ public class Combat : MonoBehaviour
     private void SetCombatGameObjectsVisibility()
     {
         results.SetActive(false);
+        tutorialResults.SetActive(false);
         playerGameObject.SetActive(true);
     }
     private void FindGameObjects()
@@ -187,6 +191,7 @@ public class Combat : MonoBehaviour
         playerGameObject = playerWrapper.transform.Find("Fighter").gameObject;
         botGameObject = GameObject.FindGameObjectWithTag("FighterBot");
         results = GameObject.FindGameObjectWithTag("Results");
+        tutorialResults = GameObject.FindGameObjectWithTag("TutorialResults");
         arena = GameObject.FindGameObjectWithTag("Arena").GetComponent<SpriteRenderer>();
         combatUI = GameObject.FindGameObjectWithTag("CombatUI");
         combatLoadingScreenUI = GameObject.FindGameObjectWithTag("CombatLoadingScreenUI");
@@ -438,8 +443,8 @@ public class Combat : MonoBehaviour
 
         if (User.Instance.firstTime)
         {
-            User.Instance.firstTime = false;
-            // TODO show ui to exit tutorial
+            yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(1.5f));
+            fightersUIDataScript.ShowPostTutorialInfo(tutorialResults);
         }
         else
         {

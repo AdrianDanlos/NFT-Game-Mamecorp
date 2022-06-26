@@ -27,7 +27,10 @@ public class FightersUIData : MonoBehaviour
     public GameObject chestRewardGO;
     public GameObject nextButtonGO;
     public GameObject countdownGO;
-    
+
+    // tutorial
+    public GameObject nextTutorialButtonGO;
+
     // health bar animations
     public GameObject playerHealthBarFadeGO;
     public GameObject botHealthBarFadeGO;
@@ -42,6 +45,11 @@ public class FightersUIData : MonoBehaviour
         nextButtonGO.GetComponent<Button>().onClick.AddListener(() => OnClickNextHandler(isLevelUp));
     }
 
+    private void AddListenerToNextTutorialBtn()
+    {
+        nextTutorialButtonGO.GetComponent<Button>().onClick.AddListener(() => OnClickNextTutorialHandler());
+    }
+
     private void OnClickNextHandler(bool isLevelUp){
         if(isLevelUp)
             UnityEngine.SceneManagement.SceneManager.LoadScene(SceneNames.LevelUp.ToString());
@@ -54,6 +62,12 @@ public class FightersUIData : MonoBehaviour
         }
     }
 
+    private void OnClickNextTutorialHandler()
+    {
+        User.Instance.firstTime = false;
+        IGoToScene(SceneNames.MainMenu);
+    }
+
     public void ShowPostCombatInfo(Fighter player, bool isPlayerWinner, int eloChange, bool isLevelUp, int goldReward, int gemsReward, GameObject results)
     {
         EnableResults(results);
@@ -64,6 +78,20 @@ public class FightersUIData : MonoBehaviour
         SetResultsExpGainText(isPlayerWinner);
         ShowLevelUpIcon(isLevelUp);
         ShowRewards(goldReward, gemsReward);
+    }
+
+    public void ShowPostTutorialInfo(GameObject tutorialResults)
+    {
+        AudioManager audioManager = FindObjectOfType<AudioManager>();
+        audioManager.Stop("V_Combat_Theme");
+        audioManager.Play("S_Reward_Received");
+        ShowTutorialMessage(tutorialResults);
+        AddListenerToNextTutorialBtn();
+    }
+
+    public void ShowTutorialMessage(GameObject tutorialResults)
+    {
+        tutorialResults.SetActive(true);
     }
 
     public void SetFightersUIInfo(Fighter player, Fighter bot, int botElo)

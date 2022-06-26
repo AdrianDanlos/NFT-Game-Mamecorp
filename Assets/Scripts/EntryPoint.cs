@@ -84,7 +84,7 @@ public class EntryPoint : MonoBehaviour
             {
                 StartCoroutine(SceneManagerScript.instance.FadeOut());
                 yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(SceneFlag.FADE_DURATION));
-                UnityEngine.SceneManagement.SceneManager.LoadScene(SceneNames.Tutorial.ToString());
+                UnityEngine.SceneManagement.SceneManager.LoadScene(SceneNames.Combat.ToString());
             } 
             else
             {

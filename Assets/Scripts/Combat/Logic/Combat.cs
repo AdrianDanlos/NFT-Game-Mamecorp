@@ -516,7 +516,7 @@ public class Combat : MonoBehaviour
 
         if (User.Instance.firstTime)
         {
-            yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(1.5f));
+            yield return new WaitForSeconds(GeneralUtils.GetRealOrSimulationTime(3f));
             fightersUIDataScript.ShowPostTutorialInfo(tutorialResults);
         }
         else

@@ -26,9 +26,23 @@ public class EntryPoint : MonoBehaviour
     }
 
     private void StartMusic(){
-        SetupMusic(PlayerPrefs.GetFloat("musicVolume"));
+        if (PlayerPrefs.HasKey("musicVolume"))
+        {
+            SetupMusic(PlayerPrefs.GetFloat("musicVolume"));
+            SetupMusic(PlayerPrefs.GetFloat("soundsVolume"));
+        } else
+        {
+            InitDefaultVolume();
+        }
         AudioSource audioSource = FindObjectOfType<AudioManager>().GetComponent<AudioSource>();
         if (!audioSource.isPlaying) audioSource.Play();
+    }
+
+    private void InitDefaultVolume()
+    {
+        PlayerPrefs.SetFloat("musicVolume", 5f);
+        PlayerPrefs.SetFloat("soundsVolume", 5f);
+        PlayerPrefs.Save();
     }
 
     IEnumerator Start()
@@ -157,7 +171,6 @@ public class EntryPoint : MonoBehaviour
         tipText.text = Tips.tips[Random.Range(0, Tips.tips.Count)];
     }
 
-    // TODO change mixer instead of specific audio
     public void SetupMusic(float value)
     {
         FindObjectOfType<AudioManager>().ChangeVolume("V", value / 10);

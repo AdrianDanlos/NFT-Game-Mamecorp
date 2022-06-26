@@ -339,7 +339,7 @@ public class Combat : MonoBehaviour
     {
         if (User.Instance.firstTime)
         {
-            if (turnCounter >= 3 && !message2Showed)
+            if (turnCounter >= 4 && !message2Showed)
                 isPaused2 = true;
 
             while (isPaused1)

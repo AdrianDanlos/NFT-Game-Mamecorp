@@ -12821,7 +12821,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0.0019989, y: 0.00021553}
-  m_SizeDelta: {x: 955.95, y: 296.82}
+  m_SizeDelta: {x: 900, y: 296.82}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1562689436
 MonoBehaviour:
@@ -12843,8 +12843,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: You can use the buttons on the bottom-left corner to boost by a short amount
-    your fighter...
+  m_text: You can use the buttons on the bottom-left corner to boost your fighter
+    by a short amount of time...
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8d34560b6d49c4469b2174ccd34ae34b, type: 2}
   m_sharedMaterial: {fileID: 8690591861142563998, guid: 8d34560b6d49c4469b2174ccd34ae34b, type: 2}
@@ -12871,8 +12871,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 60
-  m_fontSizeBase: 60
+  m_fontSize: 50
+  m_fontSizeBase: 50
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -22295,7 +22295,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0.0019989, y: 0.00021553}
-  m_SizeDelta: {x: 955.95, y: 296.82}
+  m_SizeDelta: {x: 900, y: 296.82}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2040640210
 MonoBehaviour:
@@ -22344,8 +22344,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 60
-  m_fontSizeBase: 60
+  m_fontSize: 50
+  m_fontSizeBase: 50
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

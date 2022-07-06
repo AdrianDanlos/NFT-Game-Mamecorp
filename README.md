@@ -45,3 +45,6 @@ In case you want to contact the team to make a suggestion, report a bug or just 
 Donations are not needed but much appreciated as BattleHeaven has been created completely for free. <span><a href="https://paypal.me/mamecorp?country.x=ES&locale.x=es_ES" target="_blank">Donate -> Paypal</a></span> 
 
 If you want to help in other ways it will make us very happy if you could leave a review on the play store. (ADD LINK HERE)
+
+## Privacy policy
+We do not process, request or save any user data or information.

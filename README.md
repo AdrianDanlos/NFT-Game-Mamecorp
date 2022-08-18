@@ -6,7 +6,7 @@
     <img src="https://img.shields.io/badge/-C%23-blue">
 </p>
 
-Now available for free on the playstore! Download (ADD LINK HERE)
+Now available for free on the playstore! <span><a href="https://play.google.com/store/apps/details?id=com.MamecorpGames.BattleHeavenFightingRPG" target="_blank">Download from Playstore</a></span>
 
 <p>
     <img src="https://raw.githubusercontent.com/AdrianDanlos/NFT-Game-Mamecorp/master/Assets/Images/combat.gif" alt="Video"/>
@@ -44,7 +44,7 @@ In case you want to contact the team to make a suggestion, report a bug or just 
 ## Donations 💸
 Donations are not needed but much appreciated as BattleHeaven has been created completely for free. <span><a href="https://paypal.me/mamecorp?country.x=ES&locale.x=es_ES" target="_blank">Donate -> Paypal</a></span> 
 
-If you want to help in other ways it will make us very happy if you could leave a review on the play store. (ADD LINK HERE)
+If you want to help in other ways it will make us very happy if you could leave a review on the play store. <span><a href="https://play.google.com/store/apps/details?id=com.MamecorpGames.BattleHeavenFightingRPG" target="_blank">BattleHeaven on Playstore</a></span>
 
 ## Privacy policy
 We do not process, request or save any user data or information.

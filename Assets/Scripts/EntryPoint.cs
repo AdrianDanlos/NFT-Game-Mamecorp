@@ -189,4 +189,6 @@ public class EntryPoint : MonoBehaviour
     {
         FindObjectOfType<AudioManager>().ChangeVolume("S", value / 10);
     }
+    
+    //
 }

@@ -7,7 +7,7 @@ assignees: ''
 
 ---
 
-**Code change request
+**Code change request**
 Briefly describe the requested code change.
 
 **Describe the solution you'd like**

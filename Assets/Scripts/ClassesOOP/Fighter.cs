@@ -15,6 +15,9 @@ public class Fighter : MonoBehaviour
     private int _level;
     private int _experiencePoints;
     private List<Skill> _skills;
+
+    
+    // ! REMINDER: This is not in DB 
     private Vector2 _initialPosition;
     private float _repeatAttackChance = 10;
     private float _dodgeChance = 10;

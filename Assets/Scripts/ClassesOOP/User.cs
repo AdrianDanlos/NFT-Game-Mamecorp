@@ -32,6 +32,7 @@ public class User
     private int _gems;
     private int _energy;
     private int _cups;
+    //FIXME: This can probably be removed
     private bool _saveEnabled = false;
 
     public bool firstTime

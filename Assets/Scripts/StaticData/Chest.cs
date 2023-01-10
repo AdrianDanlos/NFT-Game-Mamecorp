@@ -2,12 +2,6 @@ using System.Collections.Generic;
 
 public static class Chest
 {
-    public enum ChestTypes
-    {
-        BATTLECHEST,
-        SHOPCHEST
-    }
-
     public enum BattleChestRarities
     {
         COMMON,
@@ -16,6 +10,8 @@ public static class Chest
         LEGENDARY
     }
 
+    //FIXME: BattleChestRarities and ShopChestTypes should just be one enum. Not 2 different ones with overlapping fields.
+    //THIS IS WONT BE MOVED TO THE DATABASE
     public enum ShopChestTypes
     {
         NORMAL,
@@ -26,9 +22,11 @@ public static class Chest
     }
 
     // Chance of receiving a chest of each one of the rarities on level up
+
     public static readonly Dictionary<BattleChestRarities, float> battleChestsProbabilities =
         new Dictionary<BattleChestRarities, float>()
         {
+            //FIXME: This numbers don't add up to 100. What is going on here?
             { BattleChestRarities.COMMON, 1}, // 60
             { BattleChestRarities.RARE, 1}, // 25
             { BattleChestRarities.EPIC, 98},    // 12
